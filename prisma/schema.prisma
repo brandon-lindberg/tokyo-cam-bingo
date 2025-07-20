@@ -15,15 +15,16 @@ model Game {
   code         String    @unique
   rules        Json      // e.g., {"winConditions": ["row", "2rows", "diagonals"]}
   status       String    @default("active")
+  winner       String?
   createdAt    DateTime  @default(now())
   players      Player[]
 }
 
 model Player {
-  id        String  @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
-  isHost    Boolean @default(false)
+  isHost    Boolean  @default(false)
   gameId    String
-  card      Json    // 5x5 array: [[{item: "str", stamped: false}, ...], ...]
-  game      Game    @relation(fields: [gameId], references: [id])
+  card      Json     // 5x5 array: [[{item: "str", stamped: false}, ...], ...]
+  game      Game     @relation(fields: [gameId], references: [id])
 }

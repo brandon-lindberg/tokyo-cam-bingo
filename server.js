@@ -163,7 +163,7 @@ io.on('connection', (socket) => {
       where: { code },
       include: { players: true },
     });
-    io.to(code).emit('update_state', game.players);
+    io.to(code).emit('update_state', { game, players: game.players });
   });
 
   socket.on('stamp', async ({ code, playerId, row, col }) => {
@@ -171,15 +171,23 @@ io.on('connection', (socket) => {
       where: { id: playerId },
       include: { game: true }
     });
-    if (!player) return;
+    if (!player || player.game.status === 'ended') return;
     const card = player.card;
     card[row][col].stamped = true;
     await prisma.player.update({ where: { id: playerId }, data: { card } });
-    io.to(code).emit('update_state', await prisma.player.findMany({ where: { gameId: player.gameId } }));
+
+    const updatedPlayers = await prisma.player.findMany({ where: { gameId: player.gameId } });
+    let updatedGame = player.game;
 
     if (checkWin(card, player.game.rules.winConditions)) {
+      updatedGame = await prisma.game.update({
+        where: { id: player.gameId },
+        data: { status: 'ended', winner: player.name }
+      });
       io.to(code).emit('win', { playerName: player.name });
     }
+
+    io.to(code).emit('update_state', { game: updatedGame, players: updatedPlayers });
   });
 
   socket.on('reroll', async ({ code, targetPlayerName, type, arg }) => {
@@ -187,12 +195,39 @@ io.on('connection', (socket) => {
       where: { code },
       include: { players: true },
     });
+    if (game.status === 'ended') return;
     const target = game.players.find(p => p.name === targetPlayerName);
     if (!target) return;
     const newCard = rerollCard(target.card, type, arg);
     await prisma.player.update({ where: { id: target.id }, data: { card: newCard } });
     const updatedPlayers = await prisma.player.findMany({ where: { gameId: game.id } });
-    io.to(code).emit('update_state', updatedPlayers);
+    io.to(code).emit('update_state', { game, players: updatedPlayers });
+  });
+
+  socket.on('new_game', async ({ code }) => {
+    const game = await prisma.game.findUnique({
+      where: { code },
+      include: { players: true },
+    });
+    if (game.status !== 'ended') return;
+
+    // Reset game
+    const updatedGame = await prisma.game.update({
+      where: { id: game.id },
+      data: { status: 'active', winner: null }
+    });
+
+    // Reset cards for all players
+    for (const player of game.players) {
+      const newCard = generateCard();
+      await prisma.player.update({
+        where: { id: player.id },
+        data: { card: newCard }
+      });
+    }
+
+    const updatedPlayers = await prisma.player.findMany({ where: { gameId: game.id } });
+    io.to(code).emit('update_state', { game: updatedGame, players: updatedPlayers });
   });
 });
 

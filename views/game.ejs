@@ -6,8 +6,18 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/game.js"></script>
 </head>
-<body>
+<body data-code="<%= game.code %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>">
   <h1>Game: <%= game.code %> | Rules: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.join(', ') : 'None' %></h1>
+  
+  <div id="game-over" style="display: none; font-size: 24px; color: red; margin-bottom: 20px;">
+    Game Over! <span id="winner-name"></span> wins!
+  </div>
+  <% if (currentPlayer.isHost) { %>
+    <div id="host-options" style="display: none; margin-bottom: 20px;">
+      <button onclick="startNewGame('<%= game.code %>')">Start New Game</button>
+      <button onclick="location.href = '/'">Exit to Home</button>
+    </div>
+  <% } %>
   
   <h2>Leaderboard</h2>
   <table id="leaderboard">
@@ -59,13 +69,16 @@
   
   <script>
     const socket = io();
-    window.socket = socket;  // Make socket global for game.js
-    const code = '<%= game.code %>';
-    const playerName = '<%= currentPlayer.name %>';
+    window.socket = socket;
+    const code = document.body.dataset.code;
+    const playerName = document.body.dataset.playerName;
+    const isHost = document.body.dataset.isHost === 'true';
+    let isGameOver = document.body.dataset.gameStatus === 'ended';
     socket.emit('join_room', { code, playerName });
     
     // Update state
-    socket.on('update_state', (players) => {
+    socket.on('update_state', (data) => {
+      const { game, players } = data;
       players.forEach(p => {
         const table = document.getElementById(`card-${p.id}`);
         p.card.forEach((row, r) => {
@@ -77,6 +90,21 @@
         });
       });
       updateLeaderboard(players);
+      
+      if (game.status === 'ended' && !isGameOver) {
+        isGameOver = true;
+        document.getElementById('game-over').style.display = 'block';
+        document.getElementById('winner-name').textContent = game.winner;
+        if (isHost) {
+          document.getElementById('host-options').style.display = 'block';
+        }
+      } else if (game.status === 'active' && isGameOver) {
+        isGameOver = false;
+        document.getElementById('game-over').style.display = 'none';
+        if (isHost) {
+          document.getElementById('host-options').style.display = 'none';
+        }
+      }
     });
     
     socket.on('win', ({ playerName }) => {
@@ -86,12 +114,16 @@
     // Stamp on click (only own card)
     document.querySelectorAll('td[data-player="<%= currentPlayer.id %>"]').forEach(td => {
       td.addEventListener('click', () => {
-        if (td.closest('table').classList.contains('reroll-mode')) return;  // Prevent stamp in re-roll mode
+        if (isGameOver || td.closest('table').classList.contains('reroll-mode')) return;
         const row = td.dataset.row;
         const col = td.dataset.col;
         socket.emit('stamp', { code, playerId: '<%= currentPlayer.id %>', row, col });
       });
     });
+
+    function startNewGame(code) {
+      socket.emit('new_game', { code });
+    }
   </script>
 </body>
 </html>

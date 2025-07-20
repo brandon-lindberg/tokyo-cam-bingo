@@ -211,13 +211,14 @@ io.on('connection', (socket) => {
     });
     if (!player || player.game.id !== gameId || player.game.status === 'ended') return;
     const card = player.card;
-    card[row][col].stamped = true;
+    const wasStamped = card[row][col].stamped;
+    card[row][col].stamped = !wasStamped;
     await prisma.player.update({ where: { id: playerId }, data: { card } });
 
     const updatedPlayers = await prisma.player.findMany({ where: { gameId: gameId } });
     let updatedGame = player.game;
 
-    if (checkWin(card, player.game.rules.winConditions)) {
+    if (!wasStamped && checkWin(card, player.game.rules.winConditions)) {
       updatedGame = await prisma.game.update({
         where: { id: gameId },
         data: { status: 'ended', winner: player.name }

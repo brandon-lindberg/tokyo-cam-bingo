@@ -54,7 +54,7 @@ function handleCardClick(playerId, e) {
 
   const row = parseInt(td.dataset.row);
   const col = parseInt(td.dataset.col);
-  if (isNaN(row) || isNaN(col)) return;
+  if (isNaN(row) || isNaN(col) || row < 0 || row > 4 || col < 0 || col > 4) return;
 
   clearSelection(playerId);
 

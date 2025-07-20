@@ -40,22 +40,31 @@ function rerollCard(card, type, arg) {
   let positions = [];
 
   if (type === 'tile') {
-    const [row, col] = arg.split(',').map(n => parseInt(n) - 1);
+    const [rowStr, colStr] = arg.split(',');
+    const row = parseInt(rowStr) - 1;
+    const col = parseInt(colStr) - 1;
+    if (isNaN(row) || isNaN(col) || row < 0 || row > 4 || col < 0 || col > 4) return card;
     positions = [[row, col]];
   } else if (type === 'row') {
     const row = parseInt(arg) - 1;
+    if (isNaN(row) || row < 0 || row > 4) return card;
     positions = Array.from({ length: 5 }, (_, col) => [row, col]);
   } else if (type === 'column') {
     const col = parseInt(arg) - 1;
+    if (isNaN(col) || col < 0 || col > 4) return card;
     positions = Array.from({ length: 5 }, (_, row) => [row, col]);
   } else if (type === 'diagonal') {
     if (arg === 'main') {
       positions = Array.from({ length: 5 }, (_, i) => [i, i]);
     } else if (arg === 'anti') {
       positions = Array.from({ length: 5 }, (_, i) => [i, 4 - i]);
+    } else {
+      return card;
     }
   } else if (type === 'card') {
     positions = Array.from({ length: 25 }, (_, i) => [Math.floor(i / 5), i % 5]);
+  } else {
+    return card;
   }
 
   // Get current items on card to avoid dups

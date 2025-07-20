@@ -105,6 +105,7 @@
     const isHost = document.body.dataset.isHost === 'true';
     let isGameOver = document.body.dataset.gameStatus === 'ended';
     let allPlayers = []; // Global to store all players
+    let modalOpenPlayerId = null; // Track open modal player
     socket.emit('join_room', { gameId, playerId });
     
     // Update state
@@ -136,6 +137,27 @@
         document.getElementById('game-over').style.display = 'none';
         if (isHost) {
           document.getElementById('host-options').style.display = 'none';
+        }
+      }
+
+      // Update modal if open
+      if (modalOpenPlayerId) {
+        const updatedPlayer = players.find(p => p.id === modalOpenPlayerId);
+        if (updatedPlayer) {
+          const modalCard = document.getElementById('modal-card');
+          modalCard.innerHTML = '';
+          updatedPlayer.card.forEach((row, r) => {
+            const tr = document.createElement('tr');
+            row.forEach((tile, c) => {
+              const td = document.createElement('td');
+              td.textContent = tile.item;
+              td.classList.toggle('stamped', tile.stamped);
+              td.dataset.row = r;
+              td.dataset.col = c;
+              tr.appendChild(td);
+            });
+            modalCard.appendChild(tr);
+          });
         }
       }
     });
@@ -170,6 +192,7 @@
     }
 
     function showPlayerCard(targetPlayerId) {
+      modalOpenPlayerId = targetPlayerId;
       const player = allPlayers.find(p => p.id === targetPlayerId);
       if (!player) return;
 
@@ -183,7 +206,7 @@
           td.textContent = tile.item;
           td.classList.toggle('stamped', tile.stamped);
           td.dataset.row = r;
-          td.dataset.col = c; // Add for re-roll
+          td.dataset.col = c;
           tr.appendChild(td);
         });
         modalCard.appendChild(tr);
@@ -203,6 +226,7 @@
 
     function closeModal() {
       document.getElementById('player-modal').style.display = 'none';
+      modalOpenPlayerId = null;
       exitModalReroll();
     }
 

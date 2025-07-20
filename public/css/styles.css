@@ -1,3 +1,5 @@
 table { border-collapse: collapse; }
 td { border: 1px solid black; padding: 10px; text-align: center; cursor: pointer; }
 .stamped { background-color: yellow; }
+.selected { border: 2px solid red; }
+.reroll-mode td { cursor: crosshair; }

@@ -25,20 +25,26 @@
     
     <% if (currentPlayer.isHost) { %>
       <h3>Re-roll for <%= player.name %></h3>
-      <select id="reroll-type-<%= player.id %>">
-        <option value="tile">Tile (e.g., 3,4)</option>
-        <option value="row">Row (1-5)</option>
-        <option value="column">Column (1-5)</option>
-        <option value="diagonal">Diagonal (main or anti)</option>
-        <option value="card">Whole Card</option>
-      </select>
-      <input id="reroll-arg-<%= player.id %>" placeholder="Arg (e.g., 2 or main)">
-      <button onclick="manualReroll('<%= game.code %>', '<%= player.name %>', '<%= player.id %>')">Re-roll</button>
+      <button onclick="enterRerollMode('<%= player.id %>', '<%= game.code %>', '<%= player.name %>')">Enter Re-roll Mode</button>
+      <div id="reroll-mode-<%= player.id %>" style="display: none;">
+        <select id="reroll-type-<%= player.id %>" onchange="handleTypeChange('<%= player.id %>')">
+          <option value="">Select Type</option>
+          <option value="tile">Tile</option>
+          <option value="row">Row</option>
+          <option value="column">Column</option>
+          <option value="diagonal">Diagonal</option>
+          <option value="card">Whole Card</option>
+        </select>
+        <p id="selection-instruct-<%= player.id %>">Click on the card to select the area.</p>
+        <button onclick="confirmReroll('<%= player.id %>')">Confirm Re-roll</button>
+        <button onclick="exitRerollMode('<%= player.id %>')">Cancel</button>
+      </div>
     <% } %>
   <% }) %>
   
   <script>
     const socket = io();
+    window.socket = socket;  // Make socket global for game.js
     const code = '<%= game.code %>';
     const playerName = '<%= currentPlayer.name %>';
     socket.emit('join_room', { code, playerName });
@@ -64,6 +70,7 @@
     // Stamp on click (only own card)
     document.querySelectorAll('td[data-player="<%= currentPlayer.id %>"]').forEach(td => {
       td.addEventListener('click', () => {
+        if (td.closest('table').classList.contains('reroll-mode')) return;  // Prevent stamp in re-roll mode
         const row = td.dataset.row;
         const col = td.dataset.col;
         socket.emit('stamp', { code, playerId: '<%= currentPlayer.id %>', row, col });

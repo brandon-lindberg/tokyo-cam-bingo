@@ -191,7 +191,8 @@ io.on('connection', (socket) => {
     if (!target) return;
     const newCard = rerollCard(target.card, type, arg);
     await prisma.player.update({ where: { id: target.id }, data: { card: newCard } });
-    io.to(code).emit('update_state', game.players);
+    const updatedPlayers = await prisma.player.findMany({ where: { gameId: game.id } });
+    io.to(code).emit('update_state', updatedPlayers);
   });
 });
 

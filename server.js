@@ -7,12 +7,18 @@ const prisma = new PrismaClient();
 const fs = require('fs');
 const itemsList = JSON.parse(fs.readFileSync('items.json'));
 const uuid = require('uuid');
+const session = require('express-session');
 require('dotenv').config();
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(session({
+  secret: 'your-secret-key', // Change this to a secure random value in production
+  resave: false,
+  saveUninitialized: true,
+}));
 
 // Helper to generate random code
 function generateCode() {
@@ -120,10 +126,12 @@ app.post('/create', async (req, res) => {
     data: { code, rules: { winConditions } },
   });
   const card = generateCard();
-  await prisma.player.create({
+  const player = await prisma.player.create({
     data: { name: hostName, isHost: true, gameId: game.id, card },
   });
-  res.redirect(`/game/${code}?playerName=${hostName}`);
+  req.session.gameId = game.id;
+  req.session.playerId = player.id;
+  res.redirect('/game');
 });
 
 // Join game
@@ -135,85 +143,106 @@ app.post('/join', async (req, res) => {
   if (players.length >= 10) return res.status(400).send('Game full');
   if (players.some(p => p.name === playerName)) return res.status(400).send('Name taken');
   const card = generateCard();
-  await prisma.player.create({
+  const player = await prisma.player.create({
     data: { name: playerName, gameId: game.id, card },
   });
-  res.redirect(`/game/${code}?playerName=${playerName}`);
+  req.session.gameId = game.id;
+  req.session.playerId = player.id;
+
+  // Broadcast update
+  const updatedGame = await prisma.game.findUnique({
+    where: { id: game.id },
+    include: { players: true },
+  });
+  io.to(game.id).emit('update_state', { game: updatedGame, players: updatedGame.players });
+
+  res.redirect('/game');
 });
 
 // Game page
-app.get('/game/:code', async (req, res) => {
-  const { code } = req.params;
-  const { playerName } = req.query;
+app.get('/game', async (req, res) => {
+  const { gameId, playerId } = req.session;
+  if (!gameId || !playerId) return res.redirect('/');
   const game = await prisma.game.findUnique({
-    where: { code },
+    where: { id: gameId },
     include: { players: true },
   });
-  if (!game) return res.status(404).send('Game not found');
-  const player = game.players.find(p => p.name === playerName);
-  if (!player) return res.status(404).send('Player not found');
+  if (!game) return res.redirect('/');
+  const player = game.players.find(p => p.id === playerId);
+  if (!player) return res.redirect('/');
   res.render('game', { game, players: game.players, currentPlayer: player });
+});
+
+// Get game code (for copy, host-only)
+app.get('/get-code', async (req, res) => {
+  const { gameId, playerId } = req.session;
+  if (!gameId || !playerId) return res.status(404).send('Not found');
+  const player = await prisma.player.findUnique({ where: { id: playerId } });
+  if (!player || !player.isHost) return res.status(403).send('Forbidden');
+  const game = await prisma.game.findUnique({ where: { id: gameId } });
+  if (!game) return res.status(404).send('Not found');
+  res.send(game.code);
 });
 
 // Socket.io for real-time
 io.on('connection', (socket) => {
-  socket.on('join_room', async ({ code, playerName }) => {
-    socket.join(code);
+  socket.on('join_room', async ({ gameId, playerId }) => {
+    socket.join(gameId);
     const game = await prisma.game.findUnique({
-      where: { code },
+      where: { id: gameId },
       include: { players: true },
     });
-    io.to(code).emit('update_state', { game, players: game.players });
+    io.to(gameId).emit('update_state', { game, players: game.players });
   });
 
-  socket.on('stamp', async ({ code, playerId, row, col }) => {
+  socket.on('stamp', async ({ gameId, playerId, row, col }) => {
     const player = await prisma.player.findUnique({ 
       where: { id: playerId },
       include: { game: true }
     });
-    if (!player || player.game.status === 'ended') return;
+    if (!player || player.game.id !== gameId || player.game.status === 'ended') return;
     const card = player.card;
     card[row][col].stamped = true;
     await prisma.player.update({ where: { id: playerId }, data: { card } });
 
-    const updatedPlayers = await prisma.player.findMany({ where: { gameId: player.gameId } });
+    const updatedPlayers = await prisma.player.findMany({ where: { gameId: gameId } });
     let updatedGame = player.game;
 
     if (checkWin(card, player.game.rules.winConditions)) {
       updatedGame = await prisma.game.update({
-        where: { id: player.gameId },
+        where: { id: gameId },
         data: { status: 'ended', winner: player.name }
       });
-      io.to(code).emit('win', { playerName: player.name });
+      io.to(gameId).emit('win', { playerName: player.name });
     }
 
-    io.to(code).emit('update_state', { game: updatedGame, players: updatedPlayers });
+    io.to(gameId).emit('update_state', { game: updatedGame, players: updatedPlayers });
   });
 
-  socket.on('reroll', async ({ code, targetPlayerName, type, arg }) => {
+  socket.on('reroll', async ({ gameId, targetPlayerId, type, arg }) => {
     const game = await prisma.game.findUnique({
-      where: { code },
+      where: { id: gameId },
       include: { players: true },
     });
     if (game.status === 'ended') return;
-    const target = game.players.find(p => p.name === targetPlayerName);
+    const target = game.players.find(p => p.id === targetPlayerId);
     if (!target) return;
     const newCard = rerollCard(target.card, type, arg);
     await prisma.player.update({ where: { id: target.id }, data: { card: newCard } });
-    const updatedPlayers = await prisma.player.findMany({ where: { gameId: game.id } });
-    io.to(code).emit('update_state', { game, players: updatedPlayers });
+    const updatedPlayers = await prisma.player.findMany({ where: { gameId: gameId } });
+    io.to(gameId).emit('update_state', { game, players: updatedPlayers });
   });
 
-  socket.on('new_game', async ({ code }) => {
+  socket.on('new_game', async ({ gameId }) => {
     const game = await prisma.game.findUnique({
-      where: { code },
+      where: { id: gameId },
       include: { players: true },
     });
     if (game.status !== 'ended') return;
 
     // Reset game
     const updatedGame = await prisma.game.update({
-      where: { id: game.id },
+      where: { id: gameId },
       data: { status: 'active', winner: null }
     });
 
@@ -226,8 +255,8 @@ io.on('connection', (socket) => {
       });
     }
 
-    const updatedPlayers = await prisma.player.findMany({ where: { gameId: game.id } });
-    io.to(code).emit('update_state', { game: updatedGame, players: updatedPlayers });
+    const updatedPlayers = await prisma.player.findMany({ where: { gameId: gameId } });
+    io.to(gameId).emit('update_state', { game: updatedGame, players: updatedPlayers });
   });
 });
 

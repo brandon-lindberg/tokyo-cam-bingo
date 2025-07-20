@@ -2,31 +2,56 @@
 <html>
 <head>
   <title>Tokyo Cam Bingo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <h1>Welcome to Tokyo Cam Bingo</h1>
-  
-  <h2>Create Game (Host)</h2>
-  <form action="/create" method="POST">
-    <input type="text" name="hostName" placeholder="Your Name" required>
-    <p>Win Conditions:</p>
-    <label><input type="checkbox" name="winConditions" value="row"> Single Row</label><br>
-    <label><input type="checkbox" name="winConditions" value="2rows"> 2 Rows</label><br>
-    <label><input type="checkbox" name="winConditions" value="3rows"> 3 Rows</label><br>
-    <label><input type="checkbox" name="winConditions" value="column"> Single Column</label><br>
-    <label><input type="checkbox" name="winConditions" value="2columns"> 2 Columns</label><br>
-    <label><input type="checkbox" name="winConditions" value="3columns"> 3 Columns</label><br>
-    <label><input type="checkbox" name="winConditions" value="diagonals"> Diagonals</label><br>
-    <label><input type="checkbox" name="winConditions" value="full"> Full Card</label><br>
-    <button type="submit">Create</button>
-  </form>
-  
-  <h2>Join Game</h2>
-  <form action="/join" method="POST">
-    <input type="text" name="code" placeholder="Game Code" required>
-    <input type="text" name="playerName" placeholder="Your Name" required>
-    <button type="submit">Join</button>
-  </form>
+  <div class="container welcome-container">
+    <h1>Welcome to Tokyo Cam Bingo</h1>
+    <div class="button-group">
+      <button onclick="showHostForm()">Host Game</button>
+      <button onclick="showJoinForm()">Join Game</button>
+    </div>
+    
+    <div id="host-form" style="display: none;">
+      <h2>Create Game (Host)</h2>
+      <form action="/create" method="POST">
+        <input type="text" name="hostName" placeholder="Your Name" required>
+        <p>Select Win Conditions:</p>
+        <div class="win-conditions-grid">
+          <label for="row"><input type="checkbox" id="row" name="winConditions" value="row"> Single Row</label>
+          <label for="2rows"><input type="checkbox" id="2rows" name="winConditions" value="2rows"> 2 Rows</label>
+          <label for="3rows"><input type="checkbox" id="3rows" name="winConditions" value="3rows"> 3 Rows</label>
+          <label for="column"><input type="checkbox" id="column" name="winConditions" value="column"> Single Column</label>
+          <label for="2columns"><input type="checkbox" id="2columns" name="winConditions" value="2columns"> 2 Columns</label>
+          <label for="3columns"><input type="checkbox" id="3columns" name="winConditions" value="3columns"> 3 Columns</label>
+          <label for="diagonals"><input type="checkbox" id="diagonals" name="winConditions" value="diagonals"> Diagonals</label>
+          <label for="full"><input type="checkbox" id="full" name="winConditions" value="full"> Full Card</label>
+        </div>
+        <button type="submit">Create</button>
+      </form>
+    </div>
+    
+    <div id="join-form" style="display: none;">
+      <h2>Join Game</h2>
+      <form action="/join" method="POST">
+        <input type="text" name="code" placeholder="Game Code" required>
+        <input type="text" name="playerName" placeholder="Your Name" required>
+        <button type="submit">Join</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function showHostForm() {
+      document.getElementById('host-form').style.display = 'block';
+      document.getElementById('join-form').style.display = 'none';
+    }
+
+    function showJoinForm() {
+      document.getElementById('join-form').style.display = 'block';
+      document.getElementById('host-form').style.display = 'none';
+    }
+  </script>
 </body>
 </html>

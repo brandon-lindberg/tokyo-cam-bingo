@@ -1,11 +1,9 @@
 const rerollStates = {};
 
-function enterRerollMode(playerId, code, playerName) {
+function enterRerollMode(playerId) {
   if (rerollStates[playerId]) return; // Already in mode
 
   rerollStates[playerId] = {
-    code,
-    playerName,
     type: '',
     arg: '',
     selectedCells: [],
@@ -48,14 +46,15 @@ function handleTypeChange(playerId) {
 }
 
 function handleCardClick(playerId, e) {
+  let td = e.target.closest('td');
+  if (!td) return;
+
   const state = rerollStates[playerId];
   if (!state || !state.type || state.type === 'card') return;
 
-  if (e.target.tagName !== 'TD') return;
-
-  const td = e.target;
   const row = parseInt(td.dataset.row);
   const col = parseInt(td.dataset.col);
+  if (isNaN(row) || isNaN(col)) return;
 
   clearSelection(playerId);
 
@@ -80,7 +79,6 @@ function handleCardClick(playerId, e) {
       const isAnti = row + col === 4;
       if (!isMain && !isAnti) return;
       if (isMain && isAnti) { // Center
-        // Default to main
         arg = 'main';
         positions = Array.from({ length: 5 }, (_, i) => [i, i]);
       } else if (isMain) {
@@ -136,8 +134,8 @@ function confirmReroll(playerId) {
   }
 
   window.socket.emit('reroll', {
-    code: state.code,
-    targetPlayerName: state.playerName,
+    gameId,
+    targetPlayerId: playerId,
     type: state.type,
     arg: state.arg
   });
@@ -199,18 +197,19 @@ function updateLeaderboard(players) {
     if (mainComplete) score++;
     if (antiComplete) score++;
 
-    return { name: player.name, score, stampedCount };
+    return { id: player.id, name: player.name, score, stampedCount };
   });
 
   // Sort: score desc, then stamped desc
   scoredPlayers.sort((a, b) => b.score - a.score || b.stampedCount - a.stampedCount);
 
-  // Render
+  // Render with clickable names (except own)
   scoredPlayers.forEach((p, index) => {
     const tr = document.createElement('tr');
+    const nameTd = `<td>${p.id === playerId ? p.name : `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>`}</td>`;
     tr.innerHTML = `
       <td>${index + 1}</td>
-      <td>${p.name}</td>
+      ${nameTd}
       <td>${p.score}</td>
       <td>${p.stampedCount}</td>
     `;

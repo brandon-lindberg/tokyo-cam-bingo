@@ -1,46 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tokyo Cam Bingo - <%= game.code %></title>
+  <title>Tokyo Cam Bingo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/game.js"></script>
 </head>
-<body data-code="<%= game.code %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>">
-  <h1>Game: <%= game.code %> | Rules: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.join(', ') : 'None' %></h1>
-  
-  <div id="game-over" style="display: none; font-size: 24px; color: red; margin-bottom: 20px;">
-    Game Over! <span id="winner-name"></span> wins!
-  </div>
-  <% if (currentPlayer.isHost) { %>
-    <div id="host-options" style="display: none; margin-bottom: 20px;">
-      <button onclick="startNewGame('<%= game.code %>')">Start New Game</button>
-      <button onclick="location.href = '/'">Exit to Home</button>
+<body data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>">
+  <div class="container">
+    <div class="game-header">
+      <h1>Game | Rules: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.join(', ') : 'None' %></h1>
+      <% if (currentPlayer.isHost) { %>
+        <button onclick="copyGameCode()">Copy Code</button>
+      <% } %>
     </div>
-  <% } %>
-  
-  <h2>Leaderboard</h2>
-  <table id="leaderboard">
-    <thead>
-      <tr>
-        <th>Rank</th>
-        <th>Player</th>
-        <th>Score (Lines)</th>
-        <th>Stamped Tiles</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Populated by JS -->
-    </tbody>
-  </table>
-  
-  <% players.forEach(player => { %>
-    <h2><%= player.name %>'s Card <%= player.isHost ? '(Host)' : '' %></h2>
-    <table id="card-<%= player.id %>">
-      <% player.card.forEach((row, r) => { %>
+    
+    <div id="game-over" style="display: none; font-size: 24px; color: red; margin-bottom: 20px;">
+      Game Over! <span id="winner-name"></span> wins!
+    </div>
+    <% if (currentPlayer.isHost) { %>
+      <div id="host-options" style="display: none; margin-bottom: 20px;">
+        <button onclick="startNewGame()">Start New Game</button>
+        <button onclick="location.href = '/'">Exit to Home</button>
+      </div>
+    <% } %>
+    
+    <h2>Leaderboard</h2>
+    <table id="leaderboard">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>Score (Lines)</th>
+          <th>Stamped Tiles</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Populated by JS -->
+      </tbody>
+    </table>
+    
+    <h2>Your Card</h2>
+    <table id="card-<%= currentPlayer.id %>" class="bingo-card">
+      <% currentPlayer.card.forEach((row, r) => { %>
         <tr>
           <% row.forEach((tile, c) => { %>
-            <td class="<%= tile.stamped ? 'stamped' : '' %>" data-player="<%= player.id %>" data-row="<%= r %>" data-col="<%= c %>">
+            <td class="<%= tile.stamped ? 'stamped' : '' %>" data-row="<%= r %>" data-col="<%= c %>">
               <%= tile.item %>
             </td>
           <% }) %>
@@ -49,10 +55,10 @@
     </table>
     
     <% if (currentPlayer.isHost) { %>
-      <h3>Re-roll for <%= player.name %></h3>
-      <button onclick="enterRerollMode('<%= player.id %>', '<%= game.code %>', '<%= player.name %>')">Enter Re-roll Mode</button>
-      <div id="reroll-mode-<%= player.id %>" style="display: none;">
-        <select id="reroll-type-<%= player.id %>" onchange="handleTypeChange('<%= player.id %>')">
+      <h3>Re-roll for Yourself</h3>
+      <button onclick="enterRerollMode('<%= currentPlayer.id %>')">Enter Re-roll Mode</button>
+      <div id="reroll-mode-<%= currentPlayer.id %>" style="display: none;">
+        <select id="reroll-type-<%= currentPlayer.id %>" onchange="handleTypeChange('<%= currentPlayer.id %>')">
           <option value="">Select Type</option>
           <option value="tile">Tile</option>
           <option value="row">Row</option>
@@ -60,35 +66,62 @@
           <option value="diagonal">Diagonal</option>
           <option value="card">Whole Card</option>
         </select>
-        <p id="selection-instruct-<%= player.id %>">Click on the card to select the area.</p>
-        <button onclick="confirmReroll('<%= player.id %>')">Confirm Re-roll</button>
-        <button onclick="exitRerollMode('<%= player.id %>')">Cancel</button>
+        <p id="selection-instruct-<%= currentPlayer.id %>">Click on the card to select the area.</p>
+        <button onclick="confirmReroll('<%= currentPlayer.id %>')">Confirm Re-roll</button>
+        <button onclick="exitRerollMode('<%= currentPlayer.id %>')">Cancel</button>
       </div>
     <% } %>
-  <% }) %>
+  </div>
+
+  <!-- Modal for opponent cards -->
+  <div id="player-modal" style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+    <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 800px;">
+      <span onclick="closeModal()" style="cursor: pointer; float: right; font-size: 28px;">×</span>
+      <h2 id="modal-player-name"></h2>
+      <table id="modal-card" class="bingo-card"></table>
+      <div id="modal-reroll" style="display: none;">
+        <h3>Re-roll</h3>
+        <select id="modal-reroll-type">
+          <option value="">Select Type</option>
+          <option value="tile">Tile</option>
+          <option value="row">Row</option>
+          <option value="column">Column</option>
+          <option value="diagonal">Diagonal</option>
+          <option value="card">Whole Card</option>
+        </select>
+        <p id="modal-selection-instruct">Click on the card to select the area.</p>
+        <button id="modal-confirm-reroll">Confirm Re-roll</button>
+        <button onclick="exitModalReroll()">Cancel</button>
+      </div>
+    </div>
+  </div>
   
   <script>
     const socket = io();
     window.socket = socket;
-    const code = document.body.dataset.code;
+    const gameId = document.body.dataset.gameId;
+    const playerId = document.body.dataset.playerId;
     const playerName = document.body.dataset.playerName;
     const isHost = document.body.dataset.isHost === 'true';
     let isGameOver = document.body.dataset.gameStatus === 'ended';
-    socket.emit('join_room', { code, playerName });
+    let allPlayers = []; // Global to store all players
+    socket.emit('join_room', { gameId, playerId });
     
     // Update state
     socket.on('update_state', (data) => {
       const { game, players } = data;
-      players.forEach(p => {
-        const table = document.getElementById(`card-${p.id}`);
-        p.card.forEach((row, r) => {
+      allPlayers = players; // Update global
+      const currentCardTable = document.getElementById(`card-${playerId}`);
+      const currentPlayerData = players.find(p => p.id === playerId);
+      if (currentPlayerData) {
+        currentPlayerData.card.forEach((row, r) => {
           row.forEach((tile, c) => {
-            const td = table.rows[r].cells[c];
+            const td = currentCardTable.rows[r].cells[c];
             td.textContent = tile.item;
             td.classList.toggle('stamped', tile.stamped);
           });
         });
-      });
+      }
       updateLeaderboard(players);
       
       if (game.status === 'ended' && !isGameOver) {
@@ -112,17 +145,203 @@
     });
     
     // Stamp on click (only own card)
-    document.querySelectorAll('td[data-player="<%= currentPlayer.id %>"]').forEach(td => {
-      td.addEventListener('click', () => {
+    document.querySelectorAll('#card-<%= currentPlayer.id %> td').forEach(td => {
+      td.addEventListener('click', (e) => {
         if (isGameOver || td.closest('table').classList.contains('reroll-mode')) return;
         const row = td.dataset.row;
         const col = td.dataset.col;
-        socket.emit('stamp', { code, playerId: '<%= currentPlayer.id %>', row, col });
+        socket.emit('stamp', { gameId, playerId, row, col });
       });
     });
 
-    function startNewGame(code) {
-      socket.emit('new_game', { code });
+    function startNewGame() {
+      socket.emit('new_game', { gameId });
+    }
+
+    function copyGameCode() {
+      fetch('/get-code')
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch code');
+          return res.text();
+        })
+        .then(code => navigator.clipboard.writeText(code))
+        .then(() => alert('Game code copied to clipboard!'))
+        .catch(err => alert('Failed to copy code: ' + err));
+    }
+
+    function showPlayerCard(targetPlayerId) {
+      const player = allPlayers.find(p => p.id === targetPlayerId);
+      if (!player) return;
+
+      document.getElementById('modal-player-name').textContent = player.name + "'s Card";
+      const modalCard = document.getElementById('modal-card');
+      modalCard.innerHTML = '';
+      player.card.forEach((row, r) => {
+        const tr = document.createElement('tr');
+        row.forEach((tile, c) => {
+          const td = document.createElement('td');
+          td.textContent = tile.item;
+          td.classList.toggle('stamped', tile.stamped);
+          td.dataset.row = r;
+          td.dataset.col = c; // Add for re-roll
+          tr.appendChild(td);
+        });
+        modalCard.appendChild(tr);
+      });
+
+      const modalReroll = document.getElementById('modal-reroll');
+      modalReroll.style.display = isHost ? 'block' : 'none';
+      if (isHost) {
+        // Bind re-roll for modal
+        modalReroll.dataset.targetPlayerId = targetPlayerId;
+        document.getElementById('modal-reroll-type').onchange = () => handleModalTypeChange();
+        document.getElementById('modal-confirm-reroll').onclick = () => confirmModalReroll();
+      }
+
+      document.getElementById('player-modal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('player-modal').style.display = 'none';
+      exitModalReroll();
+    }
+
+    // Modal re-roll functions
+    let modalRerollState = {
+      type: '',
+      arg: '',
+      selectedCells: [],
+      clickListener: null
+    };
+
+    function handleModalTypeChange() {
+      const select = document.getElementById('modal-reroll-type');
+      const type = select.value;
+      modalRerollState.type = type;
+      clearModalSelection();
+
+      const instruct = document.getElementById('modal-selection-instruct');
+      if (type === 'card') {
+        instruct.style.display = 'none';
+        selectModalCard();
+      } else if (type) {
+        instruct.style.display = 'block';
+      } else {
+        instruct.style.display = 'none';
+      }
+
+      const table = document.getElementById('modal-card');
+      table.classList.add('reroll-mode');
+      if (modalRerollState.clickListener) table.removeEventListener('click', modalRerollState.clickListener);
+      const handleClick = (e) => handleModalCardClick(e);
+      modalRerollState.clickListener = handleClick;
+      table.addEventListener('click', handleClick);
+    }
+
+    function handleModalCardClick(e) {
+      let td = e.target.closest('td');
+      if (!td) return;
+
+      const state = modalRerollState;
+      if (!state || !state.type || state.type === 'card') return;
+
+      const row = parseInt(td.dataset.row);
+      const col = parseInt(td.dataset.col);
+      if (isNaN(row) || isNaN(col)) return;
+
+      clearModalSelection();
+
+      let positions = [];
+      let arg = '';
+
+      switch (state.type) {
+        case 'tile':
+          positions = [[row, col]];
+          arg = `${row + 1},${col + 1}`;
+          break;
+        case 'row':
+          positions = Array.from({ length: 5 }, (_, c) => [row, c]);
+          arg = `${row + 1}`;
+          break;
+        case 'column':
+          positions = Array.from({ length: 5 }, (_, r) => [r, col]);
+          arg = `${col + 1}`;
+          break;
+        case 'diagonal':
+          const isMain = row === col;
+          const isAnti = row + col === 4;
+          if (!isMain && !isAnti) return;
+          if (isMain && isAnti) { // Center
+            arg = 'main';
+            positions = Array.from({ length: 5 }, (_, i) => [i, i]);
+          } else if (isMain) {
+            arg = 'main';
+            positions = Array.from({ length: 5 }, (_, i) => [i, i]);
+          } else if (isAnti) {
+            arg = 'anti';
+            positions = Array.from({ length: 5 }, (_, i) => [i, 4 - i]);
+          }
+          break;
+      }
+
+      if (positions.length > 0) {
+        state.arg = arg;
+        state.selectedCells = positions;
+        highlightModalSelection(positions);
+      }
+    }
+
+    function selectModalCard() {
+      const positions = Array.from({ length: 25 }, (_, i) => [Math.floor(i / 5), i % 5]);
+      modalRerollState.arg = '';
+      modalRerollState.selectedCells = positions;
+      highlightModalSelection(positions);
+    }
+
+    function highlightModalSelection(positions) {
+      const table = document.getElementById('modal-card');
+      positions.forEach(([r, c]) => {
+        table.rows[r].cells[c].classList.add('selected');
+      });
+    }
+
+    function clearModalSelection() {
+      const state = modalRerollState;
+      const table = document.getElementById('modal-card');
+      state.selectedCells.forEach(([r, c]) => {
+        if (table.rows[r] && table.rows[r].cells[c]) {
+          table.rows[r].cells[c].classList.remove('selected');
+        }
+      });
+      state.selectedCells = [];
+      state.arg = '';
+    }
+
+    function confirmModalReroll() {
+      const state = modalRerollState;
+      if (!state || !state.type || (state.type !== 'card' && !state.arg)) {
+        alert('Please select a type and an area to re-roll.');
+        return;
+      }
+
+      const targetPlayerId = document.getElementById('modal-reroll').dataset.targetPlayerId;
+      window.socket.emit('reroll', {
+        gameId,
+        targetPlayerId,
+        type: state.type,
+        arg: state.arg
+      });
+
+      exitModalReroll();
+    }
+
+    function exitModalReroll() {
+      const table = document.getElementById('modal-card');
+      table.classList.remove('reroll-mode');
+      if (modalRerollState.clickListener) table.removeEventListener('click', modalRerollState.clickListener);
+      clearModalSelection();
+      modalRerollState = { type: '', arg: '', selectedCells: [], clickListener: null };
+      document.getElementById('modal-reroll-type').value = '';
     }
   </script>
 </body>

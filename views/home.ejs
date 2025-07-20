@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tokyo Cam Bingo</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <h1>Welcome to Tokyo Cam Bingo</h1>
+  
+  <h2>Create Game (Host)</h2>
+  <form action="/create" method="POST">
+    <input type="text" name="hostName" placeholder="Your Name" required>
+    <p>Win Conditions:</p>
+    <label><input type="checkbox" name="winConditions" value="row"> Single Row</label><br>
+    <label><input type="checkbox" name="winConditions" value="2rows"> 2 Rows</label><br>
+    <label><input type="checkbox" name="winConditions" value="3rows"> 3 Rows</label><br>
+    <label><input type="checkbox" name="winConditions" value="diagonals"> Diagonals</label><br>
+    <label><input type="checkbox" name="winConditions" value="full"> Full Card</label><br>
+    <button type="submit">Create</button>
+  </form>
+  
+  <h2>Join Game</h2>
+  <form action="/join" method="POST">
+    <input type="text" name="code" placeholder="Game Code" required>
+    <input type="text" name="playerName" placeholder="Your Name" required>
+    <button type="submit">Join</button>
+  </form>
+</body>
+</html>

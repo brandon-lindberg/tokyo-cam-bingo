@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tokyo Cam Bingo - <%= game.code %></title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/game.js"></script>
+</head>
+<body>
+  <h1>Game: <%= game.code %> | Rules: <%= game.rules.winConditions.join(', ') %></h1>
+  
+  <% players.forEach(player => { %>
+    <h2><%= player.name %>'s Card <%= player.isHost ? '(Host)' : '' %></h2>
+    <table id="card-<%= player.id %>">
+      <% player.card.forEach((row, r) => { %>
+        <tr>
+          <% row.forEach((tile, c) => { %>
+            <td class="<%= tile.stamped ? 'stamped' : '' %>" data-player="<%= player.id %>" data-row="<%= r %>" data-col="<%= c %>">
+              <%= tile.item %>
+            </td>
+          <% }) %>
+        </tr>
+      <% }) %>
+    </table>
+    
+    <% if (currentPlayer.isHost) { %>
+      <h3>Re-roll for <%= player.name %></h3>
+      <select id="reroll-type-<%= player.id %>">
+        <option value="tile">Tile (e.g., 3,4)</option>
+        <option value="row">Row (1-5)</option>
+        <option value="diagonal">Diagonal (main or anti)</option>
+        <option value="card">Whole Card</option>
+      </select>
+      <input id="reroll-arg-<%= player.id %>" placeholder="Arg (e.g., 2 or main)">
+      <button onclick="manualReroll('<%= game.code %>', '<%= player.name %>', '<%= player.id %>')">Re-roll</button>
+    <% } %>
+  <% }) %>
+  
+  <script>
+    const socket = io();
+    const code = '<%= game.code %>';
+    const playerName = '<%= currentPlayer.name %>';
+    socket.emit('join_room', { code, playerName });
+    
+    // Update state
+    socket.on('update_state', (players) => {
+      players.forEach(p => {
+        const table = document.getElementById(`card-${p.id}`);
+        p.card.forEach((row, r) => {
+          row.forEach((tile, c) => {
+            const td = table.rows[r].cells[c];
+            td.textContent = tile.item;
+            td.classList.toggle('stamped', tile.stamped);
+          });
+        });
+      });
+    });
+    
+    socket.on('win', ({ playerName }) => {
+      alert(`${playerName} wins!`);
+    });
+    
+    // Stamp on click (only own card)
+    document.querySelectorAll('td[data-player="<%= currentPlayer.id %>"]').forEach(td => {
+      td.addEventListener('click', () => {
+        const row = td.dataset.row;
+        const col = td.dataset.col;
+        socket.emit('stamp', { code, playerId: '<%= currentPlayer.id %>', row, col });
+      });
+    });
+  </script>
+</body>
+</html>

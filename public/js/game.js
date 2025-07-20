@@ -158,3 +158,62 @@ function exitRerollMode(playerId) {
   clearSelection(playerId);
   delete rerollStates[playerId];
 }
+
+function updateLeaderboard(players) {
+  const leaderboardBody = document.querySelector('#leaderboard tbody');
+  leaderboardBody.innerHTML = ''; // Clear existing
+
+  // Compute scores
+  const scoredPlayers = players.map(player => {
+    const card = player.card;
+    let score = 0;
+    let stampedCount = 0;
+
+    // Count stamped tiles
+    card.flat().forEach(tile => {
+      if (tile.stamped) stampedCount++;
+    });
+
+    // Completed rows
+    score += card.filter(row => row.every(t => t.stamped)).length;
+
+    // Completed columns
+    for (let col = 0; col < 5; col++) {
+      let complete = true;
+      for (let row = 0; row < 5; row++) {
+        if (!card[row][col].stamped) {
+          complete = false;
+          break;
+        }
+      }
+      if (complete) score++;
+    }
+
+    // Diagonals
+    let mainComplete = true;
+    let antiComplete = true;
+    for (let i = 0; i < 5; i++) {
+      if (!card[i][i].stamped) mainComplete = false;
+      if (!card[i][4 - i].stamped) antiComplete = false;
+    }
+    if (mainComplete) score++;
+    if (antiComplete) score++;
+
+    return { name: player.name, score, stampedCount };
+  });
+
+  // Sort: score desc, then stamped desc
+  scoredPlayers.sort((a, b) => b.score - a.score || b.stampedCount - a.stampedCount);
+
+  // Render
+  scoredPlayers.forEach((p, index) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${p.name}</td>
+      <td>${p.score}</td>
+      <td>${p.stampedCount}</td>
+    `;
+    leaderboardBody.appendChild(tr);
+  });
+}

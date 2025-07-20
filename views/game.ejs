@@ -9,6 +9,21 @@
 <body>
   <h1>Game: <%= game.code %> | Rules: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.join(', ') : 'None' %></h1>
   
+  <h2>Leaderboard</h2>
+  <table id="leaderboard">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Player</th>
+        <th>Score (Lines)</th>
+        <th>Stamped Tiles</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Populated by JS -->
+    </tbody>
+  </table>
+  
   <% players.forEach(player => { %>
     <h2><%= player.name %>'s Card <%= player.isHost ? '(Host)' : '' %></h2>
     <table id="card-<%= player.id %>">
@@ -61,6 +76,7 @@
           });
         });
       });
+      updateLeaderboard(players);
     });
     
     socket.on('win', ({ playerName }) => {

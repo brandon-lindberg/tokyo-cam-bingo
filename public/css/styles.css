@@ -113,47 +113,74 @@ body {
     margin: 0;
   }
   
-  /* Bingo Card */
+  /* Game Layout */
+  .game-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+  
+  /* Card Section */
+  .card-section {
+    flex: 2;
+  }
+  
   .bingo-card {
     border-collapse: collapse;
     margin: 1rem 0;
+    width: 100%;
+    height: 90vh; /* 90% of viewport height */
+    table-layout: fixed;
   }
   
   .bingo-card td {
-    width: 120px;
-    height: 120px;
     border: 1px solid #ccc;
-    padding: 0.5rem;
+    padding: 0;
     text-align: center;
     vertical-align: middle;
-    font-size: 16px;
     cursor: pointer;
+    position: relative;
+  }
+  
+  .bingo-card td::before {
+    content: '';
+    display: block;
+    padding-bottom: 100%; /* Makes td square based on width */
+  }
+  
+  .tile-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    font-size: 1vw; /* Adjust font size based on viewport width */
     word-break: break-word;
+    overflow: hidden;
   }
   
-  .stamped {
-    background-color: #FFD700; /* Gold for stamped */
+  /* Leaderboard Section */
+  .leaderboard-section {
+    flex: 1;
+    position: sticky;
+    top: 1rem;
   }
   
-  .selected {
-    outline: 3px solid red;
-    background-color: rgba(255, 0, 0, 0.2); /* Semi-transparent red background for better visibility */
-  }
-  
-  .reroll-mode td {
-    cursor: crosshair;
-  }
-  
-  /* Leaderboard */
   #leaderboard {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 2rem;
+    font-size: 0.9rem; /* Smaller font for compactness */
   }
   
   #leaderboard th, #leaderboard td {
     border: 1px solid #ccc;
-    padding: 0.75rem;
+    padding: 0.5rem; /* Reduced padding */
     text-align: left;
   }
   
@@ -170,4 +197,17 @@ body {
   /* Modal */
   .modal-content {
     text-align: center;
+  }
+  
+  .stamped {
+    background-color: #FFD700; /* Gold for stamped */
+  }
+  
+  .selected {
+    outline: 3px solid red;
+    background-color: rgba(255, 0, 0, 0.2); /* Semi-transparent red background for better visibility */
+  }
+  
+  .reroll-mode td {
+    cursor: crosshair;
   }

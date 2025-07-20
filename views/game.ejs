@@ -26,51 +26,57 @@
       </div>
     <% } %>
     
-    <h2>Leaderboard</h2>
-    <table id="leaderboard">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Player</th>
-          <th>Score (Lines)</th>
-          <th>Stamped Tiles</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Populated by JS -->
-      </tbody>
-    </table>
-    
-    <h2>Your Card</h2>
-    <table id="card-<%= currentPlayer.id %>" class="bingo-card">
-      <% currentPlayer.card.forEach((row, r) => { %>
-        <tr>
-          <% row.forEach((tile, c) => { %>
-            <td class="<%= tile.stamped ? 'stamped' : '' %>" data-row="<%= r %>" data-col="<%= c %>">
-              <%= tile.item %>
-            </td>
+    <div class="game-layout">
+      <div class="card-section">
+        <h2>Your Card</h2>
+        <table id="card-<%= currentPlayer.id %>" class="bingo-card">
+          <% currentPlayer.card.forEach((row, r) => { %>
+            <tr>
+              <% row.forEach((tile, c) => { %>
+                <td class="<%= tile.stamped ? 'stamped' : '' %>" data-row="<%= r %>" data-col="<%= c %>">
+                  <div class="tile-content"><%= tile.item %></div>
+                </td>
+              <% }) %>
+            </tr>
           <% }) %>
-        </tr>
-      <% }) %>
-    </table>
-    
-    <% if (currentPlayer.isHost) { %>
-      <h3>Re-roll for Yourself</h3>
-      <button onclick="enterRerollMode('<%= currentPlayer.id %>')">Enter Re-roll Mode</button>
-      <div id="reroll-mode-<%= currentPlayer.id %>" style="display: none;">
-        <select id="reroll-type-<%= currentPlayer.id %>" onchange="handleTypeChange('<%= currentPlayer.id %>')">
-          <option value="">Select Type</option>
-          <option value="tile">Tile</option>
-          <option value="row">Row</option>
-          <option value="column">Column</option>
-          <option value="diagonal">Diagonal</option>
-          <option value="card">Whole Card</option>
-        </select>
-        <p id="selection-instruct-<%= currentPlayer.id %>">Click on the card to select the area.</p>
-        <button onclick="confirmReroll('<%= currentPlayer.id %>')">Confirm Re-roll</button>
-        <button onclick="exitRerollMode('<%= currentPlayer.id %>')">Cancel</button>
+        </table>
+        
+        <% if (currentPlayer.isHost) { %>
+          <h3>Re-roll for Yourself</h3>
+          <button onclick="enterRerollMode('<%= currentPlayer.id %>')">Enter Re-roll Mode</button>
+          <div id="reroll-mode-<%= currentPlayer.id %>" style="display: none;">
+            <select id="reroll-type-<%= currentPlayer.id %>" onchange="handleTypeChange('<%= currentPlayer.id %>')">
+              <option value="">Select Type</option>
+              <option value="tile">Tile</option>
+              <option value="row">Row</option>
+              <option value="column">Column</option>
+              <option value="diagonal">Diagonal</option>
+              <option value="card">Whole Card</option>
+            </select>
+            <p id="selection-instruct-<%= currentPlayer.id %>">Click on the card to select the area.</p>
+            <button onclick="confirmReroll('<%= currentPlayer.id %>')">Confirm Re-roll</button>
+            <button onclick="exitRerollMode('<%= currentPlayer.id %>')">Cancel</button>
+          </div>
+        <% } %>
       </div>
-    <% } %>
+      
+      <div class="leaderboard-section">
+        <h2>Leaderboard</h2>
+        <table id="leaderboard">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Player</th>
+              <th>Score (Lines)</th>
+              <th>Stamped Tiles</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
   <!-- Modal for opponent cards -->
@@ -118,7 +124,7 @@
         currentPlayerData.card.forEach((row, r) => {
           row.forEach((tile, c) => {
             const td = currentCardTable.rows[r].cells[c];
-            td.textContent = tile.item;
+            td.querySelector('.tile-content').textContent = tile.item;
             td.classList.toggle('stamped', tile.stamped);
           });
         });
@@ -150,7 +156,10 @@
             const tr = document.createElement('tr');
             row.forEach((tile, c) => {
               const td = document.createElement('td');
-              td.textContent = tile.item;
+              const div = document.createElement('div');
+              div.className = 'tile-content';
+              div.textContent = tile.item;
+              td.appendChild(div);
               td.classList.toggle('stamped', tile.stamped);
               td.dataset.row = r;
               td.dataset.col = c;
@@ -203,7 +212,10 @@
         const tr = document.createElement('tr');
         row.forEach((tile, c) => {
           const td = document.createElement('td');
-          td.textContent = tile.item;
+          const div = document.createElement('div');
+          div.className = 'tile-content';
+          div.textContent = tile.item;
+          td.appendChild(div);
           td.classList.toggle('stamped', tile.stamped);
           td.dataset.row = r;
           td.dataset.col = c;

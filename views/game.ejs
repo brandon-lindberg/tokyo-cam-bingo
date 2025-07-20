@@ -7,7 +7,7 @@
   <script src="/js/game.js"></script>
 </head>
 <body>
-  <h1>Game: <%= game.code %> | Rules: <%= game.rules.winConditions.join(', ') %></h1>
+  <h1>Game: <%= game.code %> | Rules: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.join(', ') : 'None' %></h1>
   
   <% players.forEach(player => { %>
     <h2><%= player.name %>'s Card <%= player.isHost ? '(Host)' : '' %></h2>
@@ -28,6 +28,7 @@
       <select id="reroll-type-<%= player.id %>">
         <option value="tile">Tile (e.g., 3,4)</option>
         <option value="row">Row (1-5)</option>
+        <option value="column">Column (1-5)</option>
         <option value="diagonal">Diagonal (main or anti)</option>
         <option value="card">Whole Card</option>
       </select>

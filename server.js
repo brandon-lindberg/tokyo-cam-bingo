@@ -39,6 +39,9 @@ function rerollCard(card, type, arg) {
   } else if (type === 'row') {
     const row = parseInt(arg) - 1;
     positions = Array.from({ length: 5 }, (_, col) => [row, col]);
+  } else if (type === 'column') {
+    const col = parseInt(arg) - 1;
+    positions = Array.from({ length: 5 }, (_, row) => [row, col]);
   } else if (type === 'diagonal') {
     if (arg === 'main') {
       positions = Array.from({ length: 5 }, (_, i) => [i, i]);
@@ -66,18 +69,37 @@ function rerollCard(card, type, arg) {
 
 // Helper to check win
 function checkWin(card, rules) {
-  // Implement row, 2rows, etc. checks
+  // Row checks
   const stampedRows = card.map(row => row.every(t => t.stamped));
   const rowCount = stampedRows.filter(Boolean).length;
+
+  // Column checks
+  const stampedColumns = Array(5).fill(true);
+  for (let col = 0; col < 5; col++) {
+    for (let row = 0; row < 5; row++) {
+      if (!card[row][col].stamped) {
+        stampedColumns[col] = false;
+        break;
+      }
+    }
+  }
+  const colCount = stampedColumns.filter(Boolean).length;
+
+  // Diagonal checks
   const diagonals = {
     main: card.every((row, i) => row[i].stamped),
     anti: card.every((row, i) => row[4 - i].stamped),
   };
+
+  // Full card check
   const full = card.flat().every(t => t.stamped);
 
   if (rules.includes('row') && rowCount >= 1) return true;
   if (rules.includes('2rows') && rowCount >= 2) return true;
   if (rules.includes('3rows') && rowCount >= 3) return true;
+  if (rules.includes('column') && colCount >= 1) return true;
+  if (rules.includes('2columns') && colCount >= 2) return true;
+  if (rules.includes('3columns') && colCount >= 3) return true;
   if (rules.includes('diagonals') && (diagonals.main || diagonals.anti)) return true;
   if (rules.includes('full') && full) return true;
   return false;
@@ -88,7 +110,11 @@ app.get('/', (req, res) => res.render('home'));
 
 // Create game
 app.post('/create', async (req, res) => {
-  const { hostName, winConditions } = req.body; // winConditions is array from checkboxes
+  let winConditions = req.body.winConditions || [];
+  if (!Array.isArray(winConditions)) {
+    winConditions = [winConditions];
+  }
+  const { hostName } = req.body;
   const code = generateCode();
   const game = await prisma.game.create({
     data: { code, rules: { winConditions } },
@@ -141,7 +167,10 @@ io.on('connection', (socket) => {
   });
 
   socket.on('stamp', async ({ code, playerId, row, col }) => {
-    const player = await prisma.player.findUnique({ where: { id: playerId } });
+    const player = await prisma.player.findUnique({ 
+      where: { id: playerId },
+      include: { game: true }
+    });
     if (!player) return;
     const card = player.card;
     card[row][col].stamped = true;

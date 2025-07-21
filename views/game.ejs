@@ -12,12 +12,20 @@
   <div class="container">
     <div class="game-header">
       <h1 style="font-size: 0.9rem;">Win Conditions: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.join(', ') : 'None' %></h1>
-      <% if (currentPlayer.isHost) { %>
-        <div class="copy-code-wrapper">
-          <button onclick="copyGameCode()">Copy Code</button>
-          <span id="copy-confirm" style="display:block; margin-top:0.25rem; color:#4CAF50; visibility:hidden;">Code copied!</span>
+      <div class="header-controls" style="display:flex;;gap:0.5rem;">
+        <% if (currentPlayer.isHost) { %>
+          <div class="copy-code-wrapper">
+            <button onclick="copyGameCode()">Copy Code</button>
+            <span id="copy-confirm" style="display:block;margin-top:0.25rem;color:#4CAF50;visibility:hidden;">Code copied!</span>
+          </div>
+        <% } %>
+        <div class="chat-icon-wrapper" style="position:relative;">
+          <button id="chat-toggle-desktop" class="chat-toggle-button">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
+          </button>
+          <span id="chat-notification" class="notification-badge" style="display:none;">!</span>
         </div>
-      <% } %>
+      </div>
     </div>
     
     <div id="game-over" style="display: none; font-size: 24px; color: red; margin-bottom: 20px;">
@@ -86,6 +94,9 @@
   <!-- Bottom App Bar for Mobile -->
   <div class="bottom-app-bar mobile-only">
     <button onclick="toggleDrawer('leaderboard')">Leaderboard</button>
+    <button id="chat-toggle-mobile" class="chat-toggle-button">
+      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
+    </button>
   </div>
 
   <!-- Slide-up Drawer -->
@@ -126,6 +137,19 @@
     </div>
   </div>
   
+  <div id="chat-panel" class="chat-panel">
+    <div class="chat-header">
+      <h2>Chat</h2>
+      <button id="chat-close-desktop">&times;</button>
+    </div>
+    <div id="chat-messages" class="chat-messages"></div>
+    <div class="chat-input">
+      <input id="chat-input" type="text" maxlength="300" placeholder="Type a message..." />
+      <button id="chat-send">Send</button>
+    </div>
+  </div>
+  
+  <script id="chat-data" type="application/json"><%- JSON.stringify({ players, messages }) %></script>
   <script>
     const socket = io();
     window.socket = socket;
@@ -532,6 +556,74 @@
   function closeWinnerModal() {
     document.getElementById('winner-modal').style.display = 'none';
   }
+
+  // Chat functionality
+  (function() {
+    const chatPanel = document.getElementById('chat-panel');
+    const chatToggleDesktop = document.getElementById('chat-toggle-desktop');
+    const chatToggleMobile = document.getElementById('chat-toggle-mobile');
+    const chatCloseDesktop = document.getElementById('chat-close-desktop');
+    const chatSend = document.getElementById('chat-send');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+    const chatNotification = document.getElementById('chat-notification');
+    const { players: chatPlayers, messages: chatHistory } = JSON.parse(document.getElementById('chat-data').textContent);
+    const chatColors = {};
+    const availableColors = ['#A3E635','#60A5FA','#F472B6','#FBBF24','#34D399','#F87171','#C084FC','#FCD34D','#38BDF8','#A78BFA'];
+    chatPlayers.forEach((p,i) => { chatColors[p.id] = availableColors[i % availableColors.length]; });
+    const chatNames = {};
+    chatPlayers.forEach(p => { chatNames[p.id] = p.name; });
+
+    function addChatMessage(msg) {
+      const bubble = document.createElement('div');
+      bubble.classList.add('chat-bubble', msg.playerId === playerId ? 'self' : 'other');
+      bubble.style.backgroundColor = chatColors[msg.playerId] || '#ddd';
+      // name header
+      const header = document.createElement('div');
+      header.classList.add('bubble-header');
+      header.textContent = msg.playerId === playerId ? 'You' : chatNames[msg.playerId];
+      bubble.appendChild(header);
+      // message content
+      const content = document.createElement('div');
+      content.classList.add('bubble-content');
+      content.textContent = msg.content;
+      bubble.appendChild(content);
+      // timestamp
+      const time = document.createElement('div');
+      time.classList.add('bubble-time');
+      time.textContent = new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      bubble.appendChild(time);
+      chatMessages.appendChild(bubble);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    chatHistory.forEach(addChatMessage);
+
+    chatToggleDesktop.addEventListener('click', () => {
+      chatPanel.classList.toggle('open');
+      if (chatPanel.classList.contains('open')) chatNotification.style.display = 'none';
+    });
+    chatToggleMobile.addEventListener('click', () => {
+      chatPanel.classList.toggle('open');
+      if (chatPanel.classList.contains('open')) chatNotification.style.display = 'none';
+    });
+    chatCloseDesktop.addEventListener('click', () => chatPanel.classList.remove('open'));
+
+    chatSend.addEventListener('click', () => {
+      const content = chatInput.value.trim();
+      if (!content) return;
+      socket.emit('chat_message', { gameId, playerId, content });
+      chatInput.value = '';
+    });
+    chatInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); chatSend.click(); }
+    });
+
+    socket.on('new_message', ({ message }) => {
+      addChatMessage(message);
+      if (!chatPanel.classList.contains('open')) chatNotification.style.display = 'block';
+    });
+  })();
   </script>
 </body>
 </html>

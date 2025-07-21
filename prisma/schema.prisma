@@ -18,6 +18,7 @@ model Game {
   winner       String?
   createdAt    DateTime  @default(now())
   players      Player[]
+  messages     ChatMessage[]
 }
 
 model Player {
@@ -27,4 +28,15 @@ model Player {
   gameId    String
   card      Json     // 5x5 array: [[{item: "str", stamped: false}, ...], ...]
   game      Game     @relation(fields: [gameId], references: [id])
+  messages    ChatMessage[]
+}
+
+model ChatMessage {
+  id        String   @id @default(uuid())
+  gameId    String
+  playerId  String
+  content   String
+  createdAt DateTime @default(now())
+  game      Game     @relation(fields: [gameId], references: [id])
+  player    Player   @relation(fields: [playerId], references: [id])
 }

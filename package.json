@@ -2,6 +2,9 @@
   "name": "tokyo-cam-bingo",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "postinstall": "prisma generate"
+  },
   "author": "brandon-lindberg",
   "license": "MIT",
   "dependencies": {

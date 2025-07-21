@@ -151,9 +151,17 @@ app.post('/join', async (req, res) => {
   const players = await prisma.player.findMany({ where: { gameId: game.id } });
   if (players.length >= 10) return res.status(400).send('Game full');
   if (players.some(p => p.name === playerName)) return res.status(400).send('Name taken');
-  const card = generateCard();
+  // Generate a unique card that doesn't match existing players' cards
+  const existingPlayers = await prisma.player.findMany({
+    where: { gameId: game.id },
+    select: { card: true },
+  });
+  let uniqueCard;
+  do {
+    uniqueCard = generateCard();
+  } while (existingPlayers.some(p => JSON.stringify(p.card) === JSON.stringify(uniqueCard)));
   const player = await prisma.player.create({
-    data: { name: playerName, gameId: game.id, card },
+    data: { name: playerName, gameId: game.id, card: uniqueCard },
   });
   req.session.gameId = game.id;
   req.session.playerId = player.id;
@@ -256,12 +264,17 @@ io.on('connection', (socket) => {
       data: { status: 'active', winner: null }
     });
 
-    // Reset cards for all players
+    // Reset cards for all players with unique cards
+    const usedCards = [];
     for (const player of game.players) {
-      const newCard = generateCard();
+      let uniqueCard;
+      do {
+        uniqueCard = generateCard();
+      } while (usedCards.includes(JSON.stringify(uniqueCard)));
+      usedCards.push(JSON.stringify(uniqueCard));
       await prisma.player.update({
         where: { id: player.id },
-        data: { card: newCard }
+        data: { card: uniqueCard }
       });
     }
 

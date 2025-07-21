@@ -363,3 +363,10 @@ body {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
 }
+
+/* Copy code button wrapper */
+.copy-code-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}

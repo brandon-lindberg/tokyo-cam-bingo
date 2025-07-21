@@ -13,8 +13,10 @@
     <div class="game-header">
       <h1 style="font-size: 0.9rem;">Win Conditions: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.join(', ') : 'None' %></h1>
       <% if (currentPlayer.isHost) { %>
-        <button onclick="copyGameCode()">Copy Code</button>
-        <span id="copy-confirm" style="margin-left:0.5rem;color:#4CAF50;display:none;">Code copied!</span>
+        <div class="copy-code-wrapper">
+          <button onclick="copyGameCode()">Copy Code</button>
+          <span id="copy-confirm" style="display:block; margin-top:0.25rem; color:#4CAF50; visibility:hidden;">Code copied!</span>
+        </div>
       <% } %>
     </div>
     
@@ -221,17 +223,17 @@
         .then(code => navigator.clipboard.writeText(code))
         .then(() => {
           const confirmEl = document.getElementById('copy-confirm');
-          confirmEl.style.display = 'inline';
+          confirmEl.style.visibility = 'visible';
           confirmEl.style.color = '#4CAF50';
           confirmEl.textContent = 'Code copied!';
-          setTimeout(() => { confirmEl.style.display = 'none'; }, 3000);
+          setTimeout(() => { confirmEl.style.visibility = 'hidden'; }, 3000);
         })
         .catch(err => {
           const confirmEl = document.getElementById('copy-confirm');
-          confirmEl.style.display = 'inline';
+          confirmEl.style.visibility = 'visible';
           confirmEl.style.color = 'red';
           confirmEl.textContent = 'Copy failed';
-          setTimeout(() => { confirmEl.style.display = 'none'; }, 3000);
+          setTimeout(() => { confirmEl.style.visibility = 'hidden'; }, 3000);
         });
     }
 

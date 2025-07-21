@@ -187,7 +187,14 @@ app.get('/game', async (req, res) => {
   if (!game) return res.redirect('/');
   const player = game.players.find(p => p.id === playerId);
   if (!player) return res.redirect('/');
-  res.render('game', { game, players: game.players, currentPlayer: player });
+  // Fetch chat messages for this game
+  const messages = await prisma.chatMessage.findMany({
+    where: { gameId },
+    orderBy: { createdAt: 'asc' },
+    include: { player: { select: { id: true, name: true } } },
+  });
+
+  res.render('game', { game, players: game.players, currentPlayer: player, messages });
 });
 
 // Get game code (for copy, host-only)
@@ -280,6 +287,22 @@ io.on('connection', (socket) => {
 
     const updatedPlayers = await prisma.player.findMany({ where: { gameId: gameId } });
     io.to(gameId).emit('update_state', { game: updatedGame, players: updatedPlayers });
+  });
+
+  // Handle chat messages
+  socket.on('chat_message', async ({ gameId, playerId, content }) => {
+    if (typeof content !== 'string' || content.length === 0 || content.length > 300) return;
+    const newMsg = await prisma.chatMessage.create({ data: { gameId, playerId, content } });
+    const playerInfo = await prisma.player.findUnique({ where: { id: playerId }, select: { name: true } });
+    io.to(gameId).emit('new_message', {
+      message: {
+        id: newMsg.id,
+        playerId: newMsg.playerId,
+        content: newMsg.content,
+        createdAt: newMsg.createdAt.toISOString(),
+      },
+      playerName: playerInfo.name,
+    });
   });
 });
 

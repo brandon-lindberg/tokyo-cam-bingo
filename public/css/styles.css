@@ -4,7 +4,7 @@ body {
     background-color: #F0F8FF; /* Light blue background */
     color: #333333; /* Dark text */
     margin: 0;
-    padding: 1rem;
+    padding: 2rem;
   }
   
   h1, h2, h3 {
@@ -105,8 +105,9 @@ body {
   /* Game Header */
   .game-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1rem;
+    justify-content: space-between;
   }
   
   .game-header h1 {
@@ -129,7 +130,6 @@ body {
     border-collapse: collapse;
     margin: 1rem 0;
     width: 100%;
-    height: 90vh; /* 90% of viewport height */
     table-layout: fixed;
   }
   
@@ -157,15 +157,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
     box-sizing: border-box;
-    font-size: 1vw; /* Adjust font size based on viewport width */
+    font-size: 1.5vw; /* Adjust font size based on viewport width */
     word-break: break-word;
     overflow: hidden;
   }
   
   /* Leaderboard Section */
-  .leaderboard-section {
+  .desktop-only {
     flex: 1;
     position: sticky;
     top: 1rem;
@@ -211,3 +210,129 @@ body {
   .reroll-mode td {
     cursor: crosshair;
   }
+  
+  /* Bottom App Bar */
+  .mobile-only {
+    display: none;
+  }
+  
+  .bottom-app-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    padding: 0.5rem;
+    text-align: center;
+    z-index: 1000;
+  }
+  
+  .bottom-app-bar button {
+    margin: 0 1rem;
+  }
+  
+  /* Slide-up Drawer */
+  .drawer {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    transition: bottom 0.3s ease;
+    z-index: 999;
+    padding: 1rem;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  
+  .drawer-content {
+    margin-bottom: 2rem;
+  }
+  
+  .close-drawer {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .game-layout {
+      flex-direction: column;
+    }
+  
+    .desktop-only {
+      display: none;
+    }
+  
+    .mobile-only {
+      display: block;
+    }
+  
+    .card-section {
+      width: 100%;
+    }
+  
+    .bingo-card {
+      height: auto; /* Allow natural height on mobile */
+    }
+  
+    .bingo-card td {
+      font-size: 3vw; /* Larger relative font for mobile */
+    }
+  
+    .tile-content {
+      font-size: 3vw;
+    }
+    /* Mobile-friendly home page tweaks */
+    .welcome-container h1 {
+      font-size: 6vw;
+      margin-bottom: 1rem;
+    }
+    .welcome-container h2 {
+      font-size: 5vw;
+      margin-bottom: 1rem;
+    }
+    .button-group button {
+      font-size: 4vw;
+      padding: 1rem 0.5rem;
+      margin: 0.5rem 0;
+    }
+    form input, form select {
+      width: 100%;
+      font-size: 4vw;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .win-conditions-grid {
+      grid-template-columns: 1fr !important;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .win-conditions-grid label {
+      font-size: 4vw;
+      padding: 0.75rem;
+      height: auto;
+      display: block;
+    }
+  }
+
+/* Mobile drawer leaderboard styles */
+@media (max-width: 768px) {
+  #drawer-leaderboard {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  #drawer-leaderboard th,
+  #drawer-leaderboard td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+  }
+  #drawer-leaderboard th {
+    background-color: #FF69B4;
+    color: white;
+  }
+}

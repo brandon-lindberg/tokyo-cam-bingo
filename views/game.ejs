@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tokyo Cam Bingo</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
@@ -10,7 +11,7 @@
 <body data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>">
   <div class="container">
     <div class="game-header">
-      <h1>Game | Rules: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.join(', ') : 'None' %></h1>
+      <h1 style="font-size: 0.9rem;">Win Conditions: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.join(', ') : 'None' %></h1>
       <% if (currentPlayer.isHost) { %>
         <button onclick="copyGameCode()">Copy Code</button>
       <% } %>
@@ -60,14 +61,14 @@
         <% } %>
       </div>
       
-      <div class="leaderboard-section">
+      <div class="leaderboard-section desktop-only">
         <h2>Leaderboard</h2>
         <table id="leaderboard">
           <thead>
             <tr>
               <th>Rank</th>
               <th>Player</th>
-              <th>Score (Lines)</th>
+              <th>Lines</th>
               <th>Stamped Tiles</th>
             </tr>
           </thead>
@@ -77,6 +78,19 @@
         </table>
       </div>
     </div>
+  </div>
+
+  <!-- Bottom App Bar for Mobile -->
+  <div class="bottom-app-bar mobile-only">
+    <button onclick="toggleDrawer('leaderboard')">Leaderboard</button>
+  </div>
+
+  <!-- Slide-up Drawer -->
+  <div id="drawer" class="drawer">
+    <div class="drawer-content">
+      <!-- Content populated dynamically -->
+    </div>
+    <button class="close-drawer" onclick="closeDrawer()">Close</button>
   </div>
 
   <!-- Modal for opponent cards -->
@@ -379,6 +393,113 @@
       modalRerollState = { type: '', arg: '', selectedCells: [], clickListener: null };
       document.getElementById('modal-reroll-type').value = '';
     }
+
+    // Drawer functions
+    function toggleDrawer(contentType) {
+      const drawer = document.getElementById('drawer');
+      const drawerContent = drawer.querySelector('.drawer-content');
+      drawerContent.innerHTML = '';
+      if (drawer.style.bottom === '0px') {
+        closeDrawer();
+      } else {
+        if (contentType === 'leaderboard') {
+          const table = document.createElement('table');
+          table.id = 'drawer-leaderboard';
+          table.innerHTML = `
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Player</th>
+                <th>Lines</th>
+                <th>Stamped Tiles</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          `;
+          drawerContent.appendChild(table);
+          updateDrawerLeaderboard(allPlayers);
+        } // Add more for other types if needed
+        drawer.style.bottom = '0px';
+      }
+    }
+
+    function closeDrawer() {
+      document.getElementById('drawer').style.bottom = '-100%';
+    }
+
+    function updateDrawerLeaderboard(players) {
+      const leaderboardBody = document.querySelector('#drawer-leaderboard tbody');
+      leaderboardBody.innerHTML = ''; // Clear existing
+
+      // Compute scores (same as main leaderboard)
+      const scoredPlayers = players.map(player => {
+        const card = player.card;
+        let score = 0;
+        let stampedCount = 0;
+
+        card.flat().forEach(tile => {
+          if (tile.stamped) stampedCount++;
+        });
+
+        score += card.filter(row => row.every(t => t.stamped)).length;
+
+        for (let col = 0; col < 5; col++) {
+          let complete = true;
+          for (let row = 0; row < 5; row++) {
+            if (!card[row][col].stamped) {
+              complete = false;
+              break;
+            }
+          }
+          if (complete) score++;
+        }
+
+        let mainComplete = true;
+        let antiComplete = true;
+        for (let i = 0; i < 5; i++) {
+          if (!card[i][i].stamped) mainComplete = false;
+          if (!card[i][4 - i].stamped) antiComplete = false;
+        }
+        if (mainComplete) score++;
+        if (antiComplete) score++;
+
+        return { id: player.id, name: player.name, score, stampedCount };
+      });
+
+      scoredPlayers.sort((a, b) => b.score - a.score || b.stampedCount - a.stampedCount);
+
+      scoredPlayers.forEach((p, index) => {
+        const tr = document.createElement('tr');
+        const nameTd = `<td>${p.id === playerId ? p.name : `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>`}</td>`;
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          ${nameTd}
+          <td>${p.score}</td>
+          <td>${p.stampedCount}</td>
+        `;
+        leaderboardBody.appendChild(tr);
+      });
+    }
+    // Swipe to close drawer on mobile via downward swipe gesture
+    (function() {
+      const drawerEl = document.getElementById('drawer');
+      let drawerStartY = null;
+      drawerEl.addEventListener('touchstart', function(e) {
+        // Only start if drawer is open
+        if (drawerEl.style.bottom === '0px') {
+          drawerStartY = e.touches[0].clientY;
+        }
+      });
+      drawerEl.addEventListener('touchmove', function(e) {
+        if (drawerStartY === null) return;
+        const touchY = e.touches[0].clientY;
+        const delta = touchY - drawerStartY;
+        if (delta > 50) {
+          closeDrawer();
+          drawerStartY = null;
+        }
+      });
+    })();
   </script>
 </body>
 </html>

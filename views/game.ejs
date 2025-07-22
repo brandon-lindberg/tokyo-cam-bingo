@@ -228,6 +228,27 @@
     document.querySelectorAll('#card-<%= currentPlayer.id %> td').forEach(td => {
       td.addEventListener('click', (e) => {
         if (isGameOver || td.closest('table').classList.contains('reroll-mode')) return;
+        // Animate hanko press centered on tile
+        (function animateHankoPress(el) {
+          const rect = el.getBoundingClientRect();
+          const tableEl = el.closest('table');
+          tableEl.classList.add('no-cursor');
+          const stamp = document.createElement('div');
+          stamp.className = 'hanko-press';
+          // Size the stamp to 80% of the tile
+          stamp.style.width = (rect.width * 0.8) + 'px';
+          stamp.style.height = (rect.height * 0.8) + 'px';
+          // Position at center of tile, adjusted for page scroll
+          const x = rect.left + window.scrollX + (rect.width / 2);
+          const y = rect.top + window.scrollY + (rect.height / 2);
+          stamp.style.left = x + 'px';
+          stamp.style.top = y + 'px';
+          document.body.appendChild(stamp);
+          stamp.addEventListener('animationend', () => {
+            stamp.remove();
+            tableEl.classList.remove('no-cursor');
+          });
+        })(td);
         const row = td.dataset.row;
         const col = td.dataset.col;
         socket.emit('stamp', { gameId, playerId, row, col });

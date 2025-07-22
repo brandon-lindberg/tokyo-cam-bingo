@@ -545,3 +545,22 @@ body {
   opacity: 0.6;
   pointer-events: none;
 }
+
+/* Hanko press animation */
+@keyframes hanko-press {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+.hanko-press {
+  position: absolute;
+  background: url('/images/hanko.png') center center / contain no-repeat;
+  pointer-events: none;
+  animation: hanko-press 0.3s ease-out forwards;
+  transform-origin: center center;
+}
+
+/* Hide cursor during animation on own card */
+.own-card.no-cursor td {
+  cursor: none !important;
+}

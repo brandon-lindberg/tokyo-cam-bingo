@@ -41,7 +41,7 @@
     <div class="game-layout">
       <div class="card-section">
         <h2>Your Card</h2>
-        <table id="card-<%= currentPlayer.id %>" class="bingo-card">
+        <table id="card-<%= currentPlayer.id %>" class="bingo-card own-card">
           <% currentPlayer.card.forEach((row, r) => { %>
             <tr>
               <% row.forEach((tile, c) => { %>

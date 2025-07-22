@@ -216,6 +216,7 @@ body {
   .mobile-only {
     display: none;
   }
+  
   .bottom-app-bar {
     position: fixed;
     bottom: 0;
@@ -518,4 +519,29 @@ body {
   .chat-icon-wrapper {
     display: none !important;
   }
+}
+
+/* Custom cursor for own card; adjust hotspot (half width and full height of cursor image) */
+.own-card td:not(.stamped) {
+  cursor: url('/images/hanko.png') 50 100, auto;
+}
+
+/* Hanko stamp overlay for own card: centered with tile content */
+.own-card td.stamped {
+  background-color: transparent !important;
+  cursor: default !important;
+}
+.own-card td.stamped .tile-content::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  background-image: url('/images/tcb_stamp.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.6;
+  pointer-events: none;
 }

@@ -37,8 +37,14 @@ body {
   
   .container {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 1rem;
+    margin-left: 3rem;
+  }
+  
+  /* Ensure no left padding on mobile */
+  @media (max-width: 768px) {
+    .game-page {
+      padding-left: 0;
+    }
   }
   
   /* Welcome Page Specific */
@@ -128,8 +134,9 @@ body {
   
   .bingo-card {
     border-collapse: collapse;
-    margin: 1rem 0;
+    margin: 1rem auto;
     width: 100%;
+    max-width: 80vh;
     table-layout: fixed;
   }
   
@@ -187,6 +194,14 @@ body {
     background-color: #FF69B4; /* Hot pink header */
     color: white;
   }
+
+/* Truncate player names to 12 characters in desktop leaderboard */
+#leaderboard td:nth-child(2) {
+  max-width: 11ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
   
   /* Forms and Other */
   form {
@@ -341,6 +356,12 @@ body {
     background-color: #FF69B4;
     color: white;
   }
+  #drawer-leaderboard td:nth-child(2) {
+    max-width: 11ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 /* Winner modal overlay */
@@ -487,7 +508,7 @@ body {
   width: 16px;
   height: 16px;
   font-size: 10px;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 }
@@ -563,4 +584,51 @@ body {
 /* Hide cursor during animation on own card */
 .own-card.no-cursor td {
   cursor: none !important;
+}
+
+/* Left sidebar styling */
+.sidebar {
+  max-width: 18rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  padding: 1rem;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+/* Sidebar header: copy code and chat toggle */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Leaderboard takes available space */
+.leaderboard-section {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Reroll section sticks to bottom */
+.reroll-section {
+  margin-top: auto;
+}
+
+/* Hide sidebar on mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+/* Shift content right on desktop */
+@media (min-width: 769px) {
+  .game-page {
+    padding-left: calc(260px + 2rem);
+  }
 }

@@ -40,3 +40,9 @@ model ChatMessage {
   game      Game     @relation(fields: [gameId], references: [id])
   player    Player   @relation(fields: [playerId], references: [id])
 }
+
+model Session {
+  id        String   @id
+  data      String
+  expiresAt DateTime
+}

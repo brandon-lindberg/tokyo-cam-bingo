@@ -8,6 +8,7 @@ const fs = require('fs');
 const itemsList = JSON.parse(fs.readFileSync('items.json'));
 const uuid = require('uuid');
 const session = require('express-session');
+const { PrismaSessionStore } = require('@quixo3/prisma-session-store')(session);
 require('dotenv').config();
 
 app.set('view engine', 'ejs');
@@ -15,9 +16,18 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({
-  secret: 'your-secret-key', // Change this to a secure random value in production
+  store: new PrismaSessionStore(
+    prisma,
+    {
+      checkPeriod: 2 * 60 * 1000, // prune expired sessions every 2 minutes
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined
+    }
+  ),
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
+  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 } // 1 week
 }));
 
 // Helper to generate random code

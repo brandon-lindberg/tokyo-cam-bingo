@@ -39,7 +39,7 @@
     <div class="reroll-section">
       <h3>Re-roll for Yourself</h3>
       <button onclick="enterRerollMode('<%= currentPlayer.id %>')">Enter Re-roll Mode</button>
-      <div id="reroll-mode-<%= currentPlayer.id %>">
+      <div id="reroll-mode-<%= currentPlayer.id %>" style="display:none;">
         <select id="reroll-type-<%= currentPlayer.id %>" onchange="handleTypeChange('<%= currentPlayer.id %>')">
           <option value="">Select Type</option>
           <option value="tile">Tile</option>

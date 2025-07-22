@@ -233,6 +233,33 @@
         socket.emit('stamp', { gameId, playerId, row, col });
       });
     });
+    // Hanko cursor scaling on own card tiles
+    (function(){
+      const hankoImg = new Image();
+      hankoImg.src = '/images/hanko.png';
+      hankoImg.onload = () => {
+        function applyHankoCursor() {
+          document.querySelectorAll('#card-<%= currentPlayer.id %> td:not(.stamped)').forEach(td => {
+            const width = td.offsetWidth;
+            const height = td.offsetHeight;
+            const scale = 0.8;
+            const cw = Math.round(width * scale);
+            const ch = Math.round(height * scale);
+            const canvas = document.createElement('canvas');
+            canvas.width = cw;
+            canvas.height = ch;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(hankoImg, 0, 0, cw, ch);
+            const xHot = Math.round(cw / 2);
+            const yHot = ch;
+            const dataURL = canvas.toDataURL('image/png');
+            td.style.cursor = `url(${dataURL}) ${xHot} ${yHot}, auto`;
+          });
+        }
+        applyHankoCursor();
+        socket.on('update_state', applyHankoCursor);
+      };
+    })();
 
     function startNewGame() {
       socket.emit('new_game', { gameId });

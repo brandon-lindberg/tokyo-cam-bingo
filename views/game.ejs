@@ -8,25 +8,58 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/game.js"></script>
 </head>
-<body data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>">
-  <div class="container">
-    <div class="game-header">
-      <h1 style="font-size: 0.9rem;">Win Conditions: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.join(', ') : 'None' %></h1>
-      <div class="header-controls" style="display:flex;;gap:0.5rem;">
-        <% if (currentPlayer.isHost) { %>
-          <div class="copy-code-wrapper">
-            <button onclick="copyGameCode()">Copy Code</button>
-            <span id="copy-confirm" style="display:block;margin-top:0.25rem;color:#4CAF50;visibility:hidden;">Code copied!</span>
-          </div>
-        <% } %>
-        <div class="chat-icon-wrapper" style="position:relative;">
-          <button id="chat-toggle-desktop" class="chat-toggle-button">
-            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
-          </button>
-          <span id="chat-notification" class="notification-badge" style="display:none;">!</span>
-        </div>
+<body class="game-page" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>">
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="copy-code-wrapper">
+      <button onclick="copyGameCode()">Copy Code</button>
+      <span id="copy-confirm" style="display:block;margin-top:0.25rem;color:#4CAF50;visibility:hidden;">Code copied!</span>
+    </div>
+    <div class="chat-icon-wrapper">
+      <button id="chat-toggle-desktop" class="chat-toggle-button">
+        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
+      </button>
+      <span id="chat-notification" class="notification-badge"></span>
+    </div>
+  </div>
+  <div class="leaderboard-section">
+    <table id="leaderboard">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>Lines</th>
+          <th>Stamped Tiles</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <% if (currentPlayer.isHost) { %>
+    <div class="reroll-section">
+      <h3>Re-roll for Yourself</h3>
+      <button onclick="enterRerollMode('<%= currentPlayer.id %>')">Enter Re-roll Mode</button>
+      <div id="reroll-mode-<%= currentPlayer.id %>">
+        <select id="reroll-type-<%= currentPlayer.id %>" onchange="handleTypeChange('<%= currentPlayer.id %>')">
+          <option value="">Select Type</option>
+          <option value="tile">Tile</option>
+          <option value="row">Row</option>
+          <option value="column">Column</option>
+          <option value="diagonal">Diagonal</option>
+          <option value="card">Whole Card</option>
+        </select>
+        <p id="selection-instruct-<%= currentPlayer.id %>">Click on the card to select the area.</p>
+        <button onclick="confirmReroll('<%= currentPlayer.id %>')">Confirm Re-roll</button>
+        <button onclick="exitRerollMode('<%= currentPlayer.id %>')">Cancel</button>
       </div>
     </div>
+  <% } %>
+</aside>
+  <div class="container">
+    <div class="game-header">
+    <h1 style="font-size: 0.9rem;">Win Conditions: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.join(', ') : 'None' %></h1>
+    <!-- header-controls removed in favor of sidebar -->
+  </div>
     
     <div id="game-over" style="display: none; font-size: 24px; color: red; margin-bottom: 20px;">
       Game Over! <span id="winner-name"></span> wins!
@@ -40,7 +73,6 @@
     
     <div class="game-layout">
       <div class="card-section">
-        <h2>Your Card</h2>
         <table id="card-<%= currentPlayer.id %>" class="bingo-card own-card">
           <% currentPlayer.card.forEach((row, r) => { %>
             <tr>
@@ -53,41 +85,10 @@
           <% }) %>
         </table>
         
-        <% if (currentPlayer.isHost) { %>
-          <h3>Re-roll for Yourself</h3>
-          <button onclick="enterRerollMode('<%= currentPlayer.id %>')">Enter Re-roll Mode</button>
-          <div id="reroll-mode-<%= currentPlayer.id %>" style="display: none;">
-            <select id="reroll-type-<%= currentPlayer.id %>" onchange="handleTypeChange('<%= currentPlayer.id %>')">
-              <option value="">Select Type</option>
-              <option value="tile">Tile</option>
-              <option value="row">Row</option>
-              <option value="column">Column</option>
-              <option value="diagonal">Diagonal</option>
-              <option value="card">Whole Card</option>
-            </select>
-            <p id="selection-instruct-<%= currentPlayer.id %>">Click on the card to select the area.</p>
-            <button onclick="confirmReroll('<%= currentPlayer.id %>')">Confirm Re-roll</button>
-            <button onclick="exitRerollMode('<%= currentPlayer.id %>')">Cancel</button>
-          </div>
-        <% } %>
+        <!-- Original host reroll controls removed here -->
       </div>
       
-      <div class="leaderboard-section desktop-only">
-        <h2>Leaderboard</h2>
-        <table id="leaderboard">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Player</th>
-              <th>Lines</th>
-              <th>Stamped Tiles</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Populated by JS -->
-          </tbody>
-        </table>
-      </div>
+      <!-- original leaderboard-section removed in favor of sidebar -->
     </div>
   </div>
 
@@ -178,6 +179,10 @@
         });
       }
       updateLeaderboard(players);
+      // If mobile drawer leaderboard is open, refresh it
+      if (document.getElementById('drawer-leaderboard')) {
+        updateDrawerLeaderboard(players);
+      }
       
       if (game.status === 'ended' && !isGameOver) {
         isGameOver = true;

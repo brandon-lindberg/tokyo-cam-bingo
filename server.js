@@ -8,8 +8,14 @@ const fs = require('fs');
 const itemsList = JSON.parse(fs.readFileSync('items.json'));
 const uuid = require('uuid');
 const session = require('express-session');
-const { PrismaSessionStore } = require('@quixo3/prisma-session-store')(session);
+const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 require('dotenv').config();
+
+// Ensure session secret is provided
+if (!process.env.SESSION_SECRET) {
+  console.error('Error: SESSION_SECRET environment variable is required');
+  process.exit(1);
+}
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));

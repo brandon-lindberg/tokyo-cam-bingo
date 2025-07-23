@@ -175,7 +175,7 @@ body {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    font-size: 1.5vw; /* Adjust font size based on viewport width */
+    font-size: 1.2vw; /* Adjust font size based on viewport width */
     word-break: break-word;
     overflow: hidden;
   }
@@ -630,8 +630,34 @@ body {
 /* Reroll section sticks to bottom */
 .reroll-section {
   margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    align-items: flex-end;
+    gap: 1rem;
 }
 
+/* Reroll controls wrapper styling */
+.reroll-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Streamer Mode Overrides */
+body.streamer-mode {
+  background-color: #00B140 !important;
+}
+body.streamer-mode .bingo-card td {
+  background-color: rgba(255, 255, 255, 0.50) !important;
+}
+body.streamer-mode .game-header h1 {
+  display: none !important;
+}
+/* Hide streamer toggle in reroll mode */
+.reroll-section.reroll-active #streamer-toggle-btn {
+  display: none !important;
+}
 /* Hide sidebar on mobile */
 @media (max-width: 768px) {
   .sidebar {

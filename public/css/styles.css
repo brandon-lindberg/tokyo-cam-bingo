@@ -658,7 +658,7 @@ body.streamer-mode {
   background-color: #00B140 !important;
 }
 body.streamer-mode .bingo-card td {
-  background-color: rgba(255, 255, 255, 0.50) !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
 }
 body.streamer-mode .game-header h1 {
   display: none !important;
@@ -678,5 +678,7 @@ body.streamer-mode .game-header h1 {
 @media (min-width: 769px) {
   .game-page {
     padding-left: calc(260px + 2rem);
+    display: flex;
+    justify-content: center;
   }
 }

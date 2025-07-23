@@ -37,23 +37,25 @@
   </div>
   <% if (currentPlayer.isHost) { %>
     <div class="reroll-section">
-      <h3>Re-roll for Yourself</h3>
-      <button onclick="enterRerollMode('<%= currentPlayer.id %>')">Enter Re-roll Mode</button>
-      <div id="reroll-mode-<%= currentPlayer.id %>" style="display:none;">
-        <select id="reroll-type-<%= currentPlayer.id %>" onchange="handleTypeChange('<%= currentPlayer.id %>')">
-          <option value="">Select Type</option>
-          <option value="tile">Tile</option>
-          <option value="row">Row</option>
-          <option value="column">Column</option>
-          <option value="diagonal">Diagonal</option>
-          <option value="card">Whole Card</option>
-          <option value="random">Random Tile</option>
-        </select>
-        <p id="selection-instruct-<%= currentPlayer.id %>">Click on the card to select the area.</p>
-        <button id="select-random-button-<%= currentPlayer.id %>" style="display:none;" onclick="selectRandomTile('<%= currentPlayer.id %>')">Select Random Tile</button>
-        <button onclick="confirmReroll('<%= currentPlayer.id %>')">Confirm Re-roll</button>
-        <button onclick="exitRerollMode('<%= currentPlayer.id %>')">Cancel</button>
+      <div class="reroll-controls">
+        <button onclick="enterRerollMode('<%= currentPlayer.id %>')">Enter Re-roll Mode</button>
+        <div id="reroll-mode-<%= currentPlayer.id %>" style="display:none;">
+          <select id="reroll-type-<%= currentPlayer.id %>" onchange="handleTypeChange('<%= currentPlayer.id %>')">
+            <option value="">Select Type</option>
+            <option value="tile">Tile</option>
+            <option value="row">Row</option>
+            <option value="column">Column</option>
+            <option value="diagonal">Diagonal</option>
+            <option value="card">Whole Card</option>
+            <option value="random">Random Tile</option>
+          </select>
+          <p id="selection-instruct-<%= currentPlayer.id %>">Click on the card to select the area.</p>
+          <button id="select-random-button-<%= currentPlayer.id %>" style="display:none;" onclick="selectRandomTile('<%= currentPlayer.id %>')">Select Random Tile</button>
+          <button onclick="confirmReroll('<%= currentPlayer.id %>')">Confirm Re-roll</button>
+          <button onclick="exitRerollMode('<%= currentPlayer.id %>')">Cancel</button>
+        </div>
       </div>
+      <button id="streamer-toggle-btn" onclick="toggleStreamerMode()">Streamer Mode: Off</button>
     </div>
   <% } %>
 </aside>
@@ -712,6 +714,17 @@
       if (!chatPanel.classList.contains('open')) chatNotification.style.display = 'block';
     });
   })();
+  </script>
+  <script>
+    function toggleStreamerMode() {
+      document.body.classList.toggle('streamer-mode');
+      const btn = document.getElementById('streamer-toggle-btn');
+      if (document.body.classList.contains('streamer-mode')) {
+        btn.textContent = 'Streamer Mode: On';
+      } else {
+        btn.textContent = 'Streamer Mode: Off';
+      }
+    }
   </script>
 </body>
 </html>

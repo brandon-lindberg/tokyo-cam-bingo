@@ -29,6 +29,9 @@ function enterRerollMode(playerId) {
   const handleClick = (e) => handleCardClick(playerId, e);
   rerollStates[playerId].clickListener = handleClick;
   table.addEventListener('click', handleClick);
+  // Hide streamer toggle button when entering reroll mode
+  const rerollSection = document.querySelector('.reroll-section');
+  if (rerollSection) rerollSection.classList.add('reroll-active');
 }
 
 function handleTypeChange(playerId) {
@@ -156,6 +159,9 @@ function confirmReroll(playerId) {
 }
 
 function exitRerollMode(playerId) {
+  // Show streamer toggle button again after exiting reroll mode
+  const rerollSection = document.querySelector('.reroll-section');
+  if (rerollSection) rerollSection.classList.remove('reroll-active');
   const modeDiv = document.getElementById(`reroll-mode-${playerId}`);
   modeDiv.style.display = 'none';
 

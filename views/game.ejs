@@ -58,6 +58,11 @@
       <button id="streamer-toggle-btn" onclick="toggleStreamerMode()">Streamer Mode: Off</button>
     </div>
   <% } %>
+  <% if (!currentPlayer.isHost) { %>
+    <div class="nonhost-streamer-section">
+      <button id="streamer-toggle-btn-nonhost" onclick="toggleStreamerModeNonHost()">Streamer Mode: Off</button>
+    </div>
+  <% } %>
 </aside>
   <div class="container">
     <div class="game-header">
@@ -723,6 +728,16 @@
         btn.textContent = 'Streamer Mode: On';
       } else {
         btn.textContent = 'Streamer Mode: Off';
+      }
+    }
+    /** Toggle streamer mode for non-host players */
+    function toggleStreamerModeNonHost() {
+      document.body.classList.toggle('streamer-mode');
+      const btnNH = document.getElementById('streamer-toggle-btn-nonhost');
+      if (document.body.classList.contains('streamer-mode')) {
+        btnNH.textContent = 'Streamer Mode: On';
+      } else {
+        btnNH.textContent = 'Streamer Mode: Off';
       }
     }
   </script>

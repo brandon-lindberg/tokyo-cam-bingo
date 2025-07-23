@@ -133,7 +133,8 @@ body {
   }
   
   .bingo-card {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0.5rem;
     margin: 1rem auto;
     width: 100%;
     max-width: 80vh;
@@ -141,12 +142,14 @@ body {
   }
   
   .bingo-card td {
-    border: 1px solid #ccc;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     padding: 0;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
     position: relative;
+    background-color: #fff;
   }
   
   .bingo-card td::before {

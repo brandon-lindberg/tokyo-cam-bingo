@@ -13,6 +13,12 @@ function enterRerollMode(playerId) {
   const modeDiv = document.getElementById(`reroll-mode-${playerId}`);
   modeDiv.style.display = 'block';
 
+  // Reset reroll controls for a fresh start
+  const typeSelect = document.getElementById(`reroll-type-${playerId}`);
+  typeSelect.value = '';
+  const randomBtn = document.getElementById(`select-random-button-${playerId}`);
+  randomBtn.style.display = 'none';
+
   const instruct = document.getElementById(`selection-instruct-${playerId}`);
   instruct.style.display = 'none'; // Initially hidden until type selected
 
@@ -35,13 +41,20 @@ function handleTypeChange(playerId) {
   clearSelection(playerId);
 
   const instruct = document.getElementById(`selection-instruct-${playerId}`);
+  const randomBtn = document.getElementById(`select-random-button-${playerId}`);
   if (type === 'card') {
     instruct.style.display = 'none';
+    randomBtn.style.display = 'none';
     selectCard(playerId);
+  } else if (type === 'random') {
+    instruct.style.display = 'none';
+    randomBtn.style.display = 'block';
   } else if (type) {
     instruct.style.display = 'block';
+    randomBtn.style.display = 'none';
   } else {
     instruct.style.display = 'none';
+    randomBtn.style.display = 'none';
   }
 }
 
@@ -132,14 +145,13 @@ function confirmReroll(playerId) {
     alert('Please select a type and an area to re-roll.');
     return;
   }
-
+  const emitType = state.type === 'random' ? 'tile' : state.type;
   window.socket.emit('reroll', {
     gameId,
     targetPlayerId: playerId,
-    type: state.type,
+    type: emitType,
     arg: state.arg
   });
-
   exitRerollMode(playerId);
 }
 
@@ -215,4 +227,33 @@ function updateLeaderboard(players) {
     `;
     leaderboardBody.appendChild(tr);
   });
+}
+
+// Add helper to pick a random tile
+function selectRandomTile(playerId) {
+  const state = rerollStates[playerId];
+  if (!state) return;
+  clearSelection(playerId);
+  const r = Math.floor(Math.random() * 5);
+  const c = Math.floor(Math.random() * 5);
+  state.arg = `${r+1},${c+1}`;
+  state.selectedCells = [[r, c]];
+  highlightSelection(playerId, state.selectedCells);
+}
+
+// Modify confirmReroll to treat random as tile
+function confirmReroll(playerId) {
+  const state = rerollStates[playerId];
+  if (!state || !state.type || (state.type !== 'card' && !state.arg)) {
+    alert('Please select a type and an area to re-roll.');
+    return;
+  }
+  const emitType = state.type === 'random' ? 'tile' : state.type;
+  window.socket.emit('reroll', {
+    gameId,
+    targetPlayerId: playerId,
+    type: emitType,
+    arg: state.arg
+  });
+  exitRerollMode(playerId);
 }

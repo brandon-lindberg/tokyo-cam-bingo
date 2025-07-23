@@ -47,8 +47,10 @@
           <option value="column">Column</option>
           <option value="diagonal">Diagonal</option>
           <option value="card">Whole Card</option>
+          <option value="random">Random Tile</option>
         </select>
         <p id="selection-instruct-<%= currentPlayer.id %>">Click on the card to select the area.</p>
+        <button id="select-random-button-<%= currentPlayer.id %>" style="display:none;" onclick="selectRandomTile('<%= currentPlayer.id %>')">Select Random Tile</button>
         <button onclick="confirmReroll('<%= currentPlayer.id %>')">Confirm Re-roll</button>
         <button onclick="exitRerollMode('<%= currentPlayer.id %>')">Cancel</button>
       </div>
@@ -130,8 +132,10 @@
           <option value="column">Column</option>
           <option value="diagonal">Diagonal</option>
           <option value="card">Whole Card</option>
+          <option value="random">Random Tile</option>
         </select>
         <p id="modal-selection-instruct">Click on the card to select the area.</p>
+        <button id="select-random-modal-button" style="display:none;" onclick="selectModalRandomTile()">Select Random Tile</button>
         <button id="modal-confirm-reroll">Confirm Re-roll</button>
         <button onclick="exitModalReroll()">Cancel</button>
       </div>
@@ -341,6 +345,18 @@
       const modalReroll = document.getElementById('modal-reroll');
       modalReroll.style.display = isHost ? 'block' : 'none';
       if (isHost) {
+        // Reset modal reroll controls for a fresh start
+        const typeSelect = document.getElementById('modal-reroll-type');
+        typeSelect.value = '';
+        const randomBtn = document.getElementById('select-random-modal-button');
+        randomBtn.style.display = 'none';
+        const instruct = document.getElementById('modal-selection-instruct');
+        instruct.style.display = 'none';
+        clearModalSelection();
+        const modalTable = document.getElementById('modal-card');
+        modalTable.classList.remove('reroll-mode');
+        if (modalRerollState.clickListener) modalTable.removeEventListener('click', modalRerollState.clickListener);
+        modalRerollState = { type: '', arg: '', selectedCells: [], clickListener: null };
         // Bind re-roll for modal
         modalReroll.dataset.targetPlayerId = targetPlayerId;
         document.getElementById('modal-reroll-type').onchange = () => handleModalTypeChange();
@@ -371,13 +387,20 @@
       clearModalSelection();
 
       const instruct = document.getElementById('modal-selection-instruct');
+      const randomBtn = document.getElementById('select-random-modal-button');
       if (type === 'card') {
         instruct.style.display = 'none';
+        randomBtn.style.display = 'none';
         selectModalCard();
+      } else if (type === 'random') {
+        instruct.style.display = 'none';
+        randomBtn.style.display = 'block';
       } else if (type) {
         instruct.style.display = 'block';
+        randomBtn.style.display = 'none';
       } else {
         instruct.style.display = 'none';
+        randomBtn.style.display = 'none';
       }
 
       const table = document.getElementById('modal-card');
@@ -467,6 +490,17 @@
       state.arg = '';
     }
 
+    // Add helper for random tile selection in modal
+    function selectModalRandomTile() {
+      const state = modalRerollState;
+      clearModalSelection();
+      const r = Math.floor(Math.random() * 5);
+      const c = Math.floor(Math.random() * 5);
+      state.arg = `${r+1},${c+1}`;
+      state.selectedCells = [[r, c]];
+      highlightModalSelection(state.selectedCells);
+    }
+
     function confirmModalReroll() {
       const state = modalRerollState;
       if (!state || !state.type || (state.type !== 'card' && !state.arg)) {
@@ -475,10 +509,11 @@
       }
 
       const targetPlayerId = document.getElementById('modal-reroll').dataset.targetPlayerId;
+      const emitType = state.type === 'random' ? 'tile' : state.type;
       window.socket.emit('reroll', {
         gameId,
         targetPlayerId,
-        type: state.type,
+        type: emitType,
         arg: state.arg
       });
 

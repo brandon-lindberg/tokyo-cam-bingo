@@ -1,4 +1,11 @@
 /* Global Styles */
+html {
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #F0F8FF; /* Light blue background */
@@ -452,6 +459,7 @@ body {
 }
 .chat-input input {
   flex: 1;
+  min-width: 0;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -591,7 +599,7 @@ body {
 
 /* Left sidebar styling */
 .sidebar {
-  max-width: 18rem;
+  max-width: 19rem;
   position: fixed;
   top: 0;
   left: 0;

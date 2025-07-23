@@ -460,9 +460,11 @@ body {
 .chat-input input {
   flex: 1;
   min-width: 0;
+  font-size: 16px;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-family: 'Roboto', sans-serif;
 }
 .chat-input button {
   background-color: #00BFFF;

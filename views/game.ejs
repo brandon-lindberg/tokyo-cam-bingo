@@ -19,6 +19,7 @@
       <button id="chat-toggle-desktop" class="chat-toggle-button">
         <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
       </button>
+      <button id="flag-button" class="chat-toggle-button" title="Throw Flag">🚩</button>
       <span id="chat-notification" class="notification-badge"></span>
     </div>
   </div>
@@ -107,6 +108,7 @@
     <button id="chat-toggle-mobile" class="chat-toggle-button">
       <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
     </button>
+    <button id="flag-button-mobile" class="chat-toggle-button" title="Throw Flag">🚩</button>
   </div>
 
   <!-- Slide-up Drawer -->
@@ -145,6 +147,39 @@
         <button id="select-random-modal-button" style="display:none;" onclick="selectModalRandomTile()">Select Random Tile</button>
         <button id="modal-confirm-reroll">Confirm Re-roll</button>
         <button onclick="exitModalReroll()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Vote Modal -->
+  <div id="vote-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:1002;">
+    <div style="background:#fff; padding:2rem; border-radius:8px; text-align:center; max-width:90%; margin:auto;">
+      <h2 id="vote-modal-text">Vote on Flagged Stamp</h2>
+      <p id="vote-modal-message"></p>
+      <div id="vote-buttons">
+        <button id="vote-yes">Yes</button>
+        <button id="vote-no">No</button>
+      </div>
+      <p id="vote-count" style="margin-top:1rem;">Votes: 0 yes, 0 no</p>
+      <div id="vote-result" style="display:none; margin-top:1rem;">
+        <p id="vote-outcome"></p>
+        <ul id="vote-details"></ul>
+        <button id="vote-close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flag Select Modal -->
+  <div id="flag-select-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:1002;">
+    <div style="background:#fff; padding:2rem; border-radius:8px; text-align:center; max-width:90%; margin:auto;">
+      <h2>Throw Flag</h2>
+      <p>Select a player to challenge:</p>
+      <select id="flag-target-select">
+        <option value="">-- Choose Player --</option>
+      </select>
+      <div style="margin-top:1rem;">
+        <button id="flag-confirm">Confirm</button>
+        <button id="flag-cancel">Cancel</button>
       </div>
     </div>
   </div>
@@ -238,6 +273,34 @@
     // Replace native alert with custom modal
     socket.on('win', ({ playerName }) => {
       showWinnerModal(playerName);
+    });
+    // Flag selection modal logic
+    const flagSelectModal = document.getElementById('flag-select-modal');
+    const flagBtn = document.getElementById('flag-button');
+    const flagBtnMobile = document.getElementById('flag-button-mobile');
+    const flagConfirmBtn = document.getElementById('flag-confirm');
+    const flagCancelBtn = document.getElementById('flag-cancel');
+    function openFlagModal() {
+      const select = document.getElementById('flag-target-select');
+      select.innerHTML = '<option value="">-- Choose Player --</option>';
+      allPlayers.forEach(p => {
+        if (p.id !== playerId) {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          opt.textContent = p.name;
+          select.appendChild(opt);
+        }
+      });
+      flagSelectModal.style.display = 'flex';
+    }
+    if (flagBtn) flagBtn.addEventListener('click', openFlagModal);
+    if (flagBtnMobile) flagBtnMobile.addEventListener('click', openFlagModal);
+    flagCancelBtn.addEventListener('click', () => { flagSelectModal.style.display = 'none'; });
+    flagConfirmBtn.addEventListener('click', () => {
+      const targetId = document.getElementById('flag-target-select').value;
+      if (!targetId) return alert('Select a player to challenge');
+      socket.emit('throw_flag', { gameId, flaggerId: playerId, targetPlayerId: targetId });
+      flagSelectModal.style.display = 'none';
     });
     
     // Stamp on click (only own card)
@@ -720,6 +783,7 @@
     });
   })();
   </script>
+  <script src="/js/vote.js"></script>
   <script>
     function toggleStreamerMode() {
       document.body.classList.toggle('streamer-mode');

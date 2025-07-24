@@ -547,6 +547,10 @@ body {
 .chat-toggle-button:hover {
   background-color: #009ACD;
 }
+.chat-icon-wrapper {
+  display: flex;
+  align-items: flex-start;
+}
 
 /* Hide desktop chat icon on mobile */
 @media (max-width: 768px) {

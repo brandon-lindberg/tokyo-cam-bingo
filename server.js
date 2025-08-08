@@ -11,6 +11,10 @@ const session = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 require('dotenv').config();
 
+// In-memory flags and voting state
+const flagsLeft = {}; // playerId -> remaining flags
+const votesByGame = {}; // gameId -> active vote state
+
 // Ensure session secret is provided
 if (!process.env.SESSION_SECRET) {
   console.error('Error: SESSION_SECRET environment variable is required');
@@ -228,6 +232,10 @@ app.get('/get-code', async (req, res) => {
 io.on('connection', (socket) => {
   socket.on('join_room', async ({ gameId, playerId }) => {
     socket.join(gameId);
+    // Initialize flags for player
+    if (flagsLeft[playerId] === undefined) {
+      flagsLeft[playerId] = 2;
+    }
     const game = await prisma.game.findUnique({
       where: { id: gameId },
       include: { players: true },
@@ -319,6 +327,75 @@ io.on('connection', (socket) => {
       },
       playerName: playerInfo.name,
     });
+  });
+
+  // Handle throwing a flag for a questionable stamp
+  socket.on('throw_flag', async ({ gameId, flaggerId, targetPlayerId, row, col }) => {
+    // Prevent concurrent votes
+    if (votesByGame[gameId]) return;
+    // Ensure flagger has flags
+    if (!flagsLeft[flaggerId] || flagsLeft[flaggerId] <= 0) return;
+
+    // Fetch current game players
+    const gameData = await prisma.game.findUnique({ where: { id: gameId }, include: { players: true } });
+    if (!gameData) return;
+    const players = gameData.players;
+    if (!players || players.length < 2) return; // need at least 2 players
+
+    flagsLeft[flaggerId]--;
+
+    // Initialize vote state (snapshot eligible voters)
+    const voteState = { flaggerId: String(flaggerId), targetPlayerId: String(targetPlayerId), row, col, votes: {}, totalPlayers: 0 };
+    players.forEach(p => { voteState.votes[String(p.id)] = null; });
+    voteState.totalPlayers = Object.keys(voteState.votes).length;
+    votesByGame[gameId] = voteState;
+
+    const flagger = players.find(p => String(p.id) === String(flaggerId));
+    const target = players.find(p => String(p.id) === String(targetPlayerId));
+
+    io.to(gameId).emit('start_vote', {
+      flaggerId: String(flaggerId),
+      flaggerName: flagger?.name || 'Player',
+      targetPlayerId: String(targetPlayerId),
+      targetPlayerName: target?.name || 'Player',
+      row,
+      col
+    });
+  });
+
+  // Handle casting a vote
+  socket.on('cast_vote', ({ gameId, playerId, vote }) => {
+    const voteState = votesByGame[gameId];
+    if (!voteState) return;
+    const pid = String(playerId);
+    if (!(pid in voteState.votes)) return; // ignore non-eligible
+    if (voteState.votes[pid] !== null) return; // already voted
+
+    voteState.votes[pid] = vote === 'yes' ? 'yes' : 'no';
+
+    // Count votes
+    const voteValues = Object.values(voteState.votes);
+    const votesFor = voteValues.filter(v => v === 'yes').length;
+    const votesAgainst = voteValues.filter(v => v === 'no').length;
+    const votesCast = voteValues.filter(v => v !== null).length;
+
+    // Broadcast live update
+    io.to(gameId).emit('vote_update', { votesFor, votesAgainst, votesCast, totalPlayers: voteState.totalPlayers });
+
+    // Check if all eligible voters have voted
+    const allVoted = voteValues.every(v => v === 'yes' || v === 'no');
+    if (allVoted) {
+      const success = votesFor > votesAgainst;
+      io.to(gameId).emit('vote_result', {
+        success,
+        votes: voteState.votes,
+        flaggerId: voteState.flaggerId,
+        targetPlayerId: voteState.targetPlayerId,
+        row: voteState.row,
+        col: voteState.col
+      });
+      delete votesByGame[gameId];
+    }
   });
 });
 

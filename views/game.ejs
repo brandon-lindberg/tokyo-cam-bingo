@@ -115,6 +115,8 @@
   </div>
   <!-- Centered mobile toast for copy code -->
   <div id="copy-toast-mobile" class="mobile-only" style="display:none;">Code copied!</div>
+  <!-- Hidden input used for Safari execCommand copy fallback -->
+  <input id="hidden-copy-input" type="text" readonly style="position:fixed; top:-1000px; left:-1000px; opacity:0; pointer-events:none;" />
 
   <!-- Slide-up Drawer -->
   <div id="drawer" class="drawer">
@@ -222,6 +224,11 @@
     let isGameOver = document.body.dataset.gameStatus === 'ended';
     let allPlayers = []; // Global to store all players
     let modalOpenPlayerId = null; // Track open modal player
+    // Preload game code for host to allow synchronous copy on Safari
+    window.gameCode = null;
+    if (isHost) {
+      fetch('/get-code').then(r => r.ok ? r.text() : '').then(code => { window.gameCode = code || null; });
+    }
     socket.emit('join_room', { gameId, playerId });
     
     // Update state
@@ -381,42 +388,65 @@
     }
 
     function copyGameCode() {
-      fetch('/get-code')
-        .then(res => {
-          if (!res.ok) throw new Error('Failed to fetch code');
-          return res.text();
-        })
-        .then(code => navigator.clipboard.writeText(code))
-        .then(() => {
-          const confirmEl = document.getElementById('copy-confirm');
-          if (confirmEl) {
-            confirmEl.style.visibility = 'visible';
-            confirmEl.style.color = '#4CAF50';
-            confirmEl.textContent = 'Code copied!';
-            setTimeout(() => { confirmEl.style.visibility = 'hidden'; }, 3000);
-          }
-          const toast = document.getElementById('copy-toast-mobile');
-          if (toast) {
-            toast.textContent = 'Code copied!';
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 2000);
-          }
-        })
-        .catch(err => {
-          const confirmEl = document.getElementById('copy-confirm');
-          if (confirmEl) {
-            confirmEl.style.visibility = 'visible';
-            confirmEl.style.color = 'red';
-            confirmEl.textContent = 'Copy failed';
-            setTimeout(() => { confirmEl.style.visibility = 'hidden'; }, 3000);
-          }
-          const toast = document.getElementById('copy-toast-mobile');
-          if (toast) {
-            toast.textContent = 'Copy failed';
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 2000);
-          }
-        });
+      function showSuccess() {
+        const confirmEl = document.getElementById('copy-confirm');
+        if (confirmEl) {
+          confirmEl.style.visibility = 'visible';
+          confirmEl.style.color = '#4CAF50';
+          confirmEl.textContent = 'Code copied!';
+          setTimeout(() => { confirmEl.style.visibility = 'hidden'; }, 3000);
+        }
+        const toast = document.getElementById('copy-toast-mobile');
+        if (toast) {
+          toast.textContent = 'Code copied!';
+          toast.style.display = 'block';
+          setTimeout(() => { toast.style.display = 'none'; }, 2000);
+        }
+      }
+      function showFailWithPrompt(code) {
+        // As a last resort, show a prompt the user can long-press/copy from
+        try { window.prompt('Copy your game code:', code || ''); } catch (e) {}
+        const toast = document.getElementById('copy-toast-mobile');
+        if (toast) {
+          toast.textContent = 'Shown code to copy';
+          toast.style.display = 'block';
+          setTimeout(() => { toast.style.display = 'none'; }, 2000);
+        }
+      }
+      function execCopySync(text) {
+        try {
+          const input = document.getElementById('hidden-copy-input');
+          input.value = text || '';
+          input.focus();
+          input.select();
+          input.setSelectionRange(0, input.value.length);
+          return document.execCommand('copy');
+        } catch (e) { return false; }
+      }
+
+      const doCopy = (code) => {
+        if (!code) return showFailWithPrompt('');
+        // Prefer synchronous execCommand to satisfy Safari gesture requirements
+        if (execCopySync(code)) return showSuccess();
+        // Try modern API as secondary
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(code)
+            .then(showSuccess)
+            .catch(() => showFailWithPrompt(code));
+        } else {
+          showFailWithPrompt(code);
+        }
+      };
+
+      if (window.gameCode) {
+        doCopy(window.gameCode);
+      } else {
+        // Fallback: fetch then attempt copy; if blocked, show prompt
+        fetch('/get-code')
+          .then(res => res.ok ? res.text() : '')
+          .then(code => { window.gameCode = code || null; doCopy(window.gameCode); })
+          .catch(() => showFailWithPrompt(window.gameCode));
+      }
     }
 
     function showPlayerCard(targetPlayerId) {

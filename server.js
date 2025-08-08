@@ -335,26 +335,29 @@ io.on('connection', (socket) => {
     if (votesByGame[gameId]) return;
     // Ensure flagger has flags
     if (!flagsLeft[flaggerId] || flagsLeft[flaggerId] <= 0) return;
-    flagsLeft[flaggerId]--;
 
     // Fetch current game players
     const gameData = await prisma.game.findUnique({ where: { id: gameId }, include: { players: true } });
     if (!gameData) return;
     const players = gameData.players;
+    if (!players || players.length < 2) return; // need at least 2 players
 
-    // Initialize vote state
-    const voteState = { flaggerId, targetPlayerId, row, col, votes: {}, totalPlayers: players.length };
-    players.forEach(p => { voteState.votes[p.id] = null; });
+    flagsLeft[flaggerId]--;
+
+    // Initialize vote state (snapshot eligible voters)
+    const voteState = { flaggerId: String(flaggerId), targetPlayerId: String(targetPlayerId), row, col, votes: {}, totalPlayers: 0 };
+    players.forEach(p => { voteState.votes[String(p.id)] = null; });
+    voteState.totalPlayers = Object.keys(voteState.votes).length;
     votesByGame[gameId] = voteState;
 
-    const flagger = players.find(p => p.id === flaggerId);
-    const target = players.find(p => p.id === targetPlayerId);
+    const flagger = players.find(p => String(p.id) === String(flaggerId));
+    const target = players.find(p => String(p.id) === String(targetPlayerId));
 
     io.to(gameId).emit('start_vote', {
-      flaggerId,
-      flaggerName: flagger.name,
-      targetPlayerId,
-      targetPlayerName: target.name,
+      flaggerId: String(flaggerId),
+      flaggerName: flagger?.name || 'Player',
+      targetPlayerId: String(targetPlayerId),
+      targetPlayerName: target?.name || 'Player',
       row,
       col
     });
@@ -363,19 +366,25 @@ io.on('connection', (socket) => {
   // Handle casting a vote
   socket.on('cast_vote', ({ gameId, playerId, vote }) => {
     const voteState = votesByGame[gameId];
-    if (!voteState || voteState.votes[playerId] !== null) return;
-    voteState.votes[playerId] = vote === 'yes' ? 'yes' : 'no';
+    if (!voteState) return;
+    const pid = String(playerId);
+    if (!(pid in voteState.votes)) return; // ignore non-eligible
+    if (voteState.votes[pid] !== null) return; // already voted
+
+    voteState.votes[pid] = vote === 'yes' ? 'yes' : 'no';
 
     // Count votes
-    const votesFor = Object.values(voteState.votes).filter(v => v === 'yes').length;
-    const votesAgainst = Object.values(voteState.votes).filter(v => v === 'no').length;
-    const votesCast = Object.values(voteState.votes).filter(v => v !== null).length;
+    const voteValues = Object.values(voteState.votes);
+    const votesFor = voteValues.filter(v => v === 'yes').length;
+    const votesAgainst = voteValues.filter(v => v === 'no').length;
+    const votesCast = voteValues.filter(v => v !== null).length;
 
     // Broadcast live update
     io.to(gameId).emit('vote_update', { votesFor, votesAgainst, votesCast, totalPlayers: voteState.totalPlayers });
 
-    // Check if voting complete
-    if (votesCast === voteState.totalPlayers) {
+    // Check if all eligible voters have voted
+    const allVoted = voteValues.every(v => v === 'yes' || v === 'no');
+    if (allVoted) {
       const success = votesFor > votesAgainst;
       io.to(gameId).emit('vote_result', {
         success,

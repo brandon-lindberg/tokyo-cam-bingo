@@ -49,6 +49,9 @@
             <option value="diagonal">Diagonal</option>
             <option value="card">Whole Card</option>
             <option value="random">Random Tile</option>
+            <option value="random_row">Random Row</option>
+            <option value="random_column">Random Column</option>
+            <option value="random_diagonal">Random Diagonal</option>
           </select>
           <p id="selection-instruct-<%= currentPlayer.id %>">Click on the card to select the area.</p>
           <button id="select-random-button-<%= currentPlayer.id %>" style="display:none;" onclick="selectRandomTile('<%= currentPlayer.id %>')">Select Random Tile</button>
@@ -149,6 +152,9 @@
           <option value="diagonal">Diagonal</option>
           <option value="card">Whole Card</option>
           <option value="random">Random Tile</option>
+          <option value="random_row">Random Row</option>
+          <option value="random_column">Random Column</option>
+          <option value="random_diagonal">Random Diagonal</option>
         </select>
         <p id="modal-selection-instruct">Click on the card to select the area.</p>
         <button id="select-random-modal-button" style="display:none;" onclick="selectModalRandomTile()">Select Random Tile</button>
@@ -526,6 +532,23 @@
       } else if (type === 'random') {
         instruct.style.display = 'none';
         randomBtn.style.display = 'block';
+        randomBtn.textContent = 'Select Random Tile';
+        randomBtn.onclick = () => selectModalRandomTile();
+      } else if (type === 'random_row') {
+        instruct.style.display = 'none';
+        randomBtn.style.display = 'block';
+        randomBtn.textContent = 'Select Random Row';
+        randomBtn.onclick = () => selectModalRandomRow();
+      } else if (type === 'random_column') {
+        instruct.style.display = 'none';
+        randomBtn.style.display = 'block';
+        randomBtn.textContent = 'Select Random Column';
+        randomBtn.onclick = () => selectModalRandomColumn();
+      } else if (type === 'random_diagonal') {
+        instruct.style.display = 'none';
+        randomBtn.style.display = 'block';
+        randomBtn.textContent = 'Select Random Diagonal';
+        randomBtn.onclick = () => selectModalRandomDiagonal();
       } else if (type) {
         instruct.style.display = 'block';
         randomBtn.style.display = 'none';
@@ -631,10 +654,41 @@
       state.selectedCells = [[r, c]];
       highlightModalSelection(state.selectedCells);
     }
+    function selectModalRandomRow() {
+      const state = modalRerollState;
+      clearModalSelection();
+      const r = Math.floor(Math.random() * 5);
+      state.arg = `${r + 1}`;
+      state.selectedCells = Array.from({ length: 5 }, (_, c) => [r, c]);
+      highlightModalSelection(state.selectedCells);
+    }
+    function selectModalRandomColumn() {
+      const state = modalRerollState;
+      clearModalSelection();
+      const c = Math.floor(Math.random() * 5);
+      state.arg = `${c + 1}`;
+      state.selectedCells = Array.from({ length: 5 }, (_, r) => [r, c]);
+      highlightModalSelection(state.selectedCells);
+    }
+    function selectModalRandomDiagonal() {
+      const state = modalRerollState;
+      clearModalSelection();
+      const isMain = Math.random() < 0.5;
+      state.arg = isMain ? 'main' : 'anti';
+      state.selectedCells = isMain
+        ? Array.from({ length: 5 }, (_, i) => [i, i])
+        : Array.from({ length: 5 }, (_, i) => [i, 4 - i]);
+      highlightModalSelection(state.selectedCells);
+    }
 
     function confirmModalReroll() {
       const state = modalRerollState;
-      if (!state || !state.type || (state.type !== 'card' && !state.arg)) {
+      if (!state || !state.type) {
+        alert('Please select a type and an area to re-roll.');
+        return;
+      }
+      const requiresArg = ['tile', 'row', 'column', 'diagonal'];
+      if (requiresArg.includes(state.type) && !state.arg && state.type !== 'card') {
         alert('Please select a type and an area to re-roll.');
         return;
       }

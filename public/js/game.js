@@ -45,6 +45,10 @@ function handleTypeChange(playerId) {
 
   const instruct = document.getElementById(`selection-instruct-${playerId}`);
   const randomBtn = document.getElementById(`select-random-button-${playerId}`);
+  // reset button
+  randomBtn.onclick = null;
+  randomBtn.textContent = 'Select Random';
+
   if (type === 'card') {
     instruct.style.display = 'none';
     randomBtn.style.display = 'none';
@@ -52,6 +56,23 @@ function handleTypeChange(playerId) {
   } else if (type === 'random') {
     instruct.style.display = 'none';
     randomBtn.style.display = 'block';
+    randomBtn.textContent = 'Select Random Tile';
+    randomBtn.onclick = () => selectRandomTile(playerId);
+  } else if (type === 'random_row') {
+    instruct.style.display = 'none';
+    randomBtn.style.display = 'block';
+    randomBtn.textContent = 'Select Random Row';
+    randomBtn.onclick = () => selectRandomRow(playerId);
+  } else if (type === 'random_column') {
+    instruct.style.display = 'none';
+    randomBtn.style.display = 'block';
+    randomBtn.textContent = 'Select Random Column';
+    randomBtn.onclick = () => selectRandomColumn(playerId);
+  } else if (type === 'random_diagonal') {
+    instruct.style.display = 'none';
+    randomBtn.style.display = 'block';
+    randomBtn.textContent = 'Select Random Diagonal';
+    randomBtn.onclick = () => selectRandomDiagonal(playerId);
   } else if (type) {
     instruct.style.display = 'block';
     randomBtn.style.display = 'none';
@@ -144,11 +165,23 @@ function clearSelection(playerId) {
 
 function confirmReroll(playerId) {
   const state = rerollStates[playerId];
-  if (!state || !state.type || (state.type !== 'card' && !state.arg)) {
+  if (!state || !state.type) {
     alert('Please select a type and an area to re-roll.');
     return;
   }
-  const emitType = state.type === 'random' ? 'tile' : state.type;
+  // Types that require argument selection prior to confirm
+  const requiresArg = ['tile', 'row', 'column', 'diagonal', 'random', 'random_row', 'random_column', 'random_diagonal'];
+  if (requiresArg.includes(state.type) && !state.arg && state.type !== 'card') {
+    alert('Please select a type and an area to re-roll.');
+    return;
+  }
+  // Map random_* types to base types for the server
+  let emitType = state.type;
+  if (state.type === 'random') emitType = 'tile';
+  else if (state.type === 'random_row') emitType = 'row';
+  else if (state.type === 'random_column') emitType = 'column';
+  else if (state.type === 'random_diagonal') emitType = 'diagonal';
+
   window.socket.emit('reroll', {
     gameId,
     targetPlayerId: playerId,
@@ -247,14 +280,54 @@ function selectRandomTile(playerId) {
   highlightSelection(playerId, state.selectedCells);
 }
 
+function selectRandomRow(playerId) {
+  const state = rerollStates[playerId];
+  if (!state) return;
+  clearSelection(playerId);
+  const r = Math.floor(Math.random() * 5);
+  state.arg = `${r + 1}`;
+  state.selectedCells = Array.from({ length: 5 }, (_, c) => [r, c]);
+  highlightSelection(playerId, state.selectedCells);
+}
+
+function selectRandomColumn(playerId) {
+  const state = rerollStates[playerId];
+  if (!state) return;
+  clearSelection(playerId);
+  const c = Math.floor(Math.random() * 5);
+  state.arg = `${c + 1}`;
+  state.selectedCells = Array.from({ length: 5 }, (_, r) => [r, c]);
+  highlightSelection(playerId, state.selectedCells);
+}
+
+function selectRandomDiagonal(playerId) {
+  const state = rerollStates[playerId];
+  if (!state) return;
+  clearSelection(playerId);
+  const isMain = Math.random() < 0.5;
+  state.arg = isMain ? 'main' : 'anti';
+  state.selectedCells = isMain
+    ? Array.from({ length: 5 }, (_, i) => [i, i])
+    : Array.from({ length: 5 }, (_, i) => [i, 4 - i]);
+  highlightSelection(playerId, state.selectedCells);
+}
+
 // Modify confirmReroll to treat random as tile
 function confirmReroll(playerId) {
   const state = rerollStates[playerId];
-  if (!state || !state.type || (state.type !== 'card' && !state.arg)) {
+  if (!state || !state.type) {
     alert('Please select a type and an area to re-roll.');
     return;
   }
-  const emitType = state.type === 'random' ? 'tile' : state.type;
+  const requiresArg = ['tile', 'row', 'column', 'diagonal', 'random', 'random_row', 'random_column', 'random_diagonal'];
+  if (requiresArg.includes(state.type) && !state.arg && state.type !== 'card') {
+    alert('Please select a type and an area to re-roll.');
+    return;
+  }
+  let emitType = state.type === 'random' ? 'tile' : state.type;
+  if (state.type === 'random_row') emitType = 'row';
+  if (state.type === 'random_column') emitType = 'column';
+  if (state.type === 'random_diagonal') emitType = 'diagonal';
   window.socket.emit('reroll', {
     gameId,
     targetPlayerId: playerId,

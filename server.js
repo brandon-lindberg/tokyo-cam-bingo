@@ -83,6 +83,19 @@ function rerollCard(card, type, arg) {
     }
   } else if (type === 'card') {
     positions = Array.from({ length: 25 }, (_, i) => [Math.floor(i / 5), i % 5]);
+  } else if (type === 'random_row') {
+    const row = Math.floor(Math.random() * 5);
+    positions = Array.from({ length: 5 }, (_, col) => [row, col]);
+  } else if (type === 'random_column') {
+    const col = Math.floor(Math.random() * 5);
+    positions = Array.from({ length: 5 }, (_, row) => [row, col]);
+  } else if (type === 'random_diagonal') {
+    const pickMain = Math.random() < 0.5;
+    if (pickMain) {
+      positions = Array.from({ length: 5 }, (_, i) => [i, i]);
+    } else {
+      positions = Array.from({ length: 5 }, (_, i) => [i, 4 - i]);
+    }
   } else {
     return card;
   }

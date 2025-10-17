@@ -18,6 +18,7 @@ model Game {
   winner         String?
   mode           String    @default("REGULAR") // REGULAR or VS
   sharedCard     Json?     // For VS mode: shared 5x5 card
+  customItems    Json?     // Custom item pool (array of strings) - copied from ItemCollection
   flagsEnabled   Boolean   @default(true)
   rerollsEnabled Boolean   @default(true)
   createdAt      DateTime  @default(now())
@@ -45,6 +46,14 @@ model ChatMessage {
   createdAt DateTime @default(now())
   game      Game     @relation(fields: [gameId], references: [id])
   player    Player   @relation(fields: [playerId], references: [id])
+}
+
+model ItemCollection {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  name      String
+  items     Json     // Array of item strings (min 25)
+  createdAt DateTime @default(now())
 }
 
 model Session {

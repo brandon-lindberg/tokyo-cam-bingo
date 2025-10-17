@@ -13,6 +13,11 @@
       <button onclick="showHostForm()">Host Game</button>
       <button onclick="showJoinForm()">Join Game</button>
     </div>
+    <div style="text-align: center; margin-top: 1rem;">
+      <a href="/card-builder" style="color: #00BFFF; text-decoration: none; font-size: 1rem;">
+        + Create Custom Card
+      </a>
+    </div>
     
     <div id="host-form" style="display: none;">
       <h2>Create Game</h2>
@@ -59,6 +64,13 @@
             <option value="PINK">🩷 Pink</option>
             <option value="CYAN">🔵 Cyan</option>
           </select>
+        </div>
+
+        <!-- Custom Card Section -->
+        <div class="form-section">
+          <label class="form-label">Card Selection (Optional)</label>
+          <input type="text" id="customCardCode" name="customCardCode" class="form-input" placeholder="Enter custom card code (leave blank for default Tokyo Cam Bingo Card)" maxlength="6">
+          <div id="custom-card-info" style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;"></div>
         </div>
 
         <!-- Game Options Section -->
@@ -192,6 +204,40 @@
           option.style.display = 'none';
           // Uncheck hidden options
           checkbox.checked = false;
+        }
+      });
+    }
+
+    // Check custom card code when entered
+    const customCardCodeInput = document.getElementById('customCardCode');
+    const customCardInfo = document.getElementById('custom-card-info');
+
+    if (customCardCodeInput) {
+      customCardCodeInput.addEventListener('input', function(e) {
+        this.value = this.value.toUpperCase();
+      });
+
+      customCardCodeInput.addEventListener('blur', async function() {
+        const code = this.value.trim().toUpperCase();
+        customCardInfo.textContent = '';
+        customCardInfo.style.color = '#666';
+
+        if (code.length === 6) {
+          try {
+            const response = await fetch(`/api/card-collections/${code}`);
+            if (response.ok) {
+              const cardData = await response.json();
+              customCardInfo.textContent = `✓ "${cardData.name}" loaded (${cardData.itemCount} items)`;
+              customCardInfo.style.color = '#10B981';
+            } else {
+              customCardInfo.textContent = '✗ Custom card not found';
+              customCardInfo.style.color = '#EF4444';
+            }
+          } catch (err) {
+            console.error('Failed to fetch card:', err);
+            customCardInfo.textContent = '✗ Error loading card';
+            customCardInfo.style.color = '#EF4444';
+          }
         }
       });
     }

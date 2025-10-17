@@ -46,18 +46,20 @@ function generateCode() {
 }
 
 // Helper to generate 5x5 card
-function generateCard() {
-  const shuffled = [...itemsList].sort(() => 0.5 - Math.random());
+function generateCard(customItems = null) {
+  const sourceItems = customItems || itemsList;
+  const shuffled = [...sourceItems].sort(() => 0.5 - Math.random());
   const selected = shuffled.slice(0, 25);
-  return Array.from({ length: 5 }, (_, i) => 
+  return Array.from({ length: 5 }, (_, i) =>
     selected.slice(i * 5, (i + 1) * 5).map(item => ({ item, stamped: false }))
   );
 }
 
 // Helper to re-roll part of card
-function rerollCard(card, type, arg) {
+function rerollCard(card, type, arg, customItems = null) {
   const newCard = card.map(row => row.slice()); // Deep copy
   let positions = [];
+  const sourceItems = customItems || itemsList;
 
   if (type === 'tile') {
     const [rowStr, colStr] = arg.split(',');
@@ -102,7 +104,7 @@ function rerollCard(card, type, arg) {
 
   // Get current items on card to avoid dups
   const currentItems = new Set(card.flat().map(t => t.item));
-  const available = itemsList.filter(i => !currentItems.has(i));
+  const available = sourceItems.filter(i => !currentItems.has(i));
 
   positions.forEach(([r, c]) => {
     if (available.length === 0) return; // Fallback if list exhausted
@@ -177,6 +179,72 @@ function checkWin(cardOrStamps, rules) {
 // Home page
 app.get('/', (req, res) => res.render('home'));
 
+// Card builder page
+app.get('/card-builder', (req, res) => res.render('card-builder'));
+
+// Create custom card collection
+app.post('/api/card-collections', async (req, res) => {
+  try {
+    const { name, items } = req.body;
+
+    // Validation
+    if (!name || !items || !Array.isArray(items)) {
+      return res.status(400).json({ error: 'Name and items array required' });
+    }
+
+    if (items.length < 25) {
+      return res.status(400).json({ error: 'Minimum 25 items required' });
+    }
+
+    // Generate unique code
+    let code;
+    let codeExists = true;
+    while (codeExists) {
+      code = generateCode();
+      const existing = await prisma.itemCollection.findUnique({ where: { code } });
+      codeExists = !!existing;
+    }
+
+    // Create collection
+    const collection = await prisma.itemCollection.create({
+      data: {
+        code,
+        name,
+        items: items
+      }
+    });
+
+    res.json({ code: collection.code, id: collection.id });
+  } catch (error) {
+    console.error('Error creating card collection:', error);
+    res.status(500).json({ error: 'Failed to create card collection' });
+  }
+});
+
+// Get card collection by code
+app.get('/api/card-collections/:code', async (req, res) => {
+  try {
+    const { code } = req.params;
+    const collection = await prisma.itemCollection.findUnique({
+      where: { code: code.toUpperCase() }
+    });
+
+    if (!collection) {
+      return res.status(404).json({ error: 'Card not found' });
+    }
+
+    res.json({
+      code: collection.code,
+      name: collection.name,
+      items: collection.items,
+      itemCount: collection.items.length
+    });
+  } catch (error) {
+    console.error('Error fetching card collection:', error);
+    res.status(500).json({ error: 'Failed to fetch card collection' });
+  }
+});
+
 // Game info endpoint (for checking mode and available colors)
 app.get('/game-info/:code', async (req, res) => {
   const { code } = req.params;
@@ -202,10 +270,26 @@ app.post('/create', async (req, res) => {
   if (!Array.isArray(winConditions)) {
     winConditions = [winConditions];
   }
-  const { hostName, modeType, flagsEnabled, rerollsEnabled, hostColor } = req.body;
+  const { hostName, modeType, flagsEnabled, rerollsEnabled, hostColor, customCardCode } = req.body;
   const code = generateCode();
   const mode = modeType === 'VS' ? 'VS' : 'REGULAR';
-  const sharedCard = mode === 'VS' ? generateCard() : null;
+
+  // Fetch custom items if card code provided
+  let customItems = null;
+  if (customCardCode && customCardCode.trim().length === 6) {
+    try {
+      const collection = await prisma.itemCollection.findUnique({
+        where: { code: customCardCode.trim().toUpperCase() }
+      });
+      if (collection) {
+        customItems = collection.items;
+      }
+    } catch (error) {
+      console.error('Error fetching custom card:', error);
+    }
+  }
+
+  const sharedCard = mode === 'VS' ? generateCard(customItems) : null;
 
   // Validate host color for VS mode
   if (mode === 'VS') {
@@ -221,13 +305,14 @@ app.post('/create', async (req, res) => {
       rules: { winConditions },
       mode,
       sharedCard,
+      customItems,
       flagsEnabled: flagsEnabled === 'true',
       rerollsEnabled: rerollsEnabled === 'true'
     },
   });
 
   // In VS mode, host doesn't get individual card, in regular mode they do
-  const card = mode === 'VS' ? sharedCard : generateCard();
+  const card = mode === 'VS' ? sharedCard : generateCard(customItems);
   const player = await prisma.player.create({
     data: {
       name: hostName,
@@ -265,6 +350,8 @@ app.post('/join', async (req, res) => {
 
   // Determine card based on mode
   let card;
+  const customItems = game.customItems || null;
+
   if (game.mode === 'VS') {
     // Use shared card for VS mode
     card = game.sharedCard;
@@ -275,7 +362,7 @@ app.post('/join', async (req, res) => {
       select: { card: true },
     });
     do {
-      card = generateCard();
+      card = generateCard(customItems);
     } while (existingPlayers.some(p => JSON.stringify(p.card) === JSON.stringify(card)));
   }
 
@@ -476,7 +563,8 @@ io.on('connection', (socket) => {
 
     if (game.mode === 'VS') {
       // VS Mode: Reroll shared card and clear stamps from affected squares
-      const newCard = rerollCard(game.sharedCard, type, arg);
+      const customItems = game.customItems || null;
+      const newCard = rerollCard(game.sharedCard, type, arg, customItems);
 
       // Determine which positions were rerolled
       let positions = [];
@@ -530,7 +618,8 @@ io.on('connection', (socket) => {
       // Regular mode: Reroll individual player's card
       const target = game.players.find(p => p.id === targetPlayerId);
       if (!target) return;
-      const newCard = rerollCard(target.card, type, arg);
+      const customItems = game.customItems || null;
+      const newCard = rerollCard(target.card, type, arg, customItems);
       await prisma.player.update({ where: { id: target.id }, data: { card: newCard } });
       const updatedPlayers = await prisma.player.findMany({ where: { gameId: gameId } });
       io.to(gameId).emit('update_state', { game, players: updatedPlayers });
@@ -546,7 +635,8 @@ io.on('connection', (socket) => {
 
     if (game.mode === 'VS') {
       // VS Mode: Generate new shared card and reset all player stamps
-      const newSharedCard = generateCard();
+      const customItems = game.customItems || null;
+      const newSharedCard = generateCard(customItems);
 
       const updatedGame = await prisma.game.update({
         where: { id: gameId },
@@ -565,6 +655,8 @@ io.on('connection', (socket) => {
       io.to(gameId).emit('update_state', { game: updatedGame, players: updatedPlayers });
     } else {
       // Regular mode: Generate unique cards for each player
+      const customItems = game.customItems || null;
+
       const updatedGame = await prisma.game.update({
         where: { id: gameId },
         data: { status: 'active', winner: null }
@@ -574,7 +666,7 @@ io.on('connection', (socket) => {
       for (const player of game.players) {
         let uniqueCard;
         do {
-          uniqueCard = generateCard();
+          uniqueCard = generateCard(customItems);
         } while (usedCards.includes(JSON.stringify(uniqueCard)));
         usedCards.push(JSON.stringify(uniqueCard));
         await prisma.player.update({

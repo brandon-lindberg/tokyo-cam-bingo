@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create Custom Card - Tokyo Cam Bingo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .card-builder-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .builder-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .builder-form {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: 'Poppins', sans-serif;
+      color: #FF69B4;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .form-group input[type="text"] {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 2px solid #E0E0E0;
+      border-radius: 8px;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .items-section {
+      margin-top: 2rem;
+    }
+
+    .items-list {
+      max-height: 400px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: #F0F8FF;
+      border-radius: 8px;
+    }
+
+    .item-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      align-items: center;
+    }
+
+    .item-row input {
+      flex: 1;
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .item-row button {
+      background-color: #EF4444;
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .item-row button:hover {
+      background-color: #DC2626;
+    }
+
+    .add-item-btn {
+      background-color: #10B981;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Roboto', sans-serif;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .add-item-btn:hover {
+      background-color: #0EA371;
+    }
+
+    .item-count {
+      text-align: center;
+      color: #666;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .item-count.error {
+      color: #EF4444;
+    }
+
+    .item-count.success {
+      color: #10B981;
+    }
+
+    .save-btn {
+      width: 100%;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-family: 'Poppins', sans-serif;
+      background-color: #00BFFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 1rem;
+    }
+
+    .save-btn:hover:not(:disabled) {
+      background-color: #009ACD;
+    }
+
+    .save-btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: #00BFFF;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Success Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 1003;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .modal-card h2 {
+      color: #10B981;
+      margin-bottom: 1rem;
+    }
+
+    .code-display {
+      background: #F0F8FF;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      border: 2px solid #00BFFF;
+    }
+
+    .code-text {
+      font-family: 'Courier New', monospace;
+      font-size: 2rem;
+      color: #00BFFF;
+      font-weight: bold;
+      letter-spacing: 0.2rem;
+    }
+
+    .copy-code-btn {
+      background-color: #10B981;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Roboto', sans-serif;
+      margin-top: 1rem;
+    }
+
+    .copy-code-btn:hover {
+      background-color: #0EA371;
+    }
+
+    .home-btn {
+      background-color: #00BFFF;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Roboto', sans-serif;
+      margin-top: 1rem;
+      margin-left: 0.5rem;
+    }
+
+    .home-btn:hover {
+      background-color: #009ACD;
+    }
+  </style>
+</head>
+<body>
+  <div class="card-builder-container">
+    <a href="/" class="back-link">← Back to Home</a>
+
+    <div class="builder-header">
+      <h1>Create Custom Bingo Card</h1>
+      <p>Add at least 25 items to create your custom card</p>
+    </div>
+
+    <div class="builder-form">
+      <div class="form-group">
+        <label for="collection-name">Card Name</label>
+        <input type="text" id="collection-name" placeholder="e.g., Tokyo Night Edition" required>
+      </div>
+
+      <div class="items-section">
+        <label>Items (minimum 25)</label>
+        <div class="item-count" id="item-count">0 items added</div>
+
+        <div class="items-list" id="items-list">
+          <!-- Items will be added here dynamically -->
+        </div>
+
+        <button type="button" class="add-item-btn" onclick="addItemRow()">+ Add Item</button>
+      </div>
+
+      <button type="button" class="save-btn" id="save-btn" onclick="saveCollection()" disabled>
+        Save Custom Card
+      </button>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal-card">
+      <h2>✓ Custom Card Created!</h2>
+      <p>Save this code to use your custom card when creating a game:</p>
+
+      <div class="code-display">
+        <div class="code-text" id="card-code"></div>
+      </div>
+
+      <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
+        Write this code down! You'll need it to load this custom card when creating a game.
+      </p>
+
+      <button class="copy-code-btn" onclick="copyCode()">Copy Code</button>
+      <button class="home-btn" onclick="window.location.href='/'">Go to Home</button>
+    </div>
+  </div>
+
+  <script>
+    let itemIndex = 0;
+
+    // Add initial empty row
+    addItemRow();
+
+    function addItemRow() {
+      const itemsList = document.getElementById('items-list');
+      const row = document.createElement('div');
+      row.className = 'item-row';
+      row.id = `item-row-${itemIndex}`;
+
+      row.innerHTML = `
+        <input
+          type="text"
+          id="item-${itemIndex}"
+          placeholder="Enter item name"
+          oninput="updateCount()"
+        >
+        <button onclick="removeItemRow(${itemIndex})">Remove</button>
+      `;
+
+      itemsList.appendChild(row);
+      itemIndex++;
+      updateCount();
+    }
+
+    function removeItemRow(index) {
+      const row = document.getElementById(`item-row-${index}`);
+      if (row) {
+        row.remove();
+        updateCount();
+      }
+    }
+
+    function updateCount() {
+      const items = getItems();
+      const count = items.length;
+      const countEl = document.getElementById('item-count');
+      const saveBtn = document.getElementById('save-btn');
+
+      countEl.textContent = `${count} items added`;
+
+      if (count < 25) {
+        countEl.className = 'item-count error';
+        countEl.textContent = `${count} items added (need at least 25)`;
+        saveBtn.disabled = true;
+      } else {
+        countEl.className = 'item-count success';
+        countEl.textContent = `${count} items added ✓`;
+        saveBtn.disabled = false;
+      }
+    }
+
+    function getItems() {
+      const items = [];
+      const inputs = document.querySelectorAll('.item-row input[type="text"]');
+
+      inputs.forEach(input => {
+        const value = input.value.trim();
+        if (value) {
+          items.push(value);
+        }
+      });
+
+      return items;
+    }
+
+    async function saveCollection() {
+      const name = document.getElementById('collection-name').value.trim();
+      const items = getItems();
+
+      if (!name) {
+        alert('Please enter a card name');
+        return;
+      }
+
+      if (items.length < 25) {
+        alert('Please add at least 25 items');
+        return;
+      }
+
+      // Disable button during save
+      const saveBtn = document.getElementById('save-btn');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
+
+      try {
+        const response = await fetch('/api/card-collections', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, items })
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || 'Failed to save card');
+        }
+
+        const data = await response.json();
+
+        // Show success modal with code
+        document.getElementById('card-code').textContent = data.code;
+        document.getElementById('success-modal').style.display = 'flex';
+
+      } catch (error) {
+        alert('Error saving card: ' + error.message);
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Custom Card';
+      }
+    }
+
+    function copyCode() {
+      const code = document.getElementById('card-code').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

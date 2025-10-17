@@ -202,9 +202,9 @@ app.post('/create', async (req, res) => {
   if (!Array.isArray(winConditions)) {
     winConditions = [winConditions];
   }
-  const { hostName, vsMode, flagsEnabled, rerollsEnabled, hostColor } = req.body;
+  const { hostName, modeType, flagsEnabled, rerollsEnabled, hostColor } = req.body;
   const code = generateCode();
-  const mode = vsMode === 'true' ? 'VS' : 'REGULAR';
+  const mode = modeType === 'VS' ? 'VS' : 'REGULAR';
   const sharedCard = mode === 'VS' ? generateCard() : null;
 
   // Validate host color for VS mode

@@ -15,58 +15,117 @@
     </div>
     
     <div id="host-form" style="display: none;">
-      <h2>Create Game (Host)</h2>
-      <form action="/create" method="POST">
-        <input type="text" name="hostName" placeholder="Your Name" required>
+      <h2>Create Game</h2>
+      <form action="/create" method="POST" class="create-game-form">
 
-        <p>Game Mode:</p>
-        <div style="margin-bottom: 1rem;">
-          <label style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-            <input type="checkbox" id="vsMode" name="vsMode" value="true" onchange="toggleHostColorSelection()">
-            <span>VS Mode (shared card, 4 players max)</span>
-          </label>
+        <!-- Player Info Section -->
+        <div class="form-section">
+          <label class="form-label">Your Name</label>
+          <input type="text" name="hostName" class="form-input" placeholder="Enter your name" required>
         </div>
 
-        <div id="host-color-selection" style="display: none; margin-bottom: 1rem;">
-          <label for="hostColor">Choose Your Color:</label>
-          <select id="hostColor" name="hostColor">
-            <option value="">-- Select Color --</option>
-            <option value="RED">Red</option>
-            <option value="BLUE">Blue</option>
-            <option value="GREEN">Green</option>
-            <option value="YELLOW">Yellow</option>
-            <option value="PURPLE">Purple</option>
-            <option value="ORANGE">Orange</option>
-            <option value="PINK">Pink</option>
-            <option value="CYAN">Cyan</option>
+        <!-- Game Mode Section -->
+        <div class="form-section">
+          <label class="form-label">Game Mode</label>
+          <div class="mode-selector">
+            <label class="mode-option">
+              <input type="radio" name="modeType" value="REGULAR" checked onchange="toggleHostColorSelection()">
+              <div class="mode-card">
+                <div class="mode-title">Regular Mode</div>
+                <div class="mode-description">Each player gets their own unique card (up to 10 players)</div>
+              </div>
+            </label>
+            <label class="mode-option">
+              <input type="radio" name="modeType" value="VS" id="vsMode" onchange="toggleHostColorSelection()">
+              <div class="mode-card">
+                <div class="mode-title">VS Mode</div>
+                <div class="mode-description">All players share one card and compete for squares (max 4 players)</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Color Selection (VS Mode Only) -->
+        <div id="host-color-selection" class="form-section" style="display: none;">
+          <label class="form-label">Your Color</label>
+          <select id="hostColor" name="hostColor" class="form-select">
+            <option value="">-- Select Your Color --</option>
+            <option value="RED">🔴 Red</option>
+            <option value="BLUE">🔵 Blue</option>
+            <option value="GREEN">🟢 Green</option>
+            <option value="YELLOW">🟡 Yellow</option>
+            <option value="PURPLE">🟣 Purple</option>
+            <option value="ORANGE">🟠 Orange</option>
+            <option value="PINK">🩷 Pink</option>
+            <option value="CYAN">🔵 Cyan</option>
           </select>
         </div>
 
-        <p>Game Options:</p>
-        <div style="margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
-          <label style="display: flex; align-items: center; gap: 0.5rem;">
-            <input type="checkbox" id="flagsEnabled" name="flagsEnabled" value="true" checked>
-            <span>Enable Flag System</span>
-          </label>
-          <label style="display: flex; align-items: center; gap: 0.5rem;">
-            <input type="checkbox" id="rerollsEnabled" name="rerollsEnabled" value="true" checked>
-            <span>Enable Rerolls</span>
-          </label>
+        <!-- Game Options Section -->
+        <div class="form-section">
+          <label class="form-label">Game Options</label>
+          <div class="options-grid">
+            <label class="option-checkbox">
+              <input type="checkbox" id="flagsEnabled" name="flagsEnabled" value="true" checked>
+              <span class="checkbox-label">
+                <span class="checkbox-title">🚩 Flag System</span>
+                <span class="checkbox-description">Players can challenge questionable stamps</span>
+              </span>
+            </label>
+            <label class="option-checkbox">
+              <input type="checkbox" id="rerollsEnabled" name="rerollsEnabled" value="true" checked>
+              <span class="checkbox-label">
+                <span class="checkbox-title">🎲 Rerolls</span>
+                <span class="checkbox-description">Host can re-roll tiles during the game</span>
+              </span>
+            </label>
+          </div>
         </div>
 
-        <p>Select Win Conditions:</p>
-        <div class="win-conditions-grid">
-          <label for="row"><input type="checkbox" id="row" name="winConditions" value="row"> Single Row</label>
-          <label for="2rows"><input type="checkbox" id="2rows" name="winConditions" value="2rows"> 2 Rows</label>
-          <label for="3rows"><input type="checkbox" id="3rows" name="winConditions" value="3rows"> 3 Rows</label>
-          <label for="column"><input type="checkbox" id="column" name="winConditions" value="column"> Single Column</label>
-          <label for="2columns"><input type="checkbox" id="2columns" name="winConditions" value="2columns"> 2 Columns</label>
-          <label for="3columns"><input type="checkbox" id="3columns" name="winConditions" value="3columns"> 3 Columns</label>
-          <label for="diagonals"><input type="checkbox" id="diagonals" name="winConditions" value="diagonals"> Diagonals</label>
-          <label for="full"><input type="checkbox" id="full" name="winConditions" value="full"> Full Card</label>
-          <label for="most_squares"><input type="checkbox" id="most_squares" name="winConditions" value="most_squares"> Most Squares (VS Mode)</label>
+        <!-- Win Conditions Section -->
+        <div class="form-section">
+          <label class="form-label">Win Conditions (select at least one)</label>
+          <div class="win-conditions-modern">
+            <label class="win-option" data-modes="regular,vs">
+              <input type="checkbox" id="row" name="winConditions" value="row">
+              <span class="win-label">1 Row</span>
+            </label>
+            <label class="win-option" data-modes="regular">
+              <input type="checkbox" id="2rows" name="winConditions" value="2rows">
+              <span class="win-label">2 Rows</span>
+            </label>
+            <label class="win-option" data-modes="regular">
+              <input type="checkbox" id="3rows" name="winConditions" value="3rows">
+              <span class="win-label">3 Rows</span>
+            </label>
+            <label class="win-option" data-modes="regular,vs">
+              <input type="checkbox" id="column" name="winConditions" value="column">
+              <span class="win-label">1 Column</span>
+            </label>
+            <label class="win-option" data-modes="regular">
+              <input type="checkbox" id="2columns" name="winConditions" value="2columns">
+              <span class="win-label">2 Columns</span>
+            </label>
+            <label class="win-option" data-modes="regular">
+              <input type="checkbox" id="3columns" name="winConditions" value="3columns">
+              <span class="win-label">3 Columns</span>
+            </label>
+            <label class="win-option" data-modes="regular,vs">
+              <input type="checkbox" id="diagonals" name="winConditions" value="diagonals">
+              <span class="win-label">Diagonals</span>
+            </label>
+            <label class="win-option" data-modes="regular">
+              <input type="checkbox" id="full" name="winConditions" value="full">
+              <span class="win-label">Full Card</span>
+            </label>
+            <label class="win-option" data-modes="vs">
+              <input type="checkbox" id="most_squares" name="winConditions" value="most_squares">
+              <span class="win-label">Most Squares</span>
+            </label>
+          </div>
         </div>
-        <button type="submit">Create</button>
+
+        <button type="submit" class="create-button">Create Game</button>
       </form>
     </div>
     
@@ -110,6 +169,7 @@
       const colorSelection = document.getElementById('host-color-selection');
       const colorSelect = document.getElementById('hostColor');
 
+      // Toggle color selection
       if (vsModeChecked) {
         colorSelection.style.display = 'block';
         colorSelect.required = true;
@@ -117,6 +177,23 @@
         colorSelection.style.display = 'none';
         colorSelect.required = false;
       }
+
+      // Filter win conditions based on mode
+      const mode = vsModeChecked ? 'vs' : 'regular';
+      const winOptions = document.querySelectorAll('.win-option');
+
+      winOptions.forEach(option => {
+        const modes = option.getAttribute('data-modes');
+        const checkbox = option.querySelector('input[type="checkbox"]');
+
+        if (modes.includes(mode)) {
+          option.style.display = 'block';
+        } else {
+          option.style.display = 'none';
+          // Uncheck hidden options
+          checkbox.checked = false;
+        }
+      });
     }
 
     // Check game mode when code is entered

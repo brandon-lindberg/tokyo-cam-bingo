@@ -23,6 +23,11 @@ if (!process.env.SESSION_SECRET) {
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+
+// Serve PWA files from root
+app.use('/site.webmanifest', express.static('site.webmanifest'));
+app.use('/favicon.ico', express.static('favicon.ico'));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({

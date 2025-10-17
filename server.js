@@ -245,6 +245,46 @@ app.get('/api/card-collections/:code', async (req, res) => {
   }
 });
 
+// Update card collection by code
+app.put('/api/card-collections/:code', async (req, res) => {
+  try {
+    const { code } = req.params;
+    const { name, items } = req.body;
+
+    // Validation
+    if (!name || !items || !Array.isArray(items)) {
+      return res.status(400).json({ error: 'Name and items array required' });
+    }
+
+    if (items.length < 25) {
+      return res.status(400).json({ error: 'Minimum 25 items required' });
+    }
+
+    // Find existing collection
+    const existing = await prisma.itemCollection.findUnique({
+      where: { code: code.toUpperCase() }
+    });
+
+    if (!existing) {
+      return res.status(404).json({ error: 'Card not found' });
+    }
+
+    // Update collection
+    const updated = await prisma.itemCollection.update({
+      where: { code: code.toUpperCase() },
+      data: {
+        name,
+        items: items
+      }
+    });
+
+    res.json({ code: updated.code, id: updated.id });
+  } catch (error) {
+    console.error('Error updating card collection:', error);
+    res.status(500).json({ error: 'Failed to update card collection' });
+  }
+});
+
 // Game info endpoint (for checking mode and available colors)
 app.get('/game-info/:code', async (req, res) => {
   const { code } = req.params;

@@ -65,6 +65,14 @@
       align-items: center;
     }
 
+    .item-number {
+      min-width: 40px;
+      font-weight: 600;
+      color: #666;
+      text-align: right;
+      font-size: 0.95rem;
+    }
+
     .item-row input {
       flex: 1;
       padding: 0.6rem;
@@ -236,6 +244,16 @@
     </div>
 
     <div class="builder-form">
+      <!-- Load Existing Card Section -->
+      <div class="form-group" style="background: #F0F8FF; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+        <label for="load-card-code">Load Existing Card (Optional)</label>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <input type="text" id="load-card-code" placeholder="Enter card code to edit" maxlength="6" style="flex: 1; text-transform: uppercase;">
+          <button type="button" onclick="loadCard()" style="background-color: #10B981; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; white-space: nowrap;">Load Card</button>
+        </div>
+        <div id="load-card-status" style="margin-top: 0.5rem; font-size: 0.9rem;"></div>
+      </div>
+
       <div class="form-group">
         <label for="collection-name">Card Name</label>
         <input type="text" id="collection-name" placeholder="e.g., Tokyo Night Edition" required>
@@ -279,9 +297,85 @@
 
   <script>
     let itemIndex = 0;
+    let editingCardCode = null; // Track if we're editing an existing card
 
     // Add initial empty row
     addItemRow();
+
+    // Load existing card
+    async function loadCard() {
+      const code = document.getElementById('load-card-code').value.trim().toUpperCase();
+      const statusEl = document.getElementById('load-card-status');
+
+      if (code.length !== 6) {
+        statusEl.textContent = 'Please enter a valid 6-character code';
+        statusEl.style.color = '#EF4444';
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/card-collections/${code}`);
+
+        if (!response.ok) {
+          statusEl.textContent = '✗ Card not found';
+          statusEl.style.color = '#EF4444';
+          return;
+        }
+
+        const cardData = await response.json();
+
+        // Populate card name
+        document.getElementById('collection-name').value = cardData.name;
+
+        // Clear existing items
+        document.getElementById('items-list').innerHTML = '';
+        itemIndex = 0;
+
+        // Add all items from the card
+        cardData.items.forEach(item => {
+          addItemRowWithValue(item);
+        });
+
+        // Set editing mode
+        editingCardCode = code;
+
+        // Update button text
+        document.getElementById('save-btn').textContent = 'Update Custom Card';
+
+        statusEl.textContent = `✓ Loaded "${cardData.name}" (${cardData.itemCount} items)`;
+        statusEl.style.color = '#10B981';
+
+      } catch (error) {
+        console.error('Error loading card:', error);
+        statusEl.textContent = '✗ Error loading card';
+        statusEl.style.color = '#EF4444';
+      }
+    }
+
+    function addItemRowWithValue(value) {
+      const itemsList = document.getElementById('items-list');
+      const row = document.createElement('div');
+      row.className = 'item-row';
+      row.id = `item-row-${itemIndex}`;
+
+      const itemNumber = getItemNumber();
+
+      row.innerHTML = `
+        <div class="item-number">${itemNumber}.</div>
+        <input
+          type="text"
+          id="item-${itemIndex}"
+          placeholder="Enter item name"
+          value="${value}"
+          oninput="updateCount()"
+        >
+        <button onclick="removeItemRow(${itemIndex})">Remove</button>
+      `;
+
+      itemsList.appendChild(row);
+      itemIndex++;
+      updateCount();
+    }
 
     function addItemRow() {
       const itemsList = document.getElementById('items-list');
@@ -289,7 +383,10 @@
       row.className = 'item-row';
       row.id = `item-row-${itemIndex}`;
 
+      const itemNumber = getItemNumber();
+
       row.innerHTML = `
+        <div class="item-number">${itemNumber}.</div>
         <input
           type="text"
           id="item-${itemIndex}"
@@ -302,14 +399,38 @@
       itemsList.appendChild(row);
       itemIndex++;
       updateCount();
+
+      // Auto-scroll to the new item
+      row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Focus on the new input
+      const input = row.querySelector('input');
+      setTimeout(() => input.focus(), 300);
+    }
+
+    function getItemNumber() {
+      // Count visible rows to get the correct number
+      const rows = document.querySelectorAll('.item-row');
+      return rows.length + 1;
     }
 
     function removeItemRow(index) {
       const row = document.getElementById(`item-row-${index}`);
       if (row) {
         row.remove();
+        renumberItems();
         updateCount();
       }
+    }
+
+    function renumberItems() {
+      const rows = document.querySelectorAll('.item-row');
+      rows.forEach((row, idx) => {
+        const numberEl = row.querySelector('.item-number');
+        if (numberEl) {
+          numberEl.textContent = `${idx + 1}.`;
+        }
+      });
     }
 
     function updateCount() {
@@ -365,13 +486,27 @@
       saveBtn.textContent = 'Saving...';
 
       try {
-        const response = await fetch('/api/card-collections', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ name, items })
-        });
+        let response;
+
+        if (editingCardCode) {
+          // Update existing card
+          response = await fetch(`/api/card-collections/${editingCardCode}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, items })
+          });
+        } else {
+          // Create new card
+          response = await fetch('/api/card-collections', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, items })
+          });
+        }
 
         if (!response.ok) {
           const error = await response.json();
@@ -387,7 +522,7 @@
       } catch (error) {
         alert('Error saving card: ' + error.message);
         saveBtn.disabled = false;
-        saveBtn.textContent = 'Save Custom Card';
+        saveBtn.textContent = editingCardCode ? 'Update Custom Card' : 'Save Custom Card';
       }
     }
 

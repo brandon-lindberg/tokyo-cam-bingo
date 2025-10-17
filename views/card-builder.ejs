@@ -232,6 +232,164 @@
     .home-btn:hover {
       background-color: #009ACD;
     }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      .card-builder-container {
+        padding: 1rem;
+      }
+
+      .builder-header h1 {
+        font-size: 1.5rem;
+      }
+
+      .builder-header p {
+        font-size: 0.9rem;
+      }
+
+      .builder-form {
+        padding: 1rem;
+      }
+
+      .form-group label {
+        font-size: 1rem;
+      }
+
+      .form-group input[type="text"] {
+        font-size: 16px; /* Prevents iOS zoom on focus */
+        padding: 0.75rem 0.5rem;
+      }
+
+      /* Load card section mobile */
+      .form-group[style*="background: #F0F8FF"] {
+        padding: 0.75rem !important;
+      }
+
+      .form-group div[style*="display: flex"] {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+      }
+
+      .form-group div[style*="display: flex"] input {
+        width: 100% !important;
+        font-size: 16px !important;
+      }
+
+      .form-group div[style*="display: flex"] button {
+        width: 100% !important;
+        padding: 0.75rem 1rem !important;
+      }
+
+      /* Items list mobile */
+      .items-list {
+        max-height: 300px;
+        padding: 0.5rem;
+      }
+
+      .item-row {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+
+      .item-number {
+        min-width: 30px;
+        font-size: 0.85rem;
+      }
+
+      .item-row input {
+        flex: 1 1 100%;
+        padding: 0.75rem 0.5rem;
+        font-size: 16px; /* Prevents iOS zoom on focus */
+        min-width: 0;
+      }
+
+      .item-row button {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+      }
+
+      .add-item-btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.1rem;
+      }
+
+      .save-btn {
+        font-size: 1.1rem;
+        padding: 1rem;
+      }
+
+      /* Modal mobile */
+      .modal-card {
+        width: 95%;
+        padding: 1.5rem;
+      }
+
+      .modal-card h2 {
+        font-size: 1.3rem;
+      }
+
+      .code-text {
+        font-size: 1.5rem;
+        letter-spacing: 0.1rem;
+      }
+
+      .code-display {
+        padding: 1rem;
+      }
+
+      .copy-code-btn,
+      .home-btn {
+        display: block;
+        width: 100%;
+        margin: 0.5rem 0;
+        padding: 0.75rem 1rem;
+      }
+
+      .item-count {
+        font-size: 0.9rem;
+      }
+
+      .back-link {
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Small mobile devices */
+    @media (max-width: 480px) {
+      .card-builder-container {
+        padding: 0.5rem;
+      }
+
+      .builder-header {
+        margin-bottom: 1rem;
+      }
+
+      .builder-header h1 {
+        font-size: 1.3rem;
+      }
+
+      .builder-form {
+        padding: 0.75rem;
+      }
+
+      .item-number {
+        min-width: 25px;
+        font-size: 0.8rem;
+      }
+
+      .item-row input {
+        font-size: 16px;
+      }
+
+      .code-text {
+        font-size: 1.2rem;
+        letter-spacing: 0.05rem;
+      }
+    }
   </style>
 </head>
 <body>

@@ -18,6 +18,42 @@
       <h2>Create Game (Host)</h2>
       <form action="/create" method="POST">
         <input type="text" name="hostName" placeholder="Your Name" required>
+
+        <p>Game Mode:</p>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <input type="checkbox" id="vsMode" name="vsMode" value="true" onchange="toggleHostColorSelection()">
+            <span>VS Mode (shared card, 4 players max)</span>
+          </label>
+        </div>
+
+        <div id="host-color-selection" style="display: none; margin-bottom: 1rem;">
+          <label for="hostColor">Choose Your Color:</label>
+          <select id="hostColor" name="hostColor">
+            <option value="">-- Select Color --</option>
+            <option value="RED">Red</option>
+            <option value="BLUE">Blue</option>
+            <option value="GREEN">Green</option>
+            <option value="YELLOW">Yellow</option>
+            <option value="PURPLE">Purple</option>
+            <option value="ORANGE">Orange</option>
+            <option value="PINK">Pink</option>
+            <option value="CYAN">Cyan</option>
+          </select>
+        </div>
+
+        <p>Game Options:</p>
+        <div style="margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
+          <label style="display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" id="flagsEnabled" name="flagsEnabled" value="true" checked>
+            <span>Enable Flag System</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" id="rerollsEnabled" name="rerollsEnabled" value="true" checked>
+            <span>Enable Rerolls</span>
+          </label>
+        </div>
+
         <p>Select Win Conditions:</p>
         <div class="win-conditions-grid">
           <label for="row"><input type="checkbox" id="row" name="winConditions" value="row"> Single Row</label>
@@ -28,6 +64,7 @@
           <label for="3columns"><input type="checkbox" id="3columns" name="winConditions" value="3columns"> 3 Columns</label>
           <label for="diagonals"><input type="checkbox" id="diagonals" name="winConditions" value="diagonals"> Diagonals</label>
           <label for="full"><input type="checkbox" id="full" name="winConditions" value="full"> Full Card</label>
+          <label for="most_squares"><input type="checkbox" id="most_squares" name="winConditions" value="most_squares"> Most Squares (VS Mode)</label>
         </div>
         <button type="submit">Create</button>
       </form>
@@ -35,9 +72,23 @@
     
     <div id="join-form" style="display: none;">
       <h2>Join Game</h2>
-      <form action="/join" method="POST">
-        <input type="password" name="code" placeholder="Game Code" required>
+      <form id="join-game-form" action="/join" method="POST">
+        <input type="password" id="join-code" name="code" placeholder="Game Code" required>
         <input type="text" name="playerName" placeholder="Your Name" required>
+        <div id="color-selection" style="display: none; margin: 1rem 0;">
+          <label for="playerColor">Choose Your Color:</label>
+          <select id="playerColor" name="playerColor" required>
+            <option value="">-- Select Color --</option>
+            <option value="RED">Red</option>
+            <option value="BLUE">Blue</option>
+            <option value="GREEN">Green</option>
+            <option value="YELLOW">Yellow</option>
+            <option value="PURPLE">Purple</option>
+            <option value="ORANGE">Orange</option>
+            <option value="PINK">Pink</option>
+            <option value="CYAN">Cyan</option>
+          </select>
+        </div>
         <button type="submit">Join</button>
       </form>
     </div>
@@ -53,6 +104,61 @@
       document.getElementById('join-form').style.display = 'block';
       document.getElementById('host-form').style.display = 'none';
     }
+
+    function toggleHostColorSelection() {
+      const vsModeChecked = document.getElementById('vsMode').checked;
+      const colorSelection = document.getElementById('host-color-selection');
+      const colorSelect = document.getElementById('hostColor');
+
+      if (vsModeChecked) {
+        colorSelection.style.display = 'block';
+        colorSelect.required = true;
+      } else {
+        colorSelection.style.display = 'none';
+        colorSelect.required = false;
+      }
+    }
+
+    // Check game mode when code is entered
+    const joinCodeInput = document.getElementById('join-code');
+    const colorSelection = document.getElementById('color-selection');
+    const playerColorSelect = document.getElementById('playerColor');
+
+    joinCodeInput.addEventListener('blur', async function() {
+      const code = this.value.trim().toUpperCase();
+      if (code.length === 6) {
+        try {
+          const response = await fetch(`/game-info/${code}`);
+          if (response.ok) {
+            const gameInfo = await response.json();
+            if (gameInfo.mode === 'VS') {
+              // Show color selection and filter available colors
+              colorSelection.style.display = 'block';
+              playerColorSelect.required = true;
+
+              // Disable already taken colors
+              const allColors = ['RED', 'BLUE', 'GREEN', 'YELLOW', 'PURPLE', 'ORANGE', 'PINK', 'CYAN'];
+              const takenColors = gameInfo.takenColors || [];
+
+              Array.from(playerColorSelect.options).forEach(option => {
+                if (option.value && takenColors.includes(option.value)) {
+                  option.disabled = true;
+                  option.textContent = option.textContent + ' (taken)';
+                } else if (option.value) {
+                  option.disabled = false;
+                  option.textContent = option.value.charAt(0) + option.value.slice(1).toLowerCase();
+                }
+              });
+            } else {
+              colorSelection.style.display = 'none';
+              playerColorSelect.required = false;
+            }
+          }
+        } catch (err) {
+          console.error('Failed to fetch game info:', err);
+        }
+      }
+    });
   </script>
 </body>
 </html>

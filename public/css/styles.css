@@ -564,6 +564,11 @@ body {
   cursor: url('/images/hanko.png') 50 100, auto;
 }
 
+/* Custom cursor for VS mode cards */
+.vs-card td {
+  cursor: url('/images/hanko.png') 50 100, auto;
+}
+
 /* Hanko stamp overlay for own card: centered with tile content */
 .own-card td.stamped {
   background-color: transparent !important;
@@ -583,6 +588,66 @@ body {
   opacity: 0.3;
   pointer-events: none;
 }
+
+/* VS Mode colored stamp overlays */
+.vs-card td.stamped-RED {
+  background-color: rgba(255, 0, 0, 0.4) !important;
+}
+.vs-card td.stamped-BLUE {
+  background-color: rgba(0, 0, 255, 0.4) !important;
+}
+.vs-card td.stamped-GREEN {
+  background-color: rgba(0, 255, 0, 0.4) !important;
+}
+.vs-card td.stamped-YELLOW {
+  background-color: rgba(255, 255, 0, 0.4) !important;
+}
+.vs-card td.stamped-PURPLE {
+  background-color: rgba(128, 0, 128, 0.4) !important;
+}
+.vs-card td.stamped-ORANGE {
+  background-color: rgba(255, 165, 0, 0.4) !important;
+}
+.vs-card td.stamped-PINK {
+  background-color: rgba(255, 192, 203, 0.4) !important;
+}
+.vs-card td.stamped-CYAN {
+  background-color: rgba(0, 255, 255, 0.4) !important;
+}
+
+/* VS Mode stamp image overlay */
+.vs-card td[class*="stamped-"] .tile-content::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  background-image: url('/images/tcb_stamp.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Color badges for leaderboard */
+.color-badge {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.color-badge.RED { background-color: rgba(255, 0, 0, 0.8); }
+.color-badge.BLUE { background-color: rgba(0, 0, 255, 0.8); }
+.color-badge.GREEN { background-color: rgba(0, 255, 0, 0.8); }
+.color-badge.YELLOW { background-color: rgba(255, 255, 0, 0.8); }
+.color-badge.PURPLE { background-color: rgba(128, 0, 128, 0.8); }
+.color-badge.ORANGE { background-color: rgba(255, 165, 0, 0.8); }
+.color-badge.PINK { background-color: rgba(255, 192, 203, 0.8); }
+.color-badge.CYAN { background-color: rgba(0, 255, 255, 0.8); }
 
 /* Hanko press animation */
 @keyframes hanko-press {

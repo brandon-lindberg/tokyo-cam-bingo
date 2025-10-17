@@ -8,7 +8,7 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/game.js"></script>
 </head>
-<body class="game-page" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>">
+<body class="game-page" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>" data-game-mode="<%= game.mode %>" data-flags-enabled="<%= game.flagsEnabled %>" data-rerolls-enabled="<%= game.rerollsEnabled %>" data-player-color="<%= currentPlayer.color || '' %>">
 <aside class="sidebar">
   <div class="sidebar-header">
     <div class="copy-code-wrapper">
@@ -19,7 +19,9 @@
       <button id="chat-toggle-desktop" class="chat-toggle-button">
         <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
       </button>
-      <button id="flag-button" class="chat-toggle-button" title="Throw Flag">🚩</button>
+      <% if (game.flagsEnabled) { %>
+        <button id="flag-button" class="chat-toggle-button" title="Throw Flag">🚩</button>
+      <% } %>
       <span id="chat-notification" class="notification-badge"></span>
     </div>
   </div>
@@ -36,7 +38,7 @@
       <tbody></tbody>
     </table>
   </div>
-  <% if (currentPlayer.isHost) { %>
+  <% if (currentPlayer.isHost && game.rerollsEnabled) { %>
     <div class="reroll-section">
       <div class="reroll-controls">
         <button onclick="enterRerollMode('<%= currentPlayer.id %>')">Enter Re-roll Mode</button>
@@ -86,7 +88,7 @@
     
     <div class="game-layout">
       <div class="card-section">
-        <table id="card-<%= currentPlayer.id %>" class="bingo-card own-card">
+        <table id="card-<%= currentPlayer.id %>" class="bingo-card <%= game.mode === 'VS' ? 'vs-card' : 'own-card' %>">
           <% currentPlayer.card.forEach((row, r) => { %>
             <tr>
               <% row.forEach((tile, c) => { %>
@@ -111,7 +113,9 @@
     <button id="chat-toggle-mobile" class="chat-toggle-button">
       <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
     </button>
-    <button id="flag-button-mobile" class="chat-toggle-button" title="Throw Flag">🚩</button>
+    <% if (game.flagsEnabled) { %>
+      <button id="flag-button-mobile" class="chat-toggle-button" title="Throw Flag">🚩</button>
+    <% } %>
     <% if (currentPlayer.isHost) { %>
       <button id="copy-code-mobile" onclick="copyGameCode()" title="Copy Game Code">Copy Code</button>
     <% } %>
@@ -227,6 +231,10 @@
     const playerId = document.body.dataset.playerId;
     const playerName = document.body.dataset.playerName;
     const isHost = document.body.dataset.isHost === 'true';
+    const gameMode = document.body.dataset.gameMode;
+    const flagsEnabled = document.body.dataset.flagsEnabled === 'true';
+    const rerollsEnabled = document.body.dataset.rerollsEnabled === 'true';
+    const playerColor = document.body.dataset.playerColor;
     let isGameOver = document.body.dataset.gameStatus === 'ended';
     let allPlayers = []; // Global to store all players
     let modalOpenPlayerId = null; // Track open modal player
@@ -236,26 +244,57 @@
       fetch('/get-code').then(r => r.ok ? r.text() : '').then(code => { window.gameCode = code || null; });
     }
     socket.emit('join_room', { gameId, playerId });
-    
+
     // Update state
     socket.on('update_state', (data) => {
       const { game, players } = data;
       allPlayers = players; // Update global
       const currentCardTable = document.getElementById(`card-${playerId}`);
       const currentPlayerData = players.find(p => p.id === playerId);
+
       if (currentPlayerData) {
-        currentPlayerData.card.forEach((row, r) => {
-          row.forEach((tile, c) => {
-            const td = currentCardTable.rows[r].cells[c];
-            td.querySelector('.tile-content').textContent = tile.item;
-            td.classList.toggle('stamped', tile.stamped);
+        if (game.mode === 'VS') {
+          // VS Mode: Update colored stamps based on all players
+          currentPlayerData.card.forEach((row, r) => {
+            row.forEach((tile, c) => {
+              const td = currentCardTable.rows[r].cells[c];
+              td.querySelector('.tile-content').textContent = tile.item;
+
+              // Clear all stamp classes
+              td.className = '';
+              td.dataset.row = r;
+              td.dataset.col = c;
+
+              // Check which player (if any) has stamped this square
+              let stampedBy = null;
+              for (const player of players) {
+                const squares = player.stampedSquares || [];
+                if (squares.some(s => s.row === r && s.col === c)) {
+                  stampedBy = player.color;
+                  break;
+                }
+              }
+
+              if (stampedBy) {
+                td.classList.add(`stamped-${stampedBy}`);
+              }
+            });
           });
-        });
+        } else {
+          // Regular mode: Original stamping logic
+          currentPlayerData.card.forEach((row, r) => {
+            row.forEach((tile, c) => {
+              const td = currentCardTable.rows[r].cells[c];
+              td.querySelector('.tile-content').textContent = tile.item;
+              td.classList.toggle('stamped', tile.stamped);
+            });
+          });
+        }
       }
-      updateLeaderboard(players);
+      updateLeaderboard(players, game.mode);
       // If mobile drawer leaderboard is open, refresh it
       if (document.getElementById('drawer-leaderboard')) {
-        updateDrawerLeaderboard(players);
+        updateDrawerLeaderboard(players, game.mode);
       }
       
       if (game.status === 'ended' && !isGameOver) {
@@ -335,6 +374,10 @@
     document.querySelectorAll('#card-<%= currentPlayer.id %> td').forEach(td => {
       td.addEventListener('click', (e) => {
         if (isGameOver || td.closest('table').classList.contains('reroll-mode')) return;
+
+        const row = td.dataset.row;
+        const col = td.dataset.col;
+
         // Animate hanko press centered on tile
         (function animateHankoPress(el) {
           const rect = el.getBoundingClientRect();
@@ -356,18 +399,22 @@
             tableEl.classList.remove('no-cursor');
           });
         })(td);
-        const row = td.dataset.row;
-        const col = td.dataset.col;
+
         socket.emit('stamp', { gameId, playerId, row, col });
       });
     });
-    // Hanko cursor scaling on own card tiles
+    // Hanko cursor scaling on card tiles
     (function(){
       const hankoImg = new Image();
       hankoImg.src = '/images/hanko.png';
       hankoImg.onload = () => {
         function applyHankoCursor() {
-          document.querySelectorAll('#card-<%= currentPlayer.id %> td:not(.stamped)').forEach(td => {
+          // For regular mode, exclude stamped tiles; for VS mode, apply to all tiles
+          const selector = gameMode === 'VS'
+            ? `#card-<%= currentPlayer.id %> td`
+            : `#card-<%= currentPlayer.id %> td:not(.stamped)`;
+
+          document.querySelectorAll(selector).forEach(td => {
             const width = td.offsetWidth;
             const height = td.offsetHeight;
             const scale = 0.8;
@@ -737,7 +784,7 @@
             <tbody></tbody>
           `;
           drawerContent.appendChild(table);
-          updateDrawerLeaderboard(allPlayers);
+          updateDrawerLeaderboard(allPlayers, gameMode);
         } // Add more for other types if needed
         drawer.style.bottom = '0px';
       }
@@ -747,50 +794,84 @@
       document.getElementById('drawer').style.bottom = '-100%';
     }
 
-    function updateDrawerLeaderboard(players) {
+    function updateDrawerLeaderboard(players, gameMode) {
       const leaderboardBody = document.querySelector('#drawer-leaderboard tbody');
+      if (!leaderboardBody) return;
       leaderboardBody.innerHTML = ''; // Clear existing
 
       // Compute scores (same as main leaderboard)
       const scoredPlayers = players.map(player => {
-        const card = player.card;
         let score = 0;
         let stampedCount = 0;
 
-        card.flat().forEach(tile => {
-          if (tile.stamped) stampedCount++;
-        });
+        if (gameMode === 'VS') {
+          const squares = player.stampedSquares || [];
+          stampedCount = squares.length;
 
-        score += card.filter(row => row.every(t => t.stamped)).length;
+          let stampedGrid = Array(5).fill(null).map(() => Array(5).fill(false));
+          squares.forEach(({ row, col }) => {
+            stampedGrid[row][col] = true;
+          });
 
-        for (let col = 0; col < 5; col++) {
-          let complete = true;
-          for (let row = 0; row < 5; row++) {
-            if (!card[row][col].stamped) {
-              complete = false;
-              break;
+          score += stampedGrid.filter(row => row.every(cell => cell)).length;
+
+          for (let col = 0; col < 5; col++) {
+            let complete = true;
+            for (let row = 0; row < 5; row++) {
+              if (!stampedGrid[row][col]) {
+                complete = false;
+                break;
+              }
             }
+            if (complete) score++;
           }
-          if (complete) score++;
+
+          let mainComplete = true;
+          let antiComplete = true;
+          for (let i = 0; i < 5; i++) {
+            if (!stampedGrid[i][i]) mainComplete = false;
+            if (!stampedGrid[i][4 - i]) antiComplete = false;
+          }
+          if (mainComplete) score++;
+          if (antiComplete) score++;
+        } else {
+          const card = player.card;
+          card.flat().forEach(tile => {
+            if (tile.stamped) stampedCount++;
+          });
+
+          score += card.filter(row => row.every(t => t.stamped)).length;
+
+          for (let col = 0; col < 5; col++) {
+            let complete = true;
+            for (let row = 0; row < 5; row++) {
+              if (!card[row][col].stamped) {
+                complete = false;
+                break;
+              }
+            }
+            if (complete) score++;
+          }
+
+          let mainComplete = true;
+          let antiComplete = true;
+          for (let i = 0; i < 5; i++) {
+            if (!card[i][i].stamped) mainComplete = false;
+            if (!card[i][4 - i].stamped) antiComplete = false;
+          }
+          if (mainComplete) score++;
+          if (antiComplete) score++;
         }
 
-        let mainComplete = true;
-        let antiComplete = true;
-        for (let i = 0; i < 5; i++) {
-          if (!card[i][i].stamped) mainComplete = false;
-          if (!card[i][4 - i].stamped) antiComplete = false;
-        }
-        if (mainComplete) score++;
-        if (antiComplete) score++;
-
-        return { id: player.id, name: player.name, score, stampedCount };
+        return { id: player.id, name: player.name, score, stampedCount, color: player.color };
       });
 
       scoredPlayers.sort((a, b) => b.score - a.score || b.stampedCount - a.stampedCount);
 
       scoredPlayers.forEach((p, index) => {
         const tr = document.createElement('tr');
-        const nameTd = `<td>${p.id === playerId ? p.name : `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>`}</td>`;
+        const colorBadge = gameMode === 'VS' && p.color ? `<span class="color-badge ${p.color}"></span>` : '';
+        const nameTd = `<td>${colorBadge}${p.id === playerId ? p.name : `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>`}</td>`;
         tr.innerHTML = `
           <td>${index + 1}</td>
           ${nameTd}

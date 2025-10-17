@@ -208,56 +208,91 @@ function exitRerollMode(playerId) {
   delete rerollStates[playerId];
 }
 
-function updateLeaderboard(players) {
+function updateLeaderboard(players, gameMode) {
   const leaderboardBody = document.querySelector('#leaderboard tbody');
   leaderboardBody.innerHTML = ''; // Clear existing
 
   // Compute scores
   const scoredPlayers = players.map(player => {
-    const card = player.card;
     let score = 0;
     let stampedCount = 0;
 
-    // Count stamped tiles
-    card.flat().forEach(tile => {
-      if (tile.stamped) stampedCount++;
-    });
+    if (gameMode === 'VS') {
+      // VS mode: Use stampedSquares
+      const squares = player.stampedSquares || [];
+      stampedCount = squares.length;
 
-    // Completed rows
-    score += card.filter(row => row.every(t => t.stamped)).length;
+      // Create grid to check win conditions
+      let stampedGrid = Array(5).fill(null).map(() => Array(5).fill(false));
+      squares.forEach(({ row, col }) => {
+        stampedGrid[row][col] = true;
+      });
 
-    // Completed columns
-    for (let col = 0; col < 5; col++) {
-      let complete = true;
-      for (let row = 0; row < 5; row++) {
-        if (!card[row][col].stamped) {
-          complete = false;
-          break;
+      // Completed rows
+      score += stampedGrid.filter(row => row.every(cell => cell)).length;
+
+      // Completed columns
+      for (let col = 0; col < 5; col++) {
+        let complete = true;
+        for (let row = 0; row < 5; row++) {
+          if (!stampedGrid[row][col]) {
+            complete = false;
+            break;
+          }
         }
+        if (complete) score++;
       }
-      if (complete) score++;
+
+      // Diagonals
+      let mainComplete = true;
+      let antiComplete = true;
+      for (let i = 0; i < 5; i++) {
+        if (!stampedGrid[i][i]) mainComplete = false;
+        if (!stampedGrid[i][4 - i]) antiComplete = false;
+      }
+      if (mainComplete) score++;
+      if (antiComplete) score++;
+    } else {
+      // Regular mode: Use card
+      const card = player.card;
+      card.flat().forEach(tile => {
+        if (tile.stamped) stampedCount++;
+      });
+
+      score += card.filter(row => row.every(t => t.stamped)).length;
+
+      for (let col = 0; col < 5; col++) {
+        let complete = true;
+        for (let row = 0; row < 5; row++) {
+          if (!card[row][col].stamped) {
+            complete = false;
+            break;
+          }
+        }
+        if (complete) score++;
+      }
+
+      let mainComplete = true;
+      let antiComplete = true;
+      for (let i = 0; i < 5; i++) {
+        if (!card[i][i].stamped) mainComplete = false;
+        if (!card[i][4 - i].stamped) antiComplete = false;
+      }
+      if (mainComplete) score++;
+      if (antiComplete) score++;
     }
 
-    // Diagonals
-    let mainComplete = true;
-    let antiComplete = true;
-    for (let i = 0; i < 5; i++) {
-      if (!card[i][i].stamped) mainComplete = false;
-      if (!card[i][4 - i].stamped) antiComplete = false;
-    }
-    if (mainComplete) score++;
-    if (antiComplete) score++;
-
-    return { id: player.id, name: player.name, score, stampedCount };
+    return { id: player.id, name: player.name, score, stampedCount, color: player.color };
   });
 
   // Sort: score desc, then stamped desc
   scoredPlayers.sort((a, b) => b.score - a.score || b.stampedCount - a.stampedCount);
 
-  // Render with clickable names (except own)
+  // Render with clickable names (except own) and color badges for VS mode
   scoredPlayers.forEach((p, index) => {
     const tr = document.createElement('tr');
-    const nameTd = `<td>${p.id === playerId ? p.name : `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>`}</td>`;
+    const colorBadge = gameMode === 'VS' && p.color ? `<span class="color-badge ${p.color}"></span>` : '';
+    const nameTd = `<td>${colorBadge}${p.id === playerId ? p.name : `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>`}</td>`;
     tr.innerHTML = `
       <td>${index + 1}</td>
       ${nameTd}

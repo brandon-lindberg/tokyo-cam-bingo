@@ -11,24 +11,30 @@ datasource db {
 }
 
 model Game {
-  id           String    @id @default(uuid())
-  code         String    @unique
-  rules        Json      // e.g., {"winConditions": ["row", "2rows", "diagonals"]}
-  status       String    @default("active")
-  winner       String?
-  createdAt    DateTime  @default(now())
-  players      Player[]
-  messages     ChatMessage[]
+  id             String    @id @default(uuid())
+  code           String    @unique
+  rules          Json      // e.g., {"winConditions": ["row", "2rows", "diagonals"]}
+  status         String    @default("active")
+  winner         String?
+  mode           String    @default("REGULAR") // REGULAR or VS
+  sharedCard     Json?     // For VS mode: shared 5x5 card
+  flagsEnabled   Boolean   @default(true)
+  rerollsEnabled Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  players        Player[]
+  messages       ChatMessage[]
 }
 
 model Player {
-  id        String   @id @default(uuid())
-  name      String
-  isHost    Boolean  @default(false)
-  gameId    String
-  card      Json     // 5x5 array: [[{item: "str", stamped: false}, ...], ...]
-  game      Game     @relation(fields: [gameId], references: [id])
-  messages    ChatMessage[]
+  id              String   @id @default(uuid())
+  name            String
+  isHost          Boolean  @default(false)
+  gameId          String
+  card            Json     // 5x5 array: [[{item: "str", stamped: false}, ...], ...]
+  color           String?  // For VS mode: RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, PINK, CYAN
+  stampedSquares  Json?    // For VS mode: array of {row, col, color}
+  game            Game     @relation(fields: [gameId], references: [id])
+  messages        ChatMessage[]
 }
 
 model ChatMessage {

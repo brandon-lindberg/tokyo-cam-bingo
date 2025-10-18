@@ -85,9 +85,17 @@
 
         <!-- Custom Card Section -->
         <div class="form-section">
-          <label class="form-label">Card Selection (Optional)</label>
-          <input type="text" id="customCardCode" name="customCardCode" class="form-input" placeholder="Enter custom card code (leave blank for default Tokyo Cam Bingo Card)" maxlength="6">
-          <div id="custom-card-info" style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;"></div>
+          <label class="form-label">Card Selection</label>
+          <div style="margin-bottom: 0.5rem; color: #666; font-size: 0.9rem;">
+            Using default Tokyo Cam Bingo Card
+          </div>
+          <button type="button" onclick="toggleCustomCardInput()" class="secondary-button" style="padding: 0.5rem 1rem; font-size: 0.9rem; background: transparent; border: 1px solid #00BFFF; color: #00BFFF;">
+            Use Custom Card (Optional)
+          </button>
+          <div id="custom-card-input-section" style="display: none; margin-top: 1rem;">
+            <input type="text" id="customCardCode" name="customCardCode" class="form-input" placeholder="Enter custom card code" maxlength="6">
+            <div id="custom-card-info" style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;"></div>
+          </div>
         </div>
 
         <!-- Game Options Section -->
@@ -191,6 +199,22 @@
     function showJoinForm() {
       document.getElementById('join-form').style.display = 'block';
       document.getElementById('host-form').style.display = 'none';
+    }
+
+    function toggleCustomCardInput() {
+      const inputSection = document.getElementById('custom-card-input-section');
+      const button = event.target;
+
+      if (inputSection.style.display === 'none') {
+        inputSection.style.display = 'block';
+        button.textContent = 'Use Default Card';
+      } else {
+        inputSection.style.display = 'none';
+        button.textContent = 'Use Custom Card (Optional)';
+        // Clear the input and info when hiding
+        document.getElementById('customCardCode').value = '';
+        document.getElementById('custom-card-info').textContent = '';
+      }
     }
 
     function toggleHostColorSelection() {

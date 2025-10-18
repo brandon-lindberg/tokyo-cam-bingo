@@ -22,21 +22,26 @@
 </head>
 <body>
   <div class="container welcome-container" style="margin: 0 auto;">
-    <h1>Welcome to Tokyo Cam Bingo</h1>
-    <div class="button-group">
-      <button onclick="showHostForm()">Host Game</button>
-      <button onclick="showJoinForm()">Join Game</button>
-    </div>
-    <div style="text-align: center; margin-top: 1rem;">
-      <a href="/card-builder" style="color: #00BFFF; text-decoration: none; font-size: 1rem;">
-        + Create Custom Card
-      </a>
-    </div>
-    <div style="text-align: center; margin-top: 2rem;">
-      <img src="/tokyo-cam-bingo.png" alt="Tokyo Cam Bingo" style="max-width: 300px; width: 100%; height: auto;">
+    <div id="welcome-content">
+      <h1>Welcome to Tokyo Cam Bingo</h1>
+      <div class="button-group">
+        <button onclick="showHostForm()">Host Game</button>
+        <button onclick="showJoinForm()">Join Game</button>
+      </div>
+      <div style="text-align: center; margin-top: 1rem;">
+        <a href="/card-builder" style="color: #00BFFF; text-decoration: none; font-size: 1rem;">
+          + Create Custom Card
+        </a>
+      </div>
+      <div style="text-align: center; margin-top: 2rem;">
+        <img src="/tokyo-cam-bingo.png" alt="Tokyo Cam Bingo" style="max-width: 300px; width: 100%; height: auto;">
+      </div>
     </div>
     
     <div id="host-form" style="display: none;">
+      <div style="text-align: left;">
+        <a href="#" onclick="backToHome(); return false;" style="display: inline-block; margin-bottom: 1rem; color: #00BFFF; text-decoration: none; font-size: 1rem;">← Back to Home</a>
+      </div>
       <h2>Create Game</h2>
       <form action="/create" method="POST" class="create-game-form">
 
@@ -167,6 +172,9 @@
     </div>
     
     <div id="join-form" style="display: none;">
+      <div style="text-align: left;">
+        <a href="#" onclick="backToHome(); return false;" style="display: inline-block; margin-bottom: 1rem; color: #00BFFF; text-decoration: none; font-size: 1rem;">← Back to Home</a>
+      </div>
       <h2>Join Game</h2>
       <form id="join-game-form" action="/join" method="POST">
         <input type="password" id="join-code" name="code" placeholder="Game Code" required>
@@ -192,13 +200,21 @@
 
   <script>
     function showHostForm() {
+      document.getElementById('welcome-content').style.display = 'none';
       document.getElementById('host-form').style.display = 'block';
       document.getElementById('join-form').style.display = 'none';
     }
 
     function showJoinForm() {
+      document.getElementById('welcome-content').style.display = 'none';
       document.getElementById('join-form').style.display = 'block';
       document.getElementById('host-form').style.display = 'none';
+    }
+
+    function backToHome() {
+      document.getElementById('welcome-content').style.display = 'block';
+      document.getElementById('host-form').style.display = 'none';
+      document.getElementById('join-form').style.display = 'none';
     }
 
     function toggleCustomCardInput() {

@@ -1,96 +1,118 @@
-const CACHE_NAME = 'tokyo-cam-bingo-v1';
-const urlsToCache = [
-  '/',
-  '/css/styles.css',
-  '/js/game.js',
+const VERSION = new URL(self.location).searchParams.get('v') || 'dev';
+const STATIC_CACHE = `tokyo-cam-bingo-static-${VERSION}`;
+const RUNTIME_CACHE = `tokyo-cam-bingo-runtime-${VERSION}`;
+const CACHE_NAMESPACE = 'tokyo-cam-bingo-';
+
+const STATIC_ASSETS = [
+  `/css/styles.css?v=${VERSION}`,
+  `/js/pwa-install.js?v=${VERSION}`,
+  `/js/game.js?v=${VERSION}`,
   '/images/tcb_stamp.png',
   '/images/hanko.png',
   '/android-chrome-192x192.png',
   '/android-chrome-512x512.png',
   '/apple-touch-icon.png',
   '/favicon-32x32.png',
-  '/favicon-16x16.png'
+  '/favicon-16x16.png',
+  '/offline.html'
 ];
 
-// Install event - cache assets
+const CACHEABLE_DESTINATIONS = ['style', 'script', 'image', 'font'];
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(STATIC_CACHE)
+      .then((cache) => cache.addAll(STATIC_ASSETS))
       .then(() => self.skipWaiting())
   );
 });
 
-// Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    }).then(() => self.clients.claim())
+    caches.keys().then((cacheNames) => Promise.all(
+      cacheNames.map((cacheName) => {
+        if (!cacheName.startsWith(CACHE_NAMESPACE)) {
+          return null;
+        }
+        if (cacheName !== STATIC_CACHE && cacheName !== RUNTIME_CACHE) {
+          return caches.delete(cacheName);
+        }
+        return null;
+      })
+    )).then(() => self.clients.claim())
   );
 });
 
-// Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
-  // Skip non-GET requests
-  if (event.request.method !== 'GET') {
+  const { request } = event;
+
+  if (request.method !== 'GET') {
     return;
   }
 
-  // Skip socket.io and API calls
-  if (event.request.url.includes('socket.io') ||
-      event.request.url.includes('/api/')) {
+  const url = new URL(request.url);
+
+  if (url.origin !== self.location.origin) {
+    return;
+  }
+
+  if (request.url.includes('socket.io') || request.url.includes('/api/')) {
+    return;
+  }
+
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          const copy = response.clone();
+          caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, copy));
+          return response;
+        })
+        .catch(async () => {
+          const cachedResponse = await caches.match(request);
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          return caches.match('/offline.html');
+        })
+    );
+    return;
+  }
+
+  if (CACHEABLE_DESTINATIONS.includes(request.destination)) {
+    event.respondWith(
+      caches.open(STATIC_CACHE).then((cache) =>
+        cache.match(request).then((cached) => {
+          if (cached) {
+            return cached;
+          }
+
+          return fetch(request).then((response) => {
+            if (response && response.status === 200) {
+              cache.put(request, response.clone());
+            }
+            return response;
+          });
+        })
+      )
+    );
     return;
   }
 
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-
-        // Clone the request
-        const fetchRequest = event.request.clone();
-
-        return fetch(fetchRequest).then((response) => {
-          // Check if valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
+    caches.open(RUNTIME_CACHE).then((cache) =>
+      fetch(request)
+        .then((response) => {
+          if (response && response.status === 200) {
+            cache.put(request, response.clone());
           }
-
-          // Clone the response
-          const responseToCache = response.clone();
-
-          // Cache static assets only
-          if (event.request.url.match(/\.(js|css|png|jpg|jpeg|svg|gif|woff|woff2)$/)) {
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
-          }
-
           return response;
-        }).catch(() => {
-          // Return offline page if available
-          return caches.match('/');
-        });
-      })
+        })
+        .catch(() => cache.match(request))
+    )
   );
 });
 
-// Handle messages from clients
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();

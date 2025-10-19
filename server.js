@@ -10,6 +10,7 @@ const uuid = require('uuid');
 const session = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 require('dotenv').config();
+const packageJson = require('./package.json');
 
 // In-memory flags and voting state
 const flagsLeft = {}; // playerId -> remaining flags
@@ -22,6 +23,18 @@ if (!process.env.SESSION_SECRET) {
 }
 
 app.set('view engine', 'ejs');
+
+const buildVersion = process.env.APP_BUILD_VERSION || process.env.BUILD_ID || packageJson.version;
+const enableServiceWorker = process.env.ENABLE_SERVICE_WORKER === 'true';
+
+app.locals.assetVersion = buildVersion;
+app.locals.enableServiceWorker = enableServiceWorker;
+
+app.use((req, res, next) => {
+  res.locals.assetVersion = app.locals.assetVersion;
+  res.locals.enableServiceWorker = app.locals.enableServiceWorker;
+  next();
+});
 
 // Add cache control middleware - no caching for HTML/dynamic content
 app.use((req, res, next) => {

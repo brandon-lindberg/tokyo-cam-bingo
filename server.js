@@ -22,7 +22,26 @@ if (!process.env.SESSION_SECRET) {
 }
 
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
+
+// Add cache control middleware - no caching for HTML/dynamic content
+app.use((req, res, next) => {
+  // Don't cache HTML pages, game state, or API responses
+  if (req.path.endsWith('.html') || req.path === '/' || req.path.startsWith('/game') || req.path.startsWith('/api') || req.path.startsWith('/join') || req.path.startsWith('/create')) {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+  }
+  next();
+});
+
+app.use(express.static('public', {
+  // Allow caching for static assets (CSS, JS, images) but with validation
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css') || path.endsWith('.js') || path.endsWith('.png') || path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.svg') || path.endsWith('.gif')) {
+      res.set('Cache-Control', 'no-cache, must-revalidate');
+    }
+  }
+}));
 
 // Serve PWA files from root
 app.use('/site.webmanifest', express.static('site.webmanifest'));
@@ -170,15 +189,16 @@ function checkWin(cardOrStamps, rules) {
   const full = stampedGrid.flat().every(cell => cell);
 
   // Note: most_squares is handled separately in stamp event, not here
-  if (rules.includes('row') && rowCount >= 1) return true;
-  if (rules.includes('2rows') && rowCount >= 2) return true;
-  if (rules.includes('3rows') && rowCount >= 3) return true;
-  if (rules.includes('column') && colCount >= 1) return true;
-  if (rules.includes('2columns') && colCount >= 2) return true;
-  if (rules.includes('3columns') && colCount >= 3) return true;
-  if (rules.includes('diagonals') && (diagonals.main || diagonals.anti)) return true;
-  if (rules.includes('full') && full) return true;
-  return false;
+  // Return both boolean and the winning condition
+  if (rules.includes('row') && rowCount >= 1) return { won: true, condition: 'Row' };
+  if (rules.includes('2rows') && rowCount >= 2) return { won: true, condition: '2 Rows' };
+  if (rules.includes('3rows') && rowCount >= 3) return { won: true, condition: '3 Rows' };
+  if (rules.includes('column') && colCount >= 1) return { won: true, condition: 'Column' };
+  if (rules.includes('2columns') && colCount >= 2) return { won: true, condition: '2 Columns' };
+  if (rules.includes('3columns') && colCount >= 3) return { won: true, condition: '3 Columns' };
+  if (rules.includes('diagonals') && (diagonals.main || diagonals.anti)) return { won: true, condition: 'Diagonals' };
+  if (rules.includes('full') && full) return { won: true, condition: 'Full Card' };
+  return { won: false, condition: null };
 }
 
 // Home page
@@ -533,12 +553,13 @@ io.on('connection', (socket) => {
       let updatedGame = game;
 
       // Check traditional win conditions first
-      if (checkWin(stampedSquares, game.rules.winConditions)) {
+      const winResult = checkWin(stampedSquares, game.rules.winConditions);
+      if (winResult.won) {
         updatedGame = await prisma.game.update({
           where: { id: gameId },
           data: { status: 'ended', winner: player.name }
         });
-        io.to(gameId).emit('win', { playerName: player.name });
+        io.to(gameId).emit('win', { playerName: player.name, winCondition: winResult.condition });
       }
       // Check if board is full and most_squares is enabled
       else if (game.rules.winConditions.includes('most_squares')) {
@@ -570,7 +591,7 @@ io.on('connection', (socket) => {
               where: { id: gameId },
               data: { status: 'ended', winner }
             });
-            io.to(gameId).emit('win', { playerName: winner });
+            io.to(gameId).emit('win', { playerName: winner, winCondition: 'Most Squares' });
           }
         }
       }
@@ -587,12 +608,13 @@ io.on('connection', (socket) => {
       const updatedPlayers = await prisma.player.findMany({ where: { gameId: gameId } });
       let updatedGame = game;
 
-      if (!wasStamped && checkWin(card, game.rules.winConditions)) {
+      const winResult = checkWin(card, game.rules.winConditions);
+      if (!wasStamped && winResult.won) {
         updatedGame = await prisma.game.update({
           where: { id: gameId },
           data: { status: 'ended', winner: player.name }
         });
-        io.to(gameId).emit('win', { playerName: player.name });
+        io.to(gameId).emit('win', { playerName: player.name, winCondition: winResult.condition });
       }
 
       io.to(gameId).emit('update_state', { game: updatedGame, players: updatedPlayers });

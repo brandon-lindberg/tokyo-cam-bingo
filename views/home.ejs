@@ -17,8 +17,8 @@
   <meta name="apple-mobile-web-app-title" content="TCB">
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css">
-  <script src="/js/pwa-install.js" defer></script>
+  <link rel="stylesheet" href="/css/styles.css?v=<%= Date.now() %>">
+  <script src="/js/pwa-install.js?v=<%= Date.now() %>" defer></script>
 </head>
 <body>
   <div class="container welcome-container" style="margin: 0 auto;">
@@ -34,7 +34,7 @@
         </a>
       </div>
       <div style="text-align: center; margin-top: 2rem;">
-        <img src="/tokyo-cam-bingo.png" alt="Tokyo Cam Bingo" style="max-width: 300px; width: 100%; height: auto;">
+        <img src="/tokyo-cam-bingo.png?v=<%= Date.now() %>" alt="Tokyo Cam Bingo" style="max-width: 300px; width: 100%; height: auto;">
       </div>
     </div>
     
@@ -199,6 +199,18 @@
   </div>
 
   <script>
+    // Clear any cached data on page load to prevent stale game states
+    (function() {
+      try {
+        // Clear localStorage
+        localStorage.clear();
+        // Clear sessionStorage
+        sessionStorage.clear();
+      } catch (e) {
+        console.warn('Could not clear storage:', e);
+      }
+    })();
+
     function showHostForm() {
       document.getElementById('welcome-content').style.display = 'none';
       document.getElementById('host-form').style.display = 'block';

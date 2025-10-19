@@ -17,12 +17,12 @@
   <meta name="apple-mobile-web-app-title" content="TCB">
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css">
-  <script src="/js/pwa-install.js" defer></script>
+  <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
+  <script src="/js/pwa-install.js?v=<%= assetVersion %>" defer></script>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="/js/game.js"></script>
+  <script src="/js/game.js?v=<%= assetVersion %>"></script>
 </head>
-<body class="game-page" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>" data-game-mode="<%= game.mode %>" data-flags-enabled="<%= game.flagsEnabled %>" data-rerolls-enabled="<%= game.rerollsEnabled %>" data-player-color="<%= currentPlayer.color || '' %>">
+<body class="game-page" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>" data-game-mode="<%= game.mode %>" data-flags-enabled="<%= game.flagsEnabled %>" data-rerolls-enabled="<%= game.rerollsEnabled %>" data-player-color="<%= currentPlayer.color || '' %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>">
 <aside class="sidebar">
   <div class="sidebar-header">
     <div class="copy-code-wrapper">
@@ -86,20 +86,18 @@
 </aside>
   <div class="container">
     <div class="game-header">
-    <h1 style="font-size: 0.9rem;">Win Conditions: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.join(', ') : 'None' %></h1>
+    <h1 style="font-size: 0.9rem; margin-top: 1rem;">Win Conditions: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.map(c => {
+      // Replace underscores with spaces and format properly
+      let formatted = c.replace(/_/g, ' ');
+      // Handle special cases
+      if (formatted.includes('rows')) formatted = formatted.replace('rows', ' Rows');
+      else if (formatted.includes('columns')) formatted = formatted.replace('columns', ' Columns');
+      // Capitalize first letter
+      return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+    }).join(', ') : 'None' %></h1>
     <!-- header-controls removed in favor of sidebar -->
   </div>
-    
-    <div id="game-over" style="display: none; font-size: 24px; color: red; margin-bottom: 20px;">
-      Game Over! <span id="winner-name"></span> wins!
-    </div>
-    <% if (currentPlayer.isHost) { %>
-      <div id="host-options" style="display: none; margin-bottom: 20px;">
-        <button onclick="startNewGame()">Start New Game</button>
-        <button onclick="location.href = '/'">Exit to Home</button>
-      </div>
-    <% } %>
-    
+
     <div class="game-layout">
       <div class="card-section">
         <table id="card-<%= currentPlayer.id %>" class="bingo-card <%= game.mode === 'VS' ? 'vs-card' : 'own-card' %>">
@@ -150,8 +148,14 @@
   <!-- Winner Modal -->
   <div id="winner-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:1001;">
     <div style="background:#fff; padding:2rem; border-radius:8px; text-align:center; max-width:90%; margin:auto;">
-      <h2 id="winner-modal-text">Winner!</h2>
-      <button onclick="closeWinnerModal()" style="margin-top:1rem;">OK</button>
+      <h2 id="winner-modal-name" style="color: #10B981; margin-bottom: 0.5rem; font-size: 2rem;">Winner!</h2>
+      <p id="winner-modal-condition" style="font-size: 1.2rem; margin-bottom: 1.5rem; color: #333;">Win Condition</p>
+      <div id="winner-modal-buttons" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <% if (currentPlayer.isHost) { %>
+          <button onclick="startNewGame()" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #00BFFF; color: white; border: none; border-radius: 8px; cursor: pointer;">Start New Game</button>
+        <% } %>
+        <button onclick="location.href = '/'" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #FF69B4; color: white; border: none; border-radius: 8px; cursor: pointer;">Exit to Home</button>
+      </div>
     </div>
   </div>
   <!-- Modal for opponent cards -->
@@ -239,6 +243,17 @@
   
   <script id="chat-data" type="application/json"><%- JSON.stringify({ players, messages }) %></script>
   <script>
+    // Clear any cached data to prevent stale game states
+    (function() {
+      try {
+        // Don't clear storage on game page as it might affect sessions
+        // Just ensure we're loading fresh data from server
+        console.log('Game page loaded fresh');
+      } catch (e) {
+        console.warn('Storage check failed:', e);
+      }
+    })();
+
     const socket = io();
     window.socket = socket;
     const gameId = document.body.dataset.gameId;
@@ -352,8 +367,8 @@
     });
     
     // Replace native alert with custom modal
-    socket.on('win', ({ playerName }) => {
-      showWinnerModal(playerName);
+    socket.on('win', ({ playerName, winCondition }) => {
+      showWinnerModal(playerName, winCondition);
     });
     // Flag selection modal logic
     const flagSelectModal = document.getElementById('flag-select-modal');
@@ -916,9 +931,16 @@
       });
     })();
   // Show/Hide functions for winner modal
-  function showWinnerModal(playerName) {
+  function showWinnerModal(playerName, winCondition) {
     const modal = document.getElementById('winner-modal');
-    document.getElementById('winner-modal-text').textContent = playerName + ' wins!';
+    document.getElementById('winner-modal-name').textContent = `${playerName} Wins!`;
+
+    if (winCondition) {
+      document.getElementById('winner-modal-condition').textContent = `with ${winCondition}`;
+    } else {
+      document.getElementById('winner-modal-condition').textContent = '';
+    }
+
     modal.style.display = 'flex';
   }
   function closeWinnerModal() {

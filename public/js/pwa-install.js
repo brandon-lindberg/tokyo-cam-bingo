@@ -3,38 +3,59 @@
 let deferredPrompt;
 let swRegistration = null;
 
+const bodyDataset = document.body ? document.body.dataset : {};
+const assetVersion = (bodyDataset && bodyDataset.assetVersion) || window.__ASSET_VERSION__ || 'dev';
+const shouldRegisterServiceWorker = (() => {
+  if (bodyDataset && typeof bodyDataset.swEnabled !== 'undefined') {
+    return bodyDataset.swEnabled !== 'false';
+  }
+  if (typeof window.__ENABLE_SERVICE_WORKER__ !== 'undefined') {
+    return window.__ENABLE_SERVICE_WORKER__ !== false;
+  }
+  return true;
+})();
+
 // Register service worker
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/service-worker.js')
-      .then((registration) => {
-        console.log('Service Worker registered successfully:', registration.scope);
-        swRegistration = registration;
+  if (shouldRegisterServiceWorker) {
+    window.addEventListener('load', () => {
+      const swUrl = `/service-worker.js?v=${encodeURIComponent(assetVersion)}`;
 
-        // Check for updates
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              // New service worker available
-              if (confirm('New version available! Reload to update?')) {
-                newWorker.postMessage({ type: 'SKIP_WAITING' });
-                window.location.reload();
+      navigator.serviceWorker
+        .register(swUrl)
+        .then((registration) => {
+          console.log('Service Worker registered successfully:', registration.scope);
+          swRegistration = registration;
+
+          // Check for updates
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New service worker available
+                if (confirm('New version available! Reload to update?')) {
+                  newWorker.postMessage({ type: 'SKIP_WAITING' });
+                  window.location.reload();
+                }
               }
-            }
+            });
           });
+        })
+        .catch((error) => {
+          console.error('Service Worker registration failed:', error);
         });
-      })
-      .catch((error) => {
-        console.error('Service Worker registration failed:', error);
-      });
 
-    // Listen for controller change
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      window.location.reload();
+      // Listen for controller change
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        window.location.reload();
+      });
     });
-  });
+  } else {
+    // Explicitly unregister existing service workers if disabled
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      registrations.forEach((registration) => registration.unregister());
+    });
+  }
 }
 
 // Capture the install prompt event

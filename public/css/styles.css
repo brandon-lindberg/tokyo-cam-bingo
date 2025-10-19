@@ -44,19 +44,32 @@ body {
   
   .container {
     max-width: 1200px;
-    margin-left: 3rem;
+    margin: 0 auto;
   }
-  
-  /* Ensure no left padding on mobile */
-  @media (max-width: 768px) {
-    .game-page {
-      padding-left: 0;
-    }
-  }
-  
+
   /* Welcome Page Specific */
   .welcome-container {
     text-align: center;
+  }
+
+  /* Only add left margin on desktop non-game pages */
+  @media (min-width: 769px) {
+    .welcome-container {
+      margin-left: 3rem;
+    }
+  }
+
+  /* Ensure game page has no extra margins on mobile */
+  @media (max-width: 768px) {
+    .game-page {
+      padding: 0;
+      margin: 0;
+    }
+
+    .game-page .container {
+      padding: 0 1rem;
+      margin: 0 auto;
+    }
   }
   
   .button-group {
@@ -386,8 +399,11 @@ body {
     justify-content: center;
     box-sizing: border-box;
     font-size: 1.2vw; /* Adjust font size based on viewport width */
-    word-break: break-word;
+    word-break: normal;
+    overflow-wrap: break-word;
+    hyphens: none;
     overflow: hidden;
+    padding: 0.2rem;
   }
   
   /* Leaderboard Section */
@@ -512,10 +528,13 @@ body {
 
     .card-section {
       width: 100%;
+      padding: 0;
+      margin: 0 auto;
     }
-  
+
     .bingo-card {
       height: auto; /* Allow natural height on mobile */
+      margin: 1rem auto;
     }
   
     .bingo-card td {
@@ -524,6 +543,9 @@ body {
   
     .tile-content {
       font-size: 3vw;
+      word-break: normal;
+      overflow-wrap: break-word;
+      hyphens: none;
     }
     /* Mobile-friendly home page tweaks */
     .welcome-container h1 {
@@ -996,9 +1018,15 @@ body.streamer-mode .game-header h1 {
 /* Shift content right on desktop */
 @media (min-width: 769px) {
   .game-page {
-    padding-left: calc(260px + 2rem);
+    margin-left: 19rem; /* Match sidebar max-width */
     display: flex;
     justify-content: center;
+    padding: 0;
+  }
+
+  .game-page .container {
+    width: 100%;
+    padding: 0 2rem;
   }
 }
 

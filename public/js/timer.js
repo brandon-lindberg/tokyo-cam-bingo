@@ -66,6 +66,12 @@ class GameTimer {
       this.updateDisplay();
       this.updateVisualState();
       this.updateButtonVisibility('paused');
+    } else if (this.timerStatus === 'expired') {
+      this.stop();
+      this.remainingSeconds = 0;
+      this.updateDisplay();
+      this.updateVisualState();
+      this.updateButtonVisibility('expired');
     } else {
       this.resetToInitial();
     }
@@ -74,6 +80,7 @@ class GameTimer {
   resetToInitial() {
     this.stop();
     this.timerStatus = 'not_started';
+    this.timerStartedAt = null;
     this.isPaused = false;
     this.remainingSeconds = this.timerDuration;
     this.updateDisplay();
@@ -303,18 +310,19 @@ function showTimerExpiredModal(data) {
   const messageElement = document.getElementById('timer-expired-message');
   const winnerElement = document.getElementById('timer-expired-winner');
 
-  if (data.winner) {
-    titleElement.textContent = 'Time\'s Up!';
-    messageElement.textContent = 'The timer has expired.';
+  const message = data && data.message ? data.message : null;
+
+  titleElement.textContent = 'Time\'s Up!';
+
+  if (data && data.winner) {
+    messageElement.textContent = message || 'The timer has expired.';
     winnerElement.textContent = `Winner: ${data.winner}`;
     winnerElement.style.display = 'block';
-  } else if (data.tie) {
-    titleElement.textContent = 'Time\'s Up!';
-    messageElement.textContent = 'The game has ended in a tie.';
+  } else if (data && data.tie) {
+    messageElement.textContent = message || 'The game has ended in a tie.';
     winnerElement.style.display = 'none';
   } else {
-    titleElement.textContent = 'Time\'s Up!';
-    messageElement.textContent = 'The game has ended. No winner was determined.';
+    messageElement.textContent = message || 'The game has ended. No winner was determined.';
     winnerElement.style.display = 'none';
   }
 

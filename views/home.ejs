@@ -209,7 +209,7 @@
               <input type="checkbox" id="full" name="winConditions" value="full">
               <span class="win-label">Full Card</span>
             </label>
-            <label class="win-option" data-modes="vs">
+            <label class="win-option" data-modes="regular,vs" id="most-squares-option">
               <input type="checkbox" id="most_squares" name="winConditions" value="most_squares">
               <span class="win-label">Most Squares</span>
             </label>
@@ -293,10 +293,14 @@
           timerPicker = new TimerPicker('timer-picker-container');
           timerPicker.resetToDefault();
           updateTimerDurationInput();
+          toggleTimerSettings();
+          toggleHostColorSelection();
         }, 100);
       } else {
         timerPicker.resetToDefault();
         updateTimerDurationInput();
+        toggleTimerSettings();
+        toggleHostColorSelection();
       }
     }
 
@@ -313,6 +317,8 @@
       if (timerPicker) {
         timerPicker.resetToDefault();
         updateTimerDurationInput();
+        toggleTimerSettings();
+        toggleHostColorSelection();
       }
     }
 
@@ -336,6 +342,9 @@
       const vsModeChecked = document.getElementById('vsMode').checked;
       const colorSelection = document.getElementById('host-color-selection');
       const colorSelect = document.getElementById('hostColor');
+      const timerEnabled = document.getElementById('timerEnabled').checked;
+      const mostSquaresOption = document.getElementById('most-squares-option');
+      const mostSquaresCheckbox = document.getElementById('most_squares');
 
       // Toggle color selection
       if (vsModeChecked) {
@@ -362,6 +371,18 @@
           checkbox.checked = false;
         }
       });
+
+      if (!vsModeChecked && mostSquaresOption) {
+        if (timerEnabled) {
+          mostSquaresOption.style.display = 'block';
+          if (mostSquaresCheckbox) {
+            mostSquaresCheckbox.checked = true;
+          }
+        } else {
+          mostSquaresOption.style.display = 'none';
+          if (mostSquaresCheckbox) mostSquaresCheckbox.checked = false;
+        }
+      }
     }
 
     // Check custom card code when entered
@@ -443,6 +464,9 @@
     function toggleTimerSettings() {
       const enabled = document.getElementById('timerEnabled').checked;
       const settingsSection = document.getElementById('timer-settings-section');
+      const mostSquaresOption = document.getElementById('most-squares-option');
+      const mostSquaresCheckbox = document.getElementById('most_squares');
+      const vsModeChecked = document.getElementById('vsMode').checked;
 
       if (enabled) {
         settingsSection.classList.add('show');
@@ -452,8 +476,19 @@
         }
         // Update the hidden input with current timer value
         updateTimerDurationInput();
+
+        if (!vsModeChecked && mostSquaresOption) {
+          mostSquaresOption.style.display = 'block';
+          if (mostSquaresCheckbox) {
+            mostSquaresCheckbox.checked = true;
+          }
+        }
       } else {
         settingsSection.classList.remove('show');
+        if (!vsModeChecked && mostSquaresOption && mostSquaresCheckbox) {
+          mostSquaresOption.style.display = 'none';
+          mostSquaresCheckbox.checked = false;
+        }
       }
     }
 
@@ -477,11 +512,19 @@
       if (createForm) {
         createForm.addEventListener('submit', function(e) {
           const timerEnabled = document.getElementById('timerEnabled').checked;
+          const vsModeChecked = document.getElementById('vsMode').checked;
+          const mostSquaresCheckbox = document.getElementById('most_squares');
           if (timerEnabled) {
             updateTimerDurationInput();
+            if (!vsModeChecked && mostSquaresCheckbox) {
+              mostSquaresCheckbox.checked = true;
+            }
           }
         });
       }
+
+      toggleHostColorSelection();
+      toggleTimerSettings();
     });
   </script>
 </body>

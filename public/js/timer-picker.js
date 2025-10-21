@@ -340,6 +340,10 @@ class TimerPicker {
     this.emitChange();
   }
 
+  resetToDefault() {
+    this.setValue(300); // 00:05 default
+  }
+
   emitChange() {
     if (!this.container) return;
     const totalSeconds = this.getValue();

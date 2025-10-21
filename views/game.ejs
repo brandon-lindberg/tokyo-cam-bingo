@@ -346,6 +346,14 @@
     socket.on('update_state', (data) => {
       const { game, players } = data;
       allPlayers = players; // Update global
+      document.body.dataset.timerEnabled = game.timerEnabled ? 'true' : 'false';
+      document.body.dataset.timerDuration = (game.timerDuration || 0).toString();
+      document.body.dataset.timerStatus = game.timerStatus || 'not_started';
+      document.body.dataset.timerStartedAt = game.timerStartedAt ? new Date(game.timerStartedAt).toISOString() : '';
+      document.body.dataset.pauseOnReroll = game.pauseTimerOnReroll ? 'true' : 'false';
+      if (window.gameTimer) {
+        window.gameTimer.syncWithGame(game);
+      }
       const currentCardTable = document.getElementById(`card-${playerId}`);
       const currentPlayerData = players.find(p => p.id === playerId);
 
@@ -535,6 +543,11 @@
 
     function startNewGame() {
       socket.emit('new_game', { gameId });
+      document.body.dataset.timerStatus = 'not_started';
+      document.body.dataset.timerStartedAt = '';
+      if (window.gameTimer) {
+        window.gameTimer.resetToInitial();
+      }
       // Close winner modal
       const winnerModal = document.getElementById('winner-modal');
       if (winnerModal) {

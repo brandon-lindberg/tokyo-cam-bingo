@@ -31,6 +31,56 @@ class GameTimer {
     }
   }
 
+  syncWithGame(game) {
+    const enabled = !!game.timerEnabled;
+    this.timerEnabled = enabled;
+    this.timerDuration = enabled ? (game.timerDuration || 0) : 0;
+    this.pauseOnReroll = !!game.pauseTimerOnReroll;
+    this.timerStatus = game.timerStatus || 'not_started';
+    this.timerStartedAt = game.timerStartedAt ? new Date(game.timerStartedAt).toISOString() : null;
+    if (!enabled) {
+      this.stop();
+      this.remainingSeconds = 0;
+      this.isPaused = false;
+      this.updateDisplay();
+      this.updateVisualState();
+      this.updateButtonVisibility('not_started');
+      return;
+    }
+
+    if (this.timerStatus === 'running') {
+      if (this.timerStartedAt) {
+        this.calculateRemainingTime();
+      } else {
+        this.remainingSeconds = this.timerDuration;
+      }
+      this.isPaused = false;
+      this.startCountdown();
+      this.updateButtonVisibility('running');
+    } else if (this.timerStatus === 'paused') {
+      this.isPaused = true;
+      this.stop();
+      if (typeof game.remainingSeconds === 'number') {
+        this.remainingSeconds = game.remainingSeconds;
+      }
+      this.updateDisplay();
+      this.updateVisualState();
+      this.updateButtonVisibility('paused');
+    } else {
+      this.resetToInitial();
+    }
+  }
+
+  resetToInitial() {
+    this.stop();
+    this.timerStatus = 'not_started';
+    this.isPaused = false;
+    this.remainingSeconds = this.timerDuration;
+    this.updateDisplay();
+    this.updateVisualState();
+    this.updateButtonVisibility('not_started');
+  }
+
   init() {
     // Calculate initial remaining time if timer has started
     if (this.timerStatus === 'running' && this.timerStartedAt) {

@@ -291,9 +291,11 @@
       if (!timerPicker) {
         setTimeout(() => {
           timerPicker = new TimerPicker('timer-picker-container');
+          timerPicker.resetToDefault();
           updateTimerDurationInput();
         }, 100);
       } else {
+        timerPicker.resetToDefault();
         updateTimerDurationInput();
       }
     }
@@ -308,6 +310,10 @@
       document.getElementById('welcome-content').style.display = 'block';
       document.getElementById('host-form').style.display = 'none';
       document.getElementById('join-form').style.display = 'none';
+      if (timerPicker) {
+        timerPicker.resetToDefault();
+        updateTimerDurationInput();
+      }
     }
 
     function toggleCustomCardInput() {

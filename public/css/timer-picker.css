@@ -1,0 +1,190 @@
+/* iOS-Style Timer Picker Styles */
+
+.timer-picker {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --timer-wheel-item-height: 44px;
+}
+
+.timer-picker-wheels {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+  padding: 0 1rem;
+}
+
+.timer-wheel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timer-wheel {
+  height: calc(var(--timer-wheel-item-height) * 5);
+  width: 100px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  position: relative;
+  padding: 0 0.5rem;
+
+  /* Hide scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.timer-wheel::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.timer-wheel-item {
+  height: var(--timer-wheel-item-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  color: #000;
+  transition: opacity 0.2s, transform 0.2s;
+  user-select: none;
+}
+
+.timer-wheel-item-selected {
+  font-weight: 600;
+  color: #000;
+}
+
+.timer-wheel-padding {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+.timer-wheel-separator {
+  font-size: 2rem;
+  font-weight: 300;
+  color: #000;
+  margin: 0 0.5rem;
+  margin-bottom: 24px;
+}
+
+.timer-wheel-label {
+  font-size: 0.9rem;
+  color: #666;
+  font-family: 'Roboto', sans-serif;
+  margin-top: 0.25rem;
+}
+
+.timer-picker-selection-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 2rem);
+  max-width: 280px;
+  height: var(--timer-wheel-item-height);
+  background: rgba(0, 191, 255, 0.08);
+  border-top: 1px solid rgba(0, 191, 255, 0.3);
+  border-bottom: 1px solid rgba(0, 191, 255, 0.3);
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Quick Preset Buttons */
+.timer-presets {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.timer-preset-btn {
+  padding: 0.5rem 1rem;
+  background: #fff;
+  border: 2px solid #00BFFF;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #00BFFF;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Roboto', sans-serif;
+}
+
+.timer-preset-btn:hover {
+  background: #00BFFF;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 191, 255, 0.3);
+}
+
+.timer-preset-btn:active {
+  transform: translateY(0);
+}
+
+/* Timer Settings Container */
+.timer-settings-collapsed {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.timer-settings-expanded {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.timer-settings-expanded.show {
+  max-height: 1000px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .timer-picker {
+    padding: 1.25rem 0.75rem;
+    --timer-wheel-item-height: 40px;
+  }
+
+  .timer-picker-wheels {
+    gap: 0.75rem;
+    padding: 0 0.5rem;
+  }
+
+  .timer-wheel {
+    width: 85px;
+    padding: 0 0.4rem;
+  }
+
+  .timer-wheel-item {
+    font-size: 1.3rem;
+  }
+
+  .timer-wheel-separator {
+    font-size: 1.8rem;
+  }
+
+  .timer-picker-selection-indicator {
+    width: calc(100% - 1.5rem);
+    max-width: 250px;
+  }
+
+  .timer-preset-btn {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+}

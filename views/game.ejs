@@ -20,9 +20,10 @@
   <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
   <script src="/js/pwa-install.js?v=<%= assetVersion %>" defer></script>
   <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/timer.js?v=<%= assetVersion %>"></script>
   <script src="/js/game.js?v=<%= assetVersion %>"></script>
 </head>
-<body class="game-page" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>" data-game-mode="<%= game.mode %>" data-flags-enabled="<%= game.flagsEnabled %>" data-rerolls-enabled="<%= game.rerollsEnabled %>" data-player-color="<%= currentPlayer.color || '' %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>">
+<body class="game-page" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>" data-game-mode="<%= game.mode %>" data-flags-enabled="<%= game.flagsEnabled %>" data-rerolls-enabled="<%= game.rerollsEnabled %>" data-player-color="<%= currentPlayer.color || '' %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-timer-enabled="<%= game.timerEnabled %>" data-timer-duration="<%= game.timerDuration || 0 %>" data-timer-status="<%= game.timerStatus || 'not_started' %>" data-timer-started-at="<%= game.timerStartedAt ? game.timerStartedAt.toISOString() : '' %>" data-pause-on-reroll="<%= game.pauseTimerOnReroll %>">
 <aside class="sidebar">
   <div class="sidebar-header">
     <div class="copy-code-wrapper">
@@ -30,15 +31,37 @@
       <span id="copy-confirm" style="display:block;margin-top:0.25rem;color:#4CAF50;visibility:hidden;">Code copied!</span>
     </div>
     <div class="chat-icon-wrapper">
-      <button id="chat-toggle-desktop" class="chat-toggle-button">
-        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
-      </button>
+      <div style="position: relative; display: inline-block;">
+        <button id="chat-toggle-desktop" class="chat-toggle-button">
+          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
+        </button>
+        <span id="chat-notification" class="notification-badge"></span>
+      </div>
       <% if (game.flagsEnabled) { %>
         <button id="flag-button" class="chat-toggle-button" title="Throw Flag">🚩</button>
       <% } %>
-      <span id="chat-notification" class="notification-badge"></span>
     </div>
   </div>
+
+  <!-- Timer Display (Desktop) -->
+  <% if (game.timerEnabled) { %>
+    <div class="timer-display-section">
+      <div class="timer-display-info">
+        <div id="game-timer" class="game-timer">
+          <div class="timer-value" id="timer-value">--:--</div>
+        </div>
+      </div>
+      <% if (currentPlayer.isHost) { %>
+        <div class="timer-controls timer-controls-desktop">
+          <button id="start-timer-btn" class="timer-control-btn timer-start-btn" onclick="startTimer()" style="display: block;">Start Game</button>
+          <button id="pause-timer-btn" class="timer-control-btn timer-pause-btn" onclick="pauseTimer()" style="display: none;">Pause</button>
+          <button id="resume-timer-btn" class="timer-control-btn timer-resume-btn" onclick="resumeTimer()" style="display: none;">Resume</button>
+          <button id="reset-timer-btn" class="timer-control-btn timer-reset-btn" onclick="resetTimer()" style="display: none;">Reset</button>
+        </div>
+      <% } %>
+    </div>
+  <% } %>
+
   <div class="leaderboard-section">
     <table id="leaderboard">
       <thead>
@@ -95,6 +118,26 @@
       // Capitalize first letter
       return formatted.charAt(0).toUpperCase() + formatted.slice(1);
     }).join(', ') : 'None' %></h1>
+
+    <!-- Timer Display (Mobile) -->
+  <% if (game.timerEnabled) { %>
+    <div class="timer-display-mobile mobile-only">
+      <div class="timer-display-info">
+        <div id="game-timer-mobile" class="game-timer game-timer-mobile">
+          <div class="timer-value" id="timer-value-mobile">--:--</div>
+        </div>
+      </div>
+      <% if (currentPlayer.isHost) { %>
+        <div class="timer-controls timer-controls-mobile">
+          <button id="start-timer-btn-mobile" class="timer-control-btn timer-start-btn" onclick="startTimer()">Start Game</button>
+          <button id="pause-timer-btn-mobile" class="timer-control-btn timer-pause-btn" onclick="pauseTimer()" style="display: none;">Pause</button>
+            <button id="resume-timer-btn-mobile" class="timer-control-btn timer-resume-btn" onclick="resumeTimer()" style="display: none;">Resume</button>
+            <button id="reset-timer-btn-mobile" class="timer-control-btn timer-reset-btn" onclick="resetTimer()" style="display: none;">Reset</button>
+          </div>
+        <% } %>
+      </div>
+    <% } %>
+
     <!-- header-controls removed in favor of sidebar -->
   </div>
 
@@ -122,9 +165,12 @@
   <!-- Bottom App Bar for Mobile -->
   <div class="bottom-app-bar mobile-only">
     <button onclick="toggleDrawer('leaderboard')">Leaderboard</button>
-    <button id="chat-toggle-mobile" class="chat-toggle-button">
-      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
-    </button>
+    <div class="bottom-app-bar-item">
+      <button id="chat-toggle-mobile" class="chat-toggle-button">
+        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
+      </button>
+      <span id="chat-notification-mobile" class="notification-badge"></span>
+    </div>
     <% if (game.flagsEnabled) { %>
       <button id="flag-button-mobile" class="chat-toggle-button" title="Throw Flag">🚩</button>
     <% } %>
@@ -153,6 +199,22 @@
       <div id="winner-modal-buttons" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
         <% if (currentPlayer.isHost) { %>
           <button onclick="startNewGame()" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #00BFFF; color: white; border: none; border-radius: 8px; cursor: pointer;">Start New Game</button>
+        <% } %>
+        <button onclick="location.href = '/'" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #FF69B4; color: white; border: none; border-radius: 8px; cursor: pointer;">Exit to Home</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timer Expired Modal -->
+  <div id="timer-expired-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); align-items:center; justify-content:center; z-index:1002;">
+    <div style="background:#fff; padding:2rem; border-radius:12px; text-align:center; max-width:90%; margin:auto; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+      <div style="font-size: 3rem; margin-bottom: 1rem;">⏰</div>
+      <h2 id="timer-expired-title" style="color: #F59E0B; margin-bottom: 0.5rem; font-size: 2rem;">Time's Up!</h2>
+      <p id="timer-expired-message" style="font-size: 1.1rem; margin-bottom: 1rem; color: #666;">The timer has expired.</p>
+      <p id="timer-expired-winner" style="font-size: 1.3rem; font-weight: 600; margin-bottom: 1.5rem; color: #10B981; display: none;">Winner: Player Name</p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <% if (currentPlayer.isHost) { %>
+          <button onclick="startNewGame(); closeTimerExpiredModal();" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #00BFFF; color: white; border: none; border-radius: 8px; cursor: pointer;">Start New Game</button>
         <% } %>
         <button onclick="location.href = '/'" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #FF69B4; color: white; border: none; border-radius: 8px; cursor: pointer;">Exit to Home</button>
       </div>
@@ -248,7 +310,6 @@
       try {
         // Don't clear storage on game page as it might affect sessions
         // Just ensure we're loading fresh data from server
-        console.log('Game page loaded fresh');
       } catch (e) {
         console.warn('Storage check failed:', e);
       }
@@ -260,6 +321,13 @@
     const playerId = document.body.dataset.playerId;
     const playerName = document.body.dataset.playerName;
     const isHost = document.body.dataset.isHost === 'true';
+
+    // Initialize game timer if enabled
+    let gameTimer = null;
+    if (window.GameTimer) {
+      gameTimer = new GameTimer(socket);
+      window.gameTimer = gameTimer;
+    }
     const gameMode = document.body.dataset.gameMode;
     const flagsEnabled = document.body.dataset.flagsEnabled === 'true';
     const rerollsEnabled = document.body.dataset.rerollsEnabled === 'true';
@@ -278,6 +346,14 @@
     socket.on('update_state', (data) => {
       const { game, players } = data;
       allPlayers = players; // Update global
+      document.body.dataset.timerEnabled = game.timerEnabled ? 'true' : 'false';
+      document.body.dataset.timerDuration = (game.timerDuration || 0).toString();
+      document.body.dataset.timerStatus = game.timerStatus || 'not_started';
+      document.body.dataset.timerStartedAt = game.timerStartedAt ? new Date(game.timerStartedAt).toISOString() : '';
+      document.body.dataset.pauseOnReroll = game.pauseTimerOnReroll ? 'true' : 'false';
+      if (window.gameTimer) {
+        window.gameTimer.syncWithGame(game);
+      }
       const currentCardTable = document.getElementById(`card-${playerId}`);
       const currentPlayerData = players.find(p => p.id === playerId);
 
@@ -467,6 +543,21 @@
 
     function startNewGame() {
       socket.emit('new_game', { gameId });
+      document.body.dataset.timerStatus = 'not_started';
+      document.body.dataset.timerStartedAt = '';
+      if (window.gameTimer) {
+        window.gameTimer.resetToInitial();
+      }
+      // Close winner modal
+      const winnerModal = document.getElementById('winner-modal');
+      if (winnerModal) {
+        winnerModal.style.display = 'none';
+      }
+      // Close timer expired modal
+      const timerModal = document.getElementById('timer-expired-modal');
+      if (timerModal) {
+        timerModal.style.display = 'none';
+      }
     }
 
     function copyGameCode() {
@@ -957,6 +1048,7 @@
     const chatInput = document.getElementById('chat-input');
     const chatMessages = document.getElementById('chat-messages');
     const chatNotification = document.getElementById('chat-notification');
+    const chatNotificationMobile = document.getElementById('chat-notification-mobile');
     const { players: chatPlayers, messages: chatHistory } = JSON.parse(document.getElementById('chat-data').textContent);
     const chatColors = {};
     const availableColors = ['#A3E635','#60A5FA','#F472B6','#FBBF24','#34D399','#F87171','#C084FC','#FCD34D','#38BDF8','#A78BFA'];
@@ -991,11 +1083,17 @@
 
     chatToggleDesktop.addEventListener('click', () => {
       chatPanel.classList.toggle('open');
-      if (chatPanel.classList.contains('open')) chatNotification.style.display = 'none';
+      if (chatPanel.classList.contains('open')) {
+        chatNotification.style.display = 'none';
+        if (chatNotificationMobile) chatNotificationMobile.style.display = 'none';
+      }
     });
     chatToggleMobile.addEventListener('click', () => {
       chatPanel.classList.toggle('open');
-      if (chatPanel.classList.contains('open')) chatNotification.style.display = 'none';
+      if (chatPanel.classList.contains('open')) {
+        chatNotification.style.display = 'none';
+        if (chatNotificationMobile) chatNotificationMobile.style.display = 'none';
+      }
     });
     chatCloseDesktop.addEventListener('click', () => chatPanel.classList.remove('open'));
 
@@ -1011,7 +1109,10 @@
 
     socket.on('new_message', ({ message }) => {
       addChatMessage(message);
-      if (!chatPanel.classList.contains('open')) chatNotification.style.display = 'block';
+      if (!chatPanel.classList.contains('open')) {
+        chatNotification.style.display = 'block';
+        if (chatNotificationMobile) chatNotificationMobile.style.display = 'block';
+      }
     });
   })();
   </script>

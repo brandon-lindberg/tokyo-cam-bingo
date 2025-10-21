@@ -291,28 +291,35 @@ async function handleTimerExpiry(gameId, game) {
     let tie = false;
 
     // Check if most_squares win condition is enabled
-    if (game.rules.winConditions && game.rules.winConditions.includes('most_squares') && game.mode === 'VS') {
-      // Determine winner by most squares
-      let maxStamps = 0;
-      let winnerName = null;
+    if (game.rules.winConditions && game.rules.winConditions.includes('most_squares')) {
+      let maxCount = 0;
+      let leaders = [];
 
-      const stampCounts = players.map(p => ({
-        name: p.name,
-        count: (p.stampedSquares || []).length
-      }));
+      players.forEach(p => {
+        let count = 0;
+        if (game.mode === 'VS') {
+          count = (p.stampedSquares || []).length;
+        } else {
+          const card = Array.isArray(p.card) ? p.card : [];
+          count = card.reduce((sum, row) => {
+            if (!Array.isArray(row)) return sum;
+            return sum + row.reduce((rowSum, tile) => rowSum + (tile && tile.stamped ? 1 : 0), 0);
+          }, 0);
+        }
 
-      stampCounts.forEach(({ name, count }) => {
-        if (count > maxStamps) {
-          maxStamps = count;
-          winnerName = name;
+        if (count > maxCount) {
+          maxCount = count;
+          leaders = [p.name];
           tie = false;
-        } else if (count === maxStamps && maxStamps > 0) {
-          tie = true;
+        } else if (count === maxCount && count > 0) {
+          leaders.push(p.name);
         }
       });
 
-      if (!tie && winnerName) {
-        winner = winnerName;
+      if (leaders.length === 1 && maxCount > 0) {
+        winner = leaders[0];
+      } else if (leaders.length > 1 && maxCount > 0) {
+        tie = true;
       }
     }
 
@@ -327,10 +334,14 @@ async function handleTimerExpiry(gameId, game) {
     });
 
     // Emit timer expired event
+    const message = winner
+      ? `${winner} wins by Most Squares!`
+      : (tie ? 'Game ended in a tie for Most Squares!' : 'Game ended - no winner');
+
     io.to(gameId).emit('timer_expired', {
       winner,
       tie,
-      message: winner ? `${winner} wins!` : (tie ? 'Game ended in a tie!' : 'Game ended - no winner')
+      message
     });
 
   } catch (error) {
@@ -530,6 +541,18 @@ app.post('/create', async (req, res) => {
   const { hostName, modeType, flagsEnabled, rerollsEnabled, hostColor, customCardCode, timerEnabled, timerDuration, pauseTimerOnReroll } = req.body;
   const code = generateCode();
   const mode = modeType === 'VS' ? 'VS' : 'REGULAR';
+
+  if (mode !== 'VS') {
+    if (timerEnabled === 'true') {
+      if (!winConditions.includes('most_squares')) {
+        winConditions.push('most_squares');
+      }
+    } else {
+      winConditions = winConditions.filter(condition => condition !== 'most_squares');
+    }
+  }
+
+  winConditions = [...new Set(winConditions)];
 
   // Fetch custom items if card code provided
   let customItems = null;

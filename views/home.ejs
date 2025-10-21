@@ -18,7 +18,9 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
+  <link rel="stylesheet" href="/css/timer-picker.css?v=<%= assetVersion %>">
   <script src="/js/pwa-install.js?v=<%= assetVersion %>" defer></script>
+  <script src="/js/timer-picker.js?v=<%= assetVersion %>"></script>
 </head>
 <body data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>">
   <div class="container welcome-container" style="margin: 0 auto;">
@@ -124,6 +126,53 @@
           </div>
         </div>
 
+        <!-- Timer Section -->
+        <div class="form-section">
+          <label class="form-label">Game Timer (Optional)</label>
+          <label class="option-checkbox">
+            <input type="checkbox" id="timerEnabled" name="timerEnabled" value="true" onchange="toggleTimerSettings()">
+            <span class="checkbox-label">
+              <span class="checkbox-title">⏱️ Enable Game Timer</span>
+              <span class="checkbox-description">Set a time limit for the game</span>
+            </span>
+          </label>
+
+          <div id="timer-settings-section" class="timer-settings-expanded">
+            <!-- Timer Picker -->
+            <div id="timer-picker-container"></div>
+
+            <!-- Quick Presets -->
+            <div class="timer-presets">
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(300)">5 min</button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(600)">10 min</button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(900)">15 min</button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(1200)">20 min</button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(1800)">30 min</button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(2700)">45 min</button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(3600)">1 hour</button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(7200)">2 hours</button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(14400)">4 hours</button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(21600)">6 hours</button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(28800)">8 hours</button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(43200)">12 hours</button>
+            </div>
+
+            <!-- Pause on Reroll Option -->
+            <div class="timer-settings-collapsed">
+              <label class="option-checkbox" style="border: none; padding: 0;">
+                <input type="checkbox" id="pauseTimerOnReroll" name="pauseTimerOnReroll" value="true">
+                <span class="checkbox-label">
+                  <span class="checkbox-title">Pause timer during rerolls</span>
+                  <span class="checkbox-description">Timer stops when host rerolls tiles</span>
+                </span>
+              </label>
+            </div>
+
+            <!-- Hidden input to store timer duration in seconds -->
+            <input type="hidden" id="timerDuration" name="timerDuration" value="300">
+          </div>
+        </div>
+
         <!-- Win Conditions Section -->
         <div class="form-section">
           <label class="form-label">Win Conditions (select at least one)</label>
@@ -211,10 +260,42 @@
       }
     })();
 
+    // Timer picker instance
+    let timerPicker = null;
+    const timerPickerContainer = document.getElementById('timer-picker-container');
+    const timerDurationInput = document.getElementById('timerDuration');
+
+    if (timerDurationInput) {
+      timerDurationInput.value = 300;
+    }
+
+    if (timerPickerContainer) {
+      timerPickerContainer.addEventListener('timerPickerChange', function(event) {
+        if (!event || !event.detail) return;
+        const totalSeconds = event.detail.totalSeconds;
+        if (typeof totalSeconds === 'number' && !Number.isNaN(totalSeconds)) {
+          const hiddenInput = document.getElementById('timerDuration');
+          if (hiddenInput) {
+            hiddenInput.value = totalSeconds;
+          }
+        }
+      });
+    }
+
     function showHostForm() {
       document.getElementById('welcome-content').style.display = 'none';
       document.getElementById('host-form').style.display = 'block';
       document.getElementById('join-form').style.display = 'none';
+
+      // Initialize timer picker when showing host form
+      if (!timerPicker) {
+        setTimeout(() => {
+          timerPicker = new TimerPicker('timer-picker-container');
+          updateTimerDurationInput();
+        }, 100);
+      } else {
+        updateTimerDurationInput();
+      }
     }
 
     function showJoinForm() {
@@ -349,6 +430,51 @@
         } catch (err) {
           console.error('Failed to fetch game info:', err);
         }
+      }
+    });
+
+    // Timer Settings Functions
+    function toggleTimerSettings() {
+      const enabled = document.getElementById('timerEnabled').checked;
+      const settingsSection = document.getElementById('timer-settings-section');
+
+      if (enabled) {
+        settingsSection.classList.add('show');
+        if (timerPicker) {
+          const raf = window.requestAnimationFrame || ((cb) => setTimeout(cb, 16));
+          raf(() => timerPicker.handleResize());
+        }
+        // Update the hidden input with current timer value
+        updateTimerDurationInput();
+      } else {
+        settingsSection.classList.remove('show');
+      }
+    }
+
+    function setTimerPreset(seconds) {
+      if (timerPicker) {
+        timerPicker.setValue(seconds);
+        updateTimerDurationInput();
+      }
+    }
+
+    function updateTimerDurationInput() {
+      if (timerPicker) {
+        const duration = timerPicker.getValue();
+        document.getElementById('timerDuration').value = duration;
+      }
+    }
+
+    // Update timer duration when form is submitted
+    document.addEventListener('DOMContentLoaded', function() {
+      const createForm = document.querySelector('.create-game-form');
+      if (createForm) {
+        createForm.addEventListener('submit', function(e) {
+          const timerEnabled = document.getElementById('timerEnabled').checked;
+          if (timerEnabled) {
+            updateTimerDurationInput();
+          }
+        });
       }
     });
   </script>

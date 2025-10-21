@@ -11,19 +11,26 @@ datasource db {
 }
 
 model Game {
-  id             String    @id @default(uuid())
-  code           String    @unique
-  rules          Json      // e.g., {"winConditions": ["row", "2rows", "diagonals"]}
-  status         String    @default("active")
-  winner         String?
-  mode           String    @default("REGULAR") // REGULAR or VS
-  sharedCard     Json?     // For VS mode: shared 5x5 card
-  customItems    Json?     // Custom item pool (array of strings) - copied from ItemCollection
-  flagsEnabled   Boolean   @default(true)
-  rerollsEnabled Boolean   @default(true)
-  createdAt      DateTime  @default(now())
-  players        Player[]
-  messages       ChatMessage[]
+  id                  String    @id @default(uuid())
+  code                String    @unique
+  rules               Json      // e.g., {"winConditions": ["row", "2rows", "diagonals"]}
+  status              String    @default("active")
+  winner              String?
+  mode                String    @default("REGULAR") // REGULAR or VS
+  sharedCard          Json?     // For VS mode: shared 5x5 card
+  customItems         Json?     // Custom item pool (array of strings) - copied from ItemCollection
+  flagsEnabled        Boolean   @default(true)
+  rerollsEnabled      Boolean   @default(true)
+  timerEnabled        Boolean   @default(false)
+  timerDuration       Int?      // Duration in seconds
+  timerStatus         String    @default("not_started") // not_started, running, paused, expired
+  timerStartedAt      DateTime?
+  timerPausedAt       DateTime?
+  timerAccumulatedPause Int?    // Total paused time in seconds
+  pauseTimerOnReroll  Boolean   @default(false)
+  createdAt           DateTime  @default(now())
+  players             Player[]
+  messages            ChatMessage[]
 }
 
 model Player {

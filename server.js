@@ -15,6 +15,7 @@ const packageJson = require('./package.json');
 // In-memory flags and voting state
 const flagsLeft = {}; // playerId -> remaining flags
 const votesByGame = {}; // gameId -> active vote state
+const timerIntervals = {}; // gameId -> setInterval reference for timer
 
 // Ensure session secret is provided
 if (!process.env.SESSION_SECRET) {
@@ -214,6 +215,184 @@ function checkWin(cardOrStamps, rules) {
   return { won: false, condition: null };
 }
 
+// Timer helper functions
+function startGameTimer(gameId) {
+  // Check if timer already running
+  if (timerIntervals[gameId]) {
+    clearInterval(timerIntervals[gameId]);
+  }
+
+  // Check timer every second
+  timerIntervals[gameId] = setInterval(async () => {
+    try {
+      const game = await prisma.game.findUnique({
+        where: { id: gameId },
+        include: { players: true }
+      });
+
+      if (!game || !game.timerEnabled || game.status !== 'active') {
+        stopGameTimer(gameId);
+        return;
+      }
+
+      // Calculate remaining time
+      const remainingSeconds = calculateRemainingTime(game);
+
+      // Broadcast timer update every 10 seconds
+      const now = new Date();
+      if (now.getSeconds() % 10 === 0) {
+        io.to(gameId).emit('timer_update', { remainingSeconds });
+      }
+
+      // Timer expired
+      if (remainingSeconds <= 0) {
+        stopGameTimer(gameId);
+        await handleTimerExpiry(gameId, game);
+      }
+    } catch (error) {
+      console.error('Timer error:', error);
+      stopGameTimer(gameId);
+    }
+  }, 1000);
+}
+
+function stopGameTimer(gameId) {
+  if (timerIntervals[gameId]) {
+    clearInterval(timerIntervals[gameId]);
+    delete timerIntervals[gameId];
+  }
+}
+
+function calculateRemainingTime(game) {
+  if (!game.timerEnabled || !game.timerStartedAt || !game.timerDuration) {
+    return 0;
+  }
+
+  const now = new Date();
+  const startedAt = new Date(game.timerStartedAt);
+  const elapsedMs = now - startedAt;
+  const elapsedSeconds = Math.floor(elapsedMs / 1000);
+
+  // Subtract accumulated pause time
+  const pausedSeconds = game.timerAccumulatedPause || 0;
+  const actualElapsed = elapsedSeconds - pausedSeconds;
+
+  const remainingSeconds = Math.max(0, game.timerDuration - actualElapsed);
+  return remainingSeconds;
+}
+
+async function handleTimerExpiry(gameId, game) {
+  try {
+    const players = await prisma.player.findMany({
+      where: { gameId }
+    });
+
+    let winner = null;
+    let tie = false;
+
+    // Check if most_squares win condition is enabled
+    if (game.rules.winConditions && game.rules.winConditions.includes('most_squares') && game.mode === 'VS') {
+      // Determine winner by most squares
+      let maxStamps = 0;
+      let winnerName = null;
+
+      const stampCounts = players.map(p => ({
+        name: p.name,
+        count: (p.stampedSquares || []).length
+      }));
+
+      stampCounts.forEach(({ name, count }) => {
+        if (count > maxStamps) {
+          maxStamps = count;
+          winnerName = name;
+          tie = false;
+        } else if (count === maxStamps && maxStamps > 0) {
+          tie = true;
+        }
+      });
+
+      if (!tie && winnerName) {
+        winner = winnerName;
+      }
+    }
+
+    // Update game status
+    await prisma.game.update({
+      where: { id: gameId },
+      data: {
+        status: 'ended',
+        winner: winner || null,
+        timerStatus: 'expired'
+      }
+    });
+
+    // Emit timer expired event
+    io.to(gameId).emit('timer_expired', {
+      winner,
+      tie,
+      message: winner ? `${winner} wins!` : (tie ? 'Game ended in a tie!' : 'Game ended - no winner')
+    });
+
+  } catch (error) {
+    console.error('Error handling timer expiry:', error);
+  }
+}
+
+async function pauseGameTimer(gameId) {
+  try {
+    const game = await prisma.game.findUnique({
+      where: { id: gameId }
+    });
+
+    if (game && game.timerEnabled && !game.timerPausedAt) {
+      await prisma.game.update({
+        where: { id: gameId },
+        data: {
+          timerPausedAt: new Date()
+        }
+      });
+
+      io.to(gameId).emit('timer_paused');
+    }
+  } catch (error) {
+    console.error('Error pausing timer:', error);
+  }
+}
+
+async function resumeGameTimer(gameId) {
+  try {
+    const game = await prisma.game.findUnique({
+      where: { id: gameId }
+    });
+
+    if (game && game.timerEnabled && game.timerPausedAt) {
+      const now = new Date();
+      const pausedAt = new Date(game.timerPausedAt);
+      const pauseDuration = Math.floor((now - pausedAt) / 1000);
+
+      const accumulatedPause = (game.timerAccumulatedPause || 0) + pauseDuration;
+
+      await prisma.game.update({
+        where: { id: gameId },
+        data: {
+          timerPausedAt: null,
+          timerAccumulatedPause: accumulatedPause
+        }
+      });
+
+      const remainingSeconds = calculateRemainingTime({
+        ...game,
+        timerAccumulatedPause: accumulatedPause,
+        timerPausedAt: null
+      });
+
+      io.to(gameId).emit('timer_resumed', { remainingSeconds });
+    }
+  } catch (error) {
+    console.error('Error resuming timer:', error);
+  }
+}
+
 // Home page
 app.get('/', (req, res) => res.render('home'));
 
@@ -348,7 +527,7 @@ app.post('/create', async (req, res) => {
   if (!Array.isArray(winConditions)) {
     winConditions = [winConditions];
   }
-  const { hostName, modeType, flagsEnabled, rerollsEnabled, hostColor, customCardCode } = req.body;
+  const { hostName, modeType, flagsEnabled, rerollsEnabled, hostColor, customCardCode, timerEnabled, timerDuration, pauseTimerOnReroll } = req.body;
   const code = generateCode();
   const mode = modeType === 'VS' ? 'VS' : 'REGULAR';
 
@@ -385,7 +564,14 @@ app.post('/create', async (req, res) => {
       sharedCard,
       customItems,
       flagsEnabled: flagsEnabled === 'true',
-      rerollsEnabled: rerollsEnabled === 'true'
+      rerollsEnabled: rerollsEnabled === 'true',
+      timerEnabled: timerEnabled === 'true',
+      timerDuration: timerEnabled === 'true' ? parseInt(timerDuration) || 300 : null,
+      timerStatus: timerEnabled === 'true' ? 'not_started' : 'not_started',
+      timerStartedAt: null,
+      timerPausedAt: null,
+      timerAccumulatedPause: 0,
+      pauseTimerOnReroll: pauseTimerOnReroll === 'true'
     },
   });
 
@@ -510,6 +696,12 @@ io.on('connection', (socket) => {
       where: { id: gameId },
       include: { players: true },
     });
+
+    // Start timer if it's already running (for reconnections)
+    if (game.timerEnabled && game.timerStatus === 'running' && !timerIntervals[gameId]) {
+      startGameTimer(gameId);
+    }
+
     io.to(gameId).emit('update_state', { game, players: game.players });
   });
 
@@ -641,6 +833,11 @@ io.on('connection', (socket) => {
     });
     if (game.status === 'ended') return;
 
+    // Pause timer if enabled and pauseOnReroll is true
+    if (game.timerEnabled && game.pauseTimerOnReroll) {
+      await pauseGameTimer(gameId);
+    }
+
     if (game.mode === 'VS') {
       // VS Mode: Reroll shared card and clear stamps from affected squares
       const customItems = game.customItems || null;
@@ -704,6 +901,11 @@ io.on('connection', (socket) => {
       const updatedPlayers = await prisma.player.findMany({ where: { gameId: gameId } });
       io.to(gameId).emit('update_state', { game, players: updatedPlayers });
     }
+
+    // Resume timer if it was paused
+    if (game.timerEnabled && game.pauseTimerOnReroll) {
+      await resumeGameTimer(gameId);
+    }
   });
 
   socket.on('new_game', async ({ gameId }) => {
@@ -713,14 +915,31 @@ io.on('connection', (socket) => {
     });
     if (game.status !== 'ended') return;
 
+    // Stop existing timer
+    stopGameTimer(gameId);
+
     if (game.mode === 'VS') {
       // VS Mode: Generate new shared card and reset all player stamps
       const customItems = game.customItems || null;
       const newSharedCard = generateCard(customItems);
 
+      const updateData = {
+        status: 'active',
+        winner: null,
+        sharedCard: newSharedCard
+      };
+
+      // Reset timer if it was enabled
+      if (game.timerEnabled) {
+        updateData.timerStatus = 'not_started';
+        updateData.timerStartedAt = null;
+        updateData.timerPausedAt = null;
+        updateData.timerAccumulatedPause = 0;
+      }
+
       const updatedGame = await prisma.game.update({
         where: { id: gameId },
-        data: { status: 'active', winner: null, sharedCard: newSharedCard }
+        data: updateData
       });
 
       // Reset all players with the new shared card and clear stamps
@@ -737,9 +956,22 @@ io.on('connection', (socket) => {
       // Regular mode: Generate unique cards for each player
       const customItems = game.customItems || null;
 
+      const updateData = {
+        status: 'active',
+        winner: null
+      };
+
+      // Reset timer if it was enabled
+      if (game.timerEnabled) {
+        updateData.timerStatus = 'not_started';
+        updateData.timerStartedAt = null;
+        updateData.timerPausedAt = null;
+        updateData.timerAccumulatedPause = 0;
+      }
+
       const updatedGame = await prisma.game.update({
         where: { id: gameId },
-        data: { status: 'active', winner: null }
+        data: updateData
       });
 
       const usedCards = [];
@@ -774,6 +1006,127 @@ io.on('connection', (socket) => {
       },
       playerName: playerInfo.name,
     });
+  });
+
+  // Handle timer sync request
+  socket.on('timer_sync_request', async ({ gameId }) => {
+    try {
+      const game = await prisma.game.findUnique({
+        where: { id: gameId }
+      });
+
+      if (game && game.timerEnabled) {
+        const remainingSeconds = calculateRemainingTime(game);
+        socket.emit('timer_update', { remainingSeconds });
+      }
+    } catch (error) {
+      console.error('Timer sync error:', error);
+    }
+  });
+
+  // Handle manual timer start
+  socket.on('start_timer', async ({ gameId }) => {
+    try {
+      const game = await prisma.game.findUnique({
+        where: { id: gameId }
+      });
+
+      if (game && game.timerEnabled && game.timerStatus === 'not_started') {
+        const startedAt = new Date();
+        await prisma.game.update({
+          where: { id: gameId },
+          data: {
+            timerStatus: 'running',
+            timerStartedAt: startedAt,
+            timerPausedAt: null,
+            timerAccumulatedPause: 0
+          }
+        });
+
+        // Start the server-side timer
+        startGameTimer(gameId);
+
+        // Broadcast to all clients
+        io.to(gameId).emit('timer_started', {
+          startedAt: startedAt.toISOString(),
+          remainingSeconds: game.timerDuration
+        });
+      }
+    } catch (error) {
+      console.error('Error starting timer:', error);
+    }
+  });
+
+  // Handle manual timer pause
+  socket.on('pause_timer', async ({ gameId }) => {
+    try {
+      await pauseGameTimer(gameId);
+
+      const game = await prisma.game.findUnique({
+        where: { id: gameId }
+      });
+
+      if (game) {
+        await prisma.game.update({
+          where: { id: gameId },
+          data: { timerStatus: 'paused' }
+        });
+      }
+    } catch (error) {
+      console.error('Error pausing timer:', error);
+    }
+  });
+
+  // Handle manual timer resume
+  socket.on('resume_timer', async ({ gameId }) => {
+    try {
+      await resumeGameTimer(gameId);
+
+      const game = await prisma.game.findUnique({
+        where: { id: gameId }
+      });
+
+      if (game) {
+        await prisma.game.update({
+          where: { id: gameId },
+          data: { timerStatus: 'running' }
+        });
+      }
+    } catch (error) {
+      console.error('Error resuming timer:', error);
+    }
+  });
+
+  // Handle manual timer reset
+  socket.on('reset_timer', async ({ gameId }) => {
+    try {
+      const game = await prisma.game.findUnique({
+        where: { id: gameId }
+      });
+
+      if (game && game.timerEnabled) {
+        // Stop the timer
+        stopGameTimer(gameId);
+
+        // Reset timer fields
+        await prisma.game.update({
+          where: { id: gameId },
+          data: {
+            timerStatus: 'not_started',
+            timerStartedAt: null,
+            timerPausedAt: null,
+            timerAccumulatedPause: 0
+          }
+        });
+
+        // Broadcast reset to all clients
+        io.to(gameId).emit('timer_reset', {
+          duration: game.timerDuration
+        });
+      }
+    } catch (error) {
+      console.error('Error resetting timer:', error);
+    }
   });
 
   // Handle throwing a flag for a questionable stamp

@@ -457,8 +457,20 @@
       const mostSquaresCheckbox = document.getElementById('most_squares');
       const vsModeChecked = document.getElementById('vsMode').checked;
 
+      if (settingsSection) {
+        const raf = window.requestAnimationFrame || ((cb) => setTimeout(cb, 16));
+
+        if (enabled) {
+          settingsSection.style.display = 'block';
+          // Allow layout to update before triggering transition
+          raf(() => settingsSection.classList.add('show'));
+        } else {
+          settingsSection.classList.remove('show');
+          settingsSection.style.display = 'none';
+        }
+      }
+
       if (enabled) {
-        settingsSection.classList.add('show');
         if (timerPicker) {
           const raf = window.requestAnimationFrame || ((cb) => setTimeout(cb, 16));
           raf(() => timerPicker.handleResize());
@@ -472,12 +484,9 @@
             mostSquaresCheckbox.checked = true;
           }
         }
-      } else {
-        settingsSection.classList.remove('show');
-        if (!vsModeChecked && mostSquaresOption && mostSquaresCheckbox) {
+      } else if (!vsModeChecked && mostSquaresOption && mostSquaresCheckbox) {
           mostSquaresOption.style.display = 'none';
           mostSquaresCheckbox.checked = false;
-        }
       }
     }
 

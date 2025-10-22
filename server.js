@@ -538,7 +538,7 @@ app.post('/create', async (req, res) => {
   if (!Array.isArray(winConditions)) {
     winConditions = [winConditions];
   }
-  const { hostName, modeType, flagsEnabled, rerollsEnabled, hostColor, customCardCode, timerEnabled, timerDuration, pauseTimerOnReroll } = req.body;
+  const { hostName, modeType, flagsEnabled, rerollsEnabled, hostColor, customCardCode, timerEnabled, timerDuration } = req.body;
   const code = generateCode();
   const mode = modeType === 'VS' ? 'VS' : 'REGULAR';
 
@@ -593,8 +593,7 @@ app.post('/create', async (req, res) => {
       timerStatus: timerEnabled === 'true' ? 'not_started' : 'not_started',
       timerStartedAt: null,
       timerPausedAt: null,
-      timerAccumulatedPause: 0,
-      pauseTimerOnReroll: pauseTimerOnReroll === 'true'
+      timerAccumulatedPause: 0
     },
   });
 
@@ -856,11 +855,6 @@ io.on('connection', (socket) => {
     });
     if (game.status === 'ended') return;
 
-    // Pause timer if enabled and pauseOnReroll is true
-    if (game.timerEnabled && game.pauseTimerOnReroll) {
-      await pauseGameTimer(gameId);
-    }
-
     if (game.mode === 'VS') {
       // VS Mode: Reroll shared card and clear stamps from affected squares
       const customItems = game.customItems || null;
@@ -925,10 +919,6 @@ io.on('connection', (socket) => {
       io.to(gameId).emit('update_state', { game, players: updatedPlayers });
     }
 
-    // Resume timer if it was paused
-    if (game.timerEnabled && game.pauseTimerOnReroll) {
-      await resumeGameTimer(gameId);
-    }
   });
 
   socket.on('new_game', async ({ gameId }) => {

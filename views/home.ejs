@@ -157,17 +157,6 @@
               <button type="button" class="timer-preset-btn" onclick="setTimerPreset(43200)">12 hours</button>
             </div>
 
-            <!-- Pause on Reroll Option -->
-            <div class="timer-settings-collapsed">
-              <label class="option-checkbox" style="border: none; padding: 0;">
-                <input type="checkbox" id="pauseTimerOnReroll" name="pauseTimerOnReroll" value="true">
-                <span class="checkbox-label">
-                  <span class="checkbox-title">Pause timer during rerolls</span>
-                  <span class="checkbox-description">Timer stops when host rerolls tiles</span>
-                </span>
-              </label>
-            </div>
-
             <!-- Hidden input to store timer duration in seconds -->
             <input type="hidden" id="timerDuration" name="timerDuration" value="300">
           </div>
@@ -468,8 +457,20 @@
       const mostSquaresCheckbox = document.getElementById('most_squares');
       const vsModeChecked = document.getElementById('vsMode').checked;
 
+      if (settingsSection) {
+        const raf = window.requestAnimationFrame || ((cb) => setTimeout(cb, 16));
+
+        if (enabled) {
+          settingsSection.style.display = 'block';
+          // Allow layout to update before triggering transition
+          raf(() => settingsSection.classList.add('show'));
+        } else {
+          settingsSection.classList.remove('show');
+          settingsSection.style.display = 'none';
+        }
+      }
+
       if (enabled) {
-        settingsSection.classList.add('show');
         if (timerPicker) {
           const raf = window.requestAnimationFrame || ((cb) => setTimeout(cb, 16));
           raf(() => timerPicker.handleResize());
@@ -483,12 +484,9 @@
             mostSquaresCheckbox.checked = true;
           }
         }
-      } else {
-        settingsSection.classList.remove('show');
-        if (!vsModeChecked && mostSquaresOption && mostSquaresCheckbox) {
+      } else if (!vsModeChecked && mostSquaresOption && mostSquaresCheckbox) {
           mostSquaresOption.style.display = 'none';
           mostSquaresCheckbox.checked = false;
-        }
       }
     }
 

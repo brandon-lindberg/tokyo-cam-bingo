@@ -8,6 +8,8 @@
   margin: 1rem 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   --timer-wheel-item-height: 44px;
+  overflow: hidden;
+  contain: layout style paint;
 }
 
 .timer-picker-wheels {
@@ -95,8 +97,9 @@
   border-top: 1px solid rgba(0, 191, 255, 0.3);
   border-bottom: 1px solid rgba(0, 191, 255, 0.3);
   border-radius: 8px;
-  pointer-events: none;
+  pointer-events: none !important;
   z-index: 1;
+  will-change: transform;
 }
 
 /* Quick Preset Buttons */
@@ -106,6 +109,7 @@
   justify-content: center;
   flex-wrap: wrap;
   margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .timer-preset-btn {
@@ -147,10 +151,16 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
+  pointer-events: none;
+  display: none;
+  position: relative;
+  contain: layout style;
 }
 
 .timer-settings-expanded.show {
   max-height: 1000px;
+  pointer-events: auto;
+  display: block;
 }
 
 /* Mobile Responsive */

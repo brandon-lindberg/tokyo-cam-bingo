@@ -11,7 +11,6 @@ class GameTimer {
     this.timerDuration = parseInt(document.body.dataset.timerDuration) || 0;
     this.timerStatus = document.body.dataset.timerStatus || 'not_started';
     this.timerStartedAt = document.body.dataset.timerStartedAt;
-    this.pauseOnReroll = document.body.dataset.pauseOnReroll === 'true';
 
     this.remainingSeconds = this.timerDuration;
     this.isPaused = false;
@@ -35,7 +34,6 @@ class GameTimer {
     const enabled = !!game.timerEnabled;
     this.timerEnabled = enabled;
     this.timerDuration = enabled ? (game.timerDuration || 0) : 0;
-    this.pauseOnReroll = !!game.pauseTimerOnReroll;
     this.timerStatus = game.timerStatus || 'not_started';
     this.timerStartedAt = game.timerStartedAt ? new Date(game.timerStartedAt).toISOString() : null;
     if (!enabled) {

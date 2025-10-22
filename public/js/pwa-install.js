@@ -15,6 +15,19 @@ const shouldRegisterServiceWorker = (() => {
   return true;
 })();
 
+const LEGACY_CACHE_PREFIX = 'tokyo-cam-bingo-';
+
+function deleteLegacyCaches() {
+  if (!('caches' in window)) {
+    return;
+  }
+  caches.keys().then((keys) =>
+    Promise.all(keys.filter((key) => key.startsWith(LEGACY_CACHE_PREFIX)).map((key) => caches.delete(key)))
+  ).catch((error) => {
+    console.warn('Unable to purge legacy caches', error);
+  });
+}
+
 // Register service worker
 if ('serviceWorker' in navigator) {
   if (shouldRegisterServiceWorker) {
@@ -26,6 +39,8 @@ if ('serviceWorker' in navigator) {
         .then((registration) => {
           console.log('Service Worker registered successfully:', registration.scope);
           swRegistration = registration;
+
+          deleteLegacyCaches();
 
           // Check for updates
           registration.addEventListener('updatefound', () => {
@@ -54,6 +69,8 @@ if ('serviceWorker' in navigator) {
     // Explicitly unregister existing service workers if disabled
     navigator.serviceWorker.getRegistrations().then((registrations) => {
       registrations.forEach((registration) => registration.unregister());
+    }).finally(() => {
+      deleteLegacyCaches();
     });
   }
 }

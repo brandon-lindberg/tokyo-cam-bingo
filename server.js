@@ -39,21 +39,17 @@ app.use((req, res, next) => {
 
 // Add cache control middleware - no caching for HTML/dynamic content
 app.use((req, res, next) => {
-  // Don't cache HTML pages, game state, or API responses
-  if (req.path.endsWith('.html') || req.path === '/' || req.path.startsWith('/game') || req.path.startsWith('/api') || req.path.startsWith('/join') || req.path.startsWith('/create')) {
-    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-    res.set('Pragma', 'no-cache');
-    res.set('Expires', '0');
-  }
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
   next();
 });
 
 app.use(express.static('public', {
-  // Allow caching for static assets (CSS, JS, images) but with validation
-  setHeaders: (res, path) => {
-    if (path.endsWith('.css') || path.endsWith('.js') || path.endsWith('.png') || path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.svg') || path.endsWith('.gif')) {
-      res.set('Cache-Control', 'no-cache, must-revalidate');
-    }
+  setHeaders: (res) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
   }
 }));
 

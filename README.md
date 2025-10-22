@@ -164,7 +164,7 @@ Add:
 ```env
 SESSION_SECRET="replace_with_random_string"
 PORT=3000
-DATABASE_URL="postgresql://user:password@localhost:5432/tokyo_cam_bingo"
+DATABASE_URL=""
 ENABLE_SERVICE_WORKER=true
 APP_BUILD_VERSION=1.0.0
 ```
@@ -216,26 +216,6 @@ All changes sync instantly via Socket.IO rooms.
 Live demo:
 🔗 [https://tokyo-cam-bingo.onrender.com](https://tokyo-cam-bingo.onrender.com)
 
----
-
-## 🤝 Contributing
-
-Pull requests welcome! Whether you want to add features, improve UX, or localize to Japanese, contributions are encouraged.
-
-### Steps to Contribute
-
-```bash
-git fork https://github.com/brandon-lindberg/tokyo-cam-bingo.git
-git clone https://github.com/<your-username>/tokyo-cam-bingo.git
-git checkout -b feature/my-change
-# make edits
-git commit -m "Add: my change description"
-git push origin feature/my-change
-```
-
-Then open a PR to [brandon-lindberg/tokyo-cam-bingo](https://github.com/brandon-lindberg/tokyo-cam-bingo).
-
----
 
 ### 🐞 Reporting Bugs / Suggesting Features
 
@@ -249,7 +229,6 @@ Open an [Issue](https://github.com/brandon-lindberg/tokyo-cam-bingo/issues) with
 
 ### 💡 Ideas for Future Features
 
-* 📱 Responsive mobile UI
 * 🎨 Dark mode toggle
 * 🟙️ Live Tokyo webcam thumbnails
 * 🔊 Sound effects for stamps and wins
@@ -267,7 +246,7 @@ Please be respectful and collaborative in discussions and pull requests.
 
 ### 🏁 Maintainer
 
-**Brandon Lindberg**
+**Yabai Studios**
 GitHub: [@brandon-lindberg](https://github.com/brandon-lindberg)
 
 ---

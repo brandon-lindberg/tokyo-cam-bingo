@@ -30,6 +30,9 @@
         <button onclick="showHostForm()">Host Game</button>
         <button onclick="showJoinForm()">Join Game</button>
       </div>
+      <div class="rulebook-trigger">
+        <button type="button" id="rulebook-open">Rule Book</button>
+      </div>
       <div style="text-align: center; margin-top: 1rem;">
         <a href="/card-builder" style="color: #00BFFF; text-decoration: none; font-size: 1rem;">
           + Create Custom Card
@@ -233,6 +236,74 @@
         </div>
         <button type="submit">Join</button>
       </form>
+    </div>
+  </div>
+
+  <div id="rulebook-modal" class="modal-overlay">
+    <div class="modal-card rulebook-modal-card" role="dialog" aria-modal="true" aria-labelledby="rulebook-title">
+      <div class="modal-header">
+        <span aria-hidden="true">📘</span>
+        <h3 id="rulebook-title" class="modal-title" tabindex="-1">Tokyo Cam Bingo Rule Book</h3>
+      </div>
+      <div class="rulebook-content">
+        <section class="rulebook-section">
+          <h4 class="rulebook-section-title">Quick Start</h4>
+          <ul class="rulebook-list">
+            <li><strong>Host Game:</strong> Choose Host Game, configure the options you want, and share the six-letter code with friends.</li>
+            <li><strong>Join Game:</strong> Enter the code on the Join Game form. In VS mode you also pick a unique player color.</li>
+            <li><strong>Cards:</strong> The default deck uses Tokyo cam bingo prompts. Hosts can load custom cards made in the builder with a six-letter code.</li>
+          </ul>
+        </section>
+        <section class="rulebook-section">
+          <h4 class="rulebook-section-title">Game Modes</h4>
+          <ul class="rulebook-list">
+            <li><strong>Regular Mode (up to 10 players):</strong> Everyone receives their own 5×5 card. Tapping a tile toggles your stamp. When rerolls are enabled the host can refresh tiles on any player’s card.</li>
+            <li><strong>VS Mode (up to 4 players):</strong> All players share one board. Tiles are claimed in your color and you can remove your own claims, but you cannot take a square that is already stamped by someone else.</li>
+          </ul>
+        </section>
+        <section class="rulebook-section">
+          <h4 class="rulebook-section-title">Win Conditions</h4>
+          <p>Hosts pick one or more goals when the room is created.</p>
+          <ul class="rulebook-list">
+            <li><strong>Rows &amp; Columns:</strong> Complete the lines the host enabled (Regular mode also offers 2- and 3-line variants).</li>
+            <li><strong>Diagonals:</strong> Claim either diagonal from corner to corner.</li>
+            <li><strong>Full Card:</strong> (Regular only) Stamp every tile on your own card.</li>
+            <li><strong>Most Squares:</strong> Counts who has stamped the most tiles. It resolves the game automatically when the timer expires, and in VS mode when all 25 squares are claimed. Ties end the game without a winner.</li>
+          </ul>
+        </section>
+        <section class="rulebook-section">
+          <h4 class="rulebook-section-title">Game Timer</h4>
+          <ul class="rulebook-list">
+            <li><strong>Optional Countdown:</strong> The host can set a timer and then start, pause, resume, or reset it from the game screen.</li>
+            <li><strong>Auto Result:</strong> When the timer hits zero the app checks the Most Squares condition to announce a winner or a tie.</li>
+          </ul>
+        </section>
+        <section class="rulebook-section">
+          <h4 class="rulebook-section-title">Flags &amp; Voting</h4>
+          <ul class="rulebook-list">
+            <li><strong>Throw a Flag:</strong> Each player starts with two flags when they join. Use the 🚩 button to challenge a suspicious stamp.</li>
+            <li><strong>Group Decision:</strong> Everyone votes yes or no. A passed vote removes the challenged square from the targeted player.</li>
+          </ul>
+        </section>
+        <section class="rulebook-section">
+          <h4 class="rulebook-section-title">Rerolls</h4>
+          <ul class="rulebook-list">
+            <li><strong>Host Tool:</strong> When enabled, the host can reroll specific tiles, rows, columns, diagonals, or entire cards.</li>
+            <li><strong>VS Mode Impact:</strong> Refreshing the shared board clears any claimed squares in the rerolled area so players can compete for fresh tiles.</li>
+          </ul>
+        </section>
+        <section class="rulebook-section">
+          <h4 class="rulebook-section-title">Extras</h4>
+          <ul class="rulebook-list">
+            <li><strong>Leaderboard:</strong> Ranks players by completed lines and total stamps in real time.</li>
+            <li><strong>Chat:</strong> Coordinate finds and strategize with the built-in chat panel.</li>
+            <li><strong>Streamer Mode:</strong> Toggle a cleaner layout when you are broadcasting the game.</li>
+          </ul>
+        </section>
+      </div>
+      <div class="modal-actions">
+        <button type="button" id="rulebook-close" class="btn btn-secondary">Close</button>
+      </div>
     </div>
   </div>
 
@@ -449,6 +520,45 @@
       }
     });
 
+    function initRulebookModal() {
+      const modal = document.getElementById('rulebook-modal');
+      const openBtn = document.getElementById('rulebook-open');
+      const closeBtn = document.getElementById('rulebook-close');
+      if (!modal || !openBtn || !closeBtn) return;
+
+      const open = () => {
+        modal.style.display = 'flex';
+        document.body.classList.add('modal-open');
+        const modalCard = modal.querySelector('.rulebook-modal-card');
+        if (modalCard) {
+          modalCard.scrollTop = 0;
+          const raf = window.requestAnimationFrame || ((cb) => setTimeout(cb, 16));
+          raf(() => { modalCard.scrollTop = 0; });
+        }
+        const heading = document.getElementById('rulebook-title');
+        if (heading) heading.focus();
+      };
+
+      const close = () => {
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+        openBtn.focus();
+      };
+
+      openBtn.addEventListener('click', open);
+      closeBtn.addEventListener('click', close);
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          close();
+        }
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.style.display === 'flex') {
+          close();
+        }
+      });
+    }
+
     // Timer Settings Functions
     function toggleTimerSettings() {
       const enabled = document.getElementById('timerEnabled').checked;
@@ -523,6 +633,7 @@
 
       toggleHostColorSelection();
       toggleTimerSettings();
+      initRulebookModal();
     });
   </script>
 </body>

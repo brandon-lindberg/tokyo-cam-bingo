@@ -147,7 +147,7 @@ model ChatMessage {
 ### ⚙️ 1. Clone the Repository
 
 ```bash
-git clone https://github.com/brandon-lindberg/tokyo-cam-bingo.git
+git clone URL
 cd tokyo-cam-bingo
 ```
 

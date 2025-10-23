@@ -451,8 +451,11 @@
     const flagBtnMobile = document.getElementById('flag-button-mobile');
     const flagConfirmBtn = document.getElementById('flag-confirm');
     const flagCancelBtn = document.getElementById('flag-cancel');
+    const flagTargetSelect = document.getElementById('flag-target-select');
+    const hasFlagModal = !!(flagSelectModal && flagConfirmBtn && flagCancelBtn && flagTargetSelect);
     function openFlagModal() {
-      const select = document.getElementById('flag-target-select');
+      if (!hasFlagModal) return;
+      const select = flagTargetSelect;
       select.innerHTML = '<option value="">-- Choose Player --</option>';
       allPlayers.forEach(p => {
         if (p.id !== playerId) {
@@ -464,15 +467,17 @@
       });
       flagSelectModal.style.display = 'flex';
     }
-    if (flagBtn) flagBtn.addEventListener('click', openFlagModal);
-    if (flagBtnMobile) flagBtnMobile.addEventListener('click', openFlagModal);
-    flagCancelBtn.addEventListener('click', () => { flagSelectModal.style.display = 'none'; });
-    flagConfirmBtn.addEventListener('click', () => {
-      const targetId = document.getElementById('flag-target-select').value;
-      if (!targetId) return alert('Select a player to challenge');
-      socket.emit('throw_flag', { gameId, flaggerId: playerId, targetPlayerId: targetId });
-      flagSelectModal.style.display = 'none';
-    });
+    if (hasFlagModal) {
+      if (flagBtn) flagBtn.addEventListener('click', openFlagModal);
+      if (flagBtnMobile) flagBtnMobile.addEventListener('click', openFlagModal);
+      flagCancelBtn.addEventListener('click', () => { flagSelectModal.style.display = 'none'; });
+      flagConfirmBtn.addEventListener('click', () => {
+        const targetId = flagTargetSelect.value;
+        if (!targetId) return alert('Select a player to challenge');
+        socket.emit('throw_flag', { gameId, flaggerId: playerId, targetPlayerId: targetId });
+        flagSelectModal.style.display = 'none';
+      });
+    }
     
     // Stamp on click (only own card)
     document.querySelectorAll('#card-<%= currentPlayer.id %> td').forEach(td => {

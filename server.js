@@ -11,6 +11,7 @@ const session = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 require('dotenv').config();
 const packageJson = require('./package.json');
+const { checkWin } = require('./utils/checkWin');
 
 // In-memory flags and voting state
 const flagsLeft = {}; // playerId -> remaining flags
@@ -149,66 +150,6 @@ function rerollCard(card, type, arg, customItems = null) {
   });
 
   return newCard;
-}
-
-// Helper to check win
-function checkWin(cardOrStamps, rules) {
-  // Handle VS mode (array of {row, col, color}) vs regular mode (5x5 card)
-  const isVSMode = Array.isArray(cardOrStamps) && cardOrStamps.length > 0 && cardOrStamps[0].hasOwnProperty('row');
-
-  let stampedGrid = Array(5).fill(null).map(() => Array(5).fill(false));
-
-  if (isVSMode) {
-    // Convert stampedSquares array to grid
-    cardOrStamps.forEach(({ row, col }) => {
-      stampedGrid[row][col] = true;
-    });
-  } else {
-    // Regular mode - convert card to stamped grid
-    const card = cardOrStamps;
-    for (let row = 0; row < 5; row++) {
-      for (let col = 0; col < 5; col++) {
-        stampedGrid[row][col] = card[row][col].stamped;
-      }
-    }
-  }
-
-  // Row checks
-  const stampedRows = stampedGrid.map(row => row.every(cell => cell));
-  const rowCount = stampedRows.filter(Boolean).length;
-
-  // Column checks
-  const stampedColumns = Array(5).fill(true);
-  for (let col = 0; col < 5; col++) {
-    for (let row = 0; row < 5; row++) {
-      if (!stampedGrid[row][col]) {
-        stampedColumns[col] = false;
-        break;
-      }
-    }
-  }
-  const colCount = stampedColumns.filter(Boolean).length;
-
-  // Diagonal checks
-  const diagonals = {
-    main: stampedGrid.every((row, i) => row[i]),
-    anti: stampedGrid.every((row, i) => row[4 - i]),
-  };
-
-  // Full card check
-  const full = stampedGrid.flat().every(cell => cell);
-
-  // Note: most_squares is handled separately in stamp event, not here
-  // Return both boolean and the winning condition
-  if (rules.includes('row') && rowCount >= 1) return { won: true, condition: 'Row' };
-  if (rules.includes('2rows') && rowCount >= 2) return { won: true, condition: '2 Rows' };
-  if (rules.includes('3rows') && rowCount >= 3) return { won: true, condition: '3 Rows' };
-  if (rules.includes('column') && colCount >= 1) return { won: true, condition: 'Column' };
-  if (rules.includes('2columns') && colCount >= 2) return { won: true, condition: '2 Columns' };
-  if (rules.includes('3columns') && colCount >= 3) return { won: true, condition: '3 Columns' };
-  if (rules.includes('diagonals') && (diagonals.main || diagonals.anti)) return { won: true, condition: 'Diagonals' };
-  if (rules.includes('full') && full) return { won: true, condition: 'Full Card' };
-  return { won: false, condition: null };
 }
 
 // Timer helper functions
@@ -776,7 +717,7 @@ io.on('connection', (socket) => {
       let updatedGame = game;
 
       // Check traditional win conditions first
-      const winResult = checkWin(stampedSquares, game.rules.winConditions);
+      const winResult = checkWin(stampedSquares, game.rules.winConditions, { isVSMode: true });
       if (winResult.won) {
         updatedGame = await prisma.game.update({
           where: { id: gameId },
@@ -831,7 +772,7 @@ io.on('connection', (socket) => {
       const updatedPlayers = await prisma.player.findMany({ where: { gameId: gameId } });
       let updatedGame = game;
 
-      const winResult = checkWin(card, game.rules.winConditions);
+      const winResult = checkWin(card, game.rules.winConditions, { isVSMode: false });
       if (!wasStamped && winResult.won) {
         updatedGame = await prisma.game.update({
           where: { id: gameId },

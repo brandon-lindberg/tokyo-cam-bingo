@@ -20,9 +20,13 @@
   <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
   <link rel="stylesheet" href="/css/timer-picker.css?v=<%= assetVersion %>">
   <script src="/js/pwa-install.js?v=<%= assetVersion %>" defer></script>
+  <script src="/js/splash.js?v=<%= assetVersion %>" defer></script>
   <script src="/js/timer-picker.js?v=<%= assetVersion %>"></script>
 </head>
-<body data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>">
+<body class="splash-active" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>">
+  <div id="splash-screen" class="splash-screen" role="presentation" aria-hidden="true">
+    <img src="/images/yabai_sutudios.png?v=<%= assetVersion %>" alt="Yabai Sutudios splash">
+  </div>
   <div class="container welcome-container" style="margin: 0 auto;">
     <div id="welcome-content">
       <h1>Welcome to Tokyo Cam Bingo</h1>

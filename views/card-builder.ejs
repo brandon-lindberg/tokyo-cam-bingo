@@ -38,6 +38,40 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
+    .builder-tabs {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .builder-tab {
+      flex: 1 1 160px;
+      border: 2px solid #E0E0E0;
+      background: #F8FBFF;
+      color: #555;
+      padding: 0.75rem 1rem;
+      border-radius: 999px;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .builder-tab.active {
+      border-color: #00BFFF;
+      background: #00BFFF;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0,191,255,0.25);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
     .form-group {
       margin-bottom: 1.5rem;
     }
@@ -63,6 +97,20 @@
       border-radius: 8px;
       padding: 1rem;
       background: #FAFEFF;
+    }
+
+    .helper-text {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 0.5rem;
+    }
+
+    .helper-text.muted {
+      color: #94A3B8;
+    }
+
+    .helper-text.error {
+      color: #EF4444;
     }
 
     .preset-select-row {
@@ -318,6 +366,14 @@
         padding: 0.75rem 0.5rem;
       }
 
+      .builder-tabs {
+        flex-direction: column;
+      }
+
+      .builder-tab {
+        width: 100%;
+      }
+
       /* Load card section mobile */
       .form-group[style*="background: #F0F8FF"] {
         padding: 0.75rem !important;
@@ -474,69 +530,88 @@
     </div>
 
     <div class="builder-form">
-      <!-- Load Existing Card Section -->
-      <div class="form-group" style="background: #F0F8FF; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
-        <label for="load-card-code">Load Existing Card (Optional)</label>
-        <div style="display: flex; gap: 0.5rem; align-items: center;">
-          <input type="text" id="load-card-code" placeholder="Enter card code to edit" maxlength="6" style="flex: 1; text-transform: uppercase;">
-          <button type="button" onclick="loadCard()" style="background-color: #10B981; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; white-space: nowrap;">Load Card</button>
-        </div>
-        <div id="load-card-status" style="margin-top: 0.5rem; font-size: 0.9rem;"></div>
+      <div class="builder-tabs" role="tablist" aria-label="Card builder modes">
+        <button type="button" class="builder-tab active" id="tab-btn-build" data-tab="build" role="tab" aria-controls="tab-build" aria-selected="true">
+          Create New Card
+        </button>
+        <button type="button" class="builder-tab" id="tab-btn-template" data-tab="template" role="tab" aria-controls="tab-template" aria-selected="false">
+          Start From Deck
+        </button>
+        <button type="button" class="builder-tab" id="tab-btn-existing" data-tab="existing" role="tab" aria-controls="tab-existing" aria-selected="false">
+          Edit Saved Card
+        </button>
       </div>
 
-      <div class="form-group template-section" style="margin-bottom: 1.5rem;">
-        <label for="template-preset">Start From Existing Deck</label>
-        <div class="helper-text">Prefill the editor with any built-in deck. Saving will always create a brand-new card.</div>
-        <div class="preset-select-row">
-          <select id="template-preset" class="form-select">
-            <option value="">-- Choose a preset --</option>
-            <option value="default">Tokyo Cam Bingo (default)</option>
-            <option value="category">Bingo Tasks · by Category</option>
-            <option value="game">Bingo Tasks · by Game</option>
-            <option value="all">Mix All Bingo Tasks</option>
-          </select>
-          <button type="button" id="load-preset-btn" class="secondary-button" style="min-width: 160px;">Load Deck</button>
+      <div class="tab-panel active" id="tab-build" role="tabpanel" aria-labelledby="tab-btn-build">
+        <div class="form-group">
+          <label for="collection-name">Card Name</label>
+          <input type="text" id="collection-name" placeholder="e.g., Tokyo Night Edition" required>
+          <div class="helper-text">Need a starting point? Load a deck in the other tabs, then come back to customize.</div>
         </div>
-        <div id="template-category-wrapper" class="preset-detail" style="display: none;">
-          <label class="form-sub-label" for="templateCategory">Choose a category</label>
-          <select id="templateCategory" class="form-select" disabled>
-            <option value="">Loading categories…</option>
-          </select>
+
+        <div class="items-section">
+          <label>Items (minimum 25)</label>
+          <div class="item-count" id="item-count">0 items added</div>
+
+          <div class="items-list" id="items-list">
+            <!-- Items will be added here dynamically -->
+          </div>
+
+          <button type="button" class="add-item-btn" onclick="addItemRow()">+ Add Item</button>
         </div>
-        <div id="template-game-wrapper" class="preset-detail" style="display: none;">
-          <label class="form-sub-label" for="templateGame">Choose a game</label>
-          <select id="templateGame" class="form-select" disabled>
-            <option value="">Loading games…</option>
-          </select>
-        </div>
-        <div id="template-status" class="helper-text muted"></div>
-        <div class="template-divider">or</div>
-        <div class="helper-text" style="margin-bottom: 0.5rem;">Duplicate one of your saved cards (new code will be generated)</div>
-        <div class="template-code-row">
-          <input type="text" id="template-card-code" placeholder="Enter card code to duplicate" maxlength="6">
-          <button type="button" id="load-template-code-btn" class="secondary-button" style="min-width: 180px;">Load As Template</button>
+
+        <button type="button" class="save-btn" id="save-btn" onclick="saveCollection()" disabled>
+          Save Custom Card
+        </button>
+      </div>
+
+      <div class="tab-panel" id="tab-template" role="tabpanel" aria-labelledby="tab-btn-template" hidden>
+        <div class="form-group template-section" style="margin-bottom: 0;">
+          <label for="template-preset">Optional: Prefill From an Existing Deck</label>
+          <div class="helper-text">Load any built-in deck or one of your codes to jump-start editing. We’ll bring you back to the builder once it loads.</div>
+          <div class="preset-select-row">
+            <select id="template-preset" class="form-select">
+              <option value="">-- Choose a preset --</option>
+              <option value="default">Tokyo Cam Bingo (default)</option>
+              <option value="category">Bingo Tasks · by Category</option>
+              <option value="game">Bingo Tasks · by Game</option>
+              <option value="all">Mix All Bingo Tasks</option>
+            </select>
+            <button type="button" id="load-preset-btn" class="secondary-button" style="min-width: 160px;">Load Deck</button>
+          </div>
+          <div id="template-category-wrapper" class="preset-detail" style="display: none;">
+            <label class="form-sub-label" for="templateCategory">Choose a category</label>
+            <select id="templateCategory" class="form-select" disabled>
+              <option value="">Loading categories…</option>
+            </select>
+          </div>
+          <div id="template-game-wrapper" class="preset-detail" style="display: none;">
+            <label class="form-sub-label" for="templateGame">Choose a game</label>
+            <select id="templateGame" class="form-select" disabled>
+              <option value="">Loading games…</option>
+            </select>
+          </div>
+          <div id="template-status" class="helper-text muted"></div>
+          <div class="template-divider">or</div>
+          <div class="helper-text" style="margin-bottom: 0.5rem;">Duplicate one of your saved cards (new code will be generated)</div>
+          <div class="template-code-row">
+            <input type="text" id="template-card-code" placeholder="Enter card code to duplicate" maxlength="6">
+            <button type="button" id="load-template-code-btn" class="secondary-button" style="min-width: 180px;">Load As Template</button>
+          </div>
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="collection-name">Card Name</label>
-        <input type="text" id="collection-name" placeholder="e.g., Tokyo Night Edition" required>
-      </div>
-
-      <div class="items-section">
-        <label>Items (minimum 25)</label>
-        <div class="item-count" id="item-count">0 items added</div>
-
-        <div class="items-list" id="items-list">
-          <!-- Items will be added here dynamically -->
+      <div class="tab-panel" id="tab-existing" role="tabpanel" aria-labelledby="tab-btn-existing" hidden>
+        <div class="form-group" style="background: #F0F8FF; padding: 1rem; border-radius: 8px; margin-bottom: 0;">
+          <label for="load-card-code">Edit a Saved Card</label>
+          <div class="helper-text">Enter the six-letter code for a card you created earlier. We’ll load it so you can update and resave.</div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <input type="text" id="load-card-code" placeholder="Enter card code to edit" maxlength="6" style="flex: 1; text-transform: uppercase;">
+            <button type="button" onclick="loadCard()" style="background-color: #10B981; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; white-space: nowrap;">Load Card</button>
+          </div>
+          <div id="load-card-status" class="helper-text" style="margin-top: 0.5rem;"></div>
         </div>
-
-        <button type="button" class="add-item-btn" onclick="addItemRow()">+ Add Item</button>
       </div>
-
-      <button type="button" class="save-btn" id="save-btn" onclick="saveCollection()" disabled>
-        Save Custom Card
-      </button>
     </div>
   </div>
 
@@ -569,6 +644,8 @@
     const templateLoadBtn = document.getElementById('load-preset-btn');
     const templateCodeInput = document.getElementById('template-card-code');
     const templateCodeBtn = document.getElementById('load-template-code-btn');
+    const builderTabs = document.querySelectorAll('.builder-tab');
+    const tabPanels = document.querySelectorAll('.tab-panel');
     let bingoMetaCache = null;
 
     let itemIndex = 0;
@@ -711,6 +788,7 @@
         });
         setTemplateStatus(`Loaded ${data.label || data.name} (${data.itemCount} items). Save to create a new code.`);
         document.getElementById('items-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        switchTab('build');
       } catch (error) {
         setTemplateStatus(error.message || 'Failed to load deck.', true);
       }
@@ -736,6 +814,7 @@
         });
         setTemplateStatus(`Loaded ${data.name} (${data.items.length} items). Saving will create a new code.`);
         document.getElementById('items-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        switchTab('build');
       } catch (error) {
         setTemplateStatus(error.message || 'Failed to load card.', true);
       }
@@ -763,6 +842,29 @@
 
     // Add initial empty row without scrolling to keep form in view
     addItemRow({ scrollIntoView: false, focusInput: false });
+
+    builderTabs.forEach(tab => {
+      tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+    });
+
+    function switchTab(tabName) {
+      builderTabs.forEach(tab => {
+        const isActive = tab.dataset.tab === tabName;
+        tab.classList.toggle('active', isActive);
+        tab.setAttribute('aria-selected', isActive);
+      });
+      tabPanels.forEach(panel => {
+        const isActive = panel.id === `tab-${tabName}`;
+        panel.classList.toggle('active', isActive);
+        if (isActive) {
+          panel.removeAttribute('hidden');
+        } else {
+          panel.setAttribute('hidden', 'hidden');
+        }
+      });
+    }
+
+    switchTab('build');
 
     // Load existing card
     async function loadCard() {
@@ -806,6 +908,8 @@
 
         statusEl.textContent = `✓ Loaded "${cardData.name}" (${cardData.itemCount} items)`;
         statusEl.style.color = '#10B981';
+        switchTab('build');
+        document.getElementById('items-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
       } catch (error) {
         console.error('Error loading card:', error);

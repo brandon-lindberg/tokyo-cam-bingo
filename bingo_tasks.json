@@ -5427,7 +5427,7 @@
     "id": "SOUL-005",
     "game": "Any",
     "category": "soulslike",
-    "task": "{weapon_type}-only boss"
+    "task": "Kill a boss with only one weapon"
   },
   {
     "id": "SOUL-006",
@@ -5523,7 +5523,7 @@
     "id": "SOUL-021",
     "game": "Any",
     "category": "soulslike",
-    "task": "Major boss under {level}"
+    "task": "Kill a Major boss under 50"
   },
   {
     "id": "SOUL-022",
@@ -5595,7 +5595,7 @@
     "id": "SOUL-033",
     "game": "Any",
     "category": "soulslike",
-    "task": "{spell_type}-only boss"
+    "task": "Kill boss with only spells"
   },
   {
     "id": "SOUL-034",
@@ -5733,7 +5733,7 @@
     "id": "PLAT-006",
     "game": "Any",
     "category": "platformer",
-    "task": "3 stages under {time}"
+    "task": "Beat 3 stages under 10 minutes"
   },
   {
     "id": "PLAT-007",
@@ -5847,7 +5847,7 @@
     "id": "PLAT-025",
     "game": "Any",
     "category": "platformer",
-    "task": "Ghost stage <{time}"
+    "task": "Beat a secret stage"
   },
   {
     "id": "PLAT-026",
@@ -5865,7 +5865,7 @@
     "id": "PLAT-028",
     "game": "Any",
     "category": "platformer",
-    "task": "{powerup}-only stage"
+    "task": "Kill a boss in under 5 minutes"
   },
   {
     "id": "PLAT-029",
@@ -6003,7 +6003,7 @@
     "id": "ROG-001",
     "game": "Any",
     "category": "roguelite",
-    "task": "Win on {difficulty}"
+    "task": "Win on hard difficulty"
   },
   {
     "id": "ROG-002",
@@ -6045,7 +6045,7 @@
     "id": "ROG-008",
     "game": "Any",
     "category": "roguelite",
-    "task": "Reach floor {n} <{time}"
+    "task": "Acquire a support item"
   },
   {
     "id": "ROG-009",
@@ -6057,7 +6057,7 @@
     "id": "ROG-010",
     "game": "Any",
     "category": "roguelite",
-    "task": "Heat/curse {tier}+"
+    "task": "Beat a stage with less than 50% health"
   },
   {
     "id": "ROG-011",
@@ -6111,7 +6111,7 @@
     "id": "ROG-019",
     "game": "Any",
     "category": "roguelite",
-    "task": "100 kills in {time}s"
+    "task": "100 kills in 90 seconds"
   },
   {
     "id": "ROG-020",
@@ -6207,7 +6207,7 @@
     "id": "ROG-035",
     "game": "Any",
     "category": "roguelite",
-    "task": "Spend ≤{gold} total"
+    "task": "Spend 100,000+ gold total"
   },
   {
     "id": "ROG-036",
@@ -6249,7 +6249,7 @@
     "id": "ROG-042",
     "game": "Any",
     "category": "roguelite",
-    "task": "Score ≥{score} mode"
+    "task": "Score 1,000,000+ in a run"
   },
   {
     "id": "ROG-043",
@@ -6291,7 +6291,7 @@
     "id": "ROG-049",
     "game": "Any",
     "category": "roguelite",
-    "task": "Run under {time}"
+    "task": "Die in under 10 seconds"
   },
   {
     "id": "ROG-050",
@@ -6351,7 +6351,7 @@
     "id": "FPS-009",
     "game": "Any",
     "category": "fps_competitive",
-    "task": "Wallbang kill {map}"
+    "task": "Wallbang kill on any map"
   },
   {
     "id": "FPS-010",
@@ -6651,7 +6651,7 @@
     "id": "RACE-009",
     "game": "Any",
     "category": "racing",
-    "task": "Pit stop under {time}s"
+    "task": "Pit stop under 10 seconds"
   },
   {
     "id": "RACE-010",
@@ -6699,7 +6699,7 @@
     "id": "RACE-017",
     "game": "Any",
     "category": "racing",
-    "task": "Beat ghost by {delta}"
+    "task": "Beat ghost a ghost"
   },
   {
     "id": "RACE-018",

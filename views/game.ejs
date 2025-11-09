@@ -342,6 +342,56 @@
     }
     socket.emit('join_room', { gameId, playerId });
 
+    const nextFrame = window.requestAnimationFrame ? (cb) => window.requestAnimationFrame(cb) : (cb) => setTimeout(cb, 16);
+    const TILE_FONT_MIN_PX = 10;
+    const TILE_FONT_STEP = 0.5;
+    const TILE_FONT_MAX_ITERATIONS = 40;
+
+    function debounce(fn, wait = 150) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn.apply(this, args), wait);
+      };
+    }
+
+    function fitTileText(tile) {
+      if (!tile) return;
+      tile.classList.remove('tile-scroll');
+      tile.style.fontSize = '';
+      const computed = window.getComputedStyle(tile);
+      let size = parseFloat(computed.fontSize) || 16;
+      const minSize = Math.max(TILE_FONT_MIN_PX, size * 0.55);
+      tile.style.fontSize = `${size}px`;
+      let iterations = 0;
+      while ((tile.scrollHeight > tile.clientHeight || tile.scrollWidth > tile.clientWidth) &&
+        size > minSize &&
+        iterations < TILE_FONT_MAX_ITERATIONS) {
+        size -= TILE_FONT_STEP;
+        tile.style.fontSize = `${size}px`;
+        iterations++;
+      }
+      if (tile.scrollHeight > tile.clientHeight || tile.scrollWidth > tile.clientWidth) {
+        tile.style.fontSize = `${minSize}px`;
+        if (tile.scrollHeight > tile.clientHeight) {
+          tile.classList.add('tile-scroll');
+        }
+      }
+    }
+
+    function fitTiles(scope) {
+      const root = scope && typeof scope.querySelectorAll === 'function' ? scope : document;
+      const tiles = root.querySelectorAll('.tile-content');
+      tiles.forEach(fitTileText);
+    }
+
+    function scheduleTileResize(scope) {
+      nextFrame(() => fitTiles(scope || document));
+    }
+
+    const debouncedTileResize = debounce(() => fitTiles(document), 200);
+    window.addEventListener('resize', debouncedTileResize);
+
     // Update state
     socket.on('update_state', (data) => {
       const { game, players } = data;
@@ -395,6 +445,9 @@
           });
         }
       }
+      if (currentCardTable) {
+        scheduleTileResize(currentCardTable);
+      }
       updateLeaderboard(players, game.mode);
       // If mobile drawer leaderboard is open, refresh it
       if (document.getElementById('drawer-leaderboard')) {
@@ -437,6 +490,7 @@
             });
             modalCard.appendChild(tr);
           });
+          scheduleTileResize(modalCard);
         }
       }
     });
@@ -512,6 +566,7 @@
         socket.emit('stamp', { gameId, playerId, row, col });
       });
     });
+    scheduleTileResize(document.getElementById('card-<%= currentPlayer.id %>'));
     // Hanko cursor scaling on card tiles
     (function(){
       const hankoImg = new Image();
@@ -672,6 +727,7 @@
       }
 
       document.getElementById('player-modal').style.display = 'block';
+      scheduleTileResize(modalCard);
     }
 
     function closeModal() {

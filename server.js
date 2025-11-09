@@ -457,6 +457,20 @@ app.put('/api/card-collections/:code', async (req, res) => {
   }
 });
 
+// Provide default Tokyo Cam Bingo deck
+app.get('/api/default-card', (req, res) => {
+  try {
+    res.json({
+      name: 'Tokyo Cam Bingo',
+      items: itemsList,
+      itemCount: itemsList.length
+    });
+  } catch (error) {
+    console.error('Error loading default card:', error);
+    res.status(500).json({ error: 'Failed to load default card' });
+  }
+});
+
 // Bingo tasks metadata for preset selection
 app.get('/api/bingo-tasks/meta', (req, res) => {
   try {
@@ -468,6 +482,52 @@ app.get('/api/bingo-tasks/meta', (req, res) => {
   } catch (error) {
     console.error('Error fetching bingo tasks metadata:', error);
     res.status(500).json({ error: 'Failed to load bingo tasks metadata' });
+  }
+});
+
+// Bingo tasks pool for builder/templates
+app.get('/api/bingo-tasks/pool', (req, res) => {
+  try {
+    const { type, value } = req.query;
+    if (!type) {
+      return res.status(400).json({ error: 'type query parameter is required' });
+    }
+
+    let items = [];
+    let label = '';
+    if (type === 'all') {
+      items = getAllTasksPool();
+      label = 'All Bingo Tasks';
+    } else if (type === 'category') {
+      if (!value) return res.status(400).json({ error: 'value parameter required for category type' });
+      items = getCategoryPool(value);
+      const meta = getBingoTasksMeta();
+      const bucket = meta.categories.find(cat => cat.value === value);
+      label = bucket ? bucket.label : value;
+    } else if (type === 'game') {
+      if (!value) return res.status(400).json({ error: 'value parameter required for game type' });
+      items = getGamePool(value);
+      const meta = getBingoTasksMeta();
+      const bucket = meta.games.find(game => game.value === value);
+      label = bucket ? bucket.label : value;
+    } else {
+      return res.status(400).json({ error: 'Invalid type parameter' });
+    }
+
+    if (!items || items.length < MIN_POOL_SIZE) {
+      return res.status(404).json({ error: 'Preset does not have enough items to build a card' });
+    }
+
+    res.json({
+      type,
+      value: value || null,
+      label,
+      items,
+      itemCount: items.length
+    });
+  } catch (error) {
+    console.error('Error fetching bingo task pool:', error);
+    res.status(500).json({ error: 'Failed to load bingo task pool' });
   }
 });
 

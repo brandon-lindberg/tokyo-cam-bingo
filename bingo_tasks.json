@@ -1,0 +1,6902 @@
+[
+  {
+    "id": "BR-001",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Win a match"
+  },
+  {
+    "id": "BR-002",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Top 3 finish"
+  },
+  {
+    "id": "BR-003",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Top 10, 0 kills"
+  },
+  {
+    "id": "BR-004",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "5+ eliminations"
+  },
+  {
+    "id": "BR-005",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "First elim"
+  },
+  {
+    "id": "BR-006",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Back-to-back wins"
+  },
+  {
+    "id": "BR-007",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Revive 2 allies"
+  },
+  {
+    "id": "BR-008",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Buy back a teammate"
+  },
+  {
+    "id": "BR-009",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Win w/ gray gear"
+  },
+  {
+    "id": "BR-010",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "No-damage win"
+  },
+  {
+    "id": "BR-011",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "200m+ snipe headshot"
+  },
+  {
+    "id": "BR-012",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Double kill by vehicle"
+  },
+  {
+    "id": "BR-013",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Win after respawn"
+  },
+  {
+    "id": "BR-014",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Open 10 chests"
+  },
+  {
+    "id": "BR-015",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Secure 3 contracts"
+  },
+  {
+    "id": "BR-016",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Pistols-only win"
+  },
+  {
+    "id": "BR-017",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Stick grenade kill"
+  },
+  {
+    "id": "BR-018",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Elim while gliding"
+  },
+  {
+    "id": "BR-019",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Third-party 2 fights"
+  },
+  {
+    "id": "BR-020",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Win 1v3 clutch"
+  },
+  {
+    "id": "BR-021",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Fish 3 items, use all"
+  },
+  {
+    "id": "BR-022",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Hold final high-ground"
+  },
+  {
+    "id": "BR-023",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "5 assists match"
+  },
+  {
+    "id": "BR-024",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Elim through smoke"
+  },
+  {
+    "id": "BR-025",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Win at 1 HP"
+  },
+  {
+    "id": "BR-026",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Trap elimination"
+  },
+  {
+    "id": "BR-027",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Steal a supply drop"
+  },
+  {
+    "id": "BR-028",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Recover reboot card"
+  },
+  {
+    "id": "BR-029",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Snipe mid-air"
+  },
+  {
+    "id": "BR-030",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Win w/ random squad"
+  },
+  {
+    "id": "BR-031",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Melee-only elim"
+  },
+  {
+    "id": "BR-032",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "3 headshots in a row"
+  },
+  {
+    "id": "BR-033",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Win without healing"
+  },
+  {
+    "id": "BR-034",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Zipline elimination"
+  },
+  {
+    "id": "BR-035",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Reboot twice, win"
+  },
+  {
+    "id": "BR-036",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Open 3 vaults/safes"
+  },
+  {
+    "id": "BR-037",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Fire/explosive elim"
+  },
+  {
+    "id": "BR-038",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Complete a bounty"
+  },
+  {
+    "id": "BR-039",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Win <5 shots fired"
+  },
+  {
+    "id": "BR-040",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Top 5, 8+ elims"
+  },
+  {
+    "id": "BR-041",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Reboot whole squad"
+  },
+  {
+    "id": "BR-042",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Thrown item kill"
+  },
+  {
+    "id": "BR-043",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Shield break 300m"
+  },
+  {
+    "id": "BR-044",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Two squad wipes"
+  },
+  {
+    "id": "BR-045",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Win w/ no perks"
+  },
+  {
+    "id": "BR-046",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Open 5 supply drops"
+  },
+  {
+    "id": "BR-047",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Elim while downed"
+  },
+  {
+    "id": "BR-048",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Campfire/regen save"
+  },
+  {
+    "id": "BR-049",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "Survive first circle w/ 0 loot"
+  },
+  {
+    "id": "BR-050",
+    "game": "Any",
+    "category": "battle_royale",
+    "task": "No-build win"
+  },
+  {
+    "id": "OW-001",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Complete a main quest"
+  },
+  {
+    "id": "OW-002",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Finish a side quest"
+  },
+  {
+    "id": "OW-003",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Unlock a mount"
+  },
+  {
+    "id": "OW-004",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Discover 10 locations"
+  },
+  {
+    "id": "OW-005",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Open 10 chests"
+  },
+  {
+    "id": "OW-006",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Craft 3 items"
+  },
+  {
+    "id": "OW-007",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Hunt a rare enemy"
+  },
+  {
+    "id": "OW-008",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Win a boss fight"
+  },
+  {
+    "id": "OW-009",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Clear a dungeon"
+  },
+  {
+    "id": "OW-010",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Max a weapon upgrade"
+  },
+  {
+    "id": "OW-011",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Hitless outpost"
+  },
+  {
+    "id": "OW-012",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Parry 5 attacks"
+  },
+  {
+    "id": "OW-013",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Pick 20 herbs"
+  },
+  {
+    "id": "OW-014",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Tame a wild animal"
+  },
+  {
+    "id": "OW-015",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Win a race"
+  },
+  {
+    "id": "OW-016",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Unlock fast travel"
+  },
+  {
+    "id": "OW-017",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Photo of easter egg"
+  },
+  {
+    "id": "OW-018",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Sell loot at max price"
+  },
+  {
+    "id": "OW-019",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Solve a tower puzzle"
+  },
+  {
+    "id": "OW-020",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Glide 500m+"
+  },
+  {
+    "id": "OW-021",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Clear 3 bandit camps"
+  },
+  {
+    "id": "OW-022",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Free a captive NPC"
+  },
+  {
+    "id": "OW-023",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Unlock a skill tier"
+  },
+  {
+    "id": "OW-024",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Find 3 secrets"
+  },
+  {
+    "id": "OW-025",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Environmental kill"
+  },
+  {
+    "id": "OW-026",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Ride A→B nonstop"
+  },
+  {
+    "id": "OW-027",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Win an arena"
+  },
+  {
+    "id": "OW-028",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Cook a new recipe"
+  },
+  {
+    "id": "OW-029",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Open a hidden door"
+  },
+  {
+    "id": "OW-030",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Fully upgrade armor"
+  },
+  {
+    "id": "OW-031",
+    "game": "Any",
+    "category": "open_world",
+    "task": "5 headshots in a row"
+  },
+  {
+    "id": "OW-032",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Complete a faction quest"
+  },
+  {
+    "id": "OW-033",
+    "game": "Any",
+    "category": "open_world",
+    "task": "No map for 15 min"
+  },
+  {
+    "id": "OW-034",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Pickpocket 3 times"
+  },
+  {
+    "id": "OW-035",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Win a duel"
+  },
+  {
+    "id": "OW-036",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Climb the tallest tower"
+  },
+  {
+    "id": "OW-037",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Swim across a bay"
+  },
+  {
+    "id": "OW-038",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Capture a fort"
+  },
+  {
+    "id": "OW-039",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Disarm 3 traps"
+  },
+  {
+    "id": "OW-040",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Stealth clear a base"
+  },
+  {
+    "id": "OW-041",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Find a unique mount"
+  },
+  {
+    "id": "OW-042",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Pet 3 animals"
+  },
+  {
+    "id": "OW-043",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Trade a rare item"
+  },
+  {
+    "id": "OW-044",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Win 3 mini-games"
+  },
+  {
+    "id": "OW-045",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Catch a legendary fish"
+  },
+  {
+    "id": "OW-046",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Paraglide peak to town"
+  },
+  {
+    "id": "OW-047",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Find a dev reference"
+  },
+  {
+    "id": "OW-048",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Complete a treasure map"
+  },
+  {
+    "id": "OW-049",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Max wanted, escape clean"
+  },
+  {
+    "id": "OW-050",
+    "game": "Any",
+    "category": "open_world",
+    "task": "Finish a romance quest"
+  },
+  {
+    "id": "MARIO-001",
+    "game": "Mario",
+    "category": "mario",
+    "task": "1-1 coinless"
+  },
+  {
+    "id": "MARIO-002",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Top of flagpole"
+  },
+  {
+    "id": "MARIO-003",
+    "game": "Mario",
+    "category": "mario",
+    "task": "3 one-ups in level"
+  },
+  {
+    "id": "MARIO-004",
+    "game": "Mario",
+    "category": "mario",
+    "task": "No-damage castle"
+  },
+  {
+    "id": "MARIO-005",
+    "game": "Mario",
+    "category": "mario",
+    "task": "All red coins"
+  },
+  {
+    "id": "MARIO-006",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Find secret exit"
+  },
+  {
+    "id": "MARIO-007",
+    "game": "Mario",
+    "category": "mario",
+    "task": "100 coins star"
+  },
+  {
+    "id": "MARIO-008",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Clear a ghost house"
+  },
+  {
+    "id": "MARIO-009",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Yoshi hitless stage"
+  },
+  {
+    "id": "MARIO-010",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Beat Bowser world"
+  },
+  {
+    "id": "MARIO-011",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Wall-jump only section"
+  },
+  {
+    "id": "MARIO-012",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Underwater hitless"
+  },
+  {
+    "id": "MARIO-013",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Shell 1-Up chain"
+  },
+  {
+    "id": "MARIO-014",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Autoscroller hitless"
+  },
+  {
+    "id": "MARIO-015",
+    "game": "Mario",
+    "category": "mario",
+    "task": "P-switch puzzle"
+  },
+  {
+    "id": "MARIO-016",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Cape/propeller skip"
+  },
+  {
+    "id": "MARIO-017",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Triple jump finish"
+  },
+  {
+    "id": "MARIO-018",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Star run speed"
+  },
+  {
+    "id": "MARIO-019",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Beat a Koopaling"
+  },
+  {
+    "id": "MARIO-020",
+    "game": "Mario",
+    "category": "mario",
+    "task": "All green stars stage"
+  },
+  {
+    "id": "MARIO-021",
+    "game": "Mario",
+    "category": "mario",
+    "task": "10 coin rings"
+  },
+  {
+    "id": "MARIO-022",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Ice stage no slip"
+  },
+  {
+    "id": "MARIO-023",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Ride platform to end"
+  },
+  {
+    "id": "MARIO-024",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Checkpoint skip"
+  },
+  {
+    "id": "MARIO-025",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Fireball boss kill"
+  },
+  {
+    "id": "MARIO-026",
+    "game": "Mario",
+    "category": "mario",
+    "task": "No power-up level"
+  },
+  {
+    "id": "MARIO-027",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Find 5 hidden 1-ups"
+  },
+  {
+    "id": "MARIO-028",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Lakitu cloud ride"
+  },
+  {
+    "id": "MARIO-029",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Pipe maze solved"
+  },
+  {
+    "id": "MARIO-030",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Beat Bowser Jr."
+  },
+  {
+    "id": "MARIO-031",
+    "game": "Mario",
+    "category": "mario",
+    "task": "All stamps/medals"
+  },
+  {
+    "id": "MARIO-032",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Cannon box clear"
+  },
+  {
+    "id": "MARIO-033",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Finish with 1 coin"
+  },
+  {
+    "id": "MARIO-034",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Luigi-only clear"
+  },
+  {
+    "id": "MARIO-035",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Shell jump finish"
+  },
+  {
+    "id": "MARIO-036",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Fast Boom Boom"
+  },
+  {
+    "id": "MARIO-037",
+    "game": "Mario",
+    "category": "mario",
+    "task": "No-jump clear"
+  },
+  {
+    "id": "MARIO-038",
+    "game": "Mario",
+    "category": "mario",
+    "task": "All purple coins"
+  },
+  {
+    "id": "MARIO-039",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Moon skip route"
+  },
+  {
+    "id": "MARIO-040",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Beat Captain Toad"
+  },
+  {
+    "id": "MARIO-041",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Max speed flag slide"
+  },
+  {
+    "id": "MARIO-042",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Beat a mystery house"
+  },
+  {
+    "id": "MARIO-043",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Green star timer save"
+  },
+  {
+    "id": "MARIO-044",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Bowser Fury island"
+  },
+  {
+    "id": "MARIO-045",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Goal fireworks 1-Up"
+  },
+  {
+    "id": "MARIO-046",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Collect 3 keys"
+  },
+  {
+    "id": "MARIO-047",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Champions Road CP"
+  },
+  {
+    "id": "MARIO-048",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Chain Chomp trick"
+  },
+  {
+    "id": "MARIO-049",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Boss hitless"
+  },
+  {
+    "id": "MARIO-050",
+    "game": "Mario",
+    "category": "mario",
+    "task": "Find a warp"
+  },
+  {
+    "id": "ZEL-001",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Complete a shrine"
+  },
+  {
+    "id": "ZEL-002",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Get a heart container"
+  },
+  {
+    "id": "ZEL-003",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Parry a guardian beam"
+  },
+  {
+    "id": "ZEL-004",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Defeat a Lynel"
+  },
+  {
+    "id": "ZEL-005",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Clear a labyrinth"
+  },
+  {
+    "id": "ZEL-006",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Catch a rare horse"
+  },
+  {
+    "id": "ZEL-007",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Shield surf to stable"
+  },
+  {
+    "id": "ZEL-008",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Defeat a Gleeok"
+  },
+  {
+    "id": "ZEL-009",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Light all torches"
+  },
+  {
+    "id": "ZEL-010",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Unlock a tower"
+  },
+  {
+    "id": "ZEL-011",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Cook a 5-buff meal"
+  },
+  {
+    "id": "ZEL-012",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Upgrade armor twice"
+  },
+  {
+    "id": "ZEL-013",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Perfect dodge flurry"
+  },
+  {
+    "id": "ZEL-014",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Beat a Divine Beast"
+  },
+  {
+    "id": "ZEL-015",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Collect 10 Koroks"
+  },
+  {
+    "id": "ZEL-016",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Solve a sky island"
+  },
+  {
+    "id": "ZEL-017",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Build a flying device"
+  },
+  {
+    "id": "ZEL-018",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Complete a questline"
+  },
+  {
+    "id": "ZEL-019",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Hitless Hinox"
+  },
+  {
+    "id": "ZEL-020",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Snowball bowling strike"
+  },
+  {
+    "id": "ZEL-021",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Upgrade battery once"
+  },
+  {
+    "id": "ZEL-022",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Unlock full map"
+  },
+  {
+    "id": "ZEL-023",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Paraglide 500m"
+  },
+  {
+    "id": "ZEL-024",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Fast Talus kill"
+  },
+  {
+    "id": "ZEL-025",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Catch a fairy"
+  },
+  {
+    "id": "ZEL-026",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Photo of a dragon"
+  },
+  {
+    "id": "ZEL-027",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Find a hidden cave"
+  },
+  {
+    "id": "ZEL-028",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Unlock a sage power"
+  },
+  {
+    "id": "ZEL-029",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Beat Master Kohga"
+  },
+  {
+    "id": "ZEL-030",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Shield parry x5"
+  },
+  {
+    "id": "ZEL-031",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Clear Yiga hideout"
+  },
+  {
+    "id": "ZEL-032",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Upgrade stamina wheel"
+  },
+  {
+    "id": "ZEL-033",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Beat a Flux Construct"
+  },
+  {
+    "id": "ZEL-034",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Fuse 5 creative items"
+  },
+  {
+    "id": "ZEL-035",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Dye armor a new color"
+  },
+  {
+    "id": "ZEL-036",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Open 5 chests"
+  },
+  {
+    "id": "ZEL-037",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "All terminals active"
+  },
+  {
+    "id": "ZEL-038",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Beat a Gleerok"
+  },
+  {
+    "id": "ZEL-039",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Ride a bear"
+  },
+  {
+    "id": "ZEL-040",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Sneakstrike chain x3"
+  },
+  {
+    "id": "ZEL-041",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Complete a cave quest"
+  },
+  {
+    "id": "ZEL-042",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Collect 5 bubbul gems"
+  },
+  {
+    "id": "ZEL-043",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "All shrines in region"
+  },
+  {
+    "id": "ZEL-044",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Rail ride no fall"
+  },
+  {
+    "id": "ZEL-045",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Win a mini-game"
+  },
+  {
+    "id": "ZEL-046",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Beat Phantom Ganon"
+  },
+  {
+    "id": "ZEL-047",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Depths statue path"
+  },
+  {
+    "id": "ZEL-048",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Upgrade a village"
+  },
+  {
+    "id": "ZEL-049",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Hero mode fight"
+  },
+  {
+    "id": "ZEL-050",
+    "game": "Zelda",
+    "category": "zelda",
+    "task": "Beat final boss"
+  },
+  {
+    "id": "NIN-001",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Smash: 2-stock win"
+  },
+  {
+    "id": "NIN-002",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "MKart: 150cc win"
+  },
+  {
+    "id": "NIN-003",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "MKart: 10 coins"
+  },
+  {
+    "id": "NIN-004",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Splatoon: 1000 paint"
+  },
+  {
+    "id": "NIN-005",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Splatoon: 10 splats"
+  },
+  {
+    "id": "NIN-006",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "ARMS: no-hit round"
+  },
+  {
+    "id": "NIN-007",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Kirby: copy 5 powers"
+  },
+  {
+    "id": "NIN-008",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Metroid: Varia suit"
+  },
+  {
+    "id": "NIN-009",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "ACNH: catch 10 fish"
+  },
+  {
+    "id": "NIN-010",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "ACNH: earn 3000 bells"
+  },
+  {
+    "id": "NIN-011",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Pikmin: 50 sprouts"
+  },
+  {
+    "id": "NIN-012",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Pikmin: boss down"
+  },
+  {
+    "id": "NIN-013",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Fire Emblem: S-rank map"
+  },
+  {
+    "id": "NIN-014",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "FE: no unit lost"
+  },
+  {
+    "id": "NIN-015",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Yoshi: 20 red coins"
+  },
+  {
+    "id": "NIN-016",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "DK: K-O-N-G"
+  },
+  {
+    "id": "NIN-017",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "WarioWare: 20 micros"
+  },
+  {
+    "id": "NIN-018",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Punch-Out!!: fast TKO"
+  },
+  {
+    "id": "NIN-019",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Star Fox: S-rank stage"
+  },
+  {
+    "id": "NIN-020",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "F-Zero: Hard win"
+  },
+  {
+    "id": "NIN-021",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Advance Wars: S-rank"
+  },
+  {
+    "id": "NIN-022",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Luigi’s Mansion: Boo found"
+  },
+  {
+    "id": "NIN-023",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Ring Fit: set complete"
+  },
+  {
+    "id": "NIN-024",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "NES Remix: gold"
+  },
+  {
+    "id": "NIN-025",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "eShop demo clear"
+  },
+  {
+    "id": "NIN-026",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Miitopia: boss beat"
+  },
+  {
+    "id": "NIN-027",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Mario Party: win a star"
+  },
+  {
+    "id": "NIN-028",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Switch Sports: strike"
+  },
+  {
+    "id": "NIN-029",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Tetris 99: top 10"
+  },
+  {
+    "id": "NIN-030",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Dr. Mario: x4 chain"
+  },
+  {
+    "id": "NIN-031",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Pilotwings: gold license"
+  },
+  {
+    "id": "NIN-032",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Xenoblade: unique kill"
+  },
+  {
+    "id": "NIN-033",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Bayonetta: pure platinum"
+  },
+  {
+    "id": "NIN-034",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Splatoon: win streak 3"
+  },
+  {
+    "id": "NIN-035",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Smash: spike KO"
+  },
+  {
+    "id": "NIN-036",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "MKart: dodge blue shell"
+  },
+  {
+    "id": "NIN-037",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Metroid: shinespark"
+  },
+  {
+    "id": "NIN-038",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Kirby: boss hitless"
+  },
+  {
+    "id": "NIN-039",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "DK: minecart clear"
+  },
+  {
+    "id": "NIN-040",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Yoshi: flutter chain"
+  },
+  {
+    "id": "NIN-041",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Star Fox: all rings"
+  },
+  {
+    "id": "NIN-042",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "F-Zero: boost finish"
+  },
+  {
+    "id": "NIN-043",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Mario Party: bonus star"
+  },
+  {
+    "id": "NIN-044",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Switch Sports: 3 wins"
+  },
+  {
+    "id": "NIN-045",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Tetris 99: back-to-back"
+  },
+  {
+    "id": "NIN-046",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Ring Fit: PR set"
+  },
+  {
+    "id": "NIN-047",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Smash: JV two-stock"
+  },
+  {
+    "id": "NIN-048",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "MKart: TT gold"
+  },
+  {
+    "id": "NIN-049",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Xenoblade: chain attack"
+  },
+  {
+    "id": "NIN-050",
+    "game": "Nintendo",
+    "category": "nintendo",
+    "task": "Advance Wars: perfect map"
+  },
+  {
+    "id": "COOP-001",
+    "game": "Any",
+    "category": "coop",
+    "task": "Revive a teammate"
+  },
+  {
+    "id": "COOP-002",
+    "game": "Any",
+    "category": "coop",
+    "task": "Complete a raid"
+  },
+  {
+    "id": "COOP-003",
+    "game": "Any",
+    "category": "coop",
+    "task": "No-down mission"
+  },
+  {
+    "id": "COOP-004",
+    "game": "Any",
+    "category": "coop",
+    "task": "Perfect escort"
+  },
+  {
+    "id": "COOP-005",
+    "game": "Any",
+    "category": "coop",
+    "task": "Role swap, no deaths"
+  },
+  {
+    "id": "COOP-006",
+    "game": "Any",
+    "category": "coop",
+    "task": "Sync switch puzzle"
+  },
+  {
+    "id": "COOP-007",
+    "game": "Any",
+    "category": "coop",
+    "task": "Carry to win"
+  },
+  {
+    "id": "COOP-008",
+    "game": "Any",
+    "category": "coop",
+    "task": "Trade revives x3"
+  },
+  {
+    "id": "COOP-009",
+    "game": "Any",
+    "category": "coop",
+    "task": "Beat horde wave 20"
+  },
+  {
+    "id": "COOP-010",
+    "game": "Any",
+    "category": "coop",
+    "task": "All challenges complete"
+  },
+  {
+    "id": "COOP-011",
+    "game": "Any",
+    "category": "coop",
+    "task": "Flawless boss duo"
+  },
+  {
+    "id": "COOP-012",
+    "game": "Any",
+    "category": "coop",
+    "task": "Timed door success"
+  },
+  {
+    "id": "COOP-013",
+    "game": "Any",
+    "category": "coop",
+    "task": "Stealth co-op clear"
+  },
+  {
+    "id": "COOP-014",
+    "game": "Any",
+    "category": "coop",
+    "task": "Share ammo 5 times"
+  },
+  {
+    "id": "COOP-015",
+    "game": "Any",
+    "category": "coop",
+    "task": "Heal 1000+ HP"
+  },
+  {
+    "id": "COOP-016",
+    "game": "Any",
+    "category": "coop",
+    "task": "Perfect hack"
+  },
+  {
+    "id": "COOP-017",
+    "game": "Any",
+    "category": "coop",
+    "task": "Escort no hits"
+  },
+  {
+    "id": "COOP-018",
+    "game": "Any",
+    "category": "coop",
+    "task": "Rescue all hostages"
+  },
+  {
+    "id": "COOP-019",
+    "game": "Any",
+    "category": "coop",
+    "task": "Finish under par"
+  },
+  {
+    "id": "COOP-020",
+    "game": "Any",
+    "category": "coop",
+    "task": "Clutch for team"
+  },
+  {
+    "id": "COOP-021",
+    "game": "Any",
+    "category": "coop",
+    "task": "Triple rescue and extract"
+  },
+  {
+    "id": "COOP-022",
+    "game": "Any",
+    "category": "coop",
+    "task": "No friendly fire"
+  },
+  {
+    "id": "COOP-023",
+    "game": "Any",
+    "category": "coop",
+    "task": "Chain ult combo"
+  },
+  {
+    "id": "COOP-024",
+    "game": "Any",
+    "category": "coop",
+    "task": "Carry objective x3"
+  },
+  {
+    "id": "COOP-025",
+    "game": "Any",
+    "category": "coop",
+    "task": "Perfect defense wave"
+  },
+  {
+    "id": "COOP-026",
+    "game": "Any",
+    "category": "coop",
+    "task": "Swap roles mid-run"
+  },
+  {
+    "id": "COOP-027",
+    "game": "Any",
+    "category": "coop",
+    "task": "Craft shared item"
+  },
+  {
+    "id": "COOP-028",
+    "game": "Any",
+    "category": "coop",
+    "task": "20 callouts pinged"
+  },
+  {
+    "id": "COOP-029",
+    "game": "Any",
+    "category": "coop",
+    "task": "Save from fall"
+  },
+  {
+    "id": "COOP-030",
+    "game": "Any",
+    "category": "coop",
+    "task": "Dual-solve puzzle"
+  },
+  {
+    "id": "COOP-031",
+    "game": "Any",
+    "category": "coop",
+    "task": "Resupply ally first"
+  },
+  {
+    "id": "COOP-032",
+    "game": "Any",
+    "category": "coop",
+    "task": "Sync boss kill"
+  },
+  {
+    "id": "COOP-033",
+    "game": "Any",
+    "category": "coop",
+    "task": "No reload segment"
+  },
+  {
+    "id": "COOP-034",
+    "game": "Any",
+    "category": "coop",
+    "task": "All side-ops done"
+  },
+  {
+    "id": "COOP-035",
+    "game": "Any",
+    "category": "coop",
+    "task": "Carry injured to exit"
+  },
+  {
+    "id": "COOP-036",
+    "game": "Any",
+    "category": "coop",
+    "task": "Pistols-only section"
+  },
+  {
+    "id": "COOP-037",
+    "game": "Any",
+    "category": "coop",
+    "task": "Perfect aggro trade"
+  },
+  {
+    "id": "COOP-038",
+    "game": "Any",
+    "category": "coop",
+    "task": "Sync jump/climb"
+  },
+  {
+    "id": "COOP-039",
+    "game": "Any",
+    "category": "coop",
+    "task": "Ping before every kill"
+  },
+  {
+    "id": "COOP-040",
+    "game": "Any",
+    "category": "coop",
+    "task": "Finish with full team"
+  },
+  {
+    "id": "COOP-041",
+    "game": "Any",
+    "category": "coop",
+    "task": "Rescue at 0:01"
+  },
+  {
+    "id": "COOP-042",
+    "game": "Any",
+    "category": "coop",
+    "task": "Win with randoms"
+  },
+  {
+    "id": "COOP-043",
+    "game": "Any",
+    "category": "coop",
+    "task": "Team revive chain x4"
+  },
+  {
+    "id": "COOP-044",
+    "game": "Any",
+    "category": "coop",
+    "task": "Zero deaths mission"
+  },
+  {
+    "id": "COOP-045",
+    "game": "Any",
+    "category": "coop",
+    "task": "No HUD segment"
+  },
+  {
+    "id": "COOP-046",
+    "game": "Any",
+    "category": "coop",
+    "task": "Team emote finish"
+  },
+  {
+    "id": "COOP-047",
+    "game": "Any",
+    "category": "coop",
+    "task": "Fair loot swap"
+  },
+  {
+    "id": "COOP-048",
+    "game": "Any",
+    "category": "coop",
+    "task": "Hold point 2 min"
+  },
+  {
+    "id": "COOP-049",
+    "game": "Any",
+    "category": "coop",
+    "task": "Combo finisher kill"
+  },
+  {
+    "id": "COOP-050",
+    "game": "Any",
+    "category": "coop",
+    "task": "Gold split speedrun"
+  },
+  {
+    "id": "RANK-001",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Win 3 in a row"
+  },
+  {
+    "id": "RANK-002",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Promote a division"
+  },
+  {
+    "id": "RANK-003",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "MVP of match"
+  },
+  {
+    "id": "RANK-004",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Clutch 1v3"
+  },
+  {
+    "id": "RANK-005",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Top score lobby"
+  },
+  {
+    "id": "RANK-006",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Perfect round"
+  },
+  {
+    "id": "RANK-007",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "No flame in chat"
+  },
+  {
+    "id": "RANK-008",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Comeback from 0-3"
+  },
+  {
+    "id": "RANK-009",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Win off-role"
+  },
+  {
+    "id": "RANK-010",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Top 1% accuracy"
+  },
+  {
+    "id": "RANK-011",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Ace/quad"
+  },
+  {
+    "id": "RANK-012",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "No deaths match"
+  },
+  {
+    "id": "RANK-013",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Win overtime"
+  },
+  {
+    "id": "RANK-014",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "No penalties/AFK"
+  },
+  {
+    "id": "RANK-015",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Midgame strat swap"
+  },
+  {
+    "id": "RANK-016",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Make VOD note"
+  },
+  {
+    "id": "RANK-017",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "20 callouts"
+  },
+  {
+    "id": "RANK-018",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Score objective x5"
+  },
+  {
+    "id": "RANK-019",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Deny objective x5"
+  },
+  {
+    "id": "RANK-020",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Win budget buys"
+  },
+  {
+    "id": "RANK-021",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Support carry"
+  },
+  {
+    "id": "RANK-022",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Clean eco win"
+  },
+  {
+    "id": "RANK-023",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Beat higher MMR"
+  },
+  {
+    "id": "RANK-024",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "No ult used win"
+  },
+  {
+    "id": "RANK-025",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Perfect retake"
+  },
+  {
+    "id": "RANK-026",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Entry kill x3"
+  },
+  {
+    "id": "RANK-027",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Save eco, win next"
+  },
+  {
+    "id": "RANK-028",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Win after timeout"
+  },
+  {
+    "id": "RANK-029",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Hard read success"
+  },
+  {
+    "id": "RANK-030",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "10 assists match"
+  },
+  {
+    "id": "RANK-031",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Drop gear 3 rounds"
+  },
+  {
+    "id": "RANK-032",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Win with new agent"
+  },
+  {
+    "id": "RANK-033",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Perfect site hold"
+  },
+  {
+    "id": "RANK-034",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Bait-and-switch win"
+  },
+  {
+    "id": "RANK-035",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Knife/finisher round"
+  },
+  {
+    "id": "RANK-036",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Zero tilt game"
+  },
+  {
+    "id": "RANK-037",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Win after DC"
+  },
+  {
+    "id": "RANK-038",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Clutch at 1 HP"
+  },
+  {
+    "id": "RANK-039",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Three-map streak"
+  },
+  {
+    "id": "RANK-040",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Promote on stream"
+  },
+  {
+    "id": "RANK-041",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Perfect comms"
+  },
+  {
+    "id": "RANK-042",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Adapt to mirror comp"
+  },
+  {
+    "id": "RANK-043",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Force bonus win"
+  },
+  {
+    "id": "RANK-044",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Save round clutch"
+  },
+  {
+    "id": "RANK-045",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Top ADR/KDA"
+  },
+  {
+    "id": "RANK-046",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "No utility round"
+  },
+  {
+    "id": "RANK-047",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Post-plant 1v2"
+  },
+  {
+    "id": "RANK-048",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Defuse at 0:01"
+  },
+  {
+    "id": "RANK-049",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Win alt role"
+  },
+  {
+    "id": "RANK-050",
+    "game": "Any",
+    "category": "ranked_play",
+    "task": "Win promo series"
+  },
+  {
+    "id": "PARTY-001",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Win a minigame"
+  },
+  {
+    "id": "PARTY-002",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Crown win"
+  },
+  {
+    "id": "PARTY-003",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Qualify first twice"
+  },
+  {
+    "id": "PARTY-004",
+    "game": "Any",
+    "category": "party_games",
+    "task": "No-grab clear"
+  },
+  {
+    "id": "PARTY-005",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Eliminate 3 players"
+  },
+  {
+    "id": "PARTY-006",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Team game win"
+  },
+  {
+    "id": "PARTY-007",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Perfect match memory"
+  },
+  {
+    "id": "PARTY-008",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Ring-out 3 times"
+  },
+  {
+    "id": "PARTY-009",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Taunt before finish"
+  },
+  {
+    "id": "PARTY-010",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Win hex finale"
+  },
+  {
+    "id": "PARTY-011",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Crown grab dive"
+  },
+  {
+    "id": "PARTY-012",
+    "game": "Any",
+    "category": "party_games",
+    "task": "No fall round"
+  },
+  {
+    "id": "PARTY-013",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Door Dash perfect"
+  },
+  {
+    "id": "PARTY-014",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Slime climb clear"
+  },
+  {
+    "id": "PARTY-015",
+    "game": "Any",
+    "category": "party_games",
+    "task": "10 hoops scored"
+  },
+  {
+    "id": "PARTY-016",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Race PB time"
+  },
+  {
+    "id": "PARTY-017",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Snowball survival"
+  },
+  {
+    "id": "PARTY-018",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Win 1v1 final"
+  },
+  {
+    "id": "PARTY-019",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Win after stumble"
+  },
+  {
+    "id": "PARTY-020",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Squad streak x2"
+  },
+  {
+    "id": "PARTY-021",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Perfect seesaw"
+  },
+  {
+    "id": "PARTY-022",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Avoid grabs entire run"
+  },
+  {
+    "id": "PARTY-023",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Bounce map clean"
+  },
+  {
+    "id": "PARTY-024",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Volleyfall win"
+  },
+  {
+    "id": "PARTY-025",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Tail tag steal late"
+  },
+  {
+    "id": "PARTY-026",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Perfect penguin hold"
+  },
+  {
+    "id": "PARTY-027",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Thin ice win"
+  },
+  {
+    "id": "PARTY-028",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Extreme mode finish"
+  },
+  {
+    "id": "PARTY-029",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Team assist MVP"
+  },
+  {
+    "id": "PARTY-030",
+    "game": "Any",
+    "category": "party_games",
+    "task": "All gold medals run"
+  },
+  {
+    "id": "PARTY-031",
+    "game": "Any",
+    "category": "party_games",
+    "task": "No checkpoint clear"
+  },
+  {
+    "id": "PARTY-032",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Perfect timing jump"
+  },
+  {
+    "id": "PARTY-033",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Reverse route race"
+  },
+  {
+    "id": "PARTY-034",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Survive grab gauntlet"
+  },
+  {
+    "id": "PARTY-035",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Golden egg steal"
+  },
+  {
+    "id": "PARTY-036",
+    "game": "Any",
+    "category": "party_games",
+    "task": "All hoops solo"
+  },
+  {
+    "id": "PARTY-037",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Blastball double KO"
+  },
+  {
+    "id": "PARTY-038",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Skifall gold path"
+  },
+  {
+    "id": "PARTY-039",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Stomp rounds flawless"
+  },
+  {
+    "id": "PARTY-040",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Race top-3 twice"
+  },
+  {
+    "id": "PARTY-041",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Bounce final master"
+  },
+  {
+    "id": "PARTY-042",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Tip Toe perfect path"
+  },
+  {
+    "id": "PARTY-043",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Snowball push win"
+  },
+  {
+    "id": "PARTY-044",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Wall Guys first"
+  },
+  {
+    "id": "PARTY-045",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Stumble to win"
+  },
+  {
+    "id": "PARTY-046",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Hoop distance trick"
+  },
+  {
+    "id": "PARTY-047",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Pixel Painters perfect"
+  },
+  {
+    "id": "PARTY-048",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Bounce Shot final win"
+  },
+  {
+    "id": "PARTY-049",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Triple gold races"
+  },
+  {
+    "id": "PARTY-050",
+    "game": "Any",
+    "category": "party_games",
+    "task": "Back-to-back crowns"
+  },
+  {
+    "id": "RETRO-001",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Beat stage 1"
+  },
+  {
+    "id": "RETRO-002",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Score 100k+"
+  },
+  {
+    "id": "RETRO-003",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "No continue clear"
+  },
+  {
+    "id": "RETRO-004",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "No damage boss"
+  },
+  {
+    "id": "RETRO-005",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Find warp/secret"
+  },
+  {
+    "id": "RETRO-006",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "1CC any game"
+  },
+  {
+    "id": "RETRO-007",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Collect 3 extends"
+  },
+  {
+    "id": "RETRO-008",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "No HUD segment"
+  },
+  {
+    "id": "RETRO-009",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Perfect bonus"
+  },
+  {
+    "id": "RETRO-010",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Parry/deflect x10"
+  },
+  {
+    "id": "RETRO-011",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Hidden room found"
+  },
+  {
+    "id": "RETRO-012",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Boss quick kill"
+  },
+  {
+    "id": "RETRO-013",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "All hostages saved"
+  },
+  {
+    "id": "RETRO-014",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Loop 2 reached"
+  },
+  {
+    "id": "RETRO-015",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "No bomb stage"
+  },
+  {
+    "id": "RETRO-016",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Shmup stage hitless"
+  },
+  {
+    "id": "RETRO-017",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Car bonus cleared"
+  },
+  {
+    "id": "RETRO-018",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Hidden character used"
+  },
+  {
+    "id": "RETRO-019",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Hard mode stage"
+  },
+  {
+    "id": "RETRO-020",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Rank S score"
+  },
+  {
+    "id": "RETRO-021",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Secret boss found"
+  },
+  {
+    "id": "RETRO-022",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Beat rival midboss"
+  },
+  {
+    "id": "RETRO-023",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Credit feed banned win"
+  },
+  {
+    "id": "RETRO-024",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Collect 5 medals"
+  },
+  {
+    "id": "RETRO-025",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Combo never drops"
+  },
+  {
+    "id": "RETRO-026",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Super cancel x5"
+  },
+  {
+    "id": "RETRO-027",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "No special moves"
+  },
+  {
+    "id": "RETRO-028",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Chip kill boss"
+  },
+  {
+    "id": "RETRO-029",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Training route complete"
+  },
+  {
+    "id": "RETRO-030",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "All secrets stage"
+  },
+  {
+    "id": "RETRO-031",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Time attack PB"
+  },
+  {
+    "id": "RETRO-032",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Beat time gate"
+  },
+  {
+    "id": "RETRO-033",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Max difficulty clear"
+  },
+  {
+    "id": "RETRO-034",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Perfect parry boss"
+  },
+  {
+    "id": "RETRO-035",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "No miss boss rush"
+  },
+  {
+    "id": "RETRO-036",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Hidden route taken"
+  },
+  {
+    "id": "RETRO-037",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Reflect shot kill"
+  },
+  {
+    "id": "RETRO-038",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "No item run stage"
+  },
+  {
+    "id": "RETRO-039",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Full meter finish"
+  },
+  {
+    "id": "RETRO-040",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Survive bullet pattern"
+  },
+  {
+    "id": "RETRO-041",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Brawler stage no-hit"
+  },
+  {
+    "id": "RETRO-042",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Two loops completed"
+  },
+  {
+    "id": "RETRO-043",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Score extends only"
+  },
+  {
+    "id": "RETRO-044",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Retro puzzle solved"
+  },
+  {
+    "id": "RETRO-045",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Platform skip pulled"
+  },
+  {
+    "id": "RETRO-046",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Glitch room seen"
+  },
+  {
+    "id": "RETRO-047",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Start-to-finish coinless"
+  },
+  {
+    "id": "RETRO-048",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Kill by environmental"
+  },
+  {
+    "id": "RETRO-049",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Beat final boss"
+  },
+  {
+    "id": "RETRO-050",
+    "game": "Any",
+    "category": "retro_games",
+    "task": "Credits watched"
+  },
+  {
+    "id": "ARCADE-001",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "1CC a game"
+  },
+  {
+    "id": "ARCADE-002",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Score 100k+"
+  },
+  {
+    "id": "ARCADE-003",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Stage 1 hitless"
+  },
+  {
+    "id": "ARCADE-004",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Chain 50 hits"
+  },
+  {
+    "id": "ARCADE-005",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "No continue clear"
+  },
+  {
+    "id": "ARCADE-006",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Perfect bonus"
+  },
+  {
+    "id": "ARCADE-007",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Boss quick kill"
+  },
+  {
+    "id": "ARCADE-008",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "All extends"
+  },
+  {
+    "id": "ARCADE-009",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "No bomb stage"
+  },
+  {
+    "id": "ARCADE-010",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Reach loop 2"
+  },
+  {
+    "id": "ARCADE-011",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Parry x20"
+  },
+  {
+    "id": "ARCADE-012",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Time attack PB"
+  },
+  {
+    "id": "ARCADE-013",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Default ship clear"
+  },
+  {
+    "id": "ARCADE-014",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "No miss first half"
+  },
+  {
+    "id": "ARCADE-015",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "All secret bonuses"
+  },
+  {
+    "id": "ARCADE-016",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "No HUD challenge"
+  },
+  {
+    "id": "ARCADE-017",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Reflect-kill boss"
+  },
+  {
+    "id": "ARCADE-018",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Survive pattern"
+  },
+  {
+    "id": "ARCADE-019",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Brawler stage no-hit"
+  },
+  {
+    "id": "ARCADE-020",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Score extends only"
+  },
+  {
+    "id": "ARCADE-021",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Combo never drops"
+  },
+  {
+    "id": "ARCADE-022",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "No specials stage"
+  },
+  {
+    "id": "ARCADE-023",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Chip kill boss"
+  },
+  {
+    "id": "ARCADE-024",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Collect 5 medals"
+  },
+  {
+    "id": "ARCADE-025",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Bonus car stage"
+  },
+  {
+    "id": "ARCADE-026",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Juggle 10s"
+  },
+  {
+    "id": "ARCADE-027",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Shmup stage no deaths"
+  },
+  {
+    "id": "ARCADE-028",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Extends capped"
+  },
+  {
+    "id": "ARCADE-029",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Hidden route taken"
+  },
+  {
+    "id": "ARCADE-030",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Throw-only boss"
+  },
+  {
+    "id": "ARCADE-031",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Super cancel x5"
+  },
+  {
+    "id": "ARCADE-032",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Hard mode clear"
+  },
+  {
+    "id": "ARCADE-033",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Rank S score"
+  },
+  {
+    "id": "ARCADE-034",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Secret boss reveal"
+  },
+  {
+    "id": "ARCADE-035",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "All hostages saved"
+  },
+  {
+    "id": "ARCADE-036",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Perfect parry boss"
+  },
+  {
+    "id": "ARCADE-037",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "No-continue boss rush"
+  },
+  {
+    "id": "ARCADE-038",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Beat time gate"
+  },
+  {
+    "id": "ARCADE-039",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "All secrets stage"
+  },
+  {
+    "id": "ARCADE-040",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "1CC training route"
+  },
+  {
+    "id": "ARCADE-041",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Reflect shot kill"
+  },
+  {
+    "id": "ARCADE-042",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "No item run"
+  },
+  {
+    "id": "ARCADE-043",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Full meter finish"
+  },
+  {
+    "id": "ARCADE-044",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Survival 5 rounds"
+  },
+  {
+    "id": "ARCADE-045",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Score chain full map"
+  },
+  {
+    "id": "ARCADE-046",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "No miss boss rush"
+  },
+  {
+    "id": "ARCADE-047",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Hidden character clear"
+  },
+  {
+    "id": "ARCADE-048",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Max difficulty stage"
+  },
+  {
+    "id": "ARCADE-049",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Rival midboss down"
+  },
+  {
+    "id": "ARCADE-050",
+    "game": "Any",
+    "category": "arcade_style",
+    "task": "Credit feed banned win"
+  },
+  {
+    "id": "PUZ-001",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Solve <1 min"
+  },
+  {
+    "id": "PUZ-002",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "No hint clear"
+  },
+  {
+    "id": "PUZ-003",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Perfect moves"
+  },
+  {
+    "id": "PUZ-004",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Back-to-back x3"
+  },
+  {
+    "id": "PUZ-005",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Combo x4"
+  },
+  {
+    "id": "PUZ-006",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "B2B Tetris"
+  },
+  {
+    "id": "PUZ-007",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "T-spin double"
+  },
+  {
+    "id": "PUZ-008",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Secret room"
+  },
+  {
+    "id": "PUZ-009",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Minimal swaps"
+  },
+  {
+    "id": "PUZ-010",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Portal <5 min"
+  },
+  {
+    "id": "PUZ-011",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Perfect mirrors"
+  },
+  {
+    "id": "PUZ-012",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "All optional stars"
+  },
+  {
+    "id": "PUZ-013",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Co-op sync clear"
+  },
+  {
+    "id": "PUZ-014",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "No mistakes"
+  },
+  {
+    "id": "PUZ-015",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Hidden path"
+  },
+  {
+    "id": "PUZ-016",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Cipher cracked"
+  },
+  {
+    "id": "PUZ-017",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Sliding 0 resets"
+  },
+  {
+    "id": "PUZ-018",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Rings aligned"
+  },
+  {
+    "id": "PUZ-019",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Match-3 chain 50"
+  },
+  {
+    "id": "PUZ-020",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Sokoban no extras"
+  },
+  {
+    "id": "PUZ-021",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Mate-in-2"
+  },
+  {
+    "id": "PUZ-022",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Picross fast"
+  },
+  {
+    "id": "PUZ-023",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Light all tiles"
+  },
+  {
+    "id": "PUZ-024",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Turret skip"
+  },
+  {
+    "id": "PUZ-025",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Co-op bridge"
+  },
+  {
+    "id": "PUZ-026",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Teleport loop"
+  },
+  {
+    "id": "PUZ-027",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Crate minimal"
+  },
+  {
+    "id": "PUZ-028",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "All nodes lit"
+  },
+  {
+    "id": "PUZ-029",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Mirror maze map"
+  },
+  {
+    "id": "PUZ-030",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Keypad code"
+  },
+  {
+    "id": "PUZ-031",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Hidden door"
+  },
+  {
+    "id": "PUZ-032",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Paper trail"
+  },
+  {
+    "id": "PUZ-033",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Elevator logic"
+  },
+  {
+    "id": "PUZ-034",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Word grid clear"
+  },
+  {
+    "id": "PUZ-035",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Math puzzle"
+  },
+  {
+    "id": "PUZ-036",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Circuit closed"
+  },
+  {
+    "id": "PUZ-037",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Runes aligned"
+  },
+  {
+    "id": "PUZ-038",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Silhouette match"
+  },
+  {
+    "id": "PUZ-039",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Weights balanced"
+  },
+  {
+    "id": "PUZ-040",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Beams focused"
+  },
+  {
+    "id": "PUZ-041",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Rope tied"
+  },
+  {
+    "id": "PUZ-042",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Sequence perfect"
+  },
+  {
+    "id": "PUZ-043",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Escape room clear"
+  },
+  {
+    "id": "PUZ-044",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Sum puzzle"
+  },
+  {
+    "id": "PUZ-045",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Nonogram perfect"
+  },
+  {
+    "id": "PUZ-046",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Laser path clear"
+  },
+  {
+    "id": "PUZ-047",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Pipe network"
+  },
+  {
+    "id": "PUZ-048",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Block rotate fit"
+  },
+  {
+    "id": "PUZ-049",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "Grid fill perfect"
+  },
+  {
+    "id": "PUZ-050",
+    "game": "Any",
+    "category": "puzzle_games",
+    "task": "All puzzles done"
+  },
+  {
+    "id": "SPORT-001",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Hat-trick scored"
+  },
+  {
+    "id": "SPORT-002",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Clean sheet win"
+  },
+  {
+    "id": "SPORT-003",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Penalty saved"
+  },
+  {
+    "id": "SPORT-004",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Buzzer-beater"
+  },
+  {
+    "id": "SPORT-005",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "50-point game"
+  },
+  {
+    "id": "SPORT-006",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Triple-double"
+  },
+  {
+    "id": "SPORT-007",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Home run"
+  },
+  {
+    "id": "SPORT-008",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Perfect inning"
+  },
+  {
+    "id": "SPORT-009",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Hole-in-one"
+  },
+  {
+    "id": "SPORT-010",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Eagle scored"
+  },
+  {
+    "id": "SPORT-011",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "300 game"
+  },
+  {
+    "id": "SPORT-012",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Ace serve"
+  },
+  {
+    "id": "SPORT-013",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Break serve twice"
+  },
+  {
+    "id": "SPORT-014",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Hat-trick saves"
+  },
+  {
+    "id": "SPORT-015",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Overtime win"
+  },
+  {
+    "id": "SPORT-016",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Shutout"
+  },
+  {
+    "id": "SPORT-017",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Kick return TD"
+  },
+  {
+    "id": "SPORT-018",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Pick-six"
+  },
+  {
+    "id": "SPORT-019",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Perfect passer rating"
+  },
+  {
+    "id": "SPORT-020",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "3 assists hat-trick"
+  },
+  {
+    "id": "SPORT-021",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Sprint win"
+  },
+  {
+    "id": "SPORT-022",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Fastest lap"
+  },
+  {
+    "id": "SPORT-023",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Podium finish"
+  },
+  {
+    "id": "SPORT-024",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Penalty shot goal"
+  },
+  {
+    "id": "SPORT-025",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Free-kick goal"
+  },
+  {
+    "id": "SPORT-026",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "GIR x9"
+  },
+  {
+    "id": "SPORT-027",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Perfect release x10"
+  },
+  {
+    "id": "SPORT-028",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Alley-oop dunk"
+  },
+  {
+    "id": "SPORT-029",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Breakaway goal"
+  },
+  {
+    "id": "SPORT-030",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Shootout win"
+  },
+  {
+    "id": "SPORT-031",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Walk-off win"
+  },
+  {
+    "id": "SPORT-032",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Grand slam"
+  },
+  {
+    "id": "SPORT-033",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Perfect PK save"
+  },
+  {
+    "id": "SPORT-034",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Long-range goal"
+  },
+  {
+    "id": "SPORT-035",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Trick shot"
+  },
+  {
+    "id": "SPORT-036",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Mercy rule win"
+  },
+  {
+    "id": "SPORT-037",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "4 steals game"
+  },
+  {
+    "id": "SPORT-038",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "5 blocks game"
+  },
+  {
+    "id": "SPORT-039",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Perfect frame"
+  },
+  {
+    "id": "SPORT-040",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Series sweep"
+  },
+  {
+    "id": "SPORT-041",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Win shootout"
+  },
+  {
+    "id": "SPORT-042",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Score from corner"
+  },
+  {
+    "id": "SPORT-043",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Bicycle kick"
+  },
+  {
+    "id": "SPORT-044",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "NHL hat-trick"
+  },
+  {
+    "id": "SPORT-045",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "4 TD passes"
+  },
+  {
+    "id": "SPORT-046",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "10 strikeouts"
+  },
+  {
+    "id": "SPORT-047",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "10 threes"
+  },
+  {
+    "id": "SPORT-048",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Safety lap hold"
+  },
+  {
+    "id": "SPORT-049",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "Rally stage win"
+  },
+  {
+    "id": "SPORT-050",
+    "game": "Any",
+    "category": "sports_games",
+    "task": "League title"
+  },
+  {
+    "id": "CARD-001",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Win a match"
+  },
+  {
+    "id": "CARD-002",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Win with 1 HP"
+  },
+  {
+    "id": "CARD-003",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Topdeck for lethal"
+  },
+  {
+    "id": "CARD-004",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Perfect mulligan"
+  },
+  {
+    "id": "CARD-005",
+    "game": "Any",
+    "category": "card_games",
+    "task": "No damage taken"
+  },
+  {
+    "id": "CARD-006",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Board clear x3"
+  },
+  {
+    "id": "CARD-007",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Draw 10+ cards"
+  },
+  {
+    "id": "CARD-008",
+    "game": "Any",
+    "category": "card_games",
+    "task": "No duplicates deck"
+  },
+  {
+    "id": "CARD-009",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Combo kill"
+  },
+  {
+    "id": "CARD-010",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Fatigue win"
+  },
+  {
+    "id": "CARD-011",
+    "game": "Any",
+    "category": "card_games",
+    "task": "5-turn lethal"
+  },
+  {
+    "id": "CARD-012",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Counter every spell"
+  },
+  {
+    "id": "CARD-013",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Win with basic deck"
+  },
+  {
+    "id": "CARD-014",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Legendary-only lethal"
+  },
+  {
+    "id": "CARD-015",
+    "game": "Any",
+    "category": "card_games",
+    "task": "No legendaries win"
+  },
+  {
+    "id": "CARD-016",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Handsize 9+"
+  },
+  {
+    "id": "CARD-017",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Discard win"
+  },
+  {
+    "id": "CARD-018",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Mill 5 cards"
+  },
+  {
+    "id": "CARD-019",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Secret chain x3"
+  },
+  {
+    "id": "CARD-020",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Transform lethal"
+  },
+  {
+    "id": "CARD-021",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Token swarm 7+"
+  },
+  {
+    "id": "CARD-022",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Silence key unit"
+  },
+  {
+    "id": "CARD-023",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Win w/ 0-cost spells"
+  },
+  {
+    "id": "CARD-024",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Win w/ only minions"
+  },
+  {
+    "id": "CARD-025",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Win w/ only spells"
+  },
+  {
+    "id": "CARD-026",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Armor 30+"
+  },
+  {
+    "id": "CARD-027",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Lifesteal 20+"
+  },
+  {
+    "id": "CARD-028",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Steal win condition"
+  },
+  {
+    "id": "CARD-029",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Topdeck save"
+  },
+  {
+    "id": "CARD-030",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Combo draw 5"
+  },
+  {
+    "id": "CARD-031",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Perfect curve 1–5"
+  },
+  {
+    "id": "CARD-032",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Kill by fatigue"
+  },
+  {
+    "id": "CARD-033",
+    "game": "Any",
+    "category": "card_games",
+    "task": "OTK combo"
+  },
+  {
+    "id": "CARD-034",
+    "game": "Any",
+    "category": "card_games",
+    "task": "No hero power used"
+  },
+  {
+    "id": "CARD-035",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Win with 1 card left"
+  },
+  {
+    "id": "CARD-036",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Discover chain x3"
+  },
+  {
+    "id": "CARD-037",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Win on turn 2–3"
+  },
+  {
+    "id": "CARD-038",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Counter last card"
+  },
+  {
+    "id": "CARD-039",
+    "game": "Any",
+    "category": "card_games",
+    "task": "No RNG effects"
+  },
+  {
+    "id": "CARD-040",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Win mirror match"
+  },
+  {
+    "id": "CARD-041",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Win with off-meta"
+  },
+  {
+    "id": "CARD-042",
+    "game": "Any",
+    "category": "card_games",
+    "task": "All golden hand"
+  },
+  {
+    "id": "CARD-043",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Legendary chain x3"
+  },
+  {
+    "id": "CARD-044",
+    "game": "Any",
+    "category": "card_games",
+    "task": "No neutral cards"
+  },
+  {
+    "id": "CARD-045",
+    "game": "Any",
+    "category": "card_games",
+    "task": "All neutral cards"
+  },
+  {
+    "id": "CARD-046",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Alt win condition"
+  },
+  {
+    "id": "CARD-047",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Waste 10 mana, win"
+  },
+  {
+    "id": "CARD-048",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Board lock"
+  },
+  {
+    "id": "CARD-049",
+    "game": "Any",
+    "category": "card_games",
+    "task": "Perfect lethal count"
+  },
+  {
+    "id": "CARD-050",
+    "game": "Any",
+    "category": "card_games",
+    "task": "BM then win"
+  },
+  {
+    "id": "BOARD-001",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Checkmate in 3"
+  },
+  {
+    "id": "BOARD-002",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Win on time"
+  },
+  {
+    "id": "BOARD-003",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Promote a pawn"
+  },
+  {
+    "id": "BOARD-004",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Castle both sides"
+  },
+  {
+    "id": "BOARD-005",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Fork king+queen"
+  },
+  {
+    "id": "BOARD-006",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Back-rank mate"
+  },
+  {
+    "id": "BOARD-007",
+    "game": "Any",
+    "category": "board_games",
+    "task": "En passant used"
+  },
+  {
+    "id": "BOARD-008",
+    "game": "Any",
+    "category": "board_games",
+    "task": "50-move draw forced"
+  },
+  {
+    "id": "BOARD-009",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Stalemate save"
+  },
+  {
+    "id": "BOARD-010",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Win without queens"
+  },
+  {
+    "id": "BOARD-011",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Mate with bishop+knight"
+  },
+  {
+    "id": "BOARD-012",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Mate with rook"
+  },
+  {
+    "id": "BOARD-013",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Win with underpromotion"
+  },
+  {
+    "id": "BOARD-014",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Threefold claim"
+  },
+  {
+    "id": "BOARD-015",
+    "game": "Any",
+    "category": "board_games",
+    "task": "No capture 20 moves"
+  },
+  {
+    "id": "BOARD-016",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Perfect opening book"
+  },
+  {
+    "id": "BOARD-017",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Tactic puzzle streak 5"
+  },
+  {
+    "id": "BOARD-018",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Blitz win"
+  },
+  {
+    "id": "BOARD-019",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Bullet win"
+  },
+  {
+    "id": "BOARD-020",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Endgame study solved"
+  },
+  {
+    "id": "BOARD-021",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Go: 10-point win"
+  },
+  {
+    "id": "BOARD-022",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Go: capture ladder"
+  },
+  {
+    "id": "BOARD-023",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Go: life & death solved"
+  },
+  {
+    "id": "BOARD-024",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Checkers: double jump"
+  },
+  {
+    "id": "BOARD-025",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Reversi: corner control"
+  },
+  {
+    "id": "BOARD-026",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Scrabble: 50-point word"
+  },
+  {
+    "id": "BOARD-027",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Scrabble: bingo"
+  },
+  {
+    "id": "BOARD-028",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Catan: 10 points"
+  },
+  {
+    "id": "BOARD-029",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Catan: longest road"
+  },
+  {
+    "id": "BOARD-030",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Risk: continent hold"
+  },
+  {
+    "id": "BOARD-031",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Risk: capital capture"
+  },
+  {
+    "id": "BOARD-032",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Mahjong: yakuman"
+  },
+  {
+    "id": "BOARD-033",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Mahjong: riichi win"
+  },
+  {
+    "id": "BOARD-034",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Dominoes: block out"
+  },
+  {
+    "id": "BOARD-035",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Shogi: drop mate"
+  },
+  {
+    "id": "BOARD-036",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Backgammon: gammon"
+  },
+  {
+    "id": "BOARD-037",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Backgammon: backgame win"
+  },
+  {
+    "id": "BOARD-038",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Chess960: win"
+  },
+  {
+    "id": "BOARD-039",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Puzzle rush 20"
+  },
+  {
+    "id": "BOARD-040",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Mate in 2 solved"
+  },
+  {
+    "id": "BOARD-041",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Tsumego 5 solved"
+  },
+  {
+    "id": "BOARD-042",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Gomoku: five-in-row"
+  },
+  {
+    "id": "BOARD-043",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Carcassonne: farm win"
+  },
+  {
+    "id": "BOARD-044",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Ticket to Ride: longest"
+  },
+  {
+    "id": "BOARD-045",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Azul: perfect row"
+  },
+  {
+    "id": "BOARD-046",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Uno: reverse win"
+  },
+  {
+    "id": "BOARD-047",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Uno: skip chain"
+  },
+  {
+    "id": "BOARD-048",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Clue: solve first"
+  },
+  {
+    "id": "BOARD-049",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Battleship: no ships lost"
+  },
+  {
+    "id": "BOARD-050",
+    "game": "Any",
+    "category": "board_games",
+    "task": "Connect 4: trap win"
+  },
+  {
+    "id": "FIGHT-001",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Perfect round"
+  },
+  {
+    "id": "FIGHT-002",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Chip KO win"
+  },
+  {
+    "id": "FIGHT-003",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Parry x5"
+  },
+  {
+    "id": "FIGHT-004",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "20-hit combo"
+  },
+  {
+    "id": "FIGHT-005",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Throw KO"
+  },
+  {
+    "id": "FIGHT-006",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "No-jump round"
+  },
+  {
+    "id": "FIGHT-007",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Big whiff punish"
+  },
+  {
+    "id": "FIGHT-008",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Anti-air x5"
+  },
+  {
+    "id": "FIGHT-009",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Whiff punish super"
+  },
+  {
+    "id": "FIGHT-010",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Win mirror match"
+  },
+  {
+    "id": "FIGHT-011",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Perfect parry super"
+  },
+  {
+    "id": "FIGHT-012",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Wall break finish"
+  },
+  {
+    "id": "FIGHT-013",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Low parry combo"
+  },
+  {
+    "id": "FIGHT-014",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Counter-hit starter"
+  },
+  {
+    "id": "FIGHT-015",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Grab tech x3"
+  },
+  {
+    "id": "FIGHT-016",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "1 HP comeback"
+  },
+  {
+    "id": "FIGHT-017",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Time-out win"
+  },
+  {
+    "id": "FIGHT-018",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Guard crush"
+  },
+  {
+    "id": "FIGHT-019",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Punish unsafe super"
+  },
+  {
+    "id": "FIGHT-020",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Corner escape"
+  },
+  {
+    "id": "FIGHT-021",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Shimmy into KO"
+  },
+  {
+    "id": "FIGHT-022",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Throw loop"
+  },
+  {
+    "id": "FIGHT-023",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Cross-up into super"
+  },
+  {
+    "id": "FIGHT-024",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Guess 50/50"
+  },
+  {
+    "id": "FIGHT-025",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Armor crush win"
+  },
+  {
+    "id": "FIGHT-026",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Taunt then win"
+  },
+  {
+    "id": "FIGHT-027",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Punish DP"
+  },
+  {
+    "id": "FIGHT-028",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Whiff bait KO"
+  },
+  {
+    "id": "FIGHT-029",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "CA/SA confirm"
+  },
+  {
+    "id": "FIGHT-030",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "No special round"
+  },
+  {
+    "id": "FIGHT-031",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Ideal whiff punish"
+  },
+  {
+    "id": "FIGHT-032",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Wall bounce combo"
+  },
+  {
+    "id": "FIGHT-033",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Just-frame input"
+  },
+  {
+    "id": "FIGHT-034",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "No-jump anti-airs"
+  },
+  {
+    "id": "FIGHT-035",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Backdash punish"
+  },
+  {
+    "id": "FIGHT-036",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Chip setup perfect"
+  },
+  {
+    "id": "FIGHT-037",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Parry a super"
+  },
+  {
+    "id": "FIGHT-038",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Throw tech OS hit"
+  },
+  {
+    "id": "FIGHT-039",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Counter-throw KO"
+  },
+  {
+    "id": "FIGHT-040",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Whiff punish sweep"
+  },
+  {
+    "id": "FIGHT-041",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Plus-frames trap"
+  },
+  {
+    "id": "FIGHT-042",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Meaty setup"
+  },
+  {
+    "id": "FIGHT-043",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Burst bait punish"
+  },
+  {
+    "id": "FIGHT-044",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Block string perfect"
+  },
+  {
+    "id": "FIGHT-045",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Cross-under confirm"
+  },
+  {
+    "id": "FIGHT-046",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Juggle into super"
+  },
+  {
+    "id": "FIGHT-047",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Low profile punish"
+  },
+  {
+    "id": "FIGHT-048",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Armor break KO"
+  },
+  {
+    "id": "FIGHT-049",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "No chip taken"
+  },
+  {
+    "id": "FIGHT-050",
+    "game": "Any",
+    "category": "fighting_games",
+    "task": "Win set 2–0"
+  },
+  {
+    "id": "SURV-001",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Survive first night"
+  },
+  {
+    "id": "SURV-002",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Craft a campfire"
+  },
+  {
+    "id": "SURV-003",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Build a shelter"
+  },
+  {
+    "id": "SURV-004",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Cook a meal"
+  },
+  {
+    "id": "SURV-005",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Hunt an animal"
+  },
+  {
+    "id": "SURV-006",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Fish and eat"
+  },
+  {
+    "id": "SURV-007",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Purify water"
+  },
+  {
+    "id": "SURV-008",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "No death 30 min"
+  },
+  {
+    "id": "SURV-009",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Kill a predator"
+  },
+  {
+    "id": "SURV-010",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Tame an animal"
+  },
+  {
+    "id": "SURV-011",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Craft basic tools"
+  },
+  {
+    "id": "SURV-012",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Mine ore x20"
+  },
+  {
+    "id": "SURV-013",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Craft armor"
+  },
+  {
+    "id": "SURV-014",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Defeat a boss"
+  },
+  {
+    "id": "SURV-015",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Enter new biome"
+  },
+  {
+    "id": "SURV-016",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Unlock fast travel"
+  },
+  {
+    "id": "SURV-017",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Plant a farm"
+  },
+  {
+    "id": "SURV-018",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Harvest 20 crops"
+  },
+  {
+    "id": "SURV-019",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Trade with NPC"
+  },
+  {
+    "id": "SURV-020",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Craft healing x5"
+  },
+  {
+    "id": "SURV-021",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Open 5 crates"
+  },
+  {
+    "id": "SURV-022",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Beat horde wave"
+  },
+  {
+    "id": "SURV-023",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Build a trap"
+  },
+  {
+    "id": "SURV-024",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Trap kill"
+  },
+  {
+    "id": "SURV-025",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Hitless dungeon"
+  },
+  {
+    "id": "SURV-026",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Glide 500m"
+  },
+  {
+    "id": "SURV-027",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Torch run at night"
+  },
+  {
+    "id": "SURV-028",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Craft weapon T2"
+  },
+  {
+    "id": "SURV-029",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Upgrade base once"
+  },
+  {
+    "id": "SURV-030",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Unlock mount"
+  },
+  {
+    "id": "SURV-031",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Ride 1km"
+  },
+  {
+    "id": "SURV-032",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Complete side quest"
+  },
+  {
+    "id": "SURV-033",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Photo a rare animal"
+  },
+  {
+    "id": "SURV-034",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Cook a 5-buff stew"
+  },
+  {
+    "id": "SURV-035",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "No HUD 10 min"
+  },
+  {
+    "id": "SURV-036",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Parry 5 times"
+  },
+  {
+    "id": "SURV-037",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Disarm 3 traps"
+  },
+  {
+    "id": "SURV-038",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Capture an outpost"
+  },
+  {
+    "id": "SURV-039",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "No-damage camp"
+  },
+  {
+    "id": "SURV-040",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Craft bandages"
+  },
+  {
+    "id": "SURV-041",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Rescue a survivor"
+  },
+  {
+    "id": "SURV-042",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Escort mission clean"
+  },
+  {
+    "id": "SURV-043",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Defend base 5 min"
+  },
+  {
+    "id": "SURV-044",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Kill elite enemy"
+  },
+  {
+    "id": "SURV-045",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Find hidden cave"
+  },
+  {
+    "id": "SURV-046",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Open treasure map"
+  },
+  {
+    "id": "SURV-047",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Escape storm event"
+  },
+  {
+    "id": "SURV-048",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Defeat roaming boss"
+  },
+  {
+    "id": "SURV-049",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Sleep without damage"
+  },
+  {
+    "id": "SURV-050",
+    "game": "Any",
+    "category": "survival_games",
+    "task": "Survive blood moon"
+  },
+  {
+    "id": "BUILD-001",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Place 100 blocks"
+  },
+  {
+    "id": "BUILD-002",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Build a house"
+  },
+  {
+    "id": "BUILD-003",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Craft a bed"
+  },
+  {
+    "id": "BUILD-004",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Craft workbench"
+  },
+  {
+    "id": "BUILD-005",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Smelt ingots"
+  },
+  {
+    "id": "BUILD-006",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Farm 50 wheat"
+  },
+  {
+    "id": "BUILD-007",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Tame an animal"
+  },
+  {
+    "id": "BUILD-008",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Ride a mount"
+  },
+  {
+    "id": "BUILD-009",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Redstone/device on"
+  },
+  {
+    "id": "BUILD-010",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Auto-farm built"
+  },
+  {
+    "id": "BUILD-011",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Enchant item"
+  },
+  {
+    "id": "BUILD-012",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Nether/portal reached"
+  },
+  {
+    "id": "BUILD-013",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Find stronghold"
+  },
+  {
+    "id": "BUILD-014",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Defeat boss"
+  },
+  {
+    "id": "BUILD-015",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Trade for pearls"
+  },
+  {
+    "id": "BUILD-016",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Full iron gear"
+  },
+  {
+    "id": "BUILD-017",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Bridge 64 blocks"
+  },
+  {
+    "id": "BUILD-018",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Cure zombie villager"
+  },
+  {
+    "id": "BUILD-019",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Breed 5 animals"
+  },
+  {
+    "id": "BUILD-020",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Map a region"
+  },
+  {
+    "id": "BUILD-021",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Beacon lit"
+  },
+  {
+    "id": "BUILD-022",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Rail line built"
+  },
+  {
+    "id": "BUILD-023",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Water elevator"
+  },
+  {
+    "id": "BUILD-024",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Mob farm started"
+  },
+  {
+    "id": "BUILD-025",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Villager hall set"
+  },
+  {
+    "id": "BUILD-026",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Silk touch tool"
+  },
+  {
+    "id": "BUILD-027",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Fortune III tool"
+  },
+  {
+    "id": "BUILD-028",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Mend armor"
+  },
+  {
+    "id": "BUILD-029",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Elytra flight"
+  },
+  {
+    "id": "BUILD-030",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "End city looted"
+  },
+  {
+    "id": "BUILD-031",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Shulker box made"
+  },
+  {
+    "id": "BUILD-032",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Potion brewed"
+  },
+  {
+    "id": "BUILD-033",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Conduit powered"
+  },
+  {
+    "id": "BUILD-034",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Ocean monument raid"
+  },
+  {
+    "id": "BUILD-035",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Warden avoided"
+  },
+  {
+    "id": "BUILD-036",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "All biomes visited"
+  },
+  {
+    "id": "BUILD-037",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Find ancient city"
+  },
+  {
+    "id": "BUILD-038",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Decorate house"
+  },
+  {
+    "id": "BUILD-039",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Path lanterns placed"
+  },
+  {
+    "id": "BUILD-040",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Nether hub built"
+  },
+  {
+    "id": "BUILD-041",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Gold farm online"
+  },
+  {
+    "id": "BUILD-042",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Iron farm online"
+  },
+  {
+    "id": "BUILD-043",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Storage sorted"
+  },
+  {
+    "id": "BUILD-044",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Auto smelter"
+  },
+  {
+    "id": "BUILD-045",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Redstone door"
+  },
+  {
+    "id": "BUILD-046",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Note block tune"
+  },
+  {
+    "id": "BUILD-047",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Pixel art made"
+  },
+  {
+    "id": "BUILD-048",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Statue built"
+  },
+  {
+    "id": "BUILD-049",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Crop auto-harvest"
+  },
+  {
+    "id": "BUILD-050",
+    "game": "Any",
+    "category": "craft_builder_games",
+    "task": "Villager cured x3"
+  },
+  {
+    "id": "META-001",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Unlock double jump"
+  },
+  {
+    "id": "META-002",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Unlock dash"
+  },
+  {
+    "id": "META-003",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Open map 50%"
+  },
+  {
+    "id": "META-004",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Open map 100% zone"
+  },
+  {
+    "id": "META-005",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Beat a boss hitless"
+  },
+  {
+    "id": "META-006",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Beat 3 bosses"
+  },
+  {
+    "id": "META-007",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Find secret breakable"
+  },
+  {
+    "id": "META-008",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Sequence break route"
+  },
+  {
+    "id": "META-009",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Get wall climb"
+  },
+  {
+    "id": "META-010",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Open shortcut loop"
+  },
+  {
+    "id": "META-011",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Collect 3 keys"
+  },
+  {
+    "id": "META-012",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Get high-jump boots"
+  },
+  {
+    "id": "META-013",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Unlock morph/ball"
+  },
+  {
+    "id": "META-014",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Unlock super missile"
+  },
+  {
+    "id": "META-015",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Unlock grappling"
+  },
+  {
+    "id": "META-016",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Unlock glide/cloak"
+  },
+  {
+    "id": "META-017",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Unlock fast travel"
+  },
+  {
+    "id": "META-018",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Open locked door skip"
+  },
+  {
+    "id": "META-019",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Parry/counter boss"
+  },
+  {
+    "id": "META-020",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Find hidden NPC"
+  },
+  {
+    "id": "META-021",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Unlock new vendor"
+  },
+  {
+    "id": "META-022",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Health upgrade"
+  },
+  {
+    "id": "META-023",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Energy tank +1"
+  },
+  {
+    "id": "META-024",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Max a weapon"
+  },
+  {
+    "id": "META-025",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "New ability combo"
+  },
+  {
+    "id": "META-026",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Speed boost route"
+  },
+  {
+    "id": "META-027",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Shinespark chain"
+  },
+  {
+    "id": "META-028",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "No-damage gauntlet"
+  },
+  {
+    "id": "META-029",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Puzzle room clear"
+  },
+  {
+    "id": "META-030",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Boss rush win"
+  },
+  {
+    "id": "META-031",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Secret boss win"
+  },
+  {
+    "id": "META-032",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Unlock true ending"
+  },
+  {
+    "id": "META-033",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Unlock bad ending"
+  },
+  {
+    "id": "META-034",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Open 10 chests"
+  },
+  {
+    "id": "META-035",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Find 5 lore logs"
+  },
+  {
+    "id": "META-036",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Break 10 false walls"
+  },
+  {
+    "id": "META-037",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Hidden room chain x3"
+  },
+  {
+    "id": "META-038",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Gate skip trick"
+  },
+  {
+    "id": "META-039",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "All collectibles zone"
+  },
+  {
+    "id": "META-040",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "100% items region"
+  },
+  {
+    "id": "META-041",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Unlock elevator"
+  },
+  {
+    "id": "META-042",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Underwater suit get"
+  },
+  {
+    "id": "META-043",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Lava suit get"
+  },
+  {
+    "id": "META-044",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Air dash chain x3"
+  },
+  {
+    "id": "META-045",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Beam combo kill"
+  },
+  {
+    "id": "META-046",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Missile-only boss"
+  },
+  {
+    "id": "META-047",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Melee-only boss"
+  },
+  {
+    "id": "META-048",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Speedrun room skip"
+  },
+  {
+    "id": "META-049",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Stuck room escape"
+  },
+  {
+    "id": "META-050",
+    "game": "Any",
+    "category": "metroidvania",
+    "task": "Final area unlocked"
+  },
+  {
+    "id": "SOUL-001",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Beat a boss no heal"
+  },
+  {
+    "id": "SOUL-002",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Field boss on mount"
+  },
+  {
+    "id": "SOUL-003",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Parry 10 in one fight"
+  },
+  {
+    "id": "SOUL-004",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Clear dungeon deathless"
+  },
+  {
+    "id": "SOUL-005",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "{weapon_type}-only boss"
+  },
+  {
+    "id": "SOUL-006",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Win at <25% HP for 30s"
+  },
+  {
+    "id": "SOUL-007",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Activate 15 graces"
+  },
+  {
+    "id": "SOUL-008",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "No summons boss"
+  },
+  {
+    "id": "SOUL-009",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Break stance 3x + riposte"
+  },
+  {
+    "id": "SOUL-010",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Kill a dragon on foot"
+  },
+  {
+    "id": "SOUL-011",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Max one weapon tier"
+  },
+  {
+    "id": "SOUL-012",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Collect 10 new mats"
+  },
+  {
+    "id": "SOUL-013",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Catacomb: 0 traps"
+  },
+  {
+    "id": "SOUL-014",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Fat-roll boss win"
+  },
+  {
+    "id": "SOUL-015",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Beat invader/NPC duel"
+  },
+  {
+    "id": "SOUL-016",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "10 backstabs/guard-counters"
+  },
+  {
+    "id": "SOUL-017",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Apply 2 bleeds/rots to boss"
+  },
+  {
+    "id": "SOUL-018",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Jump-attack only clear"
+  },
+  {
+    "id": "SOUL-019",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Duo boss no ashes"
+  },
+  {
+    "id": "SOUL-020",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Equip 4 talismans fixed"
+  },
+  {
+    "id": "SOUL-021",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Major boss under {level}"
+  },
+  {
+    "id": "SOUL-022",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Night-only zone clear"
+  },
+  {
+    "id": "SOUL-023",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "5 perfect dodges in boss"
+  },
+  {
+    "id": "SOUL-024",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Skills-only mini-boss"
+  },
+  {
+    "id": "SOUL-025",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Open 10 chests, no mimic"
+  },
+  {
+    "id": "SOUL-026",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Hitless boss"
+  },
+  {
+    "id": "SOUL-027",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Throwables-only boss"
+  },
+  {
+    "id": "SOUL-028",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Unlock all map pieces area"
+  },
+  {
+    "id": "SOUL-029",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Finish an NPC questline"
+  },
+  {
+    "id": "SOUL-030",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "3 statuses on one enemy"
+  },
+  {
+    "id": "SOUL-031",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Kill bell-bearing giant"
+  },
+  {
+    "id": "SOUL-032",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Grab a legendary spell"
+  },
+  {
+    "id": "SOUL-033",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "{spell_type}-only boss"
+  },
+  {
+    "id": "SOUL-034",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "8 guard-counters no hit"
+  },
+  {
+    "id": "SOUL-035",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Evergaol boss first try"
+  },
+  {
+    "id": "SOUL-036",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Torch off-hand dungeon"
+  },
+  {
+    "id": "SOUL-037",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Win a PvP duel"
+  },
+  {
+    "id": "SOUL-038",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Get 6 spirit upgrades"
+  },
+  {
+    "id": "SOUL-039",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Boss under rune cap"
+  },
+  {
+    "id": "SOUL-040",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "No-roll mini-dungeon"
+  },
+  {
+    "id": "SOUL-041",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Jump/plunge-only boss"
+  },
+  {
+    "id": "SOUL-042",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Use great rune in boss"
+  },
+  {
+    "id": "SOUL-043",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Obtain full armor set"
+  },
+  {
+    "id": "SOUL-044",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Kill 3 night bosses"
+  },
+  {
+    "id": "SOUL-045",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Cross poison/rot zone raw"
+  },
+  {
+    "id": "SOUL-046",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Watchdog boss heavy-only"
+  },
+  {
+    "id": "SOUL-047",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Perfect parry signature"
+  },
+  {
+    "id": "SOUL-048",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Legacy: ≤10 flasks used"
+  },
+  {
+    "id": "SOUL-049",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Open all shortcuts"
+  },
+  {
+    "id": "SOUL-050",
+    "game": "Any",
+    "category": "soulslike",
+    "task": "Beat optional superboss"
+  },
+  {
+    "id": "PLAT-001",
+    "game": "Any",
+    "category": "platformer",
+    "task": "World 1 hitless"
+  },
+  {
+    "id": "PLAT-002",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Exactly 100 coins"
+  },
+  {
+    "id": "PLAT-003",
+    "game": "Any",
+    "category": "platformer",
+    "task": "No back inputs level"
+  },
+  {
+    "id": "PLAT-004",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Find 3 secrets"
+  },
+  {
+    "id": "PLAT-005",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Boss w/o power-ups"
+  },
+  {
+    "id": "PLAT-006",
+    "game": "Any",
+    "category": "platformer",
+    "task": "3 stages under {time}"
+  },
+  {
+    "id": "PLAT-007",
+    "game": "Any",
+    "category": "platformer",
+    "task": "No stomps level"
+  },
+  {
+    "id": "PLAT-008",
+    "game": "Any",
+    "category": "platformer",
+    "task": "3 one-ups in level"
+  },
+  {
+    "id": "PLAT-009",
+    "game": "Any",
+    "category": "platformer",
+    "task": "S/A+ time-trial"
+  },
+  {
+    "id": "PLAT-010",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Autoscroller hitless"
+  },
+  {
+    "id": "PLAT-011",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Vertical climb no fall"
+  },
+  {
+    "id": "PLAT-012",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Carry fragile to goal"
+  },
+  {
+    "id": "PLAT-013",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Coinless clear"
+  },
+  {
+    "id": "PLAT-014",
+    "game": "Any",
+    "category": "platformer",
+    "task": "5 movement techs"
+  },
+  {
+    "id": "PLAT-015",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Water level full air"
+  },
+  {
+    "id": "PLAT-016",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Objects-only boss"
+  },
+  {
+    "id": "PLAT-017",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Inverted controls level"
+  },
+  {
+    "id": "PLAT-018",
+    "game": "Any",
+    "category": "platformer",
+    "task": "All collectibles stage"
+  },
+  {
+    "id": "PLAT-019",
+    "game": "Any",
+    "category": "platformer",
+    "task": "No-hit hazard hall"
+  },
+  {
+    "id": "PLAT-020",
+    "game": "Any",
+    "category": "platformer",
+    "task": "10 bounce chain"
+  },
+  {
+    "id": "PLAT-021",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Minecart/vehicle first try"
+  },
+  {
+    "id": "PLAT-022",
+    "game": "Any",
+    "category": "platformer",
+    "task": "No dash/sprint stage"
+  },
+  {
+    "id": "PLAT-023",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Wall-jumps puzzle"
+  },
+  {
+    "id": "PLAT-024",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Collect letters set"
+  },
+  {
+    "id": "PLAT-025",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Ghost stage <{time}"
+  },
+  {
+    "id": "PLAT-026",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Do a route skip"
+  },
+  {
+    "id": "PLAT-027",
+    "game": "Any",
+    "category": "platformer",
+    "task": "3 gold time medals"
+  },
+  {
+    "id": "PLAT-028",
+    "game": "Any",
+    "category": "platformer",
+    "task": "{powerup}-only stage"
+  },
+  {
+    "id": "PLAT-029",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Hold item entire stage"
+  },
+  {
+    "id": "PLAT-030",
+    "game": "Any",
+    "category": "platformer",
+    "task": "All red/bonus coins"
+  },
+  {
+    "id": "PLAT-031",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Airborne boss kill"
+  },
+  {
+    "id": "PLAT-032",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Ice level no slip"
+  },
+  {
+    "id": "PLAT-033",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Reach warp/shortcut"
+  },
+  {
+    "id": "PLAT-034",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Backtrack start-to-check"
+  },
+  {
+    "id": "PLAT-035",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Rhythm set 100%"
+  },
+  {
+    "id": "PLAT-036",
+    "game": "Any",
+    "category": "platformer",
+    "task": "3 keys + all doors"
+  },
+  {
+    "id": "PLAT-037",
+    "game": "Any",
+    "category": "platformer",
+    "task": "10s no-ground segment"
+  },
+  {
+    "id": "PLAT-038",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Pacifist clear"
+  },
+  {
+    "id": "PLAT-039",
+    "game": "Any",
+    "category": "platformer",
+    "task": "50+ combo"
+  },
+  {
+    "id": "PLAT-040",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Crouch/slide boosts"
+  },
+  {
+    "id": "PLAT-041",
+    "game": "Any",
+    "category": "platformer",
+    "task": "2 frame-perfect tricks"
+  },
+  {
+    "id": "PLAT-042",
+    "game": "Any",
+    "category": "platformer",
+    "task": "3 hidden 1-ups"
+  },
+  {
+    "id": "PLAT-043",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Env-only boss damage"
+  },
+  {
+    "id": "PLAT-044",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Constant move, no stop"
+  },
+  {
+    "id": "PLAT-045",
+    "game": "Any",
+    "category": "platformer",
+    "task": "All stage accolades"
+  },
+  {
+    "id": "PLAT-046",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Lava level no platforms"
+  },
+  {
+    "id": "PLAT-047",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Chase sequence deathless"
+  },
+  {
+    "id": "PLAT-048",
+    "game": "Any",
+    "category": "platformer",
+    "task": "All speed cycles hit"
+  },
+  {
+    "id": "PLAT-049",
+    "game": "Any",
+    "category": "platformer",
+    "task": "5 power-ups in one world"
+  },
+  {
+    "id": "PLAT-050",
+    "game": "Any",
+    "category": "platformer",
+    "task": "Fortress/castle hitless"
+  },
+  {
+    "id": "ROG-001",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Win on {difficulty}"
+  },
+  {
+    "id": "ROG-002",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Final boss w/ starter"
+  },
+  {
+    "id": "ROG-003",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Survive 30 minutes"
+  },
+  {
+    "id": "ROG-004",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Evolve 3 weapons"
+  },
+  {
+    "id": "ROG-005",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "No-hit a boss"
+  },
+  {
+    "id": "ROG-006",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Commons-only run"
+  },
+  {
+    "id": "ROG-007",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Kill 5 elites no ult"
+  },
+  {
+    "id": "ROG-008",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Reach floor {n} <{time}"
+  },
+  {
+    "id": "ROG-009",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "0 rerolls run"
+  },
+  {
+    "id": "ROG-010",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Heat/curse {tier}+"
+  },
+  {
+    "id": "ROG-011",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Hold 5 curses and win"
+  },
+  {
+    "id": "ROG-012",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Spend all gold each shop"
+  },
+  {
+    "id": "ROG-013",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Unlock a character"
+  },
+  {
+    "id": "ROG-014",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Beat secret boss"
+  },
+  {
+    "id": "ROG-015",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "No dash for a biome"
+  },
+  {
+    "id": "ROG-016",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "10 perfect dodges"
+  },
+  {
+    "id": "ROG-017",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Finish at 1 HP"
+  },
+  {
+    "id": "ROG-018",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Open 10 chests no curse"
+  },
+  {
+    "id": "ROG-019",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "100 kills in {time}s"
+  },
+  {
+    "id": "ROG-020",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "DOT-only boss kill"
+  },
+  {
+    "id": "ROG-021",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Buy only randoms"
+  },
+  {
+    "id": "ROG-022",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "2 bosses back-to-back"
+  },
+  {
+    "id": "ROG-023",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Max heat/streak one biome"
+  },
+  {
+    "id": "ROG-024",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Pacifist floor"
+  },
+  {
+    "id": "ROG-025",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "500+ combo"
+  },
+  {
+    "id": "ROG-026",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Summons-only boss"
+  },
+  {
+    "id": "ROG-027",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "0 revives used"
+  },
+  {
+    "id": "ROG-028",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Stack 5 statuses"
+  },
+  {
+    "id": "ROG-029",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Clear all challenge rooms"
+  },
+  {
+    "id": "ROG-030",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Ranged-only run"
+  },
+  {
+    "id": "ROG-031",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Melee-only run"
+  },
+  {
+    "id": "ROG-032",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Always take curses"
+  },
+  {
+    "id": "ROG-033",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "No ultimate run"
+  },
+  {
+    "id": "ROG-034",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Beat loop/NG+ boss"
+  },
+  {
+    "id": "ROG-035",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Spend ≤{gold} total"
+  },
+  {
+    "id": "ROG-036",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Break 25 props"
+  },
+  {
+    "id": "ROG-037",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Keep starter trinket"
+  },
+  {
+    "id": "ROG-038",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "No map floor"
+  },
+  {
+    "id": "ROG-039",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Thrown/secondary boss"
+  },
+  {
+    "id": "ROG-040",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Recruit/save 3 NPCs"
+  },
+  {
+    "id": "ROG-041",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Cursed chest to full HP"
+  },
+  {
+    "id": "ROG-042",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Score ≥{score} mode"
+  },
+  {
+    "id": "ROG-043",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Env-kill an elite"
+  },
+  {
+    "id": "ROG-044",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "One-synergy family run"
+  },
+  {
+    "id": "ROG-045",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Deflect 30 shots"
+  },
+  {
+    "id": "ROG-046",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Instantly use rerolls"
+  },
+  {
+    "id": "ROG-047",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "3 timed doors"
+  },
+  {
+    "id": "ROG-048",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "No-hit a full floor"
+  },
+  {
+    "id": "ROG-049",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Run under {time}"
+  },
+  {
+    "id": "ROG-050",
+    "game": "Any",
+    "category": "roguelite",
+    "task": "Complete 25 unique"
+  },
+  {
+    "id": "FPS-001",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Ace in one round"
+  },
+  {
+    "id": "FPS-002",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Clutch 1v3+"
+  },
+  {
+    "id": "FPS-003",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Defuse at 0:01"
+  },
+  {
+    "id": "FPS-004",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Plant 3 objectives"
+  },
+  {
+    "id": "FPS-005",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Pistol/eco round win"
+  },
+  {
+    "id": "FPS-006",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "3 headshots round"
+  },
+  {
+    "id": "FPS-007",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Win no damage"
+  },
+  {
+    "id": "FPS-008",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "No-scope kill win"
+  },
+  {
+    "id": "FPS-009",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Wallbang kill {map}"
+  },
+  {
+    "id": "FPS-010",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "First blood x3"
+  },
+  {
+    "id": "FPS-011",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Solo secure objective"
+  },
+  {
+    "id": "FPS-012",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Top frag by 5+"
+  },
+  {
+    "id": "FPS-013",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Ace with SMG/shotgun"
+  },
+  {
+    "id": "FPS-014",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "MVP 3 rounds straight"
+  },
+  {
+    "id": "FPS-015",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "No utility round win"
+  },
+  {
+    "id": "FPS-016",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "2 utility kills"
+  },
+  {
+    "id": "FPS-017",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Ninja defuse/cap"
+  },
+  {
+    "id": "FPS-018",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Burst/semi-only win"
+  },
+  {
+    "id": "FPS-019",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Entry frag + survive"
+  },
+  {
+    "id": "FPS-020",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "3 trade frags half"
+  },
+  {
+    "id": "FPS-021",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Solo hold 20s"
+  },
+  {
+    "id": "FPS-022",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "5 headshots in a row"
+  },
+  {
+    "id": "FPS-023",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Knife/finisher last"
+  },
+  {
+    "id": "FPS-024",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Retake with 3 alive"
+  },
+  {
+    "id": "FPS-025",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Perfect round (5 alive)"
+  },
+  {
+    "id": "FPS-026",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Lurk: 2 backstabs"
+  },
+  {
+    "id": "FPS-027",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Opener pick <15s"
+  },
+  {
+    "id": "FPS-028",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Clutch <10 HP"
+  },
+  {
+    "id": "FPS-029",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Win bonus vs full buys"
+  },
+  {
+    "id": "FPS-030",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Collateral snipe"
+  },
+  {
+    "id": "FPS-031",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "10 assists match"
+  },
+  {
+    "id": "FPS-032",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Defuse/disable x5"
+  },
+  {
+    "id": "FPS-033",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Plant/activate x5"
+  },
+  {
+    "id": "FPS-034",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "25 kills match"
+  },
+  {
+    "id": "FPS-035",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Win in OT"
+  },
+  {
+    "id": "FPS-036",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "No-buy win"
+  },
+  {
+    "id": "FPS-037",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "3 flick headshots"
+  },
+  {
+    "id": "FPS-038",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "No DC/timeouts"
+  },
+  {
+    "id": "FPS-039",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Relocate objective safe"
+  },
+  {
+    "id": "FPS-040",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "One-magazine win"
+  },
+  {
+    "id": "FPS-041",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Smoke tag then kill"
+  },
+  {
+    "id": "FPS-042",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "4k with util setup"
+  },
+  {
+    "id": "FPS-043",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Drop 3 guns and top frag"
+  },
+  {
+    "id": "FPS-044",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Win after 0-3 start"
+  },
+  {
+    "id": "FPS-045",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "2 clutches match"
+  },
+  {
+    "id": "FPS-046",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Multi-kill with ult"
+  },
+  {
+    "id": "FPS-047",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "5 openers in half"
+  },
+  {
+    "id": "FPS-048",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Swap sites, stop streak"
+  },
+  {
+    "id": "FPS-049",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "Hold angle 20s, first-peek kill"
+  },
+  {
+    "id": "FPS-050",
+    "game": "Any",
+    "category": "fps_competitive",
+    "task": "K/D ≥1.5 + high ADR"
+  },
+  {
+    "id": "RACE-001",
+    "game": "Any",
+    "category": "racing",
+    "task": "Win a race"
+  },
+  {
+    "id": "RACE-002",
+    "game": "Any",
+    "category": "racing",
+    "task": "Pole position"
+  },
+  {
+    "id": "RACE-003",
+    "game": "Any",
+    "category": "racing",
+    "task": "Clean lap (no cuts)"
+  },
+  {
+    "id": "RACE-004",
+    "game": "Any",
+    "category": "racing",
+    "task": "Perfect start"
+  },
+  {
+    "id": "RACE-005",
+    "game": "Any",
+    "category": "racing",
+    "task": "Fastest lap"
+  },
+  {
+    "id": "RACE-006",
+    "game": "Any",
+    "category": "racing",
+    "task": "Podium finish"
+  },
+  {
+    "id": "RACE-007",
+    "game": "Any",
+    "category": "racing",
+    "task": "Win from back grid"
+  },
+  {
+    "id": "RACE-008",
+    "game": "Any",
+    "category": "racing",
+    "task": "Overtake 5 in one lap"
+  },
+  {
+    "id": "RACE-009",
+    "game": "Any",
+    "category": "racing",
+    "task": "Pit stop under {time}s"
+  },
+  {
+    "id": "RACE-010",
+    "game": "Any",
+    "category": "racing",
+    "task": "No damage race"
+  },
+  {
+    "id": "RACE-011",
+    "game": "Any",
+    "category": "racing",
+    "task": "Fuel save to finish"
+  },
+  {
+    "id": "RACE-012",
+    "game": "Any",
+    "category": "racing",
+    "task": "Softs to hards 1-stop"
+  },
+  {
+    "id": "RACE-013",
+    "game": "Any",
+    "category": "racing",
+    "task": "Under/overcut success"
+  },
+  {
+    "id": "RACE-014",
+    "game": "Any",
+    "category": "racing",
+    "task": "DRS/slipstream pass"
+  },
+  {
+    "id": "RACE-015",
+    "game": "Any",
+    "category": "racing",
+    "task": "Corner cut penalty free"
+  },
+  {
+    "id": "RACE-016",
+    "game": "Any",
+    "category": "racing",
+    "task": "Purple sector x3"
+  },
+  {
+    "id": "RACE-017",
+    "game": "Any",
+    "category": "racing",
+    "task": "Beat ghost by {delta}"
+  },
+  {
+    "id": "RACE-018",
+    "game": "Any",
+    "category": "racing",
+    "task": "Gold license/test"
+  },
+  {
+    "id": "RACE-019",
+    "game": "Any",
+    "category": "racing",
+    "task": "Drift chain 10s"
+  },
+  {
+    "id": "RACE-020",
+    "game": "Any",
+    "category": "racing",
+    "task": "180° hairpin clean"
+  },
+  {
+    "id": "RACE-021",
+    "game": "Any",
+    "category": "racing",
+    "task": "No off-track race"
+  },
+  {
+    "id": "RACE-022",
+    "game": "Any",
+    "category": "racing",
+    "task": "Time trial gold"
+  },
+  {
+    "id": "RACE-023",
+    "game": "Any",
+    "category": "racing",
+    "task": "Beat rival by 0.1s"
+  },
+  {
+    "id": "RACE-024",
+    "game": "Any",
+    "category": "racing",
+    "task": "Photo finish win"
+  },
+  {
+    "id": "RACE-025",
+    "game": "Any",
+    "category": "racing",
+    "task": "Safety car restart lead"
+  },
+  {
+    "id": "RACE-026",
+    "game": "Any",
+    "category": "racing",
+    "task": "Wet race win"
+  },
+  {
+    "id": "RACE-027",
+    "game": "Any",
+    "category": "racing",
+    "task": "Perfect tire temps"
+  },
+  {
+    "id": "RACE-028",
+    "game": "Any",
+    "category": "racing",
+    "task": "Perfect brake bias"
+  },
+  {
+    "id": "RACE-029",
+    "game": "Any",
+    "category": "racing",
+    "task": "No assists win"
+  },
+  {
+    "id": "RACE-030",
+    "game": "Any",
+    "category": "racing",
+    "task": "Manual gears win"
+  },
+  {
+    "id": "RACE-031",
+    "game": "Any",
+    "category": "racing",
+    "task": "Clean overtake inside"
+  },
+  {
+    "id": "RACE-032",
+    "game": "Any",
+    "category": "racing",
+    "task": "Clean overtake outside"
+  },
+  {
+    "id": "RACE-033",
+    "game": "Any",
+    "category": "racing",
+    "task": "Set lap record"
+  },
+  {
+    "id": "RACE-034",
+    "game": "Any",
+    "category": "racing",
+    "task": "Back-to-back wins"
+  },
+  {
+    "id": "RACE-035",
+    "game": "Any",
+    "category": "racing",
+    "task": "Win sprint + feature"
+  },
+  {
+    "id": "RACE-036",
+    "game": "Any",
+    "category": "racing",
+    "task": "Pit from P1, keep lead"
+  },
+  {
+    "id": "RACE-037",
+    "game": "Any",
+    "category": "racing",
+    "task": "Damage recovery win"
+  },
+  {
+    "id": "RACE-038",
+    "game": "Any",
+    "category": "racing",
+    "task": "Slipstream pass finish"
+  },
+  {
+    "id": "RACE-039",
+    "game": "Any",
+    "category": "racing",
+    "task": "Perfect joker lap"
+  },
+  {
+    "id": "RACE-040",
+    "game": "Any",
+    "category": "racing",
+    "task": "Kart: coin max finish"
+  },
+  {
+    "id": "RACE-041",
+    "game": "Any",
+    "category": "racing",
+    "task": "Rally stage win"
+  },
+  {
+    "id": "RACE-042",
+    "game": "Any",
+    "category": "racing",
+    "task": "Jump distance record"
+  },
+  {
+    "id": "RACE-043",
+    "game": "Any",
+    "category": "racing",
+    "task": "Hotlap PB"
+  },
+  {
+    "id": "RACE-044",
+    "game": "Any",
+    "category": "racing",
+    "task": "Drift score S rank"
+  },
+  {
+    "id": "RACE-045",
+    "game": "Any",
+    "category": "racing",
+    "task": "Clean race bonus"
+  },
+  {
+    "id": "RACE-046",
+    "game": "Any",
+    "category": "racing",
+    "task": "Fuel map save win"
+  },
+  {
+    "id": "RACE-047",
+    "game": "Any",
+    "category": "racing",
+    "task": "Shortcut discovered"
+  },
+  {
+    "id": "RACE-048",
+    "game": "Any",
+    "category": "racing",
+    "task": "No HUD lap"
+  },
+  {
+    "id": "RACE-049",
+    "game": "Any",
+    "category": "racing",
+    "task": "No rewind session"
+  },
+  {
+    "id": "RACE-050",
+    "game": "Any",
+    "category": "racing",
+    "task": "Photo mode podium"
+  }
+]

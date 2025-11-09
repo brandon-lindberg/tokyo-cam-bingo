@@ -12,6 +12,13 @@ const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 require('dotenv').config();
 const packageJson = require('./package.json');
 const { checkWin } = require('./utils/checkWin');
+const {
+  MIN_POOL_SIZE,
+  getBingoTasksMeta,
+  getCategoryPool,
+  getGamePool,
+  getAllTasksPool
+} = require('./utils/bingoTasks');
 
 // In-memory flags and voting state
 const flagsLeft = {}; // playerId -> remaining flags
@@ -450,6 +457,20 @@ app.put('/api/card-collections/:code', async (req, res) => {
   }
 });
 
+// Bingo tasks metadata for preset selection
+app.get('/api/bingo-tasks/meta', (req, res) => {
+  try {
+    const meta = getBingoTasksMeta();
+    res.json({
+      ...meta,
+      minItems: MIN_POOL_SIZE
+    });
+  } catch (error) {
+    console.error('Error fetching bingo tasks metadata:', error);
+    res.status(500).json({ error: 'Failed to load bingo tasks metadata' });
+  }
+});
+
 // Game info endpoint (for checking mode and available colors)
 app.get('/game-info/:code', async (req, res) => {
   const { code } = req.params;
@@ -475,7 +496,19 @@ app.post('/create', async (req, res) => {
   if (!Array.isArray(winConditions)) {
     winConditions = [winConditions];
   }
-  const { hostName, modeType, flagsEnabled, rerollsEnabled, hostColor, customCardCode, timerEnabled, timerDuration } = req.body;
+  const {
+    hostName,
+    modeType,
+    flagsEnabled,
+    rerollsEnabled,
+    hostColor,
+    customCardCode,
+    timerEnabled,
+    timerDuration,
+    bingoCardPreset,
+    bingoCategory,
+    bingoGame
+  } = req.body;
   const code = generateCode();
   const mode = modeType === 'VS' ? 'VS' : 'REGULAR';
 
@@ -493,16 +526,55 @@ app.post('/create', async (req, res) => {
 
   // Fetch custom items if card code provided
   let customItems = null;
-  if (customCardCode && customCardCode.trim().length === 6) {
+  let cardPresetDetails = null;
+  const sanitizedCustomCard = (customCardCode || '').trim().toUpperCase();
+
+  if (sanitizedCustomCard.length === 6) {
     try {
       const collection = await prisma.itemCollection.findUnique({
-        where: { code: customCardCode.trim().toUpperCase() }
+        where: { code: sanitizedCustomCard }
       });
       if (collection) {
         customItems = collection.items;
+        cardPresetDetails = { type: 'custom_code', value: sanitizedCustomCard };
       }
     } catch (error) {
       console.error('Error fetching custom card:', error);
+    }
+  }
+
+  if (!customItems) {
+    const presetChoice = (bingoCardPreset || 'default').toLowerCase();
+    const categoryValue = (bingoCategory || '').trim();
+    const gameValue = (bingoGame || '').trim();
+
+    if (presetChoice === 'category') {
+      if (!categoryValue) {
+        return res.status(400).send('Please select a bingo task category.');
+      }
+      const pool = getCategoryPool(categoryValue);
+      if (!pool.length || pool.length < MIN_POOL_SIZE) {
+        return res.status(400).send(`Selected category does not have enough prompts (need ${MIN_POOL_SIZE}).`);
+      }
+      customItems = pool;
+      cardPresetDetails = { type: 'category', value: categoryValue };
+    } else if (presetChoice === 'game') {
+      if (!gameValue) {
+        return res.status(400).send('Please select a bingo task game.');
+      }
+      const pool = getGamePool(gameValue);
+      if (!pool.length || pool.length < MIN_POOL_SIZE) {
+        return res.status(400).send(`Selected game does not have enough prompts (need ${MIN_POOL_SIZE}).`);
+      }
+      customItems = pool;
+      cardPresetDetails = { type: 'game', value: gameValue };
+    } else if (presetChoice === 'all') {
+      const pool = getAllTasksPool();
+      if (!pool.length || pool.length < MIN_POOL_SIZE) {
+        return res.status(400).send('Not enough bingo tasks available to build a deck.');
+      }
+      customItems = pool;
+      cardPresetDetails = { type: 'all', value: 'all' };
     }
   }
 
@@ -516,10 +588,15 @@ app.post('/create', async (req, res) => {
     }
   }
 
+  const rulesPayload = { winConditions };
+  if (cardPresetDetails) {
+    rulesPayload.cardPreset = cardPresetDetails;
+  }
+
   const game = await prisma.game.create({
     data: {
       code,
-      rules: { winConditions },
+      rules: rulesPayload,
       mode,
       sharedCard,
       customItems,

@@ -185,6 +185,59 @@ body {
     border-color: #00BFFF;
   }
 
+  .form-sub-label {
+    display: block;
+    font-size: 0.95rem;
+    color: #555;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .preset-detail {
+    display: none;
+    margin-top: 1rem;
+  }
+
+  .preset-detail .form-select {
+    margin-top: 0;
+  }
+
+  .helper-text {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .helper-text.error {
+    color: #EF4444;
+  }
+
+  .helper-text.muted {
+    color: #888;
+  }
+
+  .secondary-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    background: transparent;
+    border: 1px solid #00BFFF;
+    border-radius: 8px;
+    color: #00BFFF;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .secondary-button:hover {
+    background: rgba(0, 191, 255, 0.1);
+  }
+
+  .preset-secondary {
+    margin-top: 1rem;
+    width: 100%;
+  }
+
   /* Mode Selector */
   .mode-selector {
     display: grid;

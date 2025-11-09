@@ -97,18 +97,40 @@
           </select>
         </div>
 
-        <!-- Custom Card Section -->
-        <div class="form-section">
-          <label class="form-label">Card Selection</label>
-          <div style="margin-bottom: 0.5rem; color: #666; font-size: 0.9rem;">
-            Using default Tokyo Cam Bingo Card
+        <!-- Bingo Card Section -->
+        <div class="form-section" id="bingo-card-section">
+          <label class="form-label" for="bingoCardPreset">Bingo Card</label>
+          <select id="bingoCardPreset" name="bingoCardPreset" class="form-select">
+            <option value="default" selected>Tokyo Cam Bingo (default)</option>
+            <option value="category">Bingo Tasks · by Category</option>
+            <option value="game">Bingo Tasks · by Game</option>
+            <option value="all">Mix All Bingo Tasks</option>
+          </select>
+
+          <div id="bingo-category-wrapper" class="preset-detail">
+            <label class="form-sub-label" for="bingoCategory">Choose a category</label>
+            <select id="bingoCategory" name="bingoCategory" class="form-select" disabled>
+              <option value="">Loading categories…</option>
+            </select>
           </div>
-          <button type="button" onclick="toggleCustomCardInput()" class="secondary-button" style="padding: 0.5rem 1rem; font-size: 0.9rem; background: transparent; border: 1px solid #00BFFF; color: #00BFFF;">
+
+          <div id="bingo-game-wrapper" class="preset-detail">
+            <label class="form-sub-label" for="bingoGame">Choose a game</label>
+            <select id="bingoGame" name="bingoGame" class="form-select" disabled>
+              <option value="">Loading games…</option>
+            </select>
+          </div>
+
+          <div id="bingo-card-helper" class="helper-text">
+            Tokyo Cam Bingo stays the default deck unless you pick a preset or enter a custom card code.
+          </div>
+
+          <button type="button" onclick="toggleCustomCardInput(event)" class="secondary-button preset-secondary">
             Use Custom Card (Optional)
           </button>
           <div id="custom-card-input-section" style="display: none; margin-top: 1rem;">
-            <input type="text" id="customCardCode" name="customCardCode" class="form-input" placeholder="Enter custom card code" maxlength="6">
-            <div id="custom-card-info" style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;"></div>
+            <input type="text" id="customCardCode" name="customCardCode" class="form-input" placeholder="Enter custom card code" maxlength="6" autocomplete="off">
+            <div id="custom-card-info" class="helper-text muted"></div>
           </div>
         </div>
 
@@ -346,6 +368,116 @@
       });
     }
 
+    const bingoPresetSelect = document.getElementById('bingoCardPreset');
+    const bingoCategorySelect = document.getElementById('bingoCategory');
+    const bingoGameSelect = document.getElementById('bingoGame');
+    const bingoCategoryWrapper = document.getElementById('bingo-category-wrapper');
+    const bingoGameWrapper = document.getElementById('bingo-game-wrapper');
+    const bingoCardHelper = document.getElementById('bingo-card-helper');
+    let bingoMetaCache = null;
+    let bingoMetaRequest = null;
+
+    function populateBingoSelect(selectEl, items, placeholder) {
+      if (!selectEl) return;
+      const previousValue = selectEl.value;
+      selectEl.innerHTML = '';
+      const placeholderOption = document.createElement('option');
+      placeholderOption.value = '';
+      placeholderOption.textContent = placeholder;
+      placeholderOption.disabled = true;
+      placeholderOption.selected = true;
+      selectEl.appendChild(placeholderOption);
+
+      (items || []).forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.value;
+        option.textContent = `${item.label} (${item.count})`;
+        selectEl.appendChild(option);
+      });
+
+      if (previousValue && (items || []).some(item => item.value === previousValue)) {
+        selectEl.value = previousValue;
+      } else {
+        selectEl.value = '';
+      }
+    }
+
+    function updateBingoHelper(meta) {
+      if (!bingoCardHelper || !meta) return;
+      const categoryCount = (meta.categories && meta.categories.length) || 0;
+      const gameCount = (meta.games && meta.games.length) || 0;
+      const minItems = meta.minItems || 25;
+      bingoCardHelper.classList.remove('error');
+      bingoCardHelper.textContent = `Pick from ${categoryCount} categories or ${gameCount} games (each has at least ${minItems} tasks). Custom cards override your preset.`;
+    }
+
+    async function loadBingoMetadata() {
+      if (bingoMetaCache) return bingoMetaCache;
+      if (bingoMetaRequest) return bingoMetaRequest;
+
+      bingoMetaRequest = fetch('/api/bingo-tasks/meta')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to load bingo task metadata');
+          }
+          return response.json();
+        })
+        .then(data => {
+          bingoMetaCache = data;
+          populateBingoSelect(bingoCategorySelect, data.categories, 'Select a category');
+          populateBingoSelect(bingoGameSelect, data.games, 'Select a game');
+          updateBingoHelper(data);
+          return data;
+        })
+        .catch(error => {
+          console.error('Unable to load bingo task metadata:', error);
+          if (bingoCardHelper) {
+            bingoCardHelper.textContent = 'Could not load bingo task presets. Default card will be used.';
+            bingoCardHelper.classList.add('error');
+          }
+          throw error;
+        })
+        .finally(() => {
+          bingoMetaRequest = null;
+        });
+
+      return bingoMetaRequest;
+    }
+
+    function handleBingoPresetChange() {
+      const preset = bingoPresetSelect ? bingoPresetSelect.value : 'default';
+      const showCategory = preset === 'category';
+      const showGame = preset === 'game';
+      const needsMetadata = preset === 'all' || showCategory || showGame;
+
+      if (bingoCategoryWrapper) {
+        bingoCategoryWrapper.style.display = showCategory ? 'block' : 'none';
+      }
+      if (bingoGameWrapper) {
+        bingoGameWrapper.style.display = showGame ? 'block' : 'none';
+      }
+
+      if (bingoCategorySelect) {
+        bingoCategorySelect.required = showCategory;
+        bingoCategorySelect.disabled = !showCategory;
+        if (!showCategory) {
+          bingoCategorySelect.value = '';
+        }
+      }
+
+      if (bingoGameSelect) {
+        bingoGameSelect.required = showGame;
+        bingoGameSelect.disabled = !showGame;
+        if (!showGame) {
+          bingoGameSelect.value = '';
+        }
+      }
+
+      if (needsMetadata) {
+        loadBingoMetadata().catch(() => {});
+      }
+    }
+
     function showHostForm() {
       document.getElementById('welcome-content').style.display = 'none';
       document.getElementById('host-form').style.display = 'block';
@@ -366,6 +498,8 @@
         toggleTimerSettings();
         toggleHostColorSelection();
       }
+      handleBingoPresetChange();
+      loadBingoMetadata().catch(() => {});
     }
 
     function showJoinForm() {
@@ -386,9 +520,9 @@
       }
     }
 
-    function toggleCustomCardInput() {
+    function toggleCustomCardInput(evt) {
       const inputSection = document.getElementById('custom-card-input-section');
-      const button = event.target;
+      const button = evt && evt.target ? evt.target : document.querySelector('.preset-secondary');
 
       if (inputSection.style.display === 'none') {
         inputSection.style.display = 'block';
@@ -637,6 +771,10 @@
 
       toggleHostColorSelection();
       toggleTimerSettings();
+      if (bingoPresetSelect) {
+        bingoPresetSelect.addEventListener('change', handleBingoPresetChange);
+        handleBingoPresetChange();
+      }
       initRulebookModal();
     });
   </script>

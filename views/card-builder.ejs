@@ -58,6 +58,50 @@
       border-radius: 8px;
       font-family: 'Roboto', sans-serif;
     }
+    .template-section {
+      border: 1px solid #E0E0E0;
+      border-radius: 8px;
+      padding: 1rem;
+      background: #FAFEFF;
+    }
+
+    .preset-select-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .preset-select-row select {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .template-code-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .template-code-row input {
+      flex: 1;
+      text-transform: uppercase;
+    }
+
+    .template-divider {
+      text-align: center;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      color: #999;
+      text-transform: uppercase;
+      margin: 1rem 0;
+    }
+
+    .template-section .helper-text {
+      margin-top: 0.5rem;
+    }
 
     .items-section {
       margin-top: 2rem;
@@ -284,6 +328,20 @@
         gap: 0.75rem !important;
       }
 
+      .preset-select-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .preset-select-row button {
+        width: 100%;
+      }
+
+      .template-code-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
       .form-group div[style*="display: flex"] input {
         width: 100% !important;
         font-size: 16px !important;
@@ -426,6 +484,40 @@
         <div id="load-card-status" style="margin-top: 0.5rem; font-size: 0.9rem;"></div>
       </div>
 
+      <div class="form-group template-section" style="margin-bottom: 1.5rem;">
+        <label for="template-preset">Start From Existing Deck</label>
+        <div class="helper-text">Prefill the editor with any built-in deck. Saving will always create a brand-new card.</div>
+        <div class="preset-select-row">
+          <select id="template-preset" class="form-select">
+            <option value="">-- Choose a preset --</option>
+            <option value="default">Tokyo Cam Bingo (default)</option>
+            <option value="category">Bingo Tasks · by Category</option>
+            <option value="game">Bingo Tasks · by Game</option>
+            <option value="all">Mix All Bingo Tasks</option>
+          </select>
+          <button type="button" id="load-preset-btn" class="secondary-button" style="min-width: 160px;">Load Deck</button>
+        </div>
+        <div id="template-category-wrapper" class="preset-detail" style="display: none;">
+          <label class="form-sub-label" for="templateCategory">Choose a category</label>
+          <select id="templateCategory" class="form-select" disabled>
+            <option value="">Loading categories…</option>
+          </select>
+        </div>
+        <div id="template-game-wrapper" class="preset-detail" style="display: none;">
+          <label class="form-sub-label" for="templateGame">Choose a game</label>
+          <select id="templateGame" class="form-select" disabled>
+            <option value="">Loading games…</option>
+          </select>
+        </div>
+        <div id="template-status" class="helper-text muted"></div>
+        <div class="template-divider">or</div>
+        <div class="helper-text" style="margin-bottom: 0.5rem;">Duplicate one of your saved cards (new code will be generated)</div>
+        <div class="template-code-row">
+          <input type="text" id="template-card-code" placeholder="Enter card code to duplicate" maxlength="6">
+          <button type="button" id="load-template-code-btn" class="secondary-button" style="min-width: 180px;">Load As Template</button>
+        </div>
+      </div>
+
       <div class="form-group">
         <label for="collection-name">Card Name</label>
         <input type="text" id="collection-name" placeholder="e.g., Tokyo Night Edition" required>
@@ -468,11 +560,209 @@
   </div>
 
   <script>
+    const templatePresetSelect = document.getElementById('template-preset');
+    const templateCategoryWrapper = document.getElementById('template-category-wrapper');
+    const templateCategorySelect = document.getElementById('templateCategory');
+    const templateGameWrapper = document.getElementById('template-game-wrapper');
+    const templateGameSelect = document.getElementById('templateGame');
+    const templateStatusEl = document.getElementById('template-status');
+    const templateLoadBtn = document.getElementById('load-preset-btn');
+    const templateCodeInput = document.getElementById('template-card-code');
+    const templateCodeBtn = document.getElementById('load-template-code-btn');
+    let bingoMetaCache = null;
+
     let itemIndex = 0;
     let editingCardCode = null; // Track if we're editing an existing card
 
-    // Add initial empty row
-    addItemRow();
+    if (templatePresetSelect) {
+      templatePresetSelect.addEventListener('change', handleTemplatePresetChange);
+    }
+    if (templateLoadBtn) {
+      templateLoadBtn.addEventListener('click', loadSelectedPresetTemplate);
+    }
+    if (templateCodeBtn) {
+      templateCodeBtn.addEventListener('click', loadTemplateFromCode);
+    }
+
+    function setTemplateStatus(message, isError = false) {
+      if (!templateStatusEl) return;
+      templateStatusEl.textContent = message || '';
+      templateStatusEl.classList.remove('error');
+      if (message) {
+        templateStatusEl.classList.remove('muted');
+      }
+      if (isError) {
+        templateStatusEl.classList.add('error');
+      }
+    }
+
+    function handleTemplatePresetChange() {
+      if (!templatePresetSelect) return;
+      const preset = templatePresetSelect.value;
+      const needsCategory = preset === 'category';
+      const needsGame = preset === 'game';
+      if (templateCategoryWrapper) {
+        templateCategoryWrapper.style.display = needsCategory ? 'block' : 'none';
+      }
+      if (templateGameWrapper) {
+        templateGameWrapper.style.display = needsGame ? 'block' : 'none';
+      }
+      if (templateCategorySelect) {
+        templateCategorySelect.disabled = !needsCategory;
+        if (!needsCategory) templateCategorySelect.value = '';
+      }
+      if (templateGameSelect) {
+        templateGameSelect.disabled = !needsGame;
+        if (!needsGame) templateGameSelect.value = '';
+      }
+      if ((needsCategory || needsGame) && !bingoMetaCache) {
+        loadBingoMeta().catch(() => {});
+      }
+    }
+
+    async function fetchJson(url) {
+      const response = await fetch(url);
+      if (!response.ok) {
+        let message = 'Request failed';
+        try {
+          const errorData = await response.json();
+          message = errorData.error || message;
+        } catch (_) {
+          // ignore
+        }
+        throw new Error(message);
+      }
+      return response.json();
+    }
+
+    function populateTemplateSelect(selectEl, items, placeholder) {
+      if (!selectEl) return;
+      const previous = selectEl.value;
+      selectEl.innerHTML = '';
+      const placeholderOption = document.createElement('option');
+      placeholderOption.value = '';
+      placeholderOption.textContent = placeholder;
+      placeholderOption.disabled = true;
+      placeholderOption.selected = true;
+      selectEl.appendChild(placeholderOption);
+      (items || []).forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.value;
+        opt.textContent = `${item.label} (${item.count})`;
+        selectEl.appendChild(opt);
+      });
+      if (previous && (items || []).some(item => item.value === previous)) {
+        selectEl.value = previous;
+      }
+      selectEl.disabled = !items || items.length === 0;
+    }
+
+    async function loadBingoMeta() {
+      if (bingoMetaCache) return bingoMetaCache;
+      const data = await fetchJson('/api/bingo-tasks/meta');
+      bingoMetaCache = data;
+      populateTemplateSelect(templateCategorySelect, data.categories || [], 'Select a category');
+      populateTemplateSelect(templateGameSelect, data.games || [], 'Select a game');
+      return data;
+    }
+
+    async function loadSelectedPresetTemplate() {
+      if (!templatePresetSelect) return;
+      const preset = templatePresetSelect.value;
+      if (!preset) {
+        setTemplateStatus('Please choose a preset to load.', true);
+        return;
+      }
+      setTemplateStatus('Loading deck...');
+      try {
+        let data;
+        if (preset === 'default') {
+          data = await fetchJson('/api/default-card');
+        } else if (preset === 'all') {
+          data = await fetchJson('/api/bingo-tasks/pool?type=all');
+        } else if (preset === 'category') {
+          await loadBingoMeta();
+          const categoryValue = templateCategorySelect.value;
+          if (!categoryValue) {
+            setTemplateStatus('Please select a category to load.', true);
+            return;
+          }
+          data = await fetchJson(`/api/bingo-tasks/pool?type=category&value=${encodeURIComponent(categoryValue)}`);
+        } else if (preset === 'game') {
+          await loadBingoMeta();
+          const gameValue = templateGameSelect.value;
+          if (!gameValue) {
+            setTemplateStatus('Please select a game to load.', true);
+            return;
+          }
+          data = await fetchJson(`/api/bingo-tasks/pool?type=game&value=${encodeURIComponent(gameValue)}`);
+        } else {
+          setTemplateStatus('Unsupported preset type.', true);
+          return;
+        }
+
+        applyTemplateFromData({
+          items: data.items,
+          label: data.label || data.name,
+          itemCount: data.itemCount
+        }, {
+          suggestedName: `${data.label || data.name || 'Custom Card'} Remix`,
+          forceName: true
+        });
+        setTemplateStatus(`Loaded ${data.label || data.name} (${data.itemCount} items). Save to create a new code.`);
+        document.getElementById('items-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (error) {
+        setTemplateStatus(error.message || 'Failed to load deck.', true);
+      }
+    }
+
+    async function loadTemplateFromCode() {
+      if (!templateCodeInput) return;
+      const code = templateCodeInput.value.trim().toUpperCase();
+      if (code.length !== 6) {
+        setTemplateStatus('Enter a valid 6-letter card code to duplicate.', true);
+        return;
+      }
+      setTemplateStatus(`Loading card ${code}...`);
+      try {
+        const data = await fetchJson(`/api/card-collections/${code}`);
+        applyTemplateFromData({
+          items: data.items,
+          label: data.name,
+          itemCount: data.itemCount || (data.items ? data.items.length : 0)
+        }, {
+          suggestedName: `${data.name} Remix`,
+          forceName: true
+        });
+        setTemplateStatus(`Loaded ${data.name} (${data.items.length} items). Saving will create a new code.`);
+        document.getElementById('items-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (error) {
+        setTemplateStatus(error.message || 'Failed to load card.', true);
+      }
+    }
+
+    function applyTemplateFromData(data, options = {}) {
+      if (!data || !Array.isArray(data.items) || !data.items.length) {
+        throw new Error('Preset did not return any items.');
+      }
+      const itemsList = document.getElementById('items-list');
+      itemsList.innerHTML = '';
+      itemIndex = 0;
+      data.items.forEach(item => addItemRowWithValue(item));
+      editingCardCode = null;
+      const saveBtn = document.getElementById('save-btn');
+      if (saveBtn) {
+        saveBtn.textContent = 'Save Custom Card';
+      }
+      const nameInput = document.getElementById('collection-name');
+      if (nameInput && (options.forceName || !nameInput.value.trim())) {
+        nameInput.value = options.suggestedName || `${data.label || data.name || 'Custom Card'} Remix`;
+      }
+      updateCount();
+    }
+
+    // Add initial empty row without scrolling to keep form in view
+    addItemRow({ scrollIntoView: false, focusInput: false });
 
     // Load existing card
     async function loadCard() {
@@ -524,60 +814,59 @@
       }
     }
 
-    function addItemRowWithValue(value) {
-      const itemsList = document.getElementById('items-list');
+    function buildItemRow(value = '') {
+      const currentIndex = itemIndex;
       const row = document.createElement('div');
       row.className = 'item-row';
-      row.id = `item-row-${itemIndex}`;
+      row.id = `item-row-${currentIndex}`;
 
-      const itemNumber = getItemNumber();
+      const itemNumber = document.createElement('div');
+      itemNumber.className = 'item-number';
+      itemNumber.textContent = `${getItemNumber()}.`;
 
-      row.innerHTML = `
-        <div class="item-number">${itemNumber}.</div>
-        <input
-          type="text"
-          id="item-${itemIndex}"
-          placeholder="Enter item name"
-          value="${value}"
-          oninput="updateCount()"
-        >
-        <button onclick="removeItemRow(${itemIndex})">Remove</button>
-      `;
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.id = `item-${currentIndex}`;
+      input.placeholder = 'Enter item name';
+      input.value = value || '';
+      input.addEventListener('input', updateCount);
 
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'Remove';
+      removeButton.addEventListener('click', () => removeItemRow(row.id));
+
+      row.appendChild(itemNumber);
+      row.appendChild(input);
+      row.appendChild(removeButton);
+
+      return { row, input };
+    }
+
+    function addItemRowWithValue(value) {
+      const itemsList = document.getElementById('items-list');
+      const { row } = buildItemRow(value);
       itemsList.appendChild(row);
       itemIndex++;
       updateCount();
     }
 
-    function addItemRow() {
+    function addItemRow(options = {}) {
+      const {
+        scrollIntoView = true,
+        focusInput = true
+      } = options;
       const itemsList = document.getElementById('items-list');
-      const row = document.createElement('div');
-      row.className = 'item-row';
-      row.id = `item-row-${itemIndex}`;
-
-      const itemNumber = getItemNumber();
-
-      row.innerHTML = `
-        <div class="item-number">${itemNumber}.</div>
-        <input
-          type="text"
-          id="item-${itemIndex}"
-          placeholder="Enter item name"
-          oninput="updateCount()"
-        >
-        <button onclick="removeItemRow(${itemIndex})">Remove</button>
-      `;
-
+      const { row, input } = buildItemRow('');
       itemsList.appendChild(row);
       itemIndex++;
       updateCount();
 
-      // Auto-scroll to the new item
-      row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-      // Focus on the new input
-      const input = row.querySelector('input');
-      setTimeout(() => input.focus(), 300);
+      if (scrollIntoView) {
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      if (focusInput) {
+        setTimeout(() => input.focus(), 300);
+      }
     }
 
     function getItemNumber() {
@@ -586,8 +875,9 @@
       return rows.length + 1;
     }
 
-    function removeItemRow(index) {
-      const row = document.getElementById(`item-row-${index}`);
+    function removeItemRow(identifier) {
+      const rowId = typeof identifier === 'string' ? identifier : `item-row-${identifier}`;
+      const row = document.getElementById(rowId);
       if (row) {
         row.remove();
         renumberItems();
@@ -709,6 +999,10 @@
         }, 2000);
       });
     }
+
+    // Preload metadata for template selects
+    loadBingoMeta().catch(() => {});
+    handleTemplatePresetChange();
   </script>
 </body>
 </html>

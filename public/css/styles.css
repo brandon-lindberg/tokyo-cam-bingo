@@ -185,6 +185,59 @@ body {
     border-color: #00BFFF;
   }
 
+  .form-sub-label {
+    display: block;
+    font-size: 0.95rem;
+    color: #555;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .preset-detail {
+    display: none;
+    margin-top: 1rem;
+  }
+
+  .preset-detail .form-select {
+    margin-top: 0;
+  }
+
+  .helper-text {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .helper-text.error {
+    color: #EF4444;
+  }
+
+  .helper-text.muted {
+    color: #888;
+  }
+
+  .secondary-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    background: transparent;
+    border: 1px solid #00BFFF;
+    border-radius: 8px;
+    color: #00BFFF;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .secondary-button:hover {
+    background: rgba(0, 191, 255, 0.1);
+  }
+
+  .preset-secondary {
+    margin-top: 1rem;
+    width: 100%;
+  }
+
   /* Mode Selector */
   .mode-selector {
     display: grid;
@@ -469,12 +522,29 @@ body {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    font-size: 1.2vw; /* Adjust font size based on viewport width */
-    word-break: normal;
+    padding: 0.35rem;
+    font-size: clamp(0.75rem, 1vw, 1.1rem);
+    line-height: 1.2;
+    text-align: center;
+    word-break: break-word;
     overflow-wrap: break-word;
-    hyphens: none;
+    hyphens: auto;
+    white-space: normal;
     overflow: hidden;
-    padding: 0.2rem;
+  }
+
+  .tile-content.tile-scroll {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tile-content.tile-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .tile-content.tile-scroll::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 2px;
   }
   
   /* Leaderboard Section */
@@ -691,14 +761,12 @@ body {
     }
   
     .bingo-card td {
-      font-size: 3vw; /* Larger relative font for mobile */
+      font-size: inherit;
     }
   
     .tile-content {
-      font-size: 3vw;
-      word-break: normal;
-      overflow-wrap: break-word;
-      hyphens: none;
+      font-size: clamp(0.65rem, 3vw, 0.95rem);
+      padding: 0.3rem;
     }
     /* Mobile-friendly home page tweaks */
     .welcome-container h1 {

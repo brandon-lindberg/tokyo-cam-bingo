@@ -2,6 +2,7 @@
   <label for="locale-select" class="sr-only"><%= t('common.language') %></label>
   <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
   <input type="hidden" name="returnTo" value="<%= currentPath %>">
+  <span class="locale-icon" aria-hidden="true">🌐</span>
   <select id="locale-select" name="locale" onchange="this.form.submit()">
     <% availableLocales.forEach((entry) => { %>
       <option value="<%= entry.code %>" <%= entry.code === locale ? 'selected' : '' %>><%= entry.label %></option>

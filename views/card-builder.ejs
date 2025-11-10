@@ -530,11 +530,11 @@
     }
   </style>
 </head>
-<body data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>">
+<body class="has-global-top-bar" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>">
+  <div class="global-top-bar">
+    <%- include('partials/locale-switcher') %>
+  </div>
   <div class="card-builder-container">
-    <div class="locale-switcher-container">
-      <%- include('partials/locale-switcher') %>
-    </div>
     <a href="/" class="back-link">← <%= t('actions.backToHome') %></a>
 
     <div class="builder-header">

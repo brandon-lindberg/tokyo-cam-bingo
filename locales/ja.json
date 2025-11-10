@@ -1,0 +1,466 @@
+{
+  "meta": {
+    "code": "ja",
+    "label": "日本語"
+  },
+  "common": {
+    "appName": "東京カムビンゴ",
+    "tagline": "東京のライブ配信を観ながら友達とビンゴを遊ぼう",
+    "language": "言語",
+    "loading": "読み込み中..."
+  },
+  "actions": {
+    "hostGame": "ゲームを作成",
+    "joinGame": "ゲームに参加",
+    "createGame": "ゲームを作成",
+    "createCard": "カスタムカードを作成",
+    "backToHome": "ホームに戻る",
+    "copyCode": "コードをコピー",
+    "enterRerollMode": "リロールモードに入る",
+    "startGame": "ゲーム開始",
+    "pause": "一時停止",
+    "resume": "再開",
+    "reset": "リセット",
+    "close": "閉じる",
+    "save": "保存",
+    "load": "読み込み",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "addItem": "項目を追加",
+    "select": "選択",
+    "apply": "適用",
+    "refresh": "更新",
+    "viewRuleBook": "ルールブック"
+  },
+  "colors": {
+    "red": "赤",
+    "blue": "青",
+    "green": "緑",
+    "yellow": "黄",
+    "purple": "紫",
+    "orange": "オレンジ",
+    "pink": "ピンク",
+    "cyan": "シアン"
+  },
+  "home": {
+    "welcomeHeading": "東京カムビンゴへようこそ",
+    "ruleBook": "ルールブック",
+    "createCustomCardLink": "+ カスタムカードを作成",
+    "hostFormTitle": "ゲームを作成",
+    "hostNameLabel": "あなたの名前",
+    "hostNamePlaceholder": "名前を入力",
+    "gameModeLabel": "ゲームモード",
+    "modeRegularTitle": "通常モード",
+    "modeRegularDescription": "各プレイヤーに固有のカードが配られます（最大10人）",
+    "modeVsTitle": "対戦モード",
+    "modeVsDescription": "全員で1枚のカードを共有してマスを奪い合います（最大4人）",
+    "modeColorsLabel": "カラーを選択",
+    "colorPlaceholder": "カラーを選択してください",
+    "bingoCardLabel": "ビンゴカード",
+    "bingoDefaultOption": "東京カムビンゴ（デフォルト）",
+    "bingoCategoryOption": "ビンゴタスク・カテゴリ別",
+    "bingoGameOption": "ビンゴタスク・ゲーム別",
+    "bingoAllOption": "すべてのタスクをミックス",
+    "bingoCategoryLabel": "カテゴリを選択",
+    "bingoCategoryPlaceholder": "カテゴリを選択",
+    "bingoGameLabel": "ゲームを選択",
+    "bingoGamePlaceholder": "ゲームを選択",
+    "loadingCategories": "カテゴリを読み込み中...",
+    "loadingGames": "ゲームを読み込み中...",
+    "bingoHelperDefault": "プリセットやカスタムコードを選ばない限り、東京カムビンゴのデッキが使われます。",
+    "bingoHelperMeta": "カテゴリ{categories}件、ゲーム{games}件から選べます（各プリセットには最低{min}項目があります）。カスタムカードを読み込むとプリセットが上書きされます。",
+    "bingoHelperError": "プリセットを読み込めませんでした。デフォルトのカードを使用します。",
+    "customCardButton": "カスタムカードを使う（任意）",
+    "customCardPlaceholder": "カスタムカードコードを入力",
+    "gameOptionsLabel": "ゲームオプション",
+    "flagOptionTitle": "🚩 フラッグシステム",
+    "flagOptionDescription": "怪しいスタンプをプレイヤーが異議申し立てできます",
+    "rerollOptionTitle": "🎲 リロール",
+    "rerollOptionDescription": "ホストはゲーム中にマスを引き直せます",
+    "timerSectionLabel": "タイマー設定",
+    "timerEnableLabel": "試合タイマーを有効にする",
+    "timerDescription": "ゲームに制限時間を設定します",
+    "timerPresetMinutes": "{value} 分",
+    "timerPresetHours": "{value} 時間",
+    "captchaLabel": "本人確認",
+    "captchaQuestionFallback": "問題を解いてください",
+    "captchaLoadError": "問題を読み込めませんでした",
+    "captchaAnswerPlaceholder": "上の答えを入力",
+    "captchaHelper": "簡単な計算を解いてボットでないことを確認してください。",
+    "joinFormTitle": "ゲームに参加",
+    "joinNameLabel": "あなたの名前",
+    "joinCodeLabel": "ゲームコード",
+    "joinNamePlaceholder": "名前を入力",
+    "joinCodePlaceholder": "6文字のコード",
+    "winConditionsLabel": "勝利条件（1つ以上選択）",
+    "winConditions": {
+      "row": "横1列",
+      "twoRows": "横2列",
+      "threeRows": "横3列",
+      "column": "縦1列",
+      "twoColumns": "縦2列",
+      "threeColumns": "縦3列",
+      "diagonals": "斜めライン",
+      "fullCard": "フルカード",
+      "mostSquares": "最多マス"
+    },
+    "rulebook": {
+      "title": "東京カムビンゴ ルールブック",
+      "closeLabel": "閉じる",
+      "sections": [
+        {
+          "title": "クイックスタート",
+          "items": [
+            {
+              "label": "ホスト",
+              "body": "「ゲームを作成」を選び、設定を決めて6文字のコードを友達に共有します。"
+            },
+            {
+              "label": "参加",
+              "body": "「ゲームに参加」にコードを入力します。VSモードでは自分のカラーも選びます。"
+            },
+            {
+              "label": "カード",
+              "body": "デフォルトデッキは東京カムビンゴのお題です。ビルダーで作ったカードは6文字コードで読み込めます。"
+            }
+          ]
+        },
+        {
+          "title": "ゲームモード",
+          "items": [
+            {
+              "label": "通常モード（最大10人）",
+              "body": "各プレイヤーに5x5カードが配られます。マスをタップするとスタンプが切り替わり、リロールが有効ならホストが任意のカードを更新できます。"
+            },
+            {
+              "label": "対戦モード（最大4人）",
+              "body": "全員で1枚のカードを共有します。自分の色でマスを取得し、既に他の色で埋まっているマスは取れません。"
+            }
+          ]
+        },
+        {
+          "title": "勝利条件",
+          "description": "部屋を作るときに1つ以上の目標を選びます。",
+          "items": [
+            {
+              "label": "列・行",
+              "body": "有効にしたラインを完成させます（通常モードには2列・3列のオプションもあります）。"
+            },
+            {
+              "label": "斜め",
+              "body": "角から角までの斜線を完成させます。"
+            },
+            {
+              "label": "フルカード",
+              "body": "（通常モードのみ）自分のカードの全マスをスタンプします。"
+            },
+            {
+              "label": "最多マス",
+              "body": "最も多くスタンプしたプレイヤーを自動で判定します。タイマー終了時やVSモードで25マス埋まった時に結果が決まります。引き分けの場合は勝者なしです。"
+            }
+          ]
+        },
+        {
+          "title": "ゲームタイマー",
+          "items": [
+            {
+              "label": "任意のカウントダウン",
+              "body": "ホストはタイマーを設定し、ゲーム画面から開始・一時停止・再開・リセットできます。"
+            },
+            {
+              "label": "自動判定",
+              "body": "タイマーが0になると「最多マス」の条件で勝者または引き分けを判定します。"
+            }
+          ]
+        },
+        {
+          "title": "フラッグと投票",
+          "items": [
+            {
+              "label": "フラッグを投げる",
+              "body": "参加時に各プレイヤーへ2本ずつフラッグが配られます。🚩ボタンで怪しいスタンプに異議申し立てできます。"
+            },
+            {
+              "label": "みんなで判定",
+              "body": "全員が賛成／反対に投票し、可決すると対象プレイヤーのマスが外れます。"
+            }
+          ]
+        },
+        {
+          "title": "リロール",
+          "items": [
+            {
+              "label": "ホスト機能",
+              "body": "有効にするとホストはマス・行・列・斜め・カード全体を引き直せます。"
+            },
+            {
+              "label": "対戦モードへの影響",
+              "body": "共有カードをリフレッシュすると、その範囲の獲得済みマスがリセットされ、再び奪い合えます。"
+            }
+          ]
+        },
+        {
+          "title": "その他",
+          "items": [
+            {
+              "label": "リーダーボード",
+              "body": "完成ライン数とスタンプ数でリアルタイムに順位付けします。"
+            },
+            {
+              "label": "チャット",
+              "body": "備え付けのチャットで見つけたものを共有したり作戦を立てられます。"
+            },
+            {
+              "label": "配信者モード",
+              "body": "配信向けにシンプルなレイアウトへ切り替えられます。"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "game": {
+    "copyConfirmation": "コードをコピーしました！",
+    "leaderboard": "リーダーボード",
+    "leaderboardRank": "順位",
+    "leaderboardPlayer": "プレイヤー",
+    "leaderboardLines": "ライン",
+    "leaderboardTiles": "スタンプ済みマス",
+    "chatToggle": "チャットを開く",
+    "flagButton": "フラッグを投げる",
+    "timerStart": "ゲーム開始",
+    "timerPause": "一時停止",
+    "timerResume": "再開",
+    "timerReset": "リセット",
+    "mobileDrawerClose": "閉じる",
+    "winnerHeading": "勝者！",
+    "winnerConditionLabel": "勝利条件",
+    "winnerNewGame": "次のゲームを開始",
+    "winnerStay": "このままにする",
+    "rerollSelectType": "リロール種別を選択",
+    "rerollInstruction": "リロールしたい範囲をタップしてください",
+    "streamerModeOff": "配信モード: オフ",
+    "streamerModeOn": "配信モード: オン",
+    "exitToHome": "ホームに戻る",
+    "timerExpired": {
+      "title": "時間切れ！",
+      "message": "タイマーが終了しました。",
+      "winnerPrefix": "勝者:",
+      "hostAction": "次のゲームを開始"
+    },
+    "chatTitle": "チャット",
+    "chatPlaceholder": "メッセージを入力...",
+    "chatSend": "送信",
+    "chatYou": "自分",
+    "chatUnknown": "不明なプレイヤー",
+    "copyPrompt": "ゲームコードをコピーしてください:",
+    "playerCardTitle": "{name}のカード",
+    "reroll": {
+      "modalTitle": "リロール",
+      "typeLabel": "種別",
+      "selectType": "種別を選択",
+      "randomButtonDefault": "ランダムに選択",
+      "randomButton": "ランダムなマスを選択",
+      "randomRowButton": "ランダムな横列を選択",
+      "randomColumnButton": "ランダムな縦列を選択",
+      "randomDiagonalButton": "ランダムな斜めを選択",
+      "instruction": "カードをタップして範囲を指定してください。",
+      "confirm": "リロールを確定",
+      "options": {
+        "tile": "マス",
+        "row": "横列",
+        "column": "縦列",
+        "diagonal": "斜め",
+        "card": "カード全体",
+        "randomTile": "ランダムなマス",
+        "randomRow": "ランダムな横列",
+        "randomColumn": "ランダムな縦列",
+        "randomDiagonal": "ランダムな斜め"
+      }
+    },
+    "winConditions": {
+      "heading": "勝利条件:",
+      "none": "なし",
+      "list": {
+        "row": "横1列",
+        "2rows": "横2列",
+        "3rows": "横3列",
+        "column": "縦1列",
+        "2columns": "縦2列",
+        "3columns": "縦3列",
+        "diagonals": "斜めライン",
+        "full": "フルカード",
+        "most_squares": "最多マス"
+      }
+    },
+    "voteModal": {
+      "title": "フラッグ投票",
+      "yes": "賛成",
+      "no": "反対",
+      "count": "投票: 賛成{yes} / 反対{no}",
+      "message": "{flagger}が{target}にフラッグを投げました",
+      "passed": "投票が可決しました！",
+      "failed": "投票は否決されました。"
+    },
+    "flagModal": {
+      "title": "フラッグを投げる",
+      "subtitle": "異議を唱えるプレイヤーを選択してください。",
+      "placeholder": "-- プレイヤーを選択 --",
+      "confirm": "確定"
+    }
+  },
+  "cardBuilder": {
+    "pageTitle": "カスタムカードを作成 - 東京カムビンゴ",
+    "metaDescription": "東京カムビンゴ用のカスタムビンゴカードを作成しましょう。",
+    "header": "カスタムビンゴカードを作成",
+    "subheader": "25項目以上を追加して自分だけのカードを作りましょう",
+    "tabs": {
+      "create": "新しいカードを作成",
+      "template": "デッキから開始",
+      "edit": "保存済みカードを編集"
+    },
+    "tabsAriaLabel": "カードビルダーのモード",
+    "collectionNameLabel": "カード名",
+    "collectionNamePlaceholder": "例：東京ナイト版",
+    "defaultCardName": "カスタムカード",
+    "collectionHelper": "別タブでデッキを読み込んでから、自分好みに編集することもできます。",
+    "itemsLabel": "項目（最低25件）",
+    "itemsCount": "{count}件追加済み",
+    "captchaLabel": "本人確認",
+    "captchaHelper": "デッキを保存する前にこの問題を解いてください。",
+    "captchaQuestionFallback": "問題を解いてください",
+    "captchaPlaceholder": "上の答えを入力",
+    "saveButton": "カスタムカードを保存",
+    "updateButton": "カスタムカードを更新",
+    "templateSectionLabel": "オプション：既存のデッキから読み込む",
+    "templateSectionHelper": "内蔵デッキや自分のコードを読み込んで編集を始められます。読み込み完了後にビルダーへ戻ります。",
+    "templatePlaceholder": "― プリセットを選択 ―",
+    "templateLoadButton": "デッキを読み込む",
+    "templateDivider": "または",
+    "templateDuplicateHelper": "保存済みカードを複製します（新しいコードが発行されます）",
+    "templateCodePlaceholder": "複製したいカードコードを入力",
+    "templateCodeButton": "テンプレとして読み込む",
+    "existingSectionLabel": "保存済みカードを編集",
+    "existingSectionHelper": "以前作成したカードの6文字コードを入力すると、読み込んで再保存できます。",
+    "existingCodePlaceholder": "編集するカードコードを入力",
+    "existingLoadButton": "カードを読み込む",
+    "successTitle": "✓ カスタムカードを作成しました！",
+    "successBody": "ゲーム作成時にこのカードを使うにはコードを控えてください。",
+    "successHint": "このコードを書き留めておきましょう！カスタムカードを読み込む時に必要です。",
+    "successHomeButton": "ホームに戻る",
+    "itemsCountNeed": "{count}件追加済み（最低25件が必要）",
+    "itemsCountReady": "{count}件追加済み ✓",
+    "errors": {
+      "captchaRefresh": "キャプチャを更新できませんでした",
+      "loadPreset": "デッキの読み込みに失敗しました。",
+      "loadCard": "カードの読み込みに失敗しました。",
+      "saveFailed": "カードの保存に失敗しました。",
+      "nameRequired": "カード名を入力してください",
+      "itemsRequired": "少なくとも25項目を追加してください",
+      "captchaRequired": "保存前に本人確認を完了してください。"
+    },
+    "messages": {
+      "captchaLoadError": "問題を読み込めませんでした",
+      "presetRequired": "読み込むプリセットを選択してください。",
+      "loadingDeck": "デッキを読み込み中...",
+      "selectCategory": "読み込むカテゴリを選択してください。",
+      "selectGame": "読み込むゲームを選択してください。",
+      "unsupportedPreset": "このプリセットはサポートされていません。",
+      "presetEmpty": "プリセットに項目がありません。",
+      "duplicateCodeInvalid": "複製するカードコード（6文字）を入力してください。",
+      "loadCodeInvalid": "有効な6文字のコードを入力してください。",
+      "cardNotFound": "カードが見つかりません。",
+      "loadedPreset": "{name}（{count}項目）を読み込みました。保存すると新しいコードが発行されます。",
+      "loadingCard": "{code} のカードを読み込み中...",
+      "cardLoaded": "「{name}」を読み込みました（{count}項目）",
+      "loadedCard": "{name}（{count}項目）を読み込みました。保存すると新しいコードが発行されます。",
+      "cardLoadError": "カードの読み込み中にエラーが発生しました。",
+      "saving": "保存中...",
+      "copied": "コピーしました！",
+      "itemPlaceholder": "項目名を入力",
+      "removeItem": "削除",
+      "remixName": "{name} リミックス"
+    }
+  },
+  "alerts": {
+    "rerollMissingSelection": "リロール種別と範囲を選択してください。",
+    "invalidGameCode": "有効なゲームコードを入力してください。",
+    "captchaIncorrect": "キャプチャの答えが違います。もう一度お試しください。"
+  },
+  "errors": {
+    "generic": "問題が発生しました。もう一度お試しください。",
+    "rateLimited": "リクエストが多すぎます。しばらくしてからお試しください。"
+  },
+  "notifications": {
+    "codeCopied": "コードをコピーしました！",
+    "codeShown": "コピー用にコードを表示しました"
+  },
+  "vote": {
+    "prompt": "今すぐ投票！",
+    "thanks": "投票ありがとうございます！"
+  },
+  "splash": {
+    "loading": "東京カムビンゴを読み込み中..."
+  },
+  "items": {
+    "notice camera": "カメラに気付く",
+    "sad drunk crouch": "しゃがみ込む酔っ払い",
+    "hitting on girls": "ナンパする男性",
+    "irl streamer": "IRL配信者",
+    "drop something": "物を落とす",
+    "filming on phone": "スマホで撮影",
+    "selfie": "自撮り",
+    "fighting": "ケンカ",
+    "smoking": "喫煙",
+    "holding umbrella": "傘を持っている",
+    "running": "走っている人",
+    "tripping": "つまずく",
+    "exotic pet guy": "珍しいペットを連れた人",
+    "animal in cart": "カートに乗る動物",
+    "instrument": "楽器演奏",
+    "suitcase drag": "スーツケースを引く",
+    "drinking alcohol": "お酒を飲む",
+    "police security": "警察・警備員",
+    "uber delivery": "ウーバー配達員",
+    "pissing": "立ちション",
+    "kanji japan shirt": "漢字入りJapanシャツ",
+    "formal suit": "スーツ姿",
+    "giving out tissues": "ティッシュ配り",
+    "izakaya scammers": "居酒屋キャッチ",
+    "tour group": "ツアー団体",
+    "fixated on phone": "スマホに夢中",
+    "people bump": "人とぶつかる",
+    "holding hands": "手をつなぐ",
+    "carrying drunk friend": "酔った友人を支える",
+    "crazy hair color": "派手な髪色",
+    "mario kart": "リアルマリオカート",
+    "anime sticker car": "アニメステッカー車",
+    "trip on high heels": "ハイヒールでつまずく",
+    "sexy ad cars": "セクシー広告カー",
+    "street pass out": "路上で寝る人",
+    "throwing up": "吐いている人",
+    "lost tourist": "迷子の観光客",
+    "talk to girls bar girls": "客引きが女性に話しかける",
+    "crane game plushie": "クレーンゲームのぬいぐるみ",
+    "papakatsu": "パパ活っぽいカップル",
+    "making out": "キス・いちゃつき",
+    "wild life": "野生生物",
+    "kimono": "着物の人",
+    "baby or toddler": "赤ちゃん・幼児",
+    "bicycle": "自転車",
+    "street performance": "ストリートパフォーマンス",
+    "littering": "ポイ捨て",
+    "cop car": "パトカー",
+    "night sunglasses": "夜のサングラス",
+    "need to pee": "お手洗いを探してそう",
+    "high five": "ハイタッチ",
+    "dancing": "ダンス",
+    "meltdown drunk": "泥酔で暴れる人",
+    "matching outfits": "お揃いコーデ",
+    "huge shopping bag": "大きな買い物袋",
+    "celebrity": "芸能人っぽい人",
+    "ambulance": "救急車",
+    "fire truck": "消防車"
+  },
+  "bingoTasks": {}
+}

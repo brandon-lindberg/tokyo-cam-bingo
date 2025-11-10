@@ -1,0 +1,35 @@
+<%
+  const hasNamespaces = typeof namespaces !== 'undefined' && Array.isArray(namespaces);
+  const clientNamespaces = hasNamespaces ? namespaces : [];
+  const translations = getClientTranslations(clientNamespaces);
+%>
+<script>
+  window.APP_LOCALE = '<%= locale %>';
+  window.APP_I18N = <%- JSON.stringify(translations) %>;
+  window.t = function t(key, vars) {
+    if (!key) {
+      return '';
+    }
+    const parts = key.split('.');
+    let cursor = window.APP_I18N || {};
+    for (let i = 0; i < parts.length; i += 1) {
+      const part = parts[i];
+      if (cursor && Object.prototype.hasOwnProperty.call(cursor, part)) {
+        cursor = cursor[part];
+      } else {
+        cursor = null;
+        break;
+      }
+    }
+    if (typeof cursor === 'string') {
+      return cursor.replace(/\{(\w+)\}/g, function replaceVar(match, token) {
+        if (vars && Object.prototype.hasOwnProperty.call(vars, token)) {
+          const value = vars[token];
+          return value === undefined || value === null ? '' : value;
+        }
+        return '';
+      });
+    }
+    return key;
+  };
+</script>

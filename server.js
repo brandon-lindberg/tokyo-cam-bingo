@@ -17,6 +17,17 @@ require('dotenv').config();
 const packageJson = require('./package.json');
 const { checkWin } = require('./utils/checkWin');
 const {
+  translate,
+  translateItemText,
+  translateTaskText,
+  getClientTranslations,
+  getSupportedLocalesMeta,
+  resolveLocale,
+  isSupportedLocale,
+  normalizeLocale,
+  DEFAULT_LOCALE
+} = require('./utils/i18n');
+const {
   MIN_POOL_SIZE,
   getBingoTasksMeta,
   getCategoryPool,
@@ -32,6 +43,8 @@ const CAPTCHA_TYPES = {
   CREATE_GAME: 'createGame',
   CARD_BUILDER: 'cardBuilder'
 };
+const LOCALE_COOKIE_NAME = 'locale';
+const LOCALE_COOKIE_MAX_AGE = 365 * 24 * 60 * 60 * 1000; // 1 year
 
 // In-memory flags and voting state
 const flagsLeft = {}; // playerId -> remaining flags
@@ -166,16 +179,105 @@ app.use(sessionMiddleware);
 io.use((socket, next) => sessionMiddleware(socket.request, socket.request.res || {}, next));
 
 app.use((req, res, next) => {
+  const { locale, source } = determineRequestLocale(req);
+  if (source === 'query') {
+    persistLocalePreference(req, res, locale);
+  }
+  req.locale = locale;
+  res.locals.locale = locale;
+  res.locals.availableLocales = getSupportedLocalesMeta();
+  res.locals.t = (key, vars) => translate(locale, key, vars);
+  res.locals.translateItem = (text) => translateItemText(locale, text);
+  res.locals.translateTask = (text) => translateTaskText(locale, text);
+  res.locals.getClientTranslations = (namespaces = []) => getClientTranslations(locale, namespaces);
+  next();
+});
+
+app.use((req, res, next) => {
   if (req.session && !req.session.csrfToken) {
     req.session.csrfToken = crypto.randomBytes(32).toString('hex');
   }
   res.locals.assetVersion = app.locals.assetVersion;
   res.locals.enableServiceWorker = app.locals.enableServiceWorker;
   res.locals.csrfToken = req.session?.csrfToken || '';
+  res.locals.currentPath = req.originalUrl || '/';
   next();
 });
 
 const actionCooldowns = new Map();
+
+function parseCookies(header = '') {
+  if (!header) return {};
+  return header.split(';').reduce((acc, part) => {
+    const [rawName, ...rest] = part.trim().split('=');
+    if (!rawName) {
+      return acc;
+    }
+    const name = rawName.trim();
+    const value = rest.length ? rest.join('=') : '';
+    acc[name] = decodeURIComponent(value || '');
+    return acc;
+  }, {});
+}
+
+function getLocaleFromAcceptLanguage(header = '') {
+  if (!header) return '';
+  const candidates = header.split(',')
+    .map((segment) => {
+      const [langPart, weightPart] = segment.trim().split(';q=');
+      const lang = normalizeLocale(langPart);
+      const weight = weightPart ? parseFloat(weightPart) : 1;
+      return {
+        lang,
+        weight: Number.isNaN(weight) ? 1 : weight
+      };
+    })
+    .filter(({ lang }) => isSupportedLocale(lang))
+    .sort((a, b) => b.weight - a.weight);
+  return candidates.length ? candidates[0].lang : '';
+}
+
+function determineRequestLocale(req) {
+  const queryLocale = normalizeLocale(req.query?.lang);
+  if (isSupportedLocale(queryLocale)) {
+    return { locale: queryLocale, source: 'query' };
+  }
+
+  const sessionLocale = normalizeLocale(req.session?.locale);
+  if (isSupportedLocale(sessionLocale)) {
+    return { locale: sessionLocale, source: 'session' };
+  }
+
+  const cookies = parseCookies(req.headers?.cookie || '');
+  const cookieLocale = normalizeLocale(cookies[LOCALE_COOKIE_NAME]);
+  if (isSupportedLocale(cookieLocale)) {
+    return { locale: cookieLocale, source: 'cookie' };
+  }
+
+  const headerLocale = getLocaleFromAcceptLanguage(req.get('accept-language'));
+  if (headerLocale) {
+    return { locale: headerLocale, source: 'header' };
+  }
+
+  return { locale: DEFAULT_LOCALE, source: 'default' };
+}
+
+function persistLocalePreference(req, res, locale) {
+  if (req.session) {
+    req.session.locale = locale;
+  }
+  res.cookie(LOCALE_COOKIE_NAME, locale, {
+    maxAge: LOCALE_COOKIE_MAX_AGE,
+    sameSite: 'lax'
+  });
+}
+
+function sanitizeReturnPath(pathValue) {
+  if (typeof pathValue === 'string' && pathValue.startsWith('/') && !pathValue.startsWith('//')) {
+    return pathValue;
+  }
+  return '/';
+}
 
 function sendCsrfError(req, res) {
   const message = 'Invalid or missing security token.';
@@ -194,6 +296,16 @@ function csrfProtection(req, res, next) {
   }
   return next();
 }
+
+app.post('/set-locale', csrfProtection, (req, res) => {
+  const requestedLocale = normalizeLocale(req.body?.locale);
+  const returnTo = sanitizeReturnPath(req.body?.returnTo || req.get('referer') || '/');
+  if (isSupportedLocale(requestedLocale)) {
+    persistLocalePreference(req, res, requestedLocale);
+    req.locale = requestedLocale;
+  }
+  res.redirect(returnTo);
+});
 
 function isOnCooldown(playerId, action, durationMs) {
   if (!playerId) return true;

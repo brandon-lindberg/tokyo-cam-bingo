@@ -26,7 +26,12 @@
 </head>
 <body class="splash-active has-global-top-bar" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>">
   <div class="global-top-bar">
-    <%- include('partials/locale-switcher') %>
+    <div class="top-bar-left">
+      <a id="top-bar-back" href="#" onclick="backToHome(); return false;" style="visibility: hidden; pointer-events: none;">← <%= t('actions.backToHome') %></a>
+    </div>
+    <div class="top-bar-right">
+      <%- include('partials/locale-switcher') %>
+    </div>
   </div>
   <div id="splash-screen" class="splash-screen" role="presentation" aria-hidden="true">
     <img src="/images/yabai_sutudios.png?v=<%= assetVersion %>" alt="Yabai Sutudios splash">
@@ -52,9 +57,7 @@
     </div>
     
     <div id="host-form" style="display: none;">
-      <div style="text-align: left;">
-        <a href="#" onclick="backToHome(); return false;" style="display: inline-block; margin-bottom: 1rem; color: #00BFFF; text-decoration: none; font-size: 1rem;">← <%= t('actions.backToHome') %></a>
-      </div>
+      <div style="height: 1.5rem;"></div>
       <h2><%= t('home.hostFormTitle') %></h2>
       <form action="/create" method="POST" class="create-game-form">
         <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
@@ -259,16 +262,23 @@
     </div>
     
     <div id="join-form" style="display: none;">
-      <div style="text-align: left;">
-        <a href="#" onclick="backToHome(); return false;" style="display: inline-block; margin-bottom: 1rem; color: #00BFFF; text-decoration: none; font-size: 1rem;">← <%= t('actions.backToHome') %></a>
-      </div>
       <h2><%= t('home.joinFormTitle') %></h2>
       <form id="join-game-form" action="/join" method="POST">
         <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
-        <label class="form-label" for="join-code"><%= t('home.joinCodeLabel') %></label>
-        <input type="password" id="join-code" name="code" placeholder="<%= t('home.joinCodePlaceholder') %>" required>
-        <label class="form-label" for="join-name"><%= t('home.joinNameLabel') %></label>
-        <input type="text" id="join-name" name="playerName" placeholder="<%= t('home.joinNamePlaceholder') %>" required>
+        <div class="join-inline-row">
+          <div class="form-input-group">
+            <label class="form-label" for="join-code"><%= t('home.joinCodeLabel') %></label>
+            <input type="password" id="join-code" name="code" placeholder="<%= t('home.joinCodePlaceholder') %>" required>
+          </div>
+          <div class="form-input-group">
+            <label class="form-label" for="join-name"><%= t('home.joinNameLabel') %></label>
+            <input type="text" id="join-name" name="playerName" placeholder="<%= t('home.joinNamePlaceholder') %>" required>
+          </div>
+          <div class="form-input-group join-submit-group">
+            <label class="form-label" style="visibility:hidden;">&nbsp;</label>
+            <button type="submit" class="join-submit-btn"><%= t('actions.joinGame') %></button>
+          </div>
+        </div>
         <div id="color-selection" style="display: none; margin: 1rem 0;">
           <label for="playerColor"><%= t('home.modeColorsLabel') %></label>
           <select id="playerColor" name="playerColor">
@@ -283,7 +293,6 @@
             <option value="CYAN"><%= t('colors.cyan') %></option>
           </select>
         </div>
-        <button type="submit"><%= t('actions.joinGame') %></button>
       </form>
     </div>
   </div>
@@ -502,9 +511,10 @@
     }
 
     function showHostForm() {
-      document.getElementById('welcome-content').style.display = 'none';
-      document.getElementById('host-form').style.display = 'block';
-      document.getElementById('join-form').style.display = 'none';
+    document.getElementById('welcome-content').style.display = 'none';
+    document.getElementById('host-form').style.display = 'block';
+    document.getElementById('join-form').style.display = 'none';
+    updateTopBarBack(true);
 
       // Initialize timer picker when showing host form
       if (!timerPicker) {
@@ -526,21 +536,30 @@
     }
 
     function showJoinForm() {
-      document.getElementById('welcome-content').style.display = 'none';
-      document.getElementById('join-form').style.display = 'block';
-      document.getElementById('host-form').style.display = 'none';
+    document.getElementById('welcome-content').style.display = 'none';
+    document.getElementById('join-form').style.display = 'block';
+    document.getElementById('host-form').style.display = 'none';
+    updateTopBarBack(true);
     }
 
     function backToHome() {
       document.getElementById('welcome-content').style.display = 'block';
-      document.getElementById('host-form').style.display = 'none';
-      document.getElementById('join-form').style.display = 'none';
+    document.getElementById('host-form').style.display = 'none';
+    document.getElementById('join-form').style.display = 'none';
+    updateTopBarBack(false);
       if (timerPicker) {
         timerPicker.resetToDefault();
         updateTimerDurationInput();
         toggleTimerSettings();
         toggleHostColorSelection();
       }
+    }
+
+    function updateTopBarBack(show) {
+      const link = document.getElementById('top-bar-back');
+      if (!link) return;
+      link.style.visibility = show ? 'visible' : 'hidden';
+      link.style.pointerEvents = show ? 'auto' : 'none';
     }
 
     function toggleCustomCardInput(evt) {

@@ -532,10 +532,14 @@
 </head>
 <body class="has-global-top-bar" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>">
   <div class="global-top-bar">
-    <%- include('partials/locale-switcher') %>
+    <div class="top-bar-left">
+      <a href="/">← <%= t('actions.backToHome') %></a>
+    </div>
+    <div class="top-bar-right">
+      <%- include('partials/locale-switcher') %>
+    </div>
   </div>
   <div class="card-builder-container">
-    <a href="/" class="back-link">← <%= t('actions.backToHome') %></a>
 
     <div class="builder-header">
       <h1><%= t('cardBuilder.header') %></h1>

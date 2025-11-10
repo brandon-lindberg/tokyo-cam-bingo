@@ -83,12 +83,33 @@ body.splash-active {
   
 .global-top-bar {
   position: fixed;
-  top: 1rem;
-  right: 1rem;
+  top: 0.75rem;
+  left: 0;
+  right: 0;
   z-index: 2000;
   display: flex;
-  justify-content: flex-end;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 1.25rem;
   pointer-events: none;
+}
+
+.global-top-bar .top-bar-left,
+.global-top-bar .top-bar-right {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.global-top-bar .top-bar-left a {
+  color: #00BFFF;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.3rem 0.1rem;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
 }
 
 .locale-switcher {
@@ -105,6 +126,7 @@ body.splash-active {
   border: 1px solid rgba(15, 23, 42, 0.06);
   box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
   min-width: 100px;
+  justify-content: center;
 }
 
 .locale-switcher select {
@@ -118,6 +140,7 @@ body.splash-active {
   cursor: pointer;
   line-height: 1.2;
   height: 1.4rem;
+  text-align: center;
 }
 
 .locale-switcher select:focus {
@@ -125,18 +148,10 @@ body.splash-active {
   box-shadow: none;
 }
 
-.locale-icon {
-  font-size: 0.85rem;
-  opacity: 0.5;
-  display: inline-flex;
-  align-items: center;
-  height: 1.4rem;
-}
-
 @media (max-width: 640px) {
   .global-top-bar {
+    padding: 0 0.75rem;
     top: 0.6rem;
-    right: 0.6rem;
   }
   
   .locale-switcher {
@@ -147,9 +162,19 @@ body.splash-active {
     align-items: center;
   }
   
-  .locale-switcher select,
-  .locale-icon {
+  .locale-switcher select {
     height: 1.2rem;
+  }
+
+  .join-inline-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .join-inline-row .form-input-group,
+  .join-inline-row .join-submit-group {
+    width: 100%;
+    flex: 1 1 auto;
   }
 }
   
@@ -270,6 +295,34 @@ body.splash-active {
   .form-select:focus {
     outline: none;
     border-color: #00BFFF;
+  }
+
+  .join-inline-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .join-inline-row .join-submit-group {
+    flex: 0 0 auto;
+    min-width: 150px;
+  }
+
+  .join-submit-btn {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    font-size: 1rem;
+    background-color: #00BFFF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .join-submit-btn:hover {
+    background-color: #009ACD;
   }
 
   .form-sub-label {
@@ -873,7 +926,6 @@ body.splash-active {
       width: 100%;
       font-size: 4vw;
       padding: 1rem;
-      margin-bottom: 1rem;
     }
     .win-conditions-grid {
       grid-template-columns: 1fr !important;

@@ -17,6 +17,17 @@ require('dotenv').config();
 const packageJson = require('./package.json');
 const { checkWin } = require('./utils/checkWin');
 const {
+  translate,
+  translateItemText,
+  translateTaskText,
+  getClientTranslations,
+  getSupportedLocalesMeta,
+  resolveLocale,
+  isSupportedLocale,
+  normalizeLocale,
+  DEFAULT_LOCALE
+} = require('./utils/i18n');
+const {
   MIN_POOL_SIZE,
   getBingoTasksMeta,
   getCategoryPool,
@@ -32,6 +43,8 @@ const CAPTCHA_TYPES = {
   CREATE_GAME: 'createGame',
   CARD_BUILDER: 'cardBuilder'
 };
+const LOCALE_COOKIE_NAME = 'locale';
+const LOCALE_COOKIE_MAX_AGE = 365 * 24 * 60 * 60 * 1000; // 1 year
 
 // In-memory flags and voting state
 const flagsLeft = {}; // playerId -> remaining flags
@@ -166,16 +179,114 @@ app.use(sessionMiddleware);
 io.use((socket, next) => sessionMiddleware(socket.request, socket.request.res || {}, next));
 
 app.use((req, res, next) => {
+  const { locale, source } = determineRequestLocale(req);
+  if (source === 'query') {
+    persistLocalePreference(req, res, locale);
+  }
+  req.locale = locale;
+  res.locals.locale = locale;
+  res.locals.availableLocales = getSupportedLocalesMeta();
+  res.locals.t = (key, vars) => translate(locale, key, vars);
+  res.locals.translateItem = (text) => translateItemText(locale, text);
+  res.locals.translateTask = (taskId, fallback) => translateTaskText(locale, taskId, fallback);
+  res.locals.getClientTranslations = (namespaces = []) => getClientTranslations(locale, namespaces);
+  next();
+});
+
+app.use((req, res, next) => {
   if (req.session && !req.session.csrfToken) {
     req.session.csrfToken = crypto.randomBytes(32).toString('hex');
   }
   res.locals.assetVersion = app.locals.assetVersion;
   res.locals.enableServiceWorker = app.locals.enableServiceWorker;
   res.locals.csrfToken = req.session?.csrfToken || '';
+  res.locals.currentPath = req.originalUrl || '/';
   next();
 });
 
 const actionCooldowns = new Map();
+
+function parseCookies(header = '') {
+  if (!header) return {};
+  return header.split(';').reduce((acc, part) => {
+    const [rawName, ...rest] = part.trim().split('=');
+    if (!rawName) {
+      return acc;
+    }
+    const name = rawName.trim();
+    const value = rest.length ? rest.join('=') : '';
+    acc[name] = decodeURIComponent(value || '');
+    return acc;
+  }, {});
+}
+
+function getLocaleFromAcceptLanguage(header = '') {
+  if (!header) return '';
+  const candidates = header.split(',')
+    .map((segment) => {
+      const [langPart, weightPart] = segment.trim().split(';q=');
+      const lang = normalizeLocale(langPart);
+      const weight = weightPart ? parseFloat(weightPart) : 1;
+      return {
+        lang,
+        weight: Number.isNaN(weight) ? 1 : weight
+      };
+    })
+    .filter(({ lang }) => isSupportedLocale(lang))
+    .sort((a, b) => b.weight - a.weight);
+  return candidates.length ? candidates[0].lang : '';
+}
+
+function determineRequestLocale(req) {
+  const queryLocale = normalizeLocale(req.query?.lang);
+  if (isSupportedLocale(queryLocale)) {
+    return { locale: queryLocale, source: 'query' };
+  }
+
+  const sessionLocale = normalizeLocale(req.session?.locale);
+  if (isSupportedLocale(sessionLocale)) {
+    return { locale: sessionLocale, source: 'session' };
+  }
+
+  const cookies = parseCookies(req.headers?.cookie || '');
+  const cookieLocale = normalizeLocale(cookies[LOCALE_COOKIE_NAME]);
+  if (isSupportedLocale(cookieLocale)) {
+    return { locale: cookieLocale, source: 'cookie' };
+  }
+
+  const headerLocale = getLocaleFromAcceptLanguage(req.get('accept-language'));
+  if (headerLocale) {
+    return { locale: headerLocale, source: 'header' };
+  }
+
+  return { locale: DEFAULT_LOCALE, source: 'default' };
+}
+
+function persistLocalePreference(req, res, locale) {
+  if (req.session) {
+    req.session.locale = locale;
+  }
+  res.cookie(LOCALE_COOKIE_NAME, locale, {
+    maxAge: LOCALE_COOKIE_MAX_AGE,
+    sameSite: 'lax'
+  });
+}
+
+function sanitizeReturnPath(pathValue) {
+  if (typeof pathValue === 'string' && pathValue.startsWith('/') && !pathValue.startsWith('//')) {
+    return pathValue;
+  }
+  return '/';
+}
+
+function normalizeMetaKey(value = '') {
+  return value
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_|_$/g, '');
+}
 
 function sendCsrfError(req, res) {
   const message = 'Invalid or missing security token.';
@@ -194,6 +305,20 @@ function csrfProtection(req, res, next) {
   }
   return next();
 }
+
+app.post('/set-locale', csrfProtection, (req, res) => {
+  const requestedLocale = normalizeLocale(req.body?.locale);
+  const returnTo = sanitizeReturnPath(req.body?.returnTo || req.get('referer') || '/');
+  if (isSupportedLocale(requestedLocale)) {
+    persistLocalePreference(req, res, requestedLocale);
+    req.locale = requestedLocale;
+  }
+  if (req.session) {
+    req.session.save(() => res.redirect(returnTo));
+  } else {
+    res.redirect(returnTo);
+  }
+});
 
 function isOnCooldown(playerId, action, durationMs) {
   if (!playerId) return true;
@@ -653,10 +778,12 @@ app.put('/api/card-collections/:code', cardWriteLimiter, csrfProtection, async (
 // Provide default Tokyo Cam Bingo deck
 app.get('/api/default-card', (req, res) => {
   try {
+    const locale = req.locale || 'en';
+    const localizedItems = itemsList.map((item) => translateItemText(locale, item));
     res.json({
-      name: 'Tokyo Cam Bingo',
-      items: itemsList,
-      itemCount: itemsList.length
+      name: translate(locale, 'home.bingoDefaultOption'),
+      items: localizedItems,
+      itemCount: localizedItems.length
     });
   } catch (error) {
     console.error('Error loading default card:', error);
@@ -668,8 +795,28 @@ app.get('/api/default-card', (req, res) => {
 app.get('/api/bingo-tasks/meta', (req, res) => {
   try {
     const meta = getBingoTasksMeta();
+    const locale = req.locale || 'en';
+    const translateLabel = (value) => {
+      const normalized = normalizeMetaKey(value);
+      if (!normalized) return value;
+      const key = `bingo.meta.${normalized}`;
+      const translated = translate(locale, key);
+      if (translated && translated !== key) {
+        return translated;
+      }
+      return value;
+    };
+    const categories = meta.categories.map((category) => ({
+      ...category,
+      label: translateLabel(category.label || category.value)
+    }));
+    const games = meta.games.map((game) => ({
+      ...game,
+      label: translateLabel(game.label || game.value)
+    }));
     res.json({
-      ...meta,
+      categories,
+      games,
       minItems: MIN_POOL_SIZE
     });
   } catch (error) {
@@ -686,20 +833,21 @@ app.get('/api/bingo-tasks/pool', (req, res) => {
       return res.status(400).json({ error: 'type query parameter is required' });
     }
 
-    let items = [];
+    const locale = req.locale || 'en';
+    let entries = [];
     let label = '';
     if (type === 'all') {
-      items = getAllTasksPool();
+      entries = getAllTasksPool();
       label = 'All Bingo Tasks';
     } else if (type === 'category') {
       if (!value) return res.status(400).json({ error: 'value parameter required for category type' });
-      items = getCategoryPool(value);
+      entries = getCategoryPool(value);
       const meta = getBingoTasksMeta();
       const bucket = meta.categories.find(cat => cat.value === value);
       label = bucket ? bucket.label : value;
     } else if (type === 'game') {
       if (!value) return res.status(400).json({ error: 'value parameter required for game type' });
-      items = getGamePool(value);
+      entries = getGamePool(value);
       const meta = getBingoTasksMeta();
       const bucket = meta.games.find(game => game.value === value);
       label = bucket ? bucket.label : value;
@@ -707,9 +855,15 @@ app.get('/api/bingo-tasks/pool', (req, res) => {
       return res.status(400).json({ error: 'Invalid type parameter' });
     }
 
-    if (!items || items.length < MIN_POOL_SIZE) {
+    if (!entries || entries.length < MIN_POOL_SIZE) {
       return res.status(404).json({ error: 'Preset does not have enough items to build a card' });
     }
+
+    const items = entries.map((entry) => ({
+      id: entry.id,
+      text: translateTaskText(locale, entry, entry.text),
+      rawText: entry.text
+    }));
 
     res.json({
       type,
@@ -804,33 +958,34 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
     const presetChoice = (bingoCardPreset || 'default').toLowerCase();
     const categoryValue = (bingoCategory || '').trim();
     const gameValue = (bingoGame || '').trim();
+    const locale = req.locale || 'en';
 
     if (presetChoice === 'category') {
       if (!categoryValue) {
         return res.status(400).send('Please select a bingo task category.');
       }
-      const pool = getCategoryPool(categoryValue);
-      if (!pool.length || pool.length < MIN_POOL_SIZE) {
+      const entries = getCategoryPool(categoryValue);
+      if (!entries.length || entries.length < MIN_POOL_SIZE) {
         return res.status(400).send(`Selected category does not have enough prompts (need ${MIN_POOL_SIZE}).`);
       }
-      customItems = pool;
+      customItems = entries.map((entry) => translateTaskText(locale, entry, entry.text));
       cardPresetDetails = { type: 'category', value: categoryValue };
     } else if (presetChoice === 'game') {
       if (!gameValue) {
         return res.status(400).send('Please select a bingo task game.');
       }
-      const pool = getGamePool(gameValue);
-      if (!pool.length || pool.length < MIN_POOL_SIZE) {
+      const entries = getGamePool(gameValue);
+      if (!entries.length || entries.length < MIN_POOL_SIZE) {
         return res.status(400).send(`Selected game does not have enough prompts (need ${MIN_POOL_SIZE}).`);
       }
-      customItems = pool;
+      customItems = entries.map((entry) => translateTaskText(locale, entry, entry.text));
       cardPresetDetails = { type: 'game', value: gameValue };
     } else if (presetChoice === 'all') {
-      const pool = getAllTasksPool();
-      if (!pool.length || pool.length < MIN_POOL_SIZE) {
+      const entries = getAllTasksPool();
+      if (!entries.length || entries.length < MIN_POOL_SIZE) {
         return res.status(400).send('Not enough bingo tasks available to build a deck.');
       }
-      customItems = pool;
+      customItems = entries.map((entry) => translateTaskText(locale, entry, entry.text));
       cardPresetDetails = { type: 'all', value: 'all' };
     }
   }

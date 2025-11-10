@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Create Custom Card - Tokyo Cam Bingo</title>
+  <title><%= t('cardBuilder.pageTitle') %></title>
 
   <!-- PWA Meta Tags -->
-  <meta name="description" content="Create custom bingo cards for Tokyo Cam Bingo">
+  <meta name="description" content="<%= t('cardBuilder.metaDescription') %>">
   <meta name="theme-color" content="#FF69B4">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -530,110 +530,113 @@
     }
   </style>
 </head>
-<body data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>">
+<body class="has-global-top-bar" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>">
+  <div class="global-top-bar">
+    <%- include('partials/locale-switcher') %>
+  </div>
   <div class="card-builder-container">
-    <a href="/" class="back-link">← Back to Home</a>
+    <a href="/" class="back-link">← <%= t('actions.backToHome') %></a>
 
     <div class="builder-header">
-      <h1>Create Custom Bingo Card</h1>
-      <p>Add at least 25 items to create your custom card</p>
+      <h1><%= t('cardBuilder.header') %></h1>
+      <p><%= t('cardBuilder.subheader') %></p>
     </div>
 
     <div class="builder-form">
-      <div class="builder-tabs" role="tablist" aria-label="Card builder modes">
+      <div class="builder-tabs" role="tablist" aria-label="<%= t('cardBuilder.tabsAriaLabel') %>">
         <button type="button" class="builder-tab active" id="tab-btn-build" data-tab="build" role="tab" aria-controls="tab-build" aria-selected="true">
-          Create New Card
+          <%= t('cardBuilder.tabs.create') %>
         </button>
         <button type="button" class="builder-tab" id="tab-btn-template" data-tab="template" role="tab" aria-controls="tab-template" aria-selected="false">
-          Start From Deck
+          <%= t('cardBuilder.tabs.template') %>
         </button>
         <button type="button" class="builder-tab" id="tab-btn-existing" data-tab="existing" role="tab" aria-controls="tab-existing" aria-selected="false">
-          Edit Saved Card
+          <%= t('cardBuilder.tabs.edit') %>
         </button>
       </div>
 
       <div class="tab-panel active" id="tab-build" role="tabpanel" aria-labelledby="tab-btn-build">
         <div class="form-group">
-          <label for="collection-name">Card Name</label>
-          <input type="text" id="collection-name" placeholder="e.g., Tokyo Night Edition" required>
-          <div class="helper-text">Need a starting point? Load a deck in the other tabs, then come back to customize.</div>
+          <label for="collection-name"><%= t('cardBuilder.collectionNameLabel') %></label>
+          <input type="text" id="collection-name" placeholder="<%= t('cardBuilder.collectionNamePlaceholder') %>" required>
+          <div class="helper-text"><%= t('cardBuilder.collectionHelper') %></div>
         </div>
 
         <div class="items-section">
-          <label>Items (minimum 25)</label>
-          <div class="item-count" id="item-count">0 items added</div>
+          <label><%= t('cardBuilder.itemsLabel') %></label>
+          <div class="item-count" id="item-count"><%= t('cardBuilder.itemsCount', { count: 0 }) %></div>
 
           <div class="items-list" id="items-list">
             <!-- Items will be added here dynamically -->
           </div>
 
-          <button type="button" class="add-item-btn" onclick="addItemRow()">+ Add Item</button>
+          <button type="button" class="add-item-btn" onclick="addItemRow()">+ <%= t('actions.addItem') %></button>
         </div>
 
         <div class="form-group captcha-group">
-          <label>Human Check</label>
-          <div class="helper-text">Solve the question before saving your deck.</div>
+          <label><%= t('cardBuilder.captchaLabel') %></label>
+          <div class="helper-text"><%= t('cardBuilder.captchaHelper') %></div>
           <div class="captcha-wrapper" style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; margin:0.5rem 0;">
             <span id="builder-captcha-question" style="font-weight:600;">
-              <%= cardCaptchaQuestion || 'Solve the challenge' %>
+              <%= cardCaptchaQuestion || t('cardBuilder.captchaQuestionFallback') %>
             </span>
             <button type="button" class="secondary-button" onclick="refreshBuilderCaptcha(event)" style="padding:0.35rem 0.75rem;">
               ↻
             </button>
           </div>
-          <input type="text" id="captcha-answer" placeholder="Enter the answer above" autocomplete="off">
+          <input type="text" id="captcha-answer" placeholder="<%= t('cardBuilder.captchaPlaceholder') %>" autocomplete="off">
         </div>
 
         <button type="button" class="save-btn" id="save-btn" onclick="saveCollection()" disabled>
-          Save Custom Card
+          <%= t('cardBuilder.saveButton') %>
         </button>
       </div>
 
       <div class="tab-panel" id="tab-template" role="tabpanel" aria-labelledby="tab-btn-template" hidden>
         <div class="form-group template-section" style="margin-bottom: 0;">
-          <label for="template-preset">Optional: Prefill From an Existing Deck</label>
-          <div class="helper-text">Load any built-in deck or one of your codes to jump-start editing. We’ll bring you back to the builder once it loads.</div>
+          <label for="template-preset"><%= t('cardBuilder.templateSectionLabel') %></label>
+          <div class="helper-text"><%= t('cardBuilder.templateSectionHelper') %></div>
           <div class="preset-select-row">
             <select id="template-preset" class="form-select">
-              <option value="">-- Choose a preset --</option>
-              <option value="default">Tokyo Cam Bingo (default)</option>
-              <option value="category">Bingo Tasks · by Category</option>
-              <option value="game">Bingo Tasks · by Game</option>
-              <option value="all">Mix All Bingo Tasks</option>
+              <option value=""><%= t('cardBuilder.templatePlaceholder') %></option>
+              <option value="default"><%= t('home.bingoDefaultOption') %></option>
+              <option value="category"><%= t('home.bingoCategoryOption') %></option>
+              <option value="game"><%= t('home.bingoGameOption') %></option>
+              <option value="all"><%= t('home.bingoAllOption') %></option>
             </select>
           </div>
           <div id="template-category-wrapper" class="preset-detail" style="display: none;">
-            <label class="form-sub-label" for="templateCategory">Choose a category</label>
+            <label class="form-sub-label" for="templateCategory"><%= t('home.bingoCategoryLabel') %></label>
             <select id="templateCategory" class="form-select" disabled>
-              <option value="">Loading categories…</option>
+              <option value=""><%= t('home.loadingCategories') %></option>
             </select>
           </div>
           <div id="template-game-wrapper" class="preset-detail" style="display: none;">
-            <label class="form-sub-label" for="templateGame">Choose a game</label>
+            <label class="form-sub-label" for="templateGame"><%= t('home.bingoGameLabel') %></label>
             <select id="templateGame" class="form-select" disabled>
-              <option value="">Loading games…</option>
+              <option value=""><%= t('home.loadingGames') %></option>
             </select>
           </div>
           <div id="template-load-row" class="preset-load-row" hidden>
-            <button type="button" id="load-preset-btn" class="secondary-button" style="min-width: 160px;">Load Deck</button>
+            <button type="button" id="load-preset-btn" class="secondary-button" style="min-width: 160px;"><%= t('cardBuilder.templateLoadButton') %></button>
           </div>
           <div id="template-status" class="helper-text muted"></div>
-          <div class="template-divider">or</div>
-          <div class="helper-text" style="margin-bottom: 0.5rem;">Duplicate one of your saved cards (new code will be generated)</div>
+          <div class="template-divider"><%= t('cardBuilder.templateDivider') %></div>
+          <div class="helper-text" style="margin-bottom: 0.5rem;"><%= t('cardBuilder.templateDuplicateHelper') %></div>
           <div class="template-code-row">
-            <input type="text" id="template-card-code" placeholder="Enter card code to duplicate" maxlength="6">
-            <button type="button" id="load-template-code-btn" class="secondary-button" style="min-width: 180px;">Load As Template</button>
+            <input type="text" id="template-card-code" placeholder="<%= t('cardBuilder.templateCodePlaceholder') %>" maxlength="6">
+            <button type="button" id="load-template-code-btn" class="secondary-button" style="min-width: 180px;"><%= t('cardBuilder.templateCodeButton') %></button>
           </div>
         </div>
       </div>
 
       <div class="tab-panel" id="tab-existing" role="tabpanel" aria-labelledby="tab-btn-existing" hidden>
         <div class="form-group" style="background: #F0F8FF; padding: 1rem; border-radius: 8px; margin-bottom: 0;">
-          <label for="load-card-code">Edit a Saved Card</label>
-          <div class="helper-text">Enter the six-letter code for a card you created earlier. We’ll load it so you can update and resave.</div>
+          <label for="load-card-code"><%= t('cardBuilder.existingSectionLabel') %></label>
+          <div class="helper-text"><%= t('cardBuilder.existingSectionHelper') %></div>
           <div style="display: flex; gap: 0.5rem; align-items: center;">
-            <input type="text" id="load-card-code" placeholder="Enter card code to edit" maxlength="6" style="flex: 1; text-transform: uppercase;">
-            <button type="button" onclick="loadCard()" style="background-color: #10B981; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; white-space: nowrap;">Load Card</button>
+            <input type="text" id="load-card-code" placeholder="<%= t('cardBuilder.existingCodePlaceholder') %>" maxlength="6" style="flex: 1; text-transform: uppercase;">
+            <button type="button" onclick="loadCard()" style="background-color: #10B981; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; white-space: nowrap;"><%= t('cardBuilder.existingLoadButton') %></button>
           </div>
           <div id="load-card-status" class="helper-text" style="margin-top: 0.5rem;"></div>
         </div>
@@ -644,23 +647,25 @@
   <!-- Success Modal -->
   <div class="modal-overlay" id="success-modal">
     <div class="modal-card">
-      <h2>✓ Custom Card Created!</h2>
-      <p>Save this code to use your custom card when creating a game:</p>
+      <h2><%= t('cardBuilder.successTitle') %></h2>
+      <p><%= t('cardBuilder.successBody') %></p>
 
       <div class="code-display">
         <div class="code-text" id="card-code"></div>
       </div>
 
       <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
-        Write this code down! You'll need it to load this custom card when creating a game.
+        <%= t('cardBuilder.successHint') %>
       </p>
 
-      <button class="copy-code-btn" onclick="copyCode()">Copy Code</button>
-      <button class="home-btn" onclick="window.location.href='/'">Go to Home</button>
+      <button class="copy-code-btn" onclick="copyCode()"><%= t('actions.copyCode') %></button>
+      <button class="home-btn" onclick="window.location.href='/'"><%= t('cardBuilder.successHomeButton') %></button>
     </div>
   </div>
 
-  <script>
+  <%- include('partials/i18n-script', { namespaces: ['cardBuilder', 'alerts', 'home'] }) %>
+<script>
+    const translateText = (key, vars) => (typeof window.t === 'function' ? window.t(key, vars) : key);
     const templatePresetSelect = document.getElementById('template-preset');
     const templateCategoryWrapper = document.getElementById('template-category-wrapper');
     const templateCategorySelect = document.getElementById('templateCategory');
@@ -682,6 +687,13 @@
 
     let itemIndex = 0;
     let editingCardCode = null; // Track if we're editing an existing card
+    function normalizeTaskValue(item) {
+      if (typeof item === 'string') return item;
+      if (item && typeof item === 'object') {
+        return item.text || item.rawText || item.id || '';
+      }
+      return '';
+    }
 
     if (templatePresetSelect) {
       templatePresetSelect.addEventListener('change', handleTemplatePresetChange);
@@ -719,13 +731,13 @@
       try {
         if (trigger) trigger.disabled = true;
         const response = await fetch('/api/captcha/cardBuilder');
-        if (!response.ok) throw new Error('Failed to refresh captcha');
+        if (!response.ok) throw new Error(translateText('cardBuilder.errors.captchaRefresh'));
         const data = await response.json();
-        builderCaptchaQuestionEl.textContent = data.question || 'Solve the challenge';
+        builderCaptchaQuestionEl.textContent = data.question || translateText('cardBuilder.captchaQuestionFallback');
         if (builderCaptchaInput) builderCaptchaInput.value = '';
       } catch (error) {
         console.error('captcha refresh failed', error);
-        builderCaptchaQuestionEl.textContent = 'Error loading challenge';
+        builderCaptchaQuestionEl.textContent = translateText('cardBuilder.messages.captchaLoadError');
       } finally {
         if (trigger) trigger.disabled = false;
       }
@@ -785,7 +797,7 @@
     async function fetchJson(url) {
       const response = await fetch(url);
       if (!response.ok) {
-        let message = 'Request failed';
+        let message = translateText('errors.generic');
         try {
           const errorData = await response.json();
           message = errorData.error || message;
@@ -823,8 +835,8 @@
       if (bingoMetaCache) return bingoMetaCache;
       const data = await fetchJson('/api/bingo-tasks/meta');
       bingoMetaCache = data;
-      populateTemplateSelect(templateCategorySelect, data.categories || [], 'Select a category');
-      populateTemplateSelect(templateGameSelect, data.games || [], 'Select a game');
+          populateTemplateSelect(templateCategorySelect, data.categories || [], translateText('home.bingoCategoryPlaceholder'));
+          populateTemplateSelect(templateGameSelect, data.games || [], translateText('home.bingoGamePlaceholder'));
       return data;
     }
 
@@ -832,10 +844,10 @@
       if (!templatePresetSelect) return;
       const preset = templatePresetSelect.value;
       if (!preset) {
-        setTemplateStatus('Please choose a preset to load.', true);
+        setTemplateStatus(translateText('cardBuilder.messages.presetRequired'), true);
         return;
       }
-      setTemplateStatus('Loading deck...');
+      setTemplateStatus(translateText('cardBuilder.messages.loadingDeck'));
       try {
         let data;
         if (preset === 'default') {
@@ -846,7 +858,7 @@
           await loadBingoMeta();
           const categoryValue = templateCategorySelect.value;
           if (!categoryValue) {
-            setTemplateStatus('Please select a category to load.', true);
+            setTemplateStatus(translateText('cardBuilder.messages.selectCategory'), true);
             return;
           }
           data = await fetchJson(`/api/bingo-tasks/pool?type=category&value=${encodeURIComponent(categoryValue)}`);
@@ -854,12 +866,12 @@
           await loadBingoMeta();
           const gameValue = templateGameSelect.value;
           if (!gameValue) {
-            setTemplateStatus('Please select a game to load.', true);
+            setTemplateStatus(translateText('cardBuilder.messages.selectGame'), true);
             return;
           }
           data = await fetchJson(`/api/bingo-tasks/pool?type=game&value=${encodeURIComponent(gameValue)}`);
         } else {
-          setTemplateStatus('Unsupported preset type.', true);
+          setTemplateStatus(translateText('cardBuilder.messages.unsupportedPreset'), true);
           return;
         }
 
@@ -871,11 +883,14 @@
           suggestedName: `${data.label || data.name || 'Custom Card'} Remix`,
           forceName: true
         });
-        setTemplateStatus(`Loaded ${data.label || data.name} (${data.itemCount} items). Save to create a new code.`);
+        setTemplateStatus(translateText('cardBuilder.messages.loadedPreset', {
+          name: data.label || data.name,
+          count: data.itemCount
+        }));
         document.getElementById('items-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
         switchTab('build');
       } catch (error) {
-        setTemplateStatus(error.message || 'Failed to load deck.', true);
+        setTemplateStatus(error.message || translateText('cardBuilder.errors.loadPreset'), true);
       }
     }
 
@@ -883,10 +898,10 @@
       if (!templateCodeInput) return;
       const code = templateCodeInput.value.trim().toUpperCase();
       if (code.length !== 6) {
-        setTemplateStatus('Enter a valid 6-letter card code to duplicate.', true);
+        setTemplateStatus(translateText('cardBuilder.messages.duplicateCodeInvalid'), true);
         return;
       }
-      setTemplateStatus(`Loading card ${code}...`);
+      setTemplateStatus(translateText('cardBuilder.messages.loadingCard', { code }));
       try {
         const data = await fetchJson(`/api/card-collections/${code}`);
         applyTemplateFromData({
@@ -897,30 +912,34 @@
           suggestedName: `${data.name} Remix`,
           forceName: true
         });
-        setTemplateStatus(`Loaded ${data.name} (${data.items.length} items). Saving will create a new code.`);
+        setTemplateStatus(translateText('cardBuilder.messages.loadedCard', {
+          name: data.name,
+          count: data.items.length
+        }));
         document.getElementById('items-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
         switchTab('build');
       } catch (error) {
-        setTemplateStatus(error.message || 'Failed to load card.', true);
+        setTemplateStatus(error.message || translateText('cardBuilder.errors.loadCard'), true);
       }
     }
 
     function applyTemplateFromData(data, options = {}) {
       if (!data || !Array.isArray(data.items) || !data.items.length) {
-        throw new Error('Preset did not return any items.');
+        throw new Error(translateText('cardBuilder.messages.presetEmpty'));
       }
       const itemsList = document.getElementById('items-list');
       itemsList.innerHTML = '';
       itemIndex = 0;
-      data.items.forEach(item => addItemRowWithValue(item));
+      data.items.forEach(item => addItemRowWithValue(normalizeTaskValue(item)));
       editingCardCode = null;
       const saveBtn = document.getElementById('save-btn');
       if (saveBtn) {
-        saveBtn.textContent = 'Save Custom Card';
+        saveBtn.textContent = translateText('cardBuilder.saveButton');
       }
       const nameInput = document.getElementById('collection-name');
       if (nameInput && (options.forceName || !nameInput.value.trim())) {
-        nameInput.value = options.suggestedName || `${data.label || data.name || 'Custom Card'} Remix`;
+    const baseName = data.label || data.name || translateText('cardBuilder.defaultCardName');
+    nameInput.value = options.suggestedName || translateText('cardBuilder.messages.remixName', { name: baseName });
       }
       updateCount();
     }
@@ -957,7 +976,7 @@
       const statusEl = document.getElementById('load-card-status');
 
       if (code.length !== 6) {
-        statusEl.textContent = 'Please enter a valid 6-character code';
+    statusEl.textContent = translateText('cardBuilder.messages.loadCodeInvalid');
         statusEl.style.color = '#EF4444';
         return;
       }
@@ -966,7 +985,7 @@
         const response = await fetch(`/api/card-collections/${code}`);
 
         if (!response.ok) {
-          statusEl.textContent = '✗ Card not found';
+        statusEl.textContent = `✗ ${translateText('cardBuilder.messages.cardNotFound')}`;
           statusEl.style.color = '#EF4444';
           return;
         }
@@ -989,16 +1008,16 @@
         editingCardCode = code;
 
         // Update button text
-        document.getElementById('save-btn').textContent = 'Update Custom Card';
+        document.getElementById('save-btn').textContent = translateText('cardBuilder.updateButton');
 
-        statusEl.textContent = `✓ Loaded "${cardData.name}" (${cardData.itemCount} items)`;
+        statusEl.textContent = `✓ ${translateText('cardBuilder.messages.cardLoaded', { name: cardData.name, count: cardData.itemCount })}`;
         statusEl.style.color = '#10B981';
         switchTab('build');
         document.getElementById('items-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
       } catch (error) {
         console.error('Error loading card:', error);
-        statusEl.textContent = '✗ Error loading card';
+        statusEl.textContent = `✗ ${translateText('cardBuilder.messages.cardLoadError')}`;
         statusEl.style.color = '#EF4444';
       }
     }
@@ -1016,12 +1035,12 @@
       const input = document.createElement('input');
       input.type = 'text';
       input.id = `item-${currentIndex}`;
-      input.placeholder = 'Enter item name';
+      input.placeholder = translateText('cardBuilder.messages.itemPlaceholder');
       input.value = value || '';
       input.addEventListener('input', updateCount);
 
       const removeButton = document.createElement('button');
-      removeButton.textContent = 'Remove';
+      removeButton.textContent = translateText('cardBuilder.messages.removeItem');
       removeButton.addEventListener('click', () => removeItemRow(row.id));
 
       row.appendChild(itemNumber);
@@ -1033,7 +1052,7 @@
 
     function addItemRowWithValue(value) {
       const itemsList = document.getElementById('items-list');
-      const { row } = buildItemRow(value);
+      const { row } = buildItemRow(normalizeTaskValue(value));
       itemsList.appendChild(row);
       itemIndex++;
       updateCount();
@@ -1086,22 +1105,22 @@
 
     function updateCount() {
       const items = getItems();
-      const count = items.length;
-      const countEl = document.getElementById('item-count');
-      const saveBtn = document.getElementById('save-btn');
+    const count = items.length;
+    const countEl = document.getElementById('item-count');
+    const saveBtn = document.getElementById('save-btn');
 
-      countEl.textContent = `${count} items added`;
+    countEl.textContent = translateText('cardBuilder.itemsCount', { count });
 
-      if (count < 25) {
-        countEl.className = 'item-count error';
-        countEl.textContent = `${count} items added (need at least 25)`;
-        saveBtn.disabled = true;
-      } else {
-        countEl.className = 'item-count success';
-        countEl.textContent = `${count} items added ✓`;
-        saveBtn.disabled = false;
-      }
+    if (count < 25) {
+      countEl.className = 'item-count error';
+      countEl.textContent = translateText('cardBuilder.itemsCountNeed', { count });
+      saveBtn.disabled = true;
+    } else {
+      countEl.className = 'item-count success';
+      countEl.textContent = translateText('cardBuilder.itemsCountReady', { count });
+      saveBtn.disabled = false;
     }
+  }
 
     function getItems() {
       const items = [];
@@ -1123,24 +1142,24 @@
       const captchaAnswer = builderCaptchaInput ? builderCaptchaInput.value.trim() : '';
 
       if (!name) {
-        alert('Please enter a card name');
+        alert(translateText('cardBuilder.errors.nameRequired'));
         return;
       }
 
       if (items.length < 25) {
-        alert('Please add at least 25 items');
+        alert(translateText('cardBuilder.errors.itemsRequired'));
         return;
       }
 
       if (!captchaAnswer) {
-        alert('Please solve the human check before saving.');
+        alert(translateText('cardBuilder.errors.captchaRequired'));
         return;
       }
 
       // Disable button during save
       const saveBtn = document.getElementById('save-btn');
       saveBtn.disabled = true;
-      saveBtn.textContent = 'Saving...';
+      saveBtn.textContent = translateText('cardBuilder.messages.saving');
 
       try {
         let response;
@@ -1169,7 +1188,7 @@
 
         if (!response.ok) {
           const error = await response.json();
-          throw new Error(error.error || 'Failed to save card');
+          throw new Error(error.error || translateText('cardBuilder.errors.saveFailed'));
         }
 
         const data = await response.json();
@@ -1181,9 +1200,9 @@
         refreshBuilderCaptcha();
 
       } catch (error) {
-        alert('Error saving card: ' + error.message);
+        alert(`${translateText('cardBuilder.errors.saveFailed')}: ${error.message}`);
         saveBtn.disabled = false;
-        saveBtn.textContent = editingCardCode ? 'Update Custom Card' : 'Save Custom Card';
+        saveBtn.textContent = editingCardCode ? translateText('cardBuilder.updateButton') : translateText('cardBuilder.saveButton');
       }
     }
 
@@ -1192,7 +1211,7 @@
       navigator.clipboard.writeText(code).then(() => {
         const btn = event.target;
         const originalText = btn.textContent;
-        btn.textContent = 'Copied!';
+        btn.textContent = translateText('cardBuilder.messages.copied');
         setTimeout(() => {
           btn.textContent = originalText;
         }, 2000);

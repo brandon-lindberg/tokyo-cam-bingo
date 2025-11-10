@@ -1,4 +1,5 @@
 (function(){
+  const translateText = (key, vars) => (typeof window.t === 'function' ? window.t(key, vars) : key);
   let currentVote = null;
   let autoCloseTimer = null;
 
@@ -27,8 +28,8 @@
 
   socket.on('start_vote', ({ flaggerId, flaggerName, targetPlayerId, targetPlayerName, row, col }) => {
     currentVote = { flaggerId, targetPlayerId, row, col };
-    voteMessage.textContent = `Flag thrown by ${flaggerName} on ${targetPlayerName}`;
-    voteCountEl.textContent = 'Votes: 0 yes, 0 no';
+    voteMessage.textContent = translateText('game.voteModal.message', { flagger: flaggerName, target: targetPlayerName });
+    voteCountEl.textContent = translateText('game.voteModal.count', { yes: 0, no: 0 });
     voteResultEl.style.display = 'none';
     voteButtons.style.display = 'flex';
     voteYesBtn.disabled = false;
@@ -36,13 +37,13 @@
     showModal();
   });
 
-  socket.on('vote_update', ({ votesFor, votesAgainst, votesCast, totalPlayers }) => {
-    voteCountEl.textContent = `Votes: ${votesFor} yes, ${votesAgainst} no`;
+  socket.on('vote_update', ({ votesFor, votesAgainst }) => {
+    voteCountEl.textContent = translateText('game.voteModal.count', { yes: votesFor, no: votesAgainst });
   });
 
   socket.on('vote_result', ({ success, votes }) => {
     voteButtons.style.display = 'none';
-    voteOutcomeEl.textContent = success ? 'Vote passed!' : 'Vote failed!';
+    voteOutcomeEl.textContent = success ? translateText('game.voteModal.passed') : translateText('game.voteModal.failed');
     voteOutcomeEl.className = 'modal-subtitle';
     voteOutcomeEl.classList.add('badge', success ? 'success' : 'error');
     voteDetailsUl.innerHTML = '';
@@ -55,7 +56,7 @@
       label.textContent = name;
       const pill = document.createElement('span');
       pill.className = `vote-pill ${v === 'yes' ? 'vote-yes' : 'vote-no'}`;
-      pill.textContent = v ? v.toUpperCase() : '—';
+      pill.textContent = v ? translateText(v === 'yes' ? 'game.voteModal.yes' : 'game.voteModal.no') : '—';
       li.appendChild(label);
       li.appendChild(pill);
       voteDetailsUl.appendChild(li);

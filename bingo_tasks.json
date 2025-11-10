@@ -453,7 +453,7 @@
     "id": "OW-026",
     "game": "Any",
     "category": "open_world",
-    "task": "Ride A→B nonstop"
+    "task": "Ride A\u2192B nonstop"
   },
   {
     "id": "OW-027",
@@ -1329,7 +1329,7 @@
     "id": "NIN-022",
     "game": "Nintendo",
     "category": "nintendo",
-    "task": "Luigi’s Mansion: Boo found"
+    "task": "Luigi\u2019s Mansion: Boo found"
   },
   {
     "id": "NIN-023",
@@ -3783,7 +3783,7 @@
     "id": "CARD-031",
     "game": "Any",
     "category": "card_games",
-    "task": "Perfect curve 1–5"
+    "task": "Perfect curve 1\u20135"
   },
   {
     "id": "CARD-032",
@@ -3819,7 +3819,7 @@
     "id": "CARD-037",
     "game": "Any",
     "category": "card_games",
-    "task": "Win on turn 2–3"
+    "task": "Win on turn 2\u20133"
   },
   {
     "id": "CARD-038",
@@ -4497,7 +4497,7 @@
     "id": "FIGHT-050",
     "game": "Any",
     "category": "fighting_games",
-    "task": "Win set 2–0"
+    "task": "Win set 2\u20130"
   },
   {
     "id": "SURV-001",
@@ -5685,7 +5685,7 @@
     "id": "SOUL-048",
     "game": "Any",
     "category": "soulslike",
-    "task": "Legacy: ≤10 flasks used"
+    "task": "Legacy: \u226410 flasks used"
   },
   {
     "id": "SOUL-049",
@@ -6597,7 +6597,7 @@
     "id": "FPS-050",
     "game": "Any",
     "category": "fps_competitive",
-    "task": "K/D ≥1.5 + high ADR"
+    "task": "K/D \u22651.5 + high ADR"
   },
   {
     "id": "RACE-001",
@@ -6717,7 +6717,7 @@
     "id": "RACE-020",
     "game": "Any",
     "category": "racing",
-    "task": "180° hairpin clean"
+    "task": "180\u00b0 hairpin clean"
   },
   {
     "id": "RACE-021",
@@ -8102,301 +8102,301 @@
   {
     "id": "DAR-001",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Ring the first bell"
   },
   {
     "id": "DAR-002",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Ring the second bell"
   },
   {
     "id": "DAR-003",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Taurus Demon"
   },
   {
     "id": "DAR-004",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Capra Demon"
   },
   {
     "id": "DAR-005",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Gargoyles"
   },
   {
     "id": "DAR-006",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Quelaag"
   },
   {
     "id": "DAR-007",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Iron Golem"
   },
   {
     "id": "DAR-008",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Ornstein & Smough"
   },
   {
     "id": "DAR-009",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Seath"
   },
   {
     "id": "DAR-010",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Nito"
   },
   {
     "id": "DAR-011",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat 4 Kings"
   },
   {
     "id": "DAR-012",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Bed of Chaos"
   },
   {
     "id": "DAR-013",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Gwyn"
   },
   {
     "id": "DAR-014",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Parry riposte x5"
   },
   {
     "id": "DAR-015",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Backstab chain x3"
   },
   {
     "id": "DAR-016",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "No Estus boss win"
   },
   {
     "id": "DAR-017",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Kill Havel"
   },
   {
     "id": "DAR-018",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Rescue Solaire"
   },
   {
     "id": "DAR-019",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Summon Solaire to win"
   },
   {
     "id": "DAR-020",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Rescue Lautrec"
   },
   {
     "id": "DAR-021",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Free Logan"
   },
   {
     "id": "DAR-022",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Find Ash Lake"
   },
   {
     "id": "DAR-023",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Visit Painted World"
   },
   {
     "id": "DAR-024",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Sen's boulder skip"
   },
   {
     "id": "DAR-025",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Join a covenant"
   },
   {
     "id": "DAR-026",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Get Firelink warp"
   },
   {
     "id": "DAR-027",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Upgrade +10 weapon"
   },
   {
     "id": "DAR-028",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Lightning +5 weapon"
   },
   {
     "id": "DAR-029",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Kill a Black Knight"
   },
   {
     "id": "DAR-030",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Kill Hydra"
   },
   {
     "id": "DAR-031",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Gaping Dragon"
   },
   {
     "id": "DAR-032",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Trade with Snuggly"
   },
   {
     "id": "DAR-033",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Crystal lizard kill"
   },
   {
     "id": "DAR-034",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Get Dark Hand"
   },
   {
     "id": "DAR-035",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Darkwraith joined"
   },
   {
     "id": "DAR-036",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Use Power Within"
   },
   {
     "id": "DAR-037",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Chaos +2"
   },
   {
     "id": "DAR-038",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "DLC area reached"
   },
   {
     "id": "DAR-039",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Artorias"
   },
   {
     "id": "DAR-040",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Manus"
   },
   {
     "id": "DAR-041",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Kalameet"
   },
   {
     "id": "DAR-042",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Sif hitless"
   },
   {
     "id": "DAR-043",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Open shortcut"
   },
   {
     "id": "DAR-044",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Kill mimic"
   },
   {
     "id": "DAR-045",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Giant Dad cosplay"
   },
   {
     "id": "DAR-046",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Egg infection"
   },
   {
     "id": "DAR-047",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Get rite of kindling"
   },
   {
     "id": "DAR-048",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Stray Demon"
   },
   {
     "id": "DAR-049",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Beat Asylum Demon"
   },
   {
     "id": "DAR-050",
     "game": "Dark Souls",
-    "category": "Dark Souls",
+    "category": "dark souls",
     "task": "Get Covetous Serpent Ring"
   },
   {
@@ -8835,7 +8835,7 @@
     "id": "PEA-023",
     "game": "Peak",
     "category": "Peak",
-    "task": "Complete Coach’s plan"
+    "task": "Complete Coach\u2019s plan"
   },
   {
     "id": "PEA-024",
@@ -8895,7 +8895,7 @@
     "id": "PEA-033",
     "game": "Peak",
     "category": "Peak",
-    "task": "Beat yesterday’s score"
+    "task": "Beat yesterday\u2019s score"
   },
   {
     "id": "PEA-034",
@@ -9633,7 +9633,7 @@
     "id": "THE-006",
     "game": "The Legend of Zelda: A Link to the Past",
     "category": "The Legend of Zelda: A Link to the Past",
-    "task": "Beat Thieves’ Town"
+    "task": "Beat Thieves\u2019 Town"
   },
   {
     "id": "THE-007",
@@ -9687,7 +9687,7 @@
     "id": "THE-015",
     "game": "The Legend of Zelda: A Link to the Past",
     "category": "The Legend of Zelda: A Link to the Past",
-    "task": "Get Titan’s Mitts"
+    "task": "Get Titan\u2019s Mitts"
   },
   {
     "id": "THE-016",
@@ -10035,7 +10035,7 @@
     "id": "SUP-023",
     "game": "Super Mario Bros. 3",
     "category": "Super Mario Bros. 3",
-    "task": "Kuribo’s shoe used"
+    "task": "Kuribo\u2019s shoe used"
   },
   {
     "id": "SUP-024",

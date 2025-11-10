@@ -199,6 +199,26 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ### 🧩 5. Test Multiplayer
 
+---
+
+## 🌐 Translating Bingo Tasks
+
+The large `bingo_tasks.json` file stays the single source of truth. Locale-specific text lives in `locales/bingo/<locale>.json`, keyed by task `id`.
+
+1. Generate an English template with the current tasks:
+
+```bash
+yarn export:bingo
+```
+
+This writes `locales/bingo/template.en.json`, which translators can use as a reference.
+
+2. Create or update per-locale files such as `locales/bingo/ja.json`, adding only the keys you want to override. Missing keys fall back to English automatically.
+
+3. Restart the server after editing translation files—dictionaries are loaded at boot.
+
+Cards and APIs still use the canonical English text internally, so existing games remain compatible regardless of locale.
+
 * Tab 1 → Host Game
 * Tab 2+ → Join using 6-letter code
 

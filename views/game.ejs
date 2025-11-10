@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tokyo Cam Bingo</title>
+  <title><%= t('common.appName') %></title>
 
   <!-- PWA Meta Tags -->
-  <meta name="description" content="Play bingo while watching Tokyo live streams with friends">
+  <meta name="description" content="<%= t('common.tagline') %>">
   <meta name="theme-color" content="#FF69B4">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -24,12 +24,15 @@
   <script src="/js/timer.js?v=<%= assetVersion %>"></script>
   <script src="/js/game.js?v=<%= assetVersion %>"></script>
 </head>
-<body class="game-page" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>" data-game-mode="<%= game.mode %>" data-flags-enabled="<%= game.flagsEnabled %>" data-rerolls-enabled="<%= game.rerollsEnabled %>" data-player-color="<%= currentPlayer.color || '' %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-timer-enabled="<%= game.timerEnabled %>" data-timer-duration="<%= game.timerDuration || 0 %>" data-timer-status="<%= game.timerStatus || 'not_started' %>" data-timer-started-at="<%= game.timerStartedAt ? game.timerStartedAt.toISOString() : '' %>">
+<body class="game-page has-global-top-bar" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>" data-game-mode="<%= game.mode %>" data-flags-enabled="<%= game.flagsEnabled %>" data-rerolls-enabled="<%= game.rerollsEnabled %>" data-player-color="<%= currentPlayer.color || '' %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-timer-enabled="<%= game.timerEnabled %>" data-timer-duration="<%= game.timerDuration || 0 %>" data-timer-status="<%= game.timerStatus || 'not_started' %>" data-timer-started-at="<%= game.timerStartedAt ? game.timerStartedAt.toISOString() : '' %>" data-locale="<%= locale %>">
+  <div class="global-top-bar">
+    <%- include('partials/locale-switcher') %>
+  </div>
 <aside class="sidebar">
   <div class="sidebar-header">
     <div class="copy-code-wrapper">
-      <button onclick="copyGameCode()">Copy Code</button>
-      <span id="copy-confirm" style="display:block;margin-top:0.25rem;color:#4CAF50;visibility:hidden;">Code copied!</span>
+      <button onclick="copyGameCode()"><%= t('actions.copyCode') %></button>
+      <span id="copy-confirm" style="display:block;margin-top:0.25rem;color:#4CAF50;visibility:hidden;"><%= t('notifications.codeCopied') %></span>
     </div>
     <div class="chat-icon-wrapper">
       <div style="position: relative; display: inline-block;">
@@ -39,7 +42,7 @@
         <span id="chat-notification" class="notification-badge"></span>
       </div>
       <% if (game.flagsEnabled) { %>
-        <button id="flag-button" class="chat-toggle-button" title="Throw Flag">🚩</button>
+        <button id="flag-button" class="chat-toggle-button" title="<%= t('game.flagButton') %>">🚩</button>
       <% } %>
     </div>
   </div>
@@ -54,71 +57,71 @@
       </div>
       <% if (currentPlayer.isHost) { %>
         <div class="timer-controls timer-controls-desktop">
-          <button id="start-timer-btn" class="timer-control-btn timer-start-btn" onclick="startTimer()" style="display: block;">Start Game</button>
-          <button id="pause-timer-btn" class="timer-control-btn timer-pause-btn" onclick="pauseTimer()" style="display: none;">Pause</button>
-          <button id="resume-timer-btn" class="timer-control-btn timer-resume-btn" onclick="resumeTimer()" style="display: none;">Resume</button>
-          <button id="reset-timer-btn" class="timer-control-btn timer-reset-btn" onclick="resetTimer()" style="display: none;">Reset</button>
+          <button id="start-timer-btn" class="timer-control-btn timer-start-btn" onclick="startTimer()" style="display: block;"><%= t('game.timerStart') %></button>
+          <button id="pause-timer-btn" class="timer-control-btn timer-pause-btn" onclick="pauseTimer()" style="display: none;"><%= t('game.timerPause') %></button>
+          <button id="resume-timer-btn" class="timer-control-btn timer-resume-btn" onclick="resumeTimer()" style="display: none;"><%= t('game.timerResume') %></button>
+          <button id="reset-timer-btn" class="timer-control-btn timer-reset-btn" onclick="resetTimer()" style="display: none;"><%= t('game.timerReset') %></button>
         </div>
       <% } %>
     </div>
   <% } %>
 
   <div class="leaderboard-section">
-    <table id="leaderboard">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Player</th>
-          <th>Lines</th>
-          <th>Stamped Tiles</th>
-        </tr>
-      </thead>
+      <table id="leaderboard">
+        <thead>
+          <tr>
+            <th><%= t('game.leaderboardRank') %></th>
+            <th><%= t('game.leaderboardPlayer') %></th>
+            <th><%= t('game.leaderboardLines') %></th>
+            <th><%= t('game.leaderboardTiles') %></th>
+          </tr>
+        </thead>
       <tbody></tbody>
     </table>
   </div>
   <% if (currentPlayer.isHost && game.rerollsEnabled) { %>
     <div class="reroll-section">
       <div class="reroll-controls">
-        <button onclick="enterRerollMode('<%= currentPlayer.id %>')">Enter Re-roll Mode</button>
+        <button onclick="enterRerollMode('<%= currentPlayer.id %>')"><%= t('actions.enterRerollMode') %></button>
         <div id="reroll-mode-<%= currentPlayer.id %>" style="display:none;">
           <select id="reroll-type-<%= currentPlayer.id %>" onchange="handleTypeChange('<%= currentPlayer.id %>')">
-            <option value="">Select Type</option>
-            <option value="tile">Tile</option>
-            <option value="row">Row</option>
-            <option value="column">Column</option>
-            <option value="diagonal">Diagonal</option>
-            <option value="card">Whole Card</option>
-            <option value="random">Random Tile</option>
-            <option value="random_row">Random Row</option>
-            <option value="random_column">Random Column</option>
-            <option value="random_diagonal">Random Diagonal</option>
+            <option value=""><%= t('game.reroll.selectType') %></option>
+            <option value="tile"><%= t('game.reroll.options.tile') %></option>
+            <option value="row"><%= t('game.reroll.options.row') %></option>
+            <option value="column"><%= t('game.reroll.options.column') %></option>
+            <option value="diagonal"><%= t('game.reroll.options.diagonal') %></option>
+            <option value="card"><%= t('game.reroll.options.card') %></option>
+            <option value="random"><%= t('game.reroll.options.randomTile') %></option>
+            <option value="random_row"><%= t('game.reroll.options.randomRow') %></option>
+            <option value="random_column"><%= t('game.reroll.options.randomColumn') %></option>
+            <option value="random_diagonal"><%= t('game.reroll.options.randomDiagonal') %></option>
           </select>
-          <p id="selection-instruct-<%= currentPlayer.id %>">Click on the card to select the area.</p>
-          <button id="select-random-button-<%= currentPlayer.id %>" style="display:none;" onclick="selectRandomTile('<%= currentPlayer.id %>')">Select Random Tile</button>
-          <button onclick="confirmReroll('<%= currentPlayer.id %>')">Confirm Re-roll</button>
-          <button onclick="exitRerollMode('<%= currentPlayer.id %>')">Cancel</button>
+          <p id="selection-instruct-<%= currentPlayer.id %>"><%= t('game.reroll.instruction') %></p>
+          <button id="select-random-button-<%= currentPlayer.id %>" style="display:none;" onclick="selectRandomTile('<%= currentPlayer.id %>')"><%= t('game.reroll.randomButton') %></button>
+          <button onclick="confirmReroll('<%= currentPlayer.id %>')"><%= t('game.reroll.confirm') %></button>
+          <button onclick="exitRerollMode('<%= currentPlayer.id %>')"><%= t('actions.cancel') %></button>
         </div>
       </div>
-      <button id="streamer-toggle-btn" onclick="toggleStreamerMode()">Streamer Mode: Off</button>
+      <button id="streamer-toggle-btn" onclick="toggleStreamerMode()"><span data-streamer-state="off"><%= t('game.streamerModeOff') %></span></button>
     </div>
   <% } %>
   <% if (!currentPlayer.isHost) { %>
     <div class="nonhost-streamer-section">
-      <button id="streamer-toggle-btn-nonhost" onclick="toggleStreamerModeNonHost()">Streamer Mode: Off</button>
+      <button id="streamer-toggle-btn-nonhost" onclick="toggleStreamerModeNonHost()"><span data-streamer-state="off"><%= t('game.streamerModeOff') %></span></button>
     </div>
   <% } %>
 </aside>
   <div class="container">
     <div class="game-header">
-    <h1 style="font-size: 0.9rem; margin-top: 1rem;">Win Conditions: <%= game.rules.winConditions && game.rules.winConditions.length > 0 ? game.rules.winConditions.map(c => {
-      // Replace underscores with spaces and format properly
-      let formatted = c.replace(/_/g, ' ');
-      // Handle special cases
-      if (formatted.includes('rows')) formatted = formatted.replace('rows', ' Rows');
-      else if (formatted.includes('columns')) formatted = formatted.replace('columns', ' Columns');
-      // Capitalize first letter
-      return formatted.charAt(0).toUpperCase() + formatted.slice(1);
-    }).join(', ') : 'None' %></h1>
+    <%
+      const winConditions = Array.isArray(game.rules.winConditions) ? game.rules.winConditions : [];
+      const formattedWinConditions = winConditions.map((condition) => {
+        const key = `game.winConditions.list.${condition}`;
+        const translated = t(key);
+        return translated === key ? condition : translated;
+      });
+    %>
+    <h1 style="font-size: 0.9rem; margin-top: 1rem;"><%= t('game.winConditions.heading') %> <%= formattedWinConditions.length ? formattedWinConditions.join(', ') : t('game.winConditions.none') %></h1>
 
     <!-- Timer Display (Mobile) -->
   <% if (game.timerEnabled) { %>
@@ -128,12 +131,12 @@
           <div class="timer-value" id="timer-value-mobile">--:--</div>
         </div>
       </div>
-      <% if (currentPlayer.isHost) { %>
-        <div class="timer-controls timer-controls-mobile">
-          <button id="start-timer-btn-mobile" class="timer-control-btn timer-start-btn" onclick="startTimer()">Start Game</button>
-          <button id="pause-timer-btn-mobile" class="timer-control-btn timer-pause-btn" onclick="pauseTimer()" style="display: none;">Pause</button>
-            <button id="resume-timer-btn-mobile" class="timer-control-btn timer-resume-btn" onclick="resumeTimer()" style="display: none;">Resume</button>
-            <button id="reset-timer-btn-mobile" class="timer-control-btn timer-reset-btn" onclick="resetTimer()" style="display: none;">Reset</button>
+        <% if (currentPlayer.isHost) { %>
+          <div class="timer-controls timer-controls-mobile">
+          <button id="start-timer-btn-mobile" class="timer-control-btn timer-start-btn" onclick="startTimer()"><%= t('game.timerStart') %></button>
+          <button id="pause-timer-btn-mobile" class="timer-control-btn timer-pause-btn" onclick="pauseTimer()" style="display: none;"><%= t('game.timerPause') %></button>
+            <button id="resume-timer-btn-mobile" class="timer-control-btn timer-resume-btn" onclick="resumeTimer()" style="display: none;"><%= t('game.timerResume') %></button>
+            <button id="reset-timer-btn-mobile" class="timer-control-btn timer-reset-btn" onclick="resetTimer()" style="display: none;"><%= t('game.timerReset') %></button>
           </div>
         <% } %>
       </div>
@@ -149,7 +152,7 @@
             <tr>
               <% row.forEach((tile, c) => { %>
                 <td class="<%= tile.stamped ? 'stamped' : '' %>" data-row="<%= r %>" data-col="<%= c %>">
-                  <div class="tile-content"><%= tile.item %></div>
+                  <div class="tile-content"><%= translateItem(tile.item) %></div>
                 </td>
               <% }) %>
             </tr>
@@ -165,7 +168,7 @@
 
   <!-- Bottom App Bar for Mobile -->
   <div class="bottom-app-bar mobile-only">
-    <button onclick="toggleDrawer('leaderboard')">Leaderboard</button>
+    <button onclick="toggleDrawer('leaderboard')"><%= t('game.leaderboard') %></button>
     <div class="bottom-app-bar-item">
       <button id="chat-toggle-mobile" class="chat-toggle-button">
         <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
@@ -173,14 +176,14 @@
       <span id="chat-notification-mobile" class="notification-badge"></span>
     </div>
     <% if (game.flagsEnabled) { %>
-      <button id="flag-button-mobile" class="chat-toggle-button" title="Throw Flag">🚩</button>
+      <button id="flag-button-mobile" class="chat-toggle-button" title="<%= t('game.flagButton') %>">🚩</button>
     <% } %>
     <% if (currentPlayer.isHost) { %>
-      <button id="copy-code-mobile" onclick="copyGameCode()" title="Copy Game Code">Copy Code</button>
+      <button id="copy-code-mobile" onclick="copyGameCode()" title="<%= t('actions.copyCode') %>"><%= t('actions.copyCode') %></button>
     <% } %>
   </div>
   <!-- Centered mobile toast for copy code -->
-  <div id="copy-toast-mobile" class="mobile-only" style="display:none;">Code copied!</div>
+  <div id="copy-toast-mobile" class="mobile-only" style="display:none;"><%= t('notifications.codeCopied') %></div>
   <!-- Hidden input used for Safari execCommand copy fallback -->
   <input id="hidden-copy-input" type="text" readonly style="position:fixed; top:-1000px; left:-1000px; opacity:0; pointer-events:none;" />
 
@@ -189,19 +192,19 @@
     <div class="drawer-content">
       <!-- Content populated dynamically -->
     </div>
-    <button class="close-drawer" onclick="closeDrawer()">Close</button>
+    <button class="close-drawer" onclick="closeDrawer()"><%= t('actions.close') %></button>
   </div>
 
   <!-- Winner Modal -->
   <div id="winner-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:1001;">
     <div style="background:#fff; padding:2rem; border-radius:8px; text-align:center; max-width:90%; margin:auto;">
-      <h2 id="winner-modal-name" style="color: #10B981; margin-bottom: 0.5rem; font-size: 2rem;">Winner!</h2>
-      <p id="winner-modal-condition" style="font-size: 1.2rem; margin-bottom: 1.5rem; color: #333;">Win Condition</p>
+      <h2 id="winner-modal-name" style="color: #10B981; margin-bottom: 0.5rem; font-size: 2rem;"><%= t('game.winnerHeading') %></h2>
+      <p id="winner-modal-condition" style="font-size: 1.2rem; margin-bottom: 1.5rem; color: #333;"><%= t('game.winnerConditionLabel') %></p>
       <div id="winner-modal-buttons" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
         <% if (currentPlayer.isHost) { %>
-          <button onclick="startNewGame()" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #00BFFF; color: white; border: none; border-radius: 8px; cursor: pointer;">Start New Game</button>
+          <button onclick="startNewGame()" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #00BFFF; color: white; border: none; border-radius: 8px; cursor: pointer;"><%= t('game.winnerNewGame') %></button>
         <% } %>
-        <button onclick="location.href = '/'" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #FF69B4; color: white; border: none; border-radius: 8px; cursor: pointer;">Exit to Home</button>
+        <button onclick="location.href = '/'" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #FF69B4; color: white; border: none; border-radius: 8px; cursor: pointer;"><%= t('game.exitToHome') %></button>
       </div>
     </div>
   </div>
@@ -210,14 +213,14 @@
   <div id="timer-expired-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); align-items:center; justify-content:center; z-index:1002;">
     <div style="background:#fff; padding:2rem; border-radius:12px; text-align:center; max-width:90%; margin:auto; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
       <div style="font-size: 3rem; margin-bottom: 1rem;">⏰</div>
-      <h2 id="timer-expired-title" style="color: #F59E0B; margin-bottom: 0.5rem; font-size: 2rem;">Time's Up!</h2>
-      <p id="timer-expired-message" style="font-size: 1.1rem; margin-bottom: 1rem; color: #666;">The timer has expired.</p>
-      <p id="timer-expired-winner" style="font-size: 1.3rem; font-weight: 600; margin-bottom: 1.5rem; color: #10B981; display: none;">Winner: Player Name</p>
+      <h2 id="timer-expired-title" style="color: #F59E0B; margin-bottom: 0.5rem; font-size: 2rem;"><%= t('game.timerExpired.title') %></h2>
+      <p id="timer-expired-message" style="font-size: 1.1rem; margin-bottom: 1rem; color: #666;"><%= t('game.timerExpired.message') %></p>
+      <p id="timer-expired-winner" style="font-size: 1.3rem; font-weight: 600; margin-bottom: 1.5rem; color: #10B981; display: none;"><%= t('game.timerExpired.winnerPrefix') %> <span id="timer-expired-winner-name"></span></p>
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
         <% if (currentPlayer.isHost) { %>
-          <button onclick="startNewGame(); closeTimerExpiredModal();" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #00BFFF; color: white; border: none; border-radius: 8px; cursor: pointer;">Start New Game</button>
+          <button onclick="startNewGame(); closeTimerExpiredModal();" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #00BFFF; color: white; border: none; border-radius: 8px; cursor: pointer;"><%= t('game.winnerNewGame') %></button>
         <% } %>
-        <button onclick="location.href = '/'" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #FF69B4; color: white; border: none; border-radius: 8px; cursor: pointer;">Exit to Home</button>
+        <button onclick="location.href = '/'" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #FF69B4; color: white; border: none; border-radius: 8px; cursor: pointer;"><%= t('game.exitToHome') %></button>
       </div>
     </div>
   </div>
@@ -228,23 +231,23 @@
       <h2 id="modal-player-name"></h2>
       <table id="modal-card" class="bingo-card own-card"></table>
       <div id="modal-reroll" style="display: none;">
-        <h3>Re-roll</h3>
+        <h3><%= t('game.reroll.modalTitle') %></h3>
         <select id="modal-reroll-type">
-          <option value="">Select Type</option>
-          <option value="tile">Tile</option>
-          <option value="row">Row</option>
-          <option value="column">Column</option>
-          <option value="diagonal">Diagonal</option>
-          <option value="card">Whole Card</option>
-          <option value="random">Random Tile</option>
-          <option value="random_row">Random Row</option>
-          <option value="random_column">Random Column</option>
-          <option value="random_diagonal">Random Diagonal</option>
+          <option value=""><%= t('game.reroll.selectType') %></option>
+          <option value="tile"><%= t('game.reroll.options.tile') %></option>
+          <option value="row"><%= t('game.reroll.options.row') %></option>
+          <option value="column"><%= t('game.reroll.options.column') %></option>
+          <option value="diagonal"><%= t('game.reroll.options.diagonal') %></option>
+          <option value="card"><%= t('game.reroll.options.card') %></option>
+          <option value="random"><%= t('game.reroll.options.randomTile') %></option>
+          <option value="random_row"><%= t('game.reroll.options.randomRow') %></option>
+          <option value="random_column"><%= t('game.reroll.options.randomColumn') %></option>
+          <option value="random_diagonal"><%= t('game.reroll.options.randomDiagonal') %></option>
         </select>
-        <p id="modal-selection-instruct">Click on the card to select the area.</p>
-        <button id="select-random-modal-button" style="display:none;" onclick="selectModalRandomTile()">Select Random Tile</button>
-        <button id="modal-confirm-reroll">Confirm Re-roll</button>
-        <button onclick="exitModalReroll()">Cancel</button>
+        <p id="modal-selection-instruct"><%= t('game.reroll.instruction') %></p>
+        <button id="select-random-modal-button" style="display:none;" onclick="selectModalRandomTile()"><%= t('game.reroll.randomButton') %></button>
+        <button id="modal-confirm-reroll"><%= t('game.reroll.confirm') %></button>
+        <button onclick="exitModalReroll()"><%= t('actions.cancel') %></button>
       </div>
     </div>
   </div>
@@ -254,21 +257,21 @@
     <div class="modal-card">
       <div class="modal-header">
         <span style="font-size:1.25rem;">🚩</span>
-        <h3 id="vote-modal-text" class="modal-title">Vote on Flagged Stamp</h3>
+        <h3 id="vote-modal-text" class="modal-title"><%= t('game.voteModal.title') %></h3>
       </div>
       <p id="vote-modal-message" class="modal-subtitle"></p>
       <div id="vote-buttons" class="modal-actions">
-        <button id="vote-yes" class="btn btn-primary">Yes</button>
-        <button id="vote-no" class="btn btn-danger">No</button>
+        <button id="vote-yes" class="btn btn-primary"><%= t('game.voteModal.yes') %></button>
+        <button id="vote-no" class="btn btn-danger"><%= t('game.voteModal.no') %></button>
       </div>
       <div class="badges">
-        <span class="badge" id="vote-count">Votes: 0 yes, 0 no</span>
+        <span class="badge" id="vote-count"><%= t('game.voteModal.count', { yes: 0, no: 0 }) %></span>
       </div>
       <div id="vote-result" class="modal-footer" style="display:none;">
         <p id="vote-outcome" class="modal-subtitle" style="margin-bottom:0.5rem;"></p>
         <ul id="vote-details" class="vote-list"></ul>
         <div class="modal-actions">
-          <button id="vote-close" class="btn btn-secondary">Close</button>
+          <button id="vote-close" class="btn btn-secondary"><%= t('actions.close') %></button>
         </div>
       </div>
     </div>
@@ -279,31 +282,32 @@
     <div class="modal-card">
       <div class="modal-header">
         <span style="font-size:1.25rem;">🚩</span>
-        <h3 class="modal-title">Throw Flag</h3>
+        <h3 class="modal-title"><%= t('game.flagModal.title') %></h3>
       </div>
-      <p class="modal-subtitle">Select a player to challenge:</p>
+      <p class="modal-subtitle"><%= t('game.flagModal.subtitle') %></p>
       <select id="flag-target-select">
-        <option value="">-- Choose Player --</option>
+        <option value=""><%= t('game.flagModal.placeholder') %></option>
       </select>
       <div class="modal-actions">
-        <button id="flag-confirm" class="btn btn-primary">Confirm</button>
-        <button id="flag-cancel" class="btn btn-secondary">Cancel</button>
+        <button id="flag-confirm" class="btn btn-primary"><%= t('game.flagModal.confirm') %></button>
+        <button id="flag-cancel" class="btn btn-secondary"><%= t('actions.cancel') %></button>
       </div>
     </div>
   </div>
   
   <div id="chat-panel" class="chat-panel">
     <div class="chat-header">
-      <h2>Chat</h2>
-      <button id="chat-close-desktop">&times;</button>
+      <h2><%= t('game.chatTitle') %></h2>
+      <button id="chat-close-desktop" aria-label="<%= t('actions.close') %>">&times;</button>
     </div>
     <div id="chat-messages" class="chat-messages"></div>
     <div class="chat-input">
-      <input id="chat-input" type="text" maxlength="300" placeholder="Type a message..." />
-      <button id="chat-send">Send</button>
+      <input id="chat-input" type="text" maxlength="300" placeholder="<%= t('game.chatPlaceholder') %>" />
+      <button id="chat-send"><%= t('game.chatSend') %></button>
     </div>
   </div>
   
+  <%- include('partials/i18n-script', { namespaces: ['game', 'alerts', 'notifications', 'items'] }) %>
   <script id="chat-data" type="application/json"><%- JSON.stringify({ players, messages }) %></script>
   <script>
     // Clear any cached data to prevent stale game states
@@ -317,6 +321,11 @@
     })();
 
     const socket = io();
+    const translateText = (key, vars) => (typeof window.t === 'function' ? window.t(key, vars) : key);
+    const translateItemText = (value) => {
+      const dict = window.APP_I18N && window.APP_I18N.items;
+      return (dict && dict[value]) || value;
+    };
     window.socket = socket;
     const gameId = document.body.dataset.gameId;
     const playerId = document.body.dataset.playerId;
@@ -413,7 +422,7 @@
           currentPlayerData.card.forEach((row, r) => {
             row.forEach((tile, c) => {
               const td = currentCardTable.rows[r].cells[c];
-              td.querySelector('.tile-content').textContent = tile.item;
+              td.querySelector('.tile-content').textContent = translateItemText(tile.item);
 
               // Clear all stamp classes
               td.className = '';
@@ -440,7 +449,7 @@
           currentPlayerData.card.forEach((row, r) => {
             row.forEach((tile, c) => {
               const td = currentCardTable.rows[r].cells[c];
-              td.querySelector('.tile-content').textContent = tile.item;
+              td.querySelector('.tile-content').textContent = translateItemText(tile.item);
               td.classList.toggle('stamped', tile.stamped);
             });
           });
@@ -482,7 +491,7 @@
               const td = document.createElement('td');
               const div = document.createElement('div');
               div.className = 'tile-content';
-              div.textContent = tile.item;
+              div.textContent = translateItemText(tile.item);
               td.appendChild(div);
               td.classList.toggle('stamped', tile.stamped);
               td.dataset.row = r;
@@ -511,7 +520,7 @@
     function openFlagModal() {
       if (!hasFlagModal) return;
       const select = flagTargetSelect;
-      select.innerHTML = '<option value="">-- Choose Player --</option>';
+      select.innerHTML = `<option value="">${translateText('game.flagModal.placeholder')}</option>`;
       allPlayers.forEach(p => {
         if (String(p.id) !== String(playerId)) {
           const opt = document.createElement('option');
@@ -528,7 +537,7 @@
       flagCancelBtn.addEventListener('click', () => { flagSelectModal.style.display = 'none'; });
       flagConfirmBtn.addEventListener('click', () => {
         const targetId = flagTargetSelect.value;
-        if (!targetId) return alert('Select a player to challenge');
+        if (!targetId) return alert(translateText('game.flagModal.subtitle'));
         socket.emit('throw_flag', { gameId, flaggerId: playerId, targetPlayerId: targetId });
         flagSelectModal.style.display = 'none';
       });
@@ -626,22 +635,22 @@
         if (confirmEl) {
           confirmEl.style.visibility = 'visible';
           confirmEl.style.color = '#4CAF50';
-          confirmEl.textContent = 'Code copied!';
+          confirmEl.textContent = translateText('notifications.codeCopied');
           setTimeout(() => { confirmEl.style.visibility = 'hidden'; }, 3000);
         }
         const toast = document.getElementById('copy-toast-mobile');
         if (toast) {
-          toast.textContent = 'Code copied!';
+          toast.textContent = translateText('notifications.codeCopied');
           toast.style.display = 'block';
           setTimeout(() => { toast.style.display = 'none'; }, 2000);
         }
       }
       function showFailWithPrompt(code) {
         // As a last resort, show a prompt the user can long-press/copy from
-        try { window.prompt('Copy your game code:', code || ''); } catch (e) {}
+        try { window.prompt(translateText('game.copyPrompt'), code || ''); } catch (e) {}
         const toast = document.getElementById('copy-toast-mobile');
         if (toast) {
-          toast.textContent = 'Shown code to copy';
+          toast.textContent = translateText('notifications.codeShown');
           toast.style.display = 'block';
           setTimeout(() => { toast.style.display = 'none'; }, 2000);
         }
@@ -687,7 +696,7 @@
       const player = allPlayers.find(p => String(p.id) === String(targetPlayerId));
       if (!player) return;
 
-      document.getElementById('modal-player-name').textContent = player.name + "'s Card";
+    document.getElementById('modal-player-name').textContent = translateText('game.playerCardTitle', { name: player.name });
       const modalCard = document.getElementById('modal-card');
       modalCard.innerHTML = '';
       player.card.forEach((row, r) => {
@@ -696,7 +705,7 @@
           const td = document.createElement('td');
           const div = document.createElement('div');
           div.className = 'tile-content';
-          div.textContent = tile.item;
+          div.textContent = translateItemText(tile.item);
           td.appendChild(div);
           td.classList.toggle('stamped', tile.stamped);
           td.dataset.row = r;
@@ -712,8 +721,9 @@
         // Reset modal reroll controls for a fresh start
         const typeSelect = document.getElementById('modal-reroll-type');
         typeSelect.value = '';
-        const randomBtn = document.getElementById('select-random-modal-button');
-        randomBtn.style.display = 'none';
+    const randomBtn = document.getElementById('select-random-modal-button');
+    randomBtn.style.display = 'none';
+    randomBtn.textContent = translateText('game.reroll.randomButtonDefault');
         const instruct = document.getElementById('modal-selection-instruct');
         instruct.style.display = 'none';
         clearModalSelection();
@@ -760,22 +770,22 @@
       } else if (type === 'random') {
         instruct.style.display = 'none';
         randomBtn.style.display = 'block';
-        randomBtn.textContent = 'Select Random Tile';
+    randomBtn.textContent = translateText('game.reroll.randomButton');
         randomBtn.onclick = () => selectModalRandomTile();
       } else if (type === 'random_row') {
         instruct.style.display = 'none';
         randomBtn.style.display = 'block';
-        randomBtn.textContent = 'Select Random Row';
+    randomBtn.textContent = translateText('game.reroll.randomRowButton');
         randomBtn.onclick = () => selectModalRandomRow();
       } else if (type === 'random_column') {
         instruct.style.display = 'none';
         randomBtn.style.display = 'block';
-        randomBtn.textContent = 'Select Random Column';
+    randomBtn.textContent = translateText('game.reroll.randomColumnButton');
         randomBtn.onclick = () => selectModalRandomColumn();
       } else if (type === 'random_diagonal') {
         instruct.style.display = 'none';
         randomBtn.style.display = 'block';
-        randomBtn.textContent = 'Select Random Diagonal';
+    randomBtn.textContent = translateText('game.reroll.randomDiagonalButton');
         randomBtn.onclick = () => selectModalRandomDiagonal();
       } else if (type) {
         instruct.style.display = 'block';
@@ -912,12 +922,12 @@
     function confirmModalReroll() {
       const state = modalRerollState;
       if (!state || !state.type) {
-        alert('Please select a type and an area to re-roll.');
+        alert(translateText('alerts.rerollMissingSelection'));
         return;
       }
       const requiresArg = ['tile', 'row', 'column', 'diagonal'];
       if (requiresArg.includes(state.type) && !state.arg && state.type !== 'card') {
-        alert('Please select a type and an area to re-roll.');
+        alert(translateText('alerts.rerollMissingSelection'));
         return;
       }
 
@@ -956,10 +966,10 @@
           table.innerHTML = `
             <thead>
               <tr>
-                <th>Rank</th>
-                <th>Player</th>
-                <th>Lines</th>
-                <th>Stamped Tiles</th>
+                <th>${translateText('game.leaderboardRank')}</th>
+                <th>${translateText('game.leaderboardPlayer')}</th>
+                <th>${translateText('game.leaderboardLines')}</th>
+                <th>${translateText('game.leaderboardTiles')}</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -1137,7 +1147,7 @@
       const header = document.createElement('div');
       header.classList.add('bubble-header');
       const nameFromPayload = resolvedName || chatNames[msg.playerId];
-      const senderName = isSelf ? 'You' : (nameFromPayload || 'Unknown player');
+      const senderName = isSelf ? translateText('game.chatYou') : (nameFromPayload || translateText('game.chatUnknown'));
       header.textContent = senderName;
       bubble.appendChild(header);
       // message content
@@ -1194,24 +1204,22 @@
   </script>
   <script src="/js/vote.js"></script>
   <script>
+    function setStreamerLabel(button, isOn) {
+      if (!button) return;
+      const label = button.querySelector('[data-streamer-state]') || button;
+      label.textContent = isOn ? translateText('game.streamerModeOn') : translateText('game.streamerModeOff');
+      label.dataset.streamerState = isOn ? 'on' : 'off';
+    }
     function toggleStreamerMode() {
       document.body.classList.toggle('streamer-mode');
       const btn = document.getElementById('streamer-toggle-btn');
-      if (document.body.classList.contains('streamer-mode')) {
-        btn.textContent = 'Streamer Mode: On';
-      } else {
-        btn.textContent = 'Streamer Mode: Off';
-      }
+      setStreamerLabel(btn, document.body.classList.contains('streamer-mode'));
     }
     /** Toggle streamer mode for non-host players */
     function toggleStreamerModeNonHost() {
       document.body.classList.toggle('streamer-mode');
       const btnNH = document.getElementById('streamer-toggle-btn-nonhost');
-      if (document.body.classList.contains('streamer-mode')) {
-        btnNH.textContent = 'Streamer Mode: On';
-      } else {
-        btnNH.textContent = 'Streamer Mode: Off';
-      }
+      setStreamerLabel(btnNH, document.body.classList.contains('streamer-mode'));
     }
   </script>
 </body>

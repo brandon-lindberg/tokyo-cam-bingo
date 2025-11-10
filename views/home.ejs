@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tokyo Cam Bingo</title>
+  <title><%= t('common.appName') %></title>
 
   <!-- PWA Meta Tags -->
-  <meta name="description" content="Play bingo while watching Tokyo live streams with friends">
+  <meta name="description" content="<%= t('common.tagline') %>">
   <meta name="theme-color" content="#FF69B4">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -24,23 +24,26 @@
   <script src="/js/splash.js?v=<%= assetVersion %>" defer></script>
   <script src="/js/timer-picker.js?v=<%= assetVersion %>"></script>
 </head>
-<body class="splash-active" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>">
+<body class="splash-active has-global-top-bar" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>">
+  <div class="global-top-bar">
+    <%- include('partials/locale-switcher') %>
+  </div>
   <div id="splash-screen" class="splash-screen" role="presentation" aria-hidden="true">
     <img src="/images/yabai_sutudios.png?v=<%= assetVersion %>" alt="Yabai Sutudios splash">
   </div>
   <div class="container welcome-container" style="margin: 0 auto;">
     <div id="welcome-content">
-      <h1>Welcome to Tokyo Cam Bingo</h1>
+      <h1><%= t('home.welcomeHeading') %></h1>
       <div class="button-group">
-        <button onclick="showHostForm()">Host Game</button>
-        <button onclick="showJoinForm()">Join Game</button>
+        <button onclick="showHostForm()"><%= t('actions.hostGame') %></button>
+        <button onclick="showJoinForm()"><%= t('actions.joinGame') %></button>
       </div>
       <div class="rulebook-trigger">
-        <button type="button" id="rulebook-open">Rule Book</button>
+        <button type="button" id="rulebook-open"><%= t('home.ruleBook') %></button>
       </div>
       <div style="text-align: center; margin-top: 1rem;">
         <a href="/card-builder" style="color: #00BFFF; text-decoration: none; font-size: 1rem;">
-          + Create Custom Card
+          <%= t('home.createCustomCardLink') %>
         </a>
       </div>
       <div style="text-align: center; margin-top: 2rem;">
@@ -50,34 +53,34 @@
     
     <div id="host-form" style="display: none;">
       <div style="text-align: left;">
-        <a href="#" onclick="backToHome(); return false;" style="display: inline-block; margin-bottom: 1rem; color: #00BFFF; text-decoration: none; font-size: 1rem;">← Back to Home</a>
+        <a href="#" onclick="backToHome(); return false;" style="display: inline-block; margin-bottom: 1rem; color: #00BFFF; text-decoration: none; font-size: 1rem;">← <%= t('actions.backToHome') %></a>
       </div>
-      <h2>Create Game</h2>
+      <h2><%= t('home.hostFormTitle') %></h2>
       <form action="/create" method="POST" class="create-game-form">
         <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
 
         <!-- Player Info Section -->
         <div class="form-section">
-          <label class="form-label">Your Name</label>
-          <input type="text" name="hostName" class="form-input" placeholder="Enter your name" required>
+          <label class="form-label"><%= t('home.hostNameLabel') %></label>
+          <input type="text" name="hostName" class="form-input" placeholder="<%= t('home.hostNamePlaceholder') %>" required>
         </div>
 
         <!-- Game Mode Section -->
         <div class="form-section">
-          <label class="form-label">Game Mode</label>
+          <label class="form-label"><%= t('home.gameModeLabel') %></label>
           <div class="mode-selector">
             <label class="mode-option">
               <input type="radio" name="modeType" value="REGULAR" checked onchange="toggleHostColorSelection()">
               <div class="mode-card">
-                <div class="mode-title">Regular Mode</div>
-                <div class="mode-description">Each player gets their own unique card (up to 10 players)</div>
+                <div class="mode-title"><%= t('home.modeRegularTitle') %></div>
+                <div class="mode-description"><%= t('home.modeRegularDescription') %></div>
               </div>
             </label>
             <label class="mode-option">
               <input type="radio" name="modeType" value="VS" id="vsMode" onchange="toggleHostColorSelection()">
               <div class="mode-card">
-                <div class="mode-title">VS Mode</div>
-                <div class="mode-description">All players share one card and compete for squares (max 4 players)</div>
+                <div class="mode-title"><%= t('home.modeVsTitle') %></div>
+                <div class="mode-description"><%= t('home.modeVsDescription') %></div>
               </div>
             </label>
           </div>
@@ -85,73 +88,73 @@
 
         <!-- Color Selection (VS Mode Only) -->
         <div id="host-color-selection" class="form-section" style="display: none;">
-          <label class="form-label">Your Color</label>
+          <label class="form-label"><%= t('home.modeColorsLabel') %></label>
           <select id="hostColor" name="hostColor" class="form-select">
-            <option value="">-- Select Your Color --</option>
-            <option value="RED">🔴 Red</option>
-            <option value="BLUE">🔵 Blue</option>
-            <option value="GREEN">🟢 Green</option>
-            <option value="YELLOW">🟡 Yellow</option>
-            <option value="PURPLE">🟣 Purple</option>
-            <option value="ORANGE">🟠 Orange</option>
-            <option value="PINK">🩷 Pink</option>
-            <option value="CYAN">🔵 Cyan</option>
+            <option value=""><%= t('home.colorPlaceholder') %></option>
+            <option value="RED">🔴 <%= t('colors.red') %></option>
+            <option value="BLUE">🔵 <%= t('colors.blue') %></option>
+            <option value="GREEN">🟢 <%= t('colors.green') %></option>
+            <option value="YELLOW">🟡 <%= t('colors.yellow') %></option>
+            <option value="PURPLE">🟣 <%= t('colors.purple') %></option>
+            <option value="ORANGE">🟠 <%= t('colors.orange') %></option>
+            <option value="PINK">🩷 <%= t('colors.pink') %></option>
+            <option value="CYAN">🔵 <%= t('colors.cyan') %></option>
           </select>
         </div>
 
         <!-- Bingo Card Section -->
         <div class="form-section" id="bingo-card-section">
-          <label class="form-label" for="bingoCardPreset">Bingo Card</label>
+          <label class="form-label" for="bingoCardPreset"><%= t('home.bingoCardLabel') %></label>
           <select id="bingoCardPreset" name="bingoCardPreset" class="form-select">
-            <option value="default" selected>Tokyo Cam Bingo (default)</option>
-            <option value="category">Bingo Tasks · by Category</option>
-            <option value="game">Bingo Tasks · by Game</option>
-            <option value="all">Mix All Bingo Tasks</option>
+            <option value="default" selected><%= t('home.bingoDefaultOption') %></option>
+            <option value="category"><%= t('home.bingoCategoryOption') %></option>
+            <option value="game"><%= t('home.bingoGameOption') %></option>
+            <option value="all"><%= t('home.bingoAllOption') %></option>
           </select>
 
           <div id="bingo-category-wrapper" class="preset-detail">
-            <label class="form-sub-label" for="bingoCategory">Choose a category</label>
+            <label class="form-sub-label" for="bingoCategory"><%= t('home.bingoCategoryLabel') %></label>
             <select id="bingoCategory" name="bingoCategory" class="form-select" disabled>
-              <option value="">Loading categories…</option>
+              <option value=""><%= t('home.loadingCategories') %></option>
             </select>
           </div>
 
           <div id="bingo-game-wrapper" class="preset-detail">
-            <label class="form-sub-label" for="bingoGame">Choose a game</label>
+            <label class="form-sub-label" for="bingoGame"><%= t('home.bingoGameLabel') %></label>
             <select id="bingoGame" name="bingoGame" class="form-select" disabled>
-              <option value="">Loading games…</option>
+              <option value=""><%= t('home.loadingGames') %></option>
             </select>
           </div>
 
           <div id="bingo-card-helper" class="helper-text">
-            Tokyo Cam Bingo stays the default deck unless you pick a preset or enter a custom card code.
+            <%= t('home.bingoHelperDefault') %>
           </div>
 
           <button type="button" onclick="toggleCustomCardInput(event)" class="secondary-button preset-secondary">
-            Use Custom Card (Optional)
+            <%= t('home.customCardButton') %>
           </button>
           <div id="custom-card-input-section" style="display: none; margin-top: 1rem;">
-            <input type="text" id="customCardCode" name="customCardCode" class="form-input" placeholder="Enter custom card code" maxlength="6" autocomplete="off">
+            <input type="text" id="customCardCode" name="customCardCode" class="form-input" placeholder="<%= t('home.customCardPlaceholder') %>" maxlength="6" autocomplete="off">
             <div id="custom-card-info" class="helper-text muted"></div>
           </div>
         </div>
 
         <!-- Game Options Section -->
         <div class="form-section">
-          <label class="form-label">Game Options</label>
+          <label class="form-label"><%= t('home.gameOptionsLabel') %></label>
           <div class="options-grid">
             <label class="option-checkbox">
               <input type="checkbox" id="flagsEnabled" name="flagsEnabled" value="true" checked>
               <span class="checkbox-label">
-                <span class="checkbox-title">🚩 Flag System</span>
-                <span class="checkbox-description">Players can challenge questionable stamps</span>
+                <span class="checkbox-title"><%= t('home.flagOptionTitle') %></span>
+                <span class="checkbox-description"><%= t('home.flagOptionDescription') %></span>
               </span>
             </label>
             <label class="option-checkbox">
               <input type="checkbox" id="rerollsEnabled" name="rerollsEnabled" value="true" checked>
               <span class="checkbox-label">
-                <span class="checkbox-title">🎲 Rerolls</span>
-                <span class="checkbox-description">Host can re-roll tiles during the game</span>
+                <span class="checkbox-title"><%= t('home.rerollOptionTitle') %></span>
+                <span class="checkbox-description"><%= t('home.rerollOptionDescription') %></span>
               </span>
             </label>
           </div>
@@ -159,12 +162,12 @@
 
         <!-- Timer Section -->
         <div class="form-section">
-          <label class="form-label">Game Timer (Optional)</label>
+          <label class="form-label"><%= t('home.timerSectionLabel') %></label>
           <label class="option-checkbox">
             <input type="checkbox" id="timerEnabled" name="timerEnabled" value="true" onchange="toggleTimerSettings()">
             <span class="checkbox-label">
-              <span class="checkbox-title">⏱️ Enable Game Timer</span>
-              <span class="checkbox-description">Set a time limit for the game</span>
+              <span class="checkbox-title"><%= t('home.timerEnableLabel') %></span>
+              <span class="checkbox-description"><%= t('home.timerDescription') %></span>
             </span>
           </label>
 
@@ -174,18 +177,18 @@
 
             <!-- Quick Presets -->
             <div class="timer-presets">
-              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(300)">5 min</button>
-              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(600)">10 min</button>
-              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(900)">15 min</button>
-              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(1200)">20 min</button>
-              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(1800)">30 min</button>
-              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(2700)">45 min</button>
-              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(3600)">1 hour</button>
-              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(7200)">2 hours</button>
-              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(14400)">4 hours</button>
-              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(21600)">6 hours</button>
-              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(28800)">8 hours</button>
-              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(43200)">12 hours</button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(300)"><%= t('home.timerPresetMinutes', { value: 5 }) %></button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(600)"><%= t('home.timerPresetMinutes', { value: 10 }) %></button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(900)"><%= t('home.timerPresetMinutes', { value: 15 }) %></button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(1200)"><%= t('home.timerPresetMinutes', { value: 20 }) %></button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(1800)"><%= t('home.timerPresetMinutes', { value: 30 }) %></button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(2700)"><%= t('home.timerPresetMinutes', { value: 45 }) %></button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(3600)"><%= t('home.timerPresetHours', { value: 1 }) %></button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(7200)"><%= t('home.timerPresetHours', { value: 2 }) %></button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(14400)"><%= t('home.timerPresetHours', { value: 4 }) %></button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(21600)"><%= t('home.timerPresetHours', { value: 6 }) %></button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(28800)"><%= t('home.timerPresetHours', { value: 8 }) %></button>
+              <button type="button" class="timer-preset-btn" onclick="setTimerPreset(43200)"><%= t('home.timerPresetHours', { value: 12 }) %></button>
             </div>
 
             <!-- Hidden input to store timer duration in seconds -->
@@ -195,162 +198,135 @@
 
         <!-- CAPTCHA Section -->
         <div class="form-section">
-          <label class="form-label">Human Check</label>
+          <label class="form-label"><%= t('home.captchaLabel') %></label>
           <div class="captcha-wrapper" style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
             <span id="create-captcha-question" class="captcha-question" style="font-weight:600;">
-              <%= createCaptchaQuestion || 'Solve the challenge' %>
+              <%= createCaptchaQuestion || t('home.captchaQuestionFallback') %>
             </span>
             <button type="button" class="secondary-button" id="refresh-create-captcha" onclick="refreshCreateCaptcha(event)" style="padding:0.4rem 0.75rem;">
               ↻
             </button>
           </div>
-          <input type="text" name="captchaAnswer" class="form-input" placeholder="Enter the answer above" required autocomplete="off">
-          <p class="helper-text muted">Solve the math question so we know you are not a bot.</p>
+          <input type="text" name="captchaAnswer" class="form-input" placeholder="<%= t('home.captchaAnswerPlaceholder') %>" required autocomplete="off">
+          <p class="helper-text muted"><%= t('home.captchaHelper') %></p>
         </div>
 
         <!-- Win Conditions Section -->
         <div class="form-section">
-          <label class="form-label">Win Conditions (select at least one)</label>
+          <label class="form-label"><%= t('home.winConditionsLabel') %></label>
           <div class="win-conditions-modern">
             <label class="win-option" data-modes="regular,vs">
               <input type="checkbox" id="row" name="winConditions" value="row">
-              <span class="win-label">1 Row</span>
+              <span class="win-label"><%= t('home.winConditions.row') %></span>
             </label>
             <label class="win-option" data-modes="regular">
               <input type="checkbox" id="2rows" name="winConditions" value="2rows">
-              <span class="win-label">2 Rows</span>
+              <span class="win-label"><%= t('home.winConditions.twoRows') %></span>
             </label>
             <label class="win-option" data-modes="regular">
               <input type="checkbox" id="3rows" name="winConditions" value="3rows">
-              <span class="win-label">3 Rows</span>
+              <span class="win-label"><%= t('home.winConditions.threeRows') %></span>
             </label>
             <label class="win-option" data-modes="regular,vs">
               <input type="checkbox" id="column" name="winConditions" value="column">
-              <span class="win-label">1 Column</span>
+              <span class="win-label"><%= t('home.winConditions.column') %></span>
             </label>
             <label class="win-option" data-modes="regular">
               <input type="checkbox" id="2columns" name="winConditions" value="2columns">
-              <span class="win-label">2 Columns</span>
+              <span class="win-label"><%= t('home.winConditions.twoColumns') %></span>
             </label>
             <label class="win-option" data-modes="regular">
               <input type="checkbox" id="3columns" name="winConditions" value="3columns">
-              <span class="win-label">3 Columns</span>
+              <span class="win-label"><%= t('home.winConditions.threeColumns') %></span>
             </label>
             <label class="win-option" data-modes="regular,vs">
               <input type="checkbox" id="diagonals" name="winConditions" value="diagonals">
-              <span class="win-label">Diagonals</span>
+              <span class="win-label"><%= t('home.winConditions.diagonals') %></span>
             </label>
             <label class="win-option" data-modes="regular">
               <input type="checkbox" id="full" name="winConditions" value="full">
-              <span class="win-label">Full Card</span>
+              <span class="win-label"><%= t('home.winConditions.fullCard') %></span>
             </label>
             <label class="win-option" data-modes="regular,vs" id="most-squares-option">
               <input type="checkbox" id="most_squares" name="winConditions" value="most_squares">
-              <span class="win-label">Most Squares</span>
+              <span class="win-label"><%= t('home.winConditions.mostSquares') %></span>
             </label>
           </div>
         </div>
 
-        <button type="submit" class="create-button">Create Game</button>
+        <button type="submit" class="create-button"><%= t('actions.createGame') %></button>
       </form>
     </div>
     
     <div id="join-form" style="display: none;">
       <div style="text-align: left;">
-        <a href="#" onclick="backToHome(); return false;" style="display: inline-block; margin-bottom: 1rem; color: #00BFFF; text-decoration: none; font-size: 1rem;">← Back to Home</a>
+        <a href="#" onclick="backToHome(); return false;" style="display: inline-block; margin-bottom: 1rem; color: #00BFFF; text-decoration: none; font-size: 1rem;">← <%= t('actions.backToHome') %></a>
       </div>
-      <h2>Join Game</h2>
+      <h2><%= t('home.joinFormTitle') %></h2>
       <form id="join-game-form" action="/join" method="POST">
         <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
-        <input type="password" id="join-code" name="code" placeholder="Game Code" required>
-        <input type="text" name="playerName" placeholder="Your Name" required>
+        <label class="form-label" for="join-code"><%= t('home.joinCodeLabel') %></label>
+        <input type="password" id="join-code" name="code" placeholder="<%= t('home.joinCodePlaceholder') %>" required>
+        <label class="form-label" for="join-name"><%= t('home.joinNameLabel') %></label>
+        <input type="text" id="join-name" name="playerName" placeholder="<%= t('home.joinNamePlaceholder') %>" required>
         <div id="color-selection" style="display: none; margin: 1rem 0;">
-          <label for="playerColor">Choose Your Color:</label>
+          <label for="playerColor"><%= t('home.modeColorsLabel') %></label>
           <select id="playerColor" name="playerColor">
-            <option value="">-- Select Color --</option>
-            <option value="RED">Red</option>
-            <option value="BLUE">Blue</option>
-            <option value="GREEN">Green</option>
-            <option value="YELLOW">Yellow</option>
-            <option value="PURPLE">Purple</option>
-            <option value="ORANGE">Orange</option>
-            <option value="PINK">Pink</option>
-            <option value="CYAN">Cyan</option>
+            <option value=""><%= t('home.colorPlaceholder') %></option>
+            <option value="RED"><%= t('colors.red') %></option>
+            <option value="BLUE"><%= t('colors.blue') %></option>
+            <option value="GREEN"><%= t('colors.green') %></option>
+            <option value="YELLOW"><%= t('colors.yellow') %></option>
+            <option value="PURPLE"><%= t('colors.purple') %></option>
+            <option value="ORANGE"><%= t('colors.orange') %></option>
+            <option value="PINK"><%= t('colors.pink') %></option>
+            <option value="CYAN"><%= t('colors.cyan') %></option>
           </select>
         </div>
-        <button type="submit">Join</button>
+        <button type="submit"><%= t('actions.joinGame') %></button>
       </form>
     </div>
   </div>
 
+  <%
+    const rulebook = t('home.rulebook');
+    const ruleSections = (rulebook && rulebook.sections) || [];
+  %>
   <div id="rulebook-modal" class="modal-overlay">
     <div class="modal-card rulebook-modal-card" role="dialog" aria-modal="true" aria-labelledby="rulebook-title">
       <div class="modal-header">
         <span aria-hidden="true">📘</span>
-        <h3 id="rulebook-title" class="modal-title" tabindex="-1">Tokyo Cam Bingo Rule Book</h3>
+        <h3 id="rulebook-title" class="modal-title" tabindex="-1"><%= (rulebook && rulebook.title) || t('home.ruleBook') %></h3>
       </div>
       <div class="rulebook-content">
-        <section class="rulebook-section">
-          <h4 class="rulebook-section-title">Quick Start</h4>
-          <ul class="rulebook-list">
-            <li><strong>Host Game:</strong> Choose Host Game, configure the options you want, and share the six-letter code with friends.</li>
-            <li><strong>Join Game:</strong> Enter the code on the Join Game form. In VS mode you also pick a unique player color.</li>
-            <li><strong>Cards:</strong> The default deck uses Tokyo cam bingo prompts. Hosts can load custom cards made in the builder with a six-letter code.</li>
-          </ul>
-        </section>
-        <section class="rulebook-section">
-          <h4 class="rulebook-section-title">Game Modes</h4>
-          <ul class="rulebook-list">
-            <li><strong>Regular Mode (up to 10 players):</strong> Everyone receives their own 5×5 card. Tapping a tile toggles your stamp. When rerolls are enabled the host can refresh tiles on any player’s card.</li>
-            <li><strong>VS Mode (up to 4 players):</strong> All players share one board. Tiles are claimed in your color and you can remove your own claims, but you cannot take a square that is already stamped by someone else.</li>
-          </ul>
-        </section>
-        <section class="rulebook-section">
-          <h4 class="rulebook-section-title">Win Conditions</h4>
-          <p>Hosts pick one or more goals when the room is created.</p>
-          <ul class="rulebook-list">
-            <li><strong>Rows &amp; Columns:</strong> Complete the lines the host enabled (Regular mode also offers 2- and 3-line variants).</li>
-            <li><strong>Diagonals:</strong> Claim either diagonal from corner to corner.</li>
-            <li><strong>Full Card:</strong> (Regular only) Stamp every tile on your own card.</li>
-            <li><strong>Most Squares:</strong> Counts who has stamped the most tiles. It resolves the game automatically when the timer expires, and in VS mode when all 25 squares are claimed. Ties end the game without a winner.</li>
-          </ul>
-        </section>
-        <section class="rulebook-section">
-          <h4 class="rulebook-section-title">Game Timer</h4>
-          <ul class="rulebook-list">
-            <li><strong>Optional Countdown:</strong> The host can set a timer and then start, pause, resume, or reset it from the game screen.</li>
-            <li><strong>Auto Result:</strong> When the timer hits zero the app checks the Most Squares condition to announce a winner or a tie.</li>
-          </ul>
-        </section>
-        <section class="rulebook-section">
-          <h4 class="rulebook-section-title">Flags &amp; Voting</h4>
-          <ul class="rulebook-list">
-            <li><strong>Throw a Flag:</strong> Each player starts with two flags when they join. Use the 🚩 button to challenge a suspicious stamp.</li>
-            <li><strong>Group Decision:</strong> Everyone votes yes or no. A passed vote removes the challenged square from the targeted player.</li>
-          </ul>
-        </section>
-        <section class="rulebook-section">
-          <h4 class="rulebook-section-title">Rerolls</h4>
-          <ul class="rulebook-list">
-            <li><strong>Host Tool:</strong> When enabled, the host can reroll specific tiles, rows, columns, diagonals, or entire cards.</li>
-            <li><strong>VS Mode Impact:</strong> Refreshing the shared board clears any claimed squares in the rerolled area so players can compete for fresh tiles.</li>
-          </ul>
-        </section>
-        <section class="rulebook-section">
-          <h4 class="rulebook-section-title">Extras</h4>
-          <ul class="rulebook-list">
-            <li><strong>Leaderboard:</strong> Ranks players by completed lines and total stamps in real time.</li>
-            <li><strong>Chat:</strong> Coordinate finds and strategize with the built-in chat panel.</li>
-            <li><strong>Streamer Mode:</strong> Toggle a cleaner layout when you are broadcasting the game.</li>
-          </ul>
-        </section>
+        <% ruleSections.forEach((section, index) => { %>
+          <section class="rulebook-section">
+            <h4 class="rulebook-section-title"><%= section.title %></h4>
+            <% if (section.description) { %>
+              <p><%= section.description %></p>
+            <% } %>
+            <% if (Array.isArray(section.items) && section.items.length) { %>
+              <ul class="rulebook-list">
+                <% section.items.forEach((item) => { %>
+                  <li>
+                    <% if (item.label) { %>
+                      <strong><%= item.label %><%= item.label.endsWith(':') ? '' : ':' %></strong>
+                    <% } %>
+                    <%= item.body %>
+                  </li>
+                <% }); %>
+              </ul>
+            <% } %>
+          </section>
+        <% }); %>
       </div>
       <div class="modal-actions">
-        <button type="button" id="rulebook-close" class="btn btn-secondary">Close</button>
+        <button type="button" id="rulebook-close" class="btn btn-secondary"><%= (rulebook && rulebook.closeLabel) || t('actions.close') %></button>
       </div>
     </div>
   </div>
 
+  <%- include('partials/i18n-script', { namespaces: ['home', 'alerts', 'notifications'] }) %>
   <script>
     // Clear any cached data on page load to prevent stale game states
     (function() {
@@ -364,6 +340,8 @@
       }
     })();
 
+    const translate = (key, vars) => (typeof window.t === 'function' ? window.t(key, vars) : key);
+
     async function refreshCreateCaptcha(event) {
       if (event && typeof event.preventDefault === 'function') {
         event.preventDefault();
@@ -375,13 +353,13 @@
         if (refreshBtn) refreshBtn.disabled = true;
         const response = await fetch('/api/captcha/createGame');
         if (!response.ok) {
-          throw new Error('Request failed');
+          throw new Error(translate('errors.generic'));
         }
         const data = await response.json();
-        questionEl.textContent = data.question || 'Solve the challenge';
+        questionEl.textContent = data.question || translate('home.captchaQuestionFallback');
       } catch (error) {
         console.error('captcha refresh failed', error);
-        questionEl.textContent = 'Error loading challenge';
+        questionEl.textContent = translate('home.captchaLoadError');
       } finally {
         if (refreshBtn) refreshBtn.disabled = false;
       }
@@ -430,9 +408,9 @@
       selectEl.appendChild(placeholderOption);
 
       (items || []).forEach(item => {
-        const option = document.createElement('option');
-        option.value = item.value;
-        option.textContent = `${item.label} (${item.count})`;
+          const option = document.createElement('option');
+          option.value = item.value;
+          option.textContent = `${item.label} (${item.count})`;
         selectEl.appendChild(option);
       });
 
@@ -449,7 +427,11 @@
       const gameCount = (meta.games && meta.games.length) || 0;
       const minItems = meta.minItems || 25;
       bingoCardHelper.classList.remove('error');
-      bingoCardHelper.textContent = `Pick from ${categoryCount} categories or ${gameCount} games (each has at least ${minItems} tasks). Custom cards override your preset.`;
+      bingoCardHelper.textContent = translate('home.bingoHelperMeta', {
+        categories: categoryCount,
+        games: gameCount,
+        min: minItems
+      });
     }
 
     async function loadBingoMetadata() {
@@ -459,21 +441,21 @@
       bingoMetaRequest = fetch('/api/bingo-tasks/meta')
         .then(response => {
           if (!response.ok) {
-            throw new Error('Failed to load bingo task metadata');
+            throw new Error(translate('errors.generic'));
           }
           return response.json();
         })
         .then(data => {
           bingoMetaCache = data;
-          populateBingoSelect(bingoCategorySelect, data.categories, 'Select a category');
-          populateBingoSelect(bingoGameSelect, data.games, 'Select a game');
+          populateBingoSelect(bingoCategorySelect, data.categories, translate('home.bingoCategoryPlaceholder'));
+          populateBingoSelect(bingoGameSelect, data.games, translate('home.bingoGamePlaceholder'));
           updateBingoHelper(data);
           return data;
         })
         .catch(error => {
           console.error('Unable to load bingo task metadata:', error);
           if (bingoCardHelper) {
-            bingoCardHelper.textContent = 'Could not load bingo task presets. Default card will be used.';
+            bingoCardHelper.textContent = translate('home.bingoHelperError');
             bingoCardHelper.classList.add('error');
           }
           throw error;

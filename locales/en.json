@@ -1,0 +1,515 @@
+{
+  "meta": {
+    "code": "en",
+    "label": "English"
+  },
+  "common": {
+    "appName": "Tokyo Cam Bingo",
+    "tagline": "Play bingo while watching Tokyo live streams with friends",
+    "language": "Language",
+    "loading": "Loading..."
+  },
+  "actions": {
+    "hostGame": "Host Game",
+    "joinGame": "Join Game",
+    "createGame": "Create Game",
+    "createCard": "Create Custom Card",
+    "backToHome": "Back to Home",
+    "copyCode": "Copy Code",
+    "enterRerollMode": "Enter Re-roll Mode",
+    "startGame": "Start Game",
+    "pause": "Pause",
+    "resume": "Resume",
+    "reset": "Reset",
+    "close": "Close",
+    "save": "Save",
+    "load": "Load",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "addItem": "Add Item",
+    "select": "Select",
+    "apply": "Apply",
+    "refresh": "Refresh",
+    "viewRuleBook": "Rule Book"
+  },
+  "colors": {
+    "red": "Red",
+    "blue": "Blue",
+    "green": "Green",
+    "yellow": "Yellow",
+    "purple": "Purple",
+    "orange": "Orange",
+    "pink": "Pink",
+    "cyan": "Cyan"
+  },
+  "home": {
+    "welcomeHeading": "Welcome to Tokyo Cam Bingo",
+    "ruleBook": "Rule Book",
+    "createCustomCardLink": "+ Create Custom Card",
+    "hostFormTitle": "Create Game",
+    "hostNameLabel": "Your Name",
+    "hostNamePlaceholder": "Enter your name",
+    "gameModeLabel": "Game Mode",
+    "modeRegularTitle": "Regular Mode",
+    "modeRegularDescription": "Each player gets their own unique card (up to 10 players)",
+    "modeVsTitle": "VS Mode",
+    "modeVsDescription": "All players share one card and compete for squares (max 4 players)",
+    "modeColorsLabel": "Choose your color",
+    "colorPlaceholder": "-- Select Your Color --",
+    "bingoCardLabel": "Bingo Card",
+    "bingoDefaultOption": "Tokyo Cam Bingo (default)",
+    "bingoCategoryOption": "Bingo Tasks · by Category",
+    "bingoGameOption": "Bingo Tasks · by Game",
+    "bingoAllOption": "Mix All Bingo Tasks",
+    "bingoCategoryLabel": "Choose a category",
+    "bingoCategoryPlaceholder": "Select a category",
+    "bingoGameLabel": "Choose a game",
+    "bingoGamePlaceholder": "Select a game",
+    "loadingCategories": "Loading categories...",
+    "loadingGames": "Loading games...",
+    "bingoHelperDefault": "Tokyo Cam Bingo stays the default deck unless you pick a preset or enter a custom card code.",
+    "bingoHelperMeta": "Pick from {categories} categories or {games} games (each has at least {min} tasks). Custom cards override your preset.",
+    "bingoHelperError": "Could not load bingo task presets. Default card will be used.",
+    "customCardButton": "Use Custom Card (Optional)",
+    "customCardPlaceholder": "Enter custom card code",
+    "gameOptionsLabel": "Game Options",
+    "flagOptionTitle": "🚩 Flag System",
+    "flagOptionDescription": "Players can challenge questionable stamps",
+    "rerollOptionTitle": "🎲 Re-rolls",
+    "rerollOptionDescription": "Host can re-roll tiles during the game",
+    "timerSectionLabel": "Game Timer (Optional)",
+    "timerEnableLabel": "Enable Game Timer",
+    "timerDescription": "Set a time limit for the game",
+    "timerPresetMinutes": "{value} min",
+    "timerPresetHours": "{value} hr",
+    "captchaLabel": "Human Check",
+    "captchaQuestionFallback": "Solve the challenge",
+    "captchaLoadError": "Error loading challenge",
+    "captchaAnswerPlaceholder": "Enter the answer above",
+    "captchaHelper": "Solve the math question so we know you are not a bot.",
+    "joinFormTitle": "Join Game",
+    "joinNameLabel": "Your Name",
+    "joinCodeLabel": "Game Code",
+    "joinNamePlaceholder": "Enter your name",
+    "joinCodePlaceholder": "6-letter code",
+    "winConditionsLabel": "Win Conditions (select at least one)",
+    "winConditions": {
+      "row": "1 Row",
+      "twoRows": "2 Rows",
+      "threeRows": "3 Rows",
+      "column": "1 Column",
+      "twoColumns": "2 Columns",
+      "threeColumns": "3 Columns",
+      "diagonals": "Diagonals",
+      "fullCard": "Full Card",
+      "mostSquares": "Most Squares"
+    },
+    "rulebook": {
+      "title": "Tokyo Cam Bingo Rule Book",
+      "closeLabel": "Close",
+      "sections": [
+        {
+          "title": "Quick Start",
+          "items": [
+            {
+              "label": "Host Game",
+              "body": "Choose Host Game, configure the options you want, and share the six-letter code with friends."
+            },
+            {
+              "label": "Join Game",
+              "body": "Enter the code on the Join Game form. In VS mode you also pick a unique player color."
+            },
+            {
+              "label": "Cards",
+              "body": "The default deck uses Tokyo Cam Bingo prompts. Hosts can load custom cards made in the builder with a six-letter code."
+            }
+          ]
+        },
+        {
+          "title": "Game Modes",
+          "items": [
+            {
+              "label": "Regular Mode (up to 10 players)",
+              "body": "Everyone receives their own 5x5 card. Tapping a tile toggles your stamp. When re-rolls are enabled the host can refresh tiles on any player's card."
+            },
+            {
+              "label": "VS Mode (up to 4 players)",
+              "body": "All players share one board. Tiles are claimed in your color and you can remove your own claims, but you cannot take a square that is already stamped by someone else."
+            }
+          ]
+        },
+        {
+          "title": "Win Conditions",
+          "description": "Hosts pick one or more goals when the room is created.",
+          "items": [
+            {
+              "label": "Rows & Columns",
+              "body": "Complete the lines the host enabled (Regular mode also offers 2- and 3-line variants)."
+            },
+            {
+              "label": "Diagonals",
+              "body": "Claim either diagonal from corner to corner."
+            },
+            {
+              "label": "Full Card",
+              "body": "(Regular only) Stamp every tile on your own card."
+            },
+            {
+              "label": "Most Squares",
+              "body": "Counts who has stamped the most tiles. It resolves the game automatically when the timer expires, and in VS mode when all 25 squares are claimed. Ties end the game without a winner."
+            }
+          ]
+        },
+        {
+          "title": "Game Timer",
+          "items": [
+            {
+              "label": "Optional Countdown",
+              "body": "The host can set a timer and then start, pause, resume, or reset it from the game screen."
+            },
+            {
+              "label": "Auto Result",
+              "body": "When the timer hits zero the app checks the Most Squares condition to announce a winner or a tie."
+            }
+          ]
+        },
+        {
+          "title": "Flags & Voting",
+          "items": [
+            {
+              "label": "Throw a Flag",
+              "body": "Each player starts with two flags when they join. Use the 🚩 button to challenge a suspicious stamp."
+            },
+            {
+              "label": "Group Decision",
+              "body": "Everyone votes yes or no. A passed vote removes the challenged square from the targeted player."
+            }
+          ]
+        },
+        {
+          "title": "Re-rolls",
+          "items": [
+            {
+              "label": "Host Tool",
+              "body": "When enabled, the host can re-roll specific tiles, rows, columns, diagonals, or entire cards."
+            },
+            {
+              "label": "VS Mode Impact",
+              "body": "Refreshing the shared board clears any claimed squares in the re-rolled area so players can compete for fresh tiles."
+            }
+          ]
+        },
+        {
+          "title": "Extras",
+          "items": [
+            {
+              "label": "Leaderboard",
+              "body": "Ranks players by completed lines and total stamps in real time."
+            },
+            {
+              "label": "Chat",
+              "body": "Coordinate finds and strategize with the built-in chat panel."
+            },
+            {
+              "label": "Streamer Mode",
+              "body": "Toggle a cleaner layout when you are broadcasting the game."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "game": {
+    "copyConfirmation": "Code copied!",
+    "leaderboard": "Leaderboard",
+    "leaderboardRank": "Rank",
+    "leaderboardPlayer": "Player",
+    "leaderboardLines": "Lines",
+    "leaderboardTiles": "Stamped Tiles",
+    "chatToggle": "Open chat",
+    "flagButton": "Throw Flag",
+    "timerStart": "Start Game",
+    "timerPause": "Pause",
+    "timerResume": "Resume",
+    "timerReset": "Reset",
+    "mobileDrawerClose": "Close",
+    "winnerHeading": "Winner!",
+    "winnerConditionLabel": "Win Condition",
+    "winnerNewGame": "Start Next Game",
+    "winnerStay": "Stay Here",
+    "rerollSelectType": "Select re-roll type",
+    "rerollInstruction": "Tap tiles to select an area for re-roll",
+    "flagButton": "Throw Flag",
+    "streamerModeOff": "Streamer Mode: Off",
+    "streamerModeOn": "Streamer Mode: On",
+    "exitToHome": "Exit to Home",
+    "timerExpired": {
+      "title": "Time's Up!",
+      "message": "The timer has expired.",
+      "winnerPrefix": "Winner:",
+      "hostAction": "Start Next Game"
+    },
+    "chatTitle": "Chat",
+    "chatPlaceholder": "Type a message...",
+    "chatSend": "Send",
+    "chatYou": "You",
+    "chatUnknown": "Unknown player",
+    "copyPrompt": "Copy your game code:",
+    "playerCardTitle": "{name}'s Card",
+    "reroll": {
+      "modalTitle": "Re-roll",
+      "typeLabel": "Type",
+      "selectType": "Select Type",
+      "randomButtonDefault": "Select Random",
+      "randomButton": "Select Random Tile",
+      "randomRowButton": "Select Random Row",
+      "randomColumnButton": "Select Random Column",
+      "randomDiagonalButton": "Select Random Diagonal",
+      "instruction": "Click on the card to select the area.",
+      "confirm": "Confirm Re-roll",
+      "options": {
+        "tile": "Tile",
+        "row": "Row",
+        "column": "Column",
+        "diagonal": "Diagonal",
+        "card": "Whole Card",
+        "randomTile": "Random Tile",
+        "randomRow": "Random Row",
+        "randomColumn": "Random Column",
+        "randomDiagonal": "Random Diagonal"
+      }
+    },
+    "winConditions": {
+      "heading": "Win Conditions:",
+      "none": "None",
+      "list": {
+        "row": "1 Row",
+        "2rows": "2 Rows",
+        "3rows": "3 Rows",
+        "column": "1 Column",
+        "2columns": "2 Columns",
+        "3columns": "3 Columns",
+        "diagonals": "Diagonals",
+        "full": "Full Card",
+        "most_squares": "Most Squares"
+      }
+    },
+    "voteModal": {
+      "title": "Vote on Flagged Stamp",
+      "yes": "Yes",
+      "no": "No",
+      "count": "Votes: {yes} yes, {no} no",
+      "message": "Flag thrown by {flagger} on {target}",
+      "passed": "Vote passed!",
+      "failed": "Vote failed!"
+    },
+    "flagModal": {
+      "title": "Throw Flag",
+      "subtitle": "Select a player to challenge:",
+      "placeholder": "-- Choose Player --",
+      "confirm": "Confirm"
+    }
+  },
+  "cardBuilder": {
+    "pageTitle": "Create Custom Card - Tokyo Cam Bingo",
+    "metaDescription": "Create custom bingo cards for Tokyo Cam Bingo watch parties.",
+    "header": "Create Custom Bingo Card",
+    "subheader": "Add at least 25 items to create your custom card",
+    "tabs": {
+      "create": "Create New Card",
+      "template": "Start From Deck",
+      "edit": "Edit Saved Card"
+    },
+    "tabsAriaLabel": "Card builder modes",
+    "collectionNameLabel": "Card Name",
+    "collectionNamePlaceholder": "e.g., Tokyo Night Edition",
+    "defaultCardName": "Custom Card",
+    "collectionHelper": "Need a starting point? Load a deck in the other tabs, then customize it how you want.",
+    "itemsLabel": "Items (minimum 25)",
+    "itemsCount": "{count} items added",
+    "captchaLabel": "Human Check",
+    "captchaHelper": "Solve the question before saving your deck.",
+    "captchaQuestionFallback": "Solve the challenge",
+    "captchaPlaceholder": "Enter the answer above",
+    "saveButton": "Save Custom Card",
+    "updateButton": "Update Custom Card",
+    "templateSectionLabel": "Optional: Prefill From an Existing Deck",
+    "templateSectionHelper": "Load any built-in deck or one of your codes to jump-start editing. We’ll bring you back to the builder once it loads.",
+    "templatePlaceholder": "-- Choose a preset --",
+    "templateLoadButton": "Load Deck",
+    "templateDivider": "or",
+    "templateDuplicateHelper": "Duplicate one of your saved cards (new code will be generated)",
+    "templateCodePlaceholder": "Enter card code to duplicate",
+    "templateCodeButton": "Load As Template",
+    "existingSectionLabel": "Edit a Saved Card",
+    "existingSectionHelper": "Enter the six-letter code for a card you created earlier. We’ll load it so you can update and resave.",
+    "existingCodePlaceholder": "Enter card code to edit",
+    "existingLoadButton": "Load Card",
+    "successTitle": "✓ Custom Card Created!",
+    "successBody": "Save this code to use your custom card when creating a game:",
+    "successHint": "Write this code down! You'll need it to load this custom card when creating a game.",
+    "successHomeButton": "Go to Home",
+    "itemsCountNeed": "{count} items added (need at least 25)",
+    "itemsCountReady": "{count} items added ✓",
+    "errors": {
+      "captchaRefresh": "Failed to refresh captcha",
+      "loadPreset": "Failed to load deck.",
+      "loadCard": "Failed to load card.",
+      "saveFailed": "Failed to save card",
+      "nameRequired": "Please enter a card name",
+      "itemsRequired": "Please add at least 25 items",
+      "captchaRequired": "Please solve the human check before saving."
+    },
+    "messages": {
+      "captchaLoadError": "Error loading challenge",
+      "presetRequired": "Please choose a preset to load.",
+      "loadingDeck": "Loading deck...",
+      "selectCategory": "Please select a category to load.",
+      "selectGame": "Please select a game to load.",
+      "unsupportedPreset": "Unsupported preset type.",
+      "presetEmpty": "Preset did not return any items.",
+      "duplicateCodeInvalid": "Enter a valid 6-letter card code to duplicate.",
+      "loadCodeInvalid": "Please enter a valid 6-character code",
+      "cardNotFound": "Card not found",
+      "loadedPreset": "Loaded {name} ({count} items). Save to create a new code.",
+      "loadingCard": "Loading card {code}...",
+      "cardLoaded": "Loaded \"{name}\" ({count} items)",
+      "loadedCard": "Loaded {name} ({count} items). Saving will create a new code.",
+      "cardLoadError": "Error loading card",
+      "saving": "Saving...",
+      "copied": "Copied!",
+      "itemPlaceholder": "Enter item name",
+      "removeItem": "Remove",
+      "remixName": "{name} Remix"
+    }
+  },
+  "alerts": {
+    "rerollMissingSelection": "Please select a type and an area to re-roll.",
+    "invalidGameCode": "Please enter a valid game code.",
+    "captchaIncorrect": "Captcha answer incorrect. Please try again."
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "rateLimited": "Too many requests. Please wait and try again."
+  },
+  "notifications": {
+    "codeCopied": "Code copied!",
+    "codeShown": "Shown code to copy"
+  },
+  "vote": {
+    "prompt": "Vote now!",
+    "thanks": "Thanks for voting!"
+  },
+  "splash": {
+    "loading": "Loading Tokyo Cam Bingo..."
+  },
+  "items": {
+    "notice camera": "notice camera",
+    "sad drunk crouch": "sad drunk crouch",
+    "hitting on girls": "hitting on girls",
+    "irl streamer": "irl streamer",
+    "drop something": "drop something",
+    "filming on phone": "filming on phone",
+    "selfie": "selfie",
+    "fighting": "fighting",
+    "smoking": "smoking",
+    "holding umbrella": "holding umbrella",
+    "running": "running",
+    "tripping": "tripping",
+    "exotic pet guy": "exotic pet guy",
+    "animal in cart": "animal in cart",
+    "instrument": "instrument",
+    "suitcase drag": "suitcase drag",
+    "drinking alcohol": "drinking alcohol",
+    "police security": "police security",
+    "uber delivery": "uber delivery",
+    "pissing": "pissing",
+    "kanji japan shirt": "kanji japan shirt",
+    "formal suit": "formal suit",
+    "giving out tissues": "giving out tissues",
+    "izakaya scammers": "izakaya scammers",
+    "tour group": "tour group",
+    "fixated on phone": "fixated on phone",
+    "people bump": "people bump",
+    "holding hands": "holding hands",
+    "carrying drunk friend": "carrying drunk friend",
+    "crazy hair color": "crazy hair color",
+    "mario kart": "mario kart",
+    "anime sticker car": "anime sticker car",
+    "trip on high heels": "trip on high heels",
+    "sexy ad cars": "sexy ad cars",
+    "street pass out": "street pass out",
+    "throwing up": "throwing up",
+    "lost tourist": "lost tourist",
+    "talk to girls bar girls": "talk to girls bar girls",
+    "crane game plushie": "crane game plushie",
+    "papakatsu": "papakatsu",
+    "making out": "making out",
+    "wild life": "wild life",
+    "kimono": "kimono",
+    "baby or toddler": "baby or toddler",
+    "bicycle": "bicycle",
+    "street performance": "street performance",
+    "littering": "littering",
+    "cop car": "cop car",
+    "night sunglasses": "night sunglasses",
+    "need to pee": "need to pee",
+    "high five": "high five",
+    "dancing": "dancing",
+    "meltdown drunk": "meltdown drunk",
+    "matching outfits": "matching outfits",
+    "huge shopping bag": "huge shopping bag",
+    "celebrity": "celebrity",
+    "ambulance": "ambulance",
+    "fire truck": "fire truck"
+  },
+  "bingoTasks": {},
+  "bingo": {
+    "meta": {
+      "arcade_style": "Arcade Style",
+      "battle_royale": "Battle Royale",
+      "board_games": "Board Games",
+      "card_games": "Card Games",
+      "coop": "Co-op",
+      "craft_builder_games": "Craft & Builder Games",
+      "dark_souls": "Dark Souls",
+      "dark_souls_iii": "Dark Souls III",
+      "elden_ring": "Elden Ring",
+      "elden_ring_combined": "Elden Ring (Combined)",
+      "elden_ring_shadow_of_the_erdtree": "Elden Ring: Shadow of the Erdtree",
+      "fighting_games": "Fighting Games",
+      "fps_competitive": "FPS (Competitive)",
+      "geoguessr": "GeoGuessr",
+      "league_of_legends": "League of Legends",
+      "lords_of_the_fallen": "Lords of the Fallen",
+      "mario": "Mario",
+      "mega_man_legacy_collection_1_2": "Mega Man Legacy Collection 1 & 2",
+      "metal_gear_solid": "Metal Gear Solid",
+      "metroidvania": "Metroidvania",
+      "nintendo": "Nintendo",
+      "open_world": "Open World",
+      "party_games": "Party Games",
+      "peak": "Peak",
+      "phasmophobia": "Phasmophobia",
+      "platformer": "Platformer",
+      "puzzle_games": "Puzzle Games",
+      "racing": "Racing",
+      "ranked_play": "Ranked Play",
+      "retro_games": "Retro Games",
+      "roguelite": "Roguelite",
+      "rv_there_yet": "RV There Yet?",
+      "soulslike": "Soulslike",
+      "sports_games": "Sports Games",
+      "super_mario_bros_3": "Super Mario Bros. 3",
+      "super_mario_world": "Super Mario World",
+      "supraland": "Supraland",
+      "survival_games": "Survival Games",
+      "the_legend_of_zelda_a_link_to_the_past": "The Legend of Zelda: A Link to the Past",
+      "vampire_survivors": "Vampire Survivors",
+      "world_of_warcraft": "World of Warcraft",
+      "zelda": "Zelda",
+      "zelda_nes": "Zelda (NES)",
+      "any": "Any"
+    }
+  }
+}

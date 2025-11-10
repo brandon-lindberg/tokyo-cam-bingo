@@ -266,7 +266,7 @@
         <input type="text" name="playerName" placeholder="Your Name" required>
         <div id="color-selection" style="display: none; margin: 1rem 0;">
           <label for="playerColor">Choose Your Color:</label>
-          <select id="playerColor" name="playerColor" required>
+          <select id="playerColor" name="playerColor">
             <option value="">-- Select Color --</option>
             <option value="RED">Red</option>
             <option value="BLUE">Blue</option>
@@ -662,6 +662,9 @@
     const joinCodeInput = document.getElementById('join-code');
     const colorSelection = document.getElementById('color-selection');
     const playerColorSelect = document.getElementById('playerColor');
+    if (playerColorSelect) {
+      playerColorSelect.required = false;
+    }
 
     joinCodeInput.addEventListener('blur', async function() {
       const code = this.value.trim().toUpperCase();
@@ -691,6 +694,7 @@
             } else {
               colorSelection.style.display = 'none';
               playerColorSelect.required = false;
+              playerColorSelect.value = '';
             }
           }
         } catch (err) {

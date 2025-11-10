@@ -687,6 +687,13 @@
 
     let itemIndex = 0;
     let editingCardCode = null; // Track if we're editing an existing card
+    function normalizeTaskValue(item) {
+      if (typeof item === 'string') return item;
+      if (item && typeof item === 'object') {
+        return item.text || item.rawText || item.id || '';
+      }
+      return '';
+    }
 
     if (templatePresetSelect) {
       templatePresetSelect.addEventListener('change', handleTemplatePresetChange);
@@ -923,7 +930,7 @@
       const itemsList = document.getElementById('items-list');
       itemsList.innerHTML = '';
       itemIndex = 0;
-      data.items.forEach(item => addItemRowWithValue(item));
+      data.items.forEach(item => addItemRowWithValue(normalizeTaskValue(item)));
       editingCardCode = null;
       const saveBtn = document.getElementById('save-btn');
       if (saveBtn) {
@@ -1045,7 +1052,7 @@
 
     function addItemRowWithValue(value) {
       const itemsList = document.getElementById('items-list');
-      const { row } = buildItemRow(value);
+      const { row } = buildItemRow(normalizeTaskValue(value));
       itemsList.appendChild(row);
       itemIndex++;
       updateCount();

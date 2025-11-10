@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node server.js",
     "test": "node test/checkWin.test.js",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "export:bingo": "node scripts/export-bingo-tasks.js"
   },
   "author": "brandon-lindberg",
   "license": "MIT",

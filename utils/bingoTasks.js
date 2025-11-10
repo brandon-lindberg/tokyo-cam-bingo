@@ -4,7 +4,8 @@ const path = require('path');
 const MIN_POOL_SIZE = 25;
 const tasksByCategory = new Map();
 const tasksByGame = new Map();
-const allTasksSet = new Set();
+const allTaskIds = new Set();
+const tasksById = new Map();
 
 const tasksFilePath = path.join(__dirname, '..', 'bingo_tasks.json');
 
@@ -28,18 +29,18 @@ function formatTaskText(task) {
   return text.length ? text : null;
 }
 
-function upsertTaskBucket(map, rawValue, taskText) {
+function upsertTaskBucket(map, rawValue, taskId) {
   const value = sanitizeValue(rawValue);
-  if (!value || !taskText) return;
+  if (!value || !taskId) return;
 
   if (!map.has(value)) {
     map.set(value, {
       value,
       label: titleize(value),
-      taskSet: new Set()
+      taskIds: new Set()
     });
   }
-  map.get(value).taskSet.add(taskText);
+  map.get(value).taskIds.add(taskId);
 }
 
 function loadTasks() {
@@ -48,12 +49,21 @@ function loadTasks() {
     const tasks = JSON.parse(raw);
 
     tasks.forEach(task => {
+      const id = sanitizeValue(task.id);
       const text = formatTaskText(task);
-      if (!text) return;
+      if (!id || !text) return;
 
-      allTasksSet.add(text);
-      upsertTaskBucket(tasksByCategory, task.category, text);
-      upsertTaskBucket(tasksByGame, task.game, text);
+      const entry = {
+        id,
+        text,
+        category: sanitizeValue(task.category),
+        game: sanitizeValue(task.game)
+      };
+
+      tasksById.set(id, entry);
+      allTaskIds.add(id);
+      upsertTaskBucket(tasksByCategory, entry.category, id);
+      upsertTaskBucket(tasksByGame, entry.game, id);
     });
   } catch (error) {
     console.error('Failed to load bingo tasks:', error);
@@ -64,23 +74,25 @@ function bucketToMeta(bucket) {
   return {
     value: bucket.value,
     label: bucket.label || bucket.value,
-    count: bucket.taskSet.size
+    count: bucket.taskIds.size
   };
 }
 
 function getBucketTasks(bucket) {
   if (!bucket) return [];
-  return Array.from(bucket.taskSet);
+  return Array.from(bucket.taskIds)
+    .map((id) => tasksById.get(id))
+    .filter(Boolean);
 }
 
 function getBingoTasksMeta() {
   const categories = Array.from(tasksByCategory.values())
-    .filter(bucket => bucket.taskSet.size >= MIN_POOL_SIZE)
+    .filter(bucket => bucket.taskIds.size >= MIN_POOL_SIZE)
     .map(bucketToMeta)
     .sort((a, b) => a.label.localeCompare(b.label));
 
   const games = Array.from(tasksByGame.values())
-    .filter(bucket => bucket.taskSet.size >= MIN_POOL_SIZE)
+    .filter(bucket => bucket.taskIds.size >= MIN_POOL_SIZE)
     .map(bucketToMeta)
     .sort((a, b) => a.label.localeCompare(b.label));
 
@@ -98,7 +110,17 @@ function getGamePool(value) {
 }
 
 function getAllTasksPool() {
-  return Array.from(allTasksSet);
+  return Array.from(allTaskIds)
+    .map((id) => tasksById.get(id))
+    .filter(Boolean);
+}
+
+function getAllTaskEntries() {
+  return Array.from(tasksById.values());
+}
+
+function getTaskEntry(taskId) {
+  return tasksById.get(taskId);
 }
 
 loadTasks();
@@ -108,5 +130,7 @@ module.exports = {
   getBingoTasksMeta,
   getCategoryPool,
   getGamePool,
-  getAllTasksPool
+  getAllTasksPool,
+  getAllTaskEntries,
+  getTaskEntry
 };

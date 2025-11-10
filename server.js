@@ -188,7 +188,7 @@ app.use((req, res, next) => {
   res.locals.availableLocales = getSupportedLocalesMeta();
   res.locals.t = (key, vars) => translate(locale, key, vars);
   res.locals.translateItem = (text) => translateItemText(locale, text);
-  res.locals.translateTask = (text) => translateTaskText(locale, text);
+  res.locals.translateTask = (taskId, fallback) => translateTaskText(locale, taskId, fallback);
   res.locals.getClientTranslations = (namespaces = []) => getClientTranslations(locale, namespaces);
   next();
 });
@@ -279,6 +279,15 @@ function sanitizeReturnPath(pathValue) {
   return '/';
 }
 
+function normalizeMetaKey(value = '') {
+  return value
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_|_$/g, '');
+}
+
 function sendCsrfError(req, res) {
   const message = 'Invalid or missing security token.';
   if (req.path.startsWith('/api')) {
@@ -304,7 +313,11 @@ app.post('/set-locale', csrfProtection, (req, res) => {
     persistLocalePreference(req, res, requestedLocale);
     req.locale = requestedLocale;
   }
-  res.redirect(returnTo);
+  if (req.session) {
+    req.session.save(() => res.redirect(returnTo));
+  } else {
+    res.redirect(returnTo);
+  }
 });
 
 function isOnCooldown(playerId, action, durationMs) {
@@ -765,10 +778,12 @@ app.put('/api/card-collections/:code', cardWriteLimiter, csrfProtection, async (
 // Provide default Tokyo Cam Bingo deck
 app.get('/api/default-card', (req, res) => {
   try {
+    const locale = req.locale || 'en';
+    const localizedItems = itemsList.map((item) => translateItemText(locale, item));
     res.json({
-      name: 'Tokyo Cam Bingo',
-      items: itemsList,
-      itemCount: itemsList.length
+      name: translate(locale, 'home.bingoDefaultOption'),
+      items: localizedItems,
+      itemCount: localizedItems.length
     });
   } catch (error) {
     console.error('Error loading default card:', error);
@@ -780,8 +795,28 @@ app.get('/api/default-card', (req, res) => {
 app.get('/api/bingo-tasks/meta', (req, res) => {
   try {
     const meta = getBingoTasksMeta();
+    const locale = req.locale || 'en';
+    const translateLabel = (value) => {
+      const normalized = normalizeMetaKey(value);
+      if (!normalized) return value;
+      const key = `bingo.meta.${normalized}`;
+      const translated = translate(locale, key);
+      if (translated && translated !== key) {
+        return translated;
+      }
+      return value;
+    };
+    const categories = meta.categories.map((category) => ({
+      ...category,
+      label: translateLabel(category.label || category.value)
+    }));
+    const games = meta.games.map((game) => ({
+      ...game,
+      label: translateLabel(game.label || game.value)
+    }));
     res.json({
-      ...meta,
+      categories,
+      games,
       minItems: MIN_POOL_SIZE
     });
   } catch (error) {
@@ -798,20 +833,21 @@ app.get('/api/bingo-tasks/pool', (req, res) => {
       return res.status(400).json({ error: 'type query parameter is required' });
     }
 
-    let items = [];
+    const locale = req.locale || 'en';
+    let entries = [];
     let label = '';
     if (type === 'all') {
-      items = getAllTasksPool();
+      entries = getAllTasksPool();
       label = 'All Bingo Tasks';
     } else if (type === 'category') {
       if (!value) return res.status(400).json({ error: 'value parameter required for category type' });
-      items = getCategoryPool(value);
+      entries = getCategoryPool(value);
       const meta = getBingoTasksMeta();
       const bucket = meta.categories.find(cat => cat.value === value);
       label = bucket ? bucket.label : value;
     } else if (type === 'game') {
       if (!value) return res.status(400).json({ error: 'value parameter required for game type' });
-      items = getGamePool(value);
+      entries = getGamePool(value);
       const meta = getBingoTasksMeta();
       const bucket = meta.games.find(game => game.value === value);
       label = bucket ? bucket.label : value;
@@ -819,9 +855,15 @@ app.get('/api/bingo-tasks/pool', (req, res) => {
       return res.status(400).json({ error: 'Invalid type parameter' });
     }
 
-    if (!items || items.length < MIN_POOL_SIZE) {
+    if (!entries || entries.length < MIN_POOL_SIZE) {
       return res.status(404).json({ error: 'Preset does not have enough items to build a card' });
     }
+
+    const items = entries.map((entry) => ({
+      id: entry.id,
+      text: translateTaskText(locale, entry, entry.text),
+      rawText: entry.text
+    }));
 
     res.json({
       type,
@@ -916,33 +958,34 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
     const presetChoice = (bingoCardPreset || 'default').toLowerCase();
     const categoryValue = (bingoCategory || '').trim();
     const gameValue = (bingoGame || '').trim();
+    const locale = req.locale || 'en';
 
     if (presetChoice === 'category') {
       if (!categoryValue) {
         return res.status(400).send('Please select a bingo task category.');
       }
-      const pool = getCategoryPool(categoryValue);
-      if (!pool.length || pool.length < MIN_POOL_SIZE) {
+      const entries = getCategoryPool(categoryValue);
+      if (!entries.length || entries.length < MIN_POOL_SIZE) {
         return res.status(400).send(`Selected category does not have enough prompts (need ${MIN_POOL_SIZE}).`);
       }
-      customItems = pool;
+      customItems = entries.map((entry) => translateTaskText(locale, entry, entry.text));
       cardPresetDetails = { type: 'category', value: categoryValue };
     } else if (presetChoice === 'game') {
       if (!gameValue) {
         return res.status(400).send('Please select a bingo task game.');
       }
-      const pool = getGamePool(gameValue);
-      if (!pool.length || pool.length < MIN_POOL_SIZE) {
+      const entries = getGamePool(gameValue);
+      if (!entries.length || entries.length < MIN_POOL_SIZE) {
         return res.status(400).send(`Selected game does not have enough prompts (need ${MIN_POOL_SIZE}).`);
       }
-      customItems = pool;
+      customItems = entries.map((entry) => translateTaskText(locale, entry, entry.text));
       cardPresetDetails = { type: 'game', value: gameValue };
     } else if (presetChoice === 'all') {
-      const pool = getAllTasksPool();
-      if (!pool.length || pool.length < MIN_POOL_SIZE) {
+      const entries = getAllTasksPool();
+      if (!entries.length || entries.length < MIN_POOL_SIZE) {
         return res.status(400).send('Not enough bingo tasks available to build a deck.');
       }
-      customItems = pool;
+      customItems = entries.map((entry) => translateTaskText(locale, entry, entry.text));
       cardPresetDetails = { type: 'all', value: 'all' };
     }
   }

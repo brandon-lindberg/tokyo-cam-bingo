@@ -6,6 +6,7 @@ const DEFAULT_LOCALE = 'en';
 const FALLBACK_NAMESPACES = ['common', 'actions'];
 
 let dictionaries = {};
+const bingoDictionaries = new Map();
 
 function loadLocales() {
   dictionaries = SUPPORTED_LOCALES.reduce((acc, locale) => {
@@ -38,6 +39,23 @@ function resolveLocale(preferred) {
 
 function getDictionary(locale) {
   return dictionaries[locale] || dictionaries[DEFAULT_LOCALE] || {};
+}
+
+function getBingoDictionary(locale) {
+  const safeLocale = resolveLocale(locale);
+  if (bingoDictionaries.has(safeLocale)) {
+    return bingoDictionaries.get(safeLocale);
+  }
+  try {
+    const localePath = path.join(__dirname, '..', 'locales', 'bingo', `${safeLocale}.json`);
+    const raw = fs.readFileSync(localePath, 'utf-8');
+    const parsed = JSON.parse(raw);
+    bingoDictionaries.set(safeLocale, parsed);
+    return parsed;
+  } catch (error) {
+    bingoDictionaries.set(safeLocale, {});
+    return {};
+  }
 }
 
 function getNestedValue(object, key) {
@@ -123,13 +141,26 @@ function translateItemText(locale, text) {
   return value || text;
 }
 
-function translateTaskText(locale, text) {
-  if (typeof text !== 'string') return '';
+function translateTaskText(locale, task, fallbackText) {
+  if (!task) return fallbackText || '';
   const safeLocale = resolveLocale(locale);
-  const dict = getDictionary(safeLocale);
-  const fallbackDict = getDictionary(DEFAULT_LOCALE);
-  const value = dict.bingoTasks?.[text] || fallbackDict.bingoTasks?.[text];
-  return value || text;
+  const taskId = typeof task === 'object' ? task.id : task;
+  const fallback = typeof task === 'object' ? (task.text || fallbackText) : fallbackText;
+  if (!taskId) return fallback || '';
+
+  const dict = getBingoDictionary(safeLocale);
+  if (dict && Object.prototype.hasOwnProperty.call(dict, taskId)) {
+    return dict[taskId];
+  }
+
+  if (safeLocale !== DEFAULT_LOCALE) {
+    const fallbackDict = getBingoDictionary(DEFAULT_LOCALE);
+    if (fallbackDict && Object.prototype.hasOwnProperty.call(fallbackDict, taskId)) {
+      return fallbackDict[taskId];
+    }
+  }
+
+  return fallback || taskId;
 }
 
 function getSupportedLocalesMeta() {

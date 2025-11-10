@@ -265,10 +265,20 @@
       <h2><%= t('home.joinFormTitle') %></h2>
       <form id="join-game-form" action="/join" method="POST">
         <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
-        <label class="form-label" for="join-code"><%= t('home.joinCodeLabel') %></label>
-        <input type="password" id="join-code" name="code" placeholder="<%= t('home.joinCodePlaceholder') %>" required>
-        <label class="form-label" for="join-name"><%= t('home.joinNameLabel') %></label>
-        <input type="text" id="join-name" name="playerName" placeholder="<%= t('home.joinNamePlaceholder') %>" required>
+        <div class="join-inline-row">
+          <div class="form-input-group">
+            <label class="form-label" for="join-code"><%= t('home.joinCodeLabel') %></label>
+            <input type="password" id="join-code" name="code" placeholder="<%= t('home.joinCodePlaceholder') %>" required>
+          </div>
+          <div class="form-input-group">
+            <label class="form-label" for="join-name"><%= t('home.joinNameLabel') %></label>
+            <input type="text" id="join-name" name="playerName" placeholder="<%= t('home.joinNamePlaceholder') %>" required>
+          </div>
+          <div class="form-input-group join-submit-group">
+            <label class="form-label" style="visibility:hidden;">&nbsp;</label>
+            <button type="submit" class="join-submit-btn"><%= t('actions.joinGame') %></button>
+          </div>
+        </div>
         <div id="color-selection" style="display: none; margin: 1rem 0;">
           <label for="playerColor"><%= t('home.modeColorsLabel') %></label>
           <select id="playerColor" name="playerColor">
@@ -283,7 +293,6 @@
             <option value="CYAN"><%= t('colors.cyan') %></option>
           </select>
         </div>
-        <button type="submit"><%= t('actions.joinGame') %></button>
       </form>
     </div>
   </div>

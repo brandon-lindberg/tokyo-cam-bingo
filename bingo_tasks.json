@@ -6898,5 +6898,6305 @@
     "game": "Any",
     "category": "racing",
     "task": "Photo mode podium"
+  },
+  {
+    "id": "ELD-001",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat Margit"
+  },
+  {
+    "id": "ELD-002",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat Godrick"
+  },
+  {
+    "id": "ELD-003",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Parry a boss"
+  },
+  {
+    "id": "ELD-004",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "No-summons boss win"
+  },
+  {
+    "id": "ELD-005",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Mount kill an enemy"
+  },
+  {
+    "id": "ELD-006",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Open 10 chests"
+  },
+  {
+    "id": "ELD-007",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Activate 15 graces"
+  },
+  {
+    "id": "ELD-008",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Defeat a dragon"
+  },
+  {
+    "id": "ELD-009",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat an Evergaol boss"
+  },
+  {
+    "id": "ELD-010",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Get a legendary ash"
+  },
+  {
+    "id": "ELD-011",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Invader defeated"
+  },
+  {
+    "id": "ELD-012",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat a night boss"
+  },
+  {
+    "id": "ELD-013",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Hitless mini-boss"
+  },
+  {
+    "id": "ELD-014",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Bell-bearing Hunter down"
+  },
+  {
+    "id": "ELD-015",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Kill a Runebear"
+  },
+  {
+    "id": "ELD-016",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Craft 5 items"
+  },
+  {
+    "id": "ELD-017",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Upgrade a weapon +12"
+  },
+  {
+    "id": "ELD-018",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Spirit ash +6"
+  },
+  {
+    "id": "ELD-019",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Unlock a great rune"
+  },
+  {
+    "id": "ELD-020",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Use a great rune"
+  },
+  {
+    "id": "ELD-021",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Find 10 cookbooks"
+  },
+  {
+    "id": "ELD-022",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Kill 3 Crucible Knights"
+  },
+  {
+    "id": "ELD-023",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat a Gargoyle"
+  },
+  {
+    "id": "ELD-024",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Ride lift to Siofra"
+  },
+  {
+    "id": "ELD-025",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Ride torrent 2km"
+  },
+  {
+    "id": "ELD-026",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Jump attack riposte"
+  },
+  {
+    "id": "ELD-027",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Backstab chain x3"
+  },
+  {
+    "id": "ELD-028",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Kill a Golem"
+  },
+  {
+    "id": "ELD-029",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Clear a Catacomb"
+  },
+  {
+    "id": "ELD-030",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Clear a Tunnel"
+  },
+  {
+    "id": "ELD-031",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Open Academy gate"
+  },
+  {
+    "id": "ELD-032",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat Rennala"
+  },
+  {
+    "id": "ELD-033",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat Radahn"
+  },
+  {
+    "id": "ELD-034",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat Mohg (shack)"
+  },
+  {
+    "id": "ELD-035",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat Godskin boss"
+  },
+  {
+    "id": "ELD-036",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Forge of the Giants reached"
+  },
+  {
+    "id": "ELD-037",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat Fire Giant"
+  },
+  {
+    "id": "ELD-038",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat Maliketh"
+  },
+  {
+    "id": "ELD-039",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat Gideon"
+  },
+  {
+    "id": "ELD-040",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat Godfrey"
+  },
+  {
+    "id": "ELD-041",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat Radagon"
+  },
+  {
+    "id": "ELD-042",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Elden Beast down"
+  },
+  {
+    "id": "ELD-043",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Photo a dragon in flight"
+  },
+  {
+    "id": "ELD-044",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Cross poison lake raw"
+  },
+  {
+    "id": "ELD-045",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Use 3 weapon arts"
+  },
+  {
+    "id": "ELD-046",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Apply 3 bleeds"
+  },
+  {
+    "id": "ELD-047",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Break stance x3"
+  },
+  {
+    "id": "ELD-048",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Kill a Deathbird"
+  },
+  {
+    "id": "ELD-049",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Unlock all map pieces"
+  },
+  {
+    "id": "ELD-050",
+    "game": "Elden Ring",
+    "category": "Elden Ring",
+    "task": "Beat Mohg, Lord of Blood"
+  },
+  {
+    "id": "ELD-051",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Messmer"
+  },
+  {
+    "id": "ELD-052",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Rellana"
+  },
+  {
+    "id": "ELD-053",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Dancing Lion"
+  },
+  {
+    "id": "ELD-054",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Divine Beast"
+  },
+  {
+    "id": "ELD-055",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Blackgaol Knight"
+  },
+  {
+    "id": "ELD-056",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Commander Gaius"
+  },
+  {
+    "id": "ELD-057",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Romina"
+  },
+  {
+    "id": "ELD-058",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Midra"
+  },
+  {
+    "id": "ELD-059",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Metyr"
+  },
+  {
+    "id": "ELD-060",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Jori, Elder Inquisitor"
+  },
+  {
+    "id": "ELD-061",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Bayle"
+  },
+  {
+    "id": "ELD-062",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Putrescent Knight"
+  },
+  {
+    "id": "ELD-063",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Lionel the Lionhearted"
+  },
+  {
+    "id": "ELD-064",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Dryleaf Dane"
+  },
+  {
+    "id": "ELD-065",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Red Bear"
+  },
+  {
+    "id": "ELD-066",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Stray Mimic"
+  },
+  {
+    "id": "ELD-067",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Demi-Human Queen Marigga"
+  },
+  {
+    "id": "ELD-068",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Black Knight Commander"
+  },
+  {
+    "id": "ELD-069",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat Needle Knight Leda"
+  },
+  {
+    "id": "ELD-070",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Beat final boss"
+  },
+  {
+    "id": "ELD-071",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Collect 10 Scadutree Fragments"
+  },
+  {
+    "id": "ELD-072",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Collect 5 Revered Spirit Ash"
+  },
+  {
+    "id": "ELD-073",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Blessing level +10"
+  },
+  {
+    "id": "ELD-074",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Blessing level +15"
+  },
+  {
+    "id": "ELD-075",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Blessing level max"
+  },
+  {
+    "id": "ELD-076",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Open three map fragments"
+  },
+  {
+    "id": "ELD-077",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Open all map fragments"
+  },
+  {
+    "id": "ELD-078",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Activate 10 Sites of Grace"
+  },
+  {
+    "id": "ELD-079",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Activate 20 Sites of Grace"
+  },
+  {
+    "id": "ELD-080",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Find a Scadutree avatar"
+  },
+  {
+    "id": "ELD-081",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Unlock Belurat shortcut"
+  },
+  {
+    "id": "ELD-082",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Unlock Castle Ensis gate"
+  },
+  {
+    "id": "ELD-083",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Enter Shadow Keep"
+  },
+  {
+    "id": "ELD-084",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Reach Scadu Altus"
+  },
+  {
+    "id": "ELD-085",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Reach Abyssal Woods"
+  },
+  {
+    "id": "ELD-086",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Reach Cerulean Coast"
+  },
+  {
+    "id": "ELD-087",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Reach Fissure"
+  },
+  {
+    "id": "ELD-088",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Find Finger Ruins of Rhia"
+  },
+  {
+    "id": "ELD-089",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Find Finger Ruins of Dheo"
+  },
+  {
+    "id": "ELD-090",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Get Backhand Blade"
+  },
+  {
+    "id": "ELD-091",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Get Great Katana"
+  },
+  {
+    "id": "ELD-092",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Get Smithscript Dagger"
+  },
+  {
+    "id": "ELD-093",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Get Beast Claws"
+  },
+  {
+    "id": "ELD-094",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Get Cross Naginata"
+  },
+  {
+    "id": "ELD-095",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Get Dryleaf Arts"
+  },
+  {
+    "id": "ELD-096",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Get Rakshasa armor"
+  },
+  {
+    "id": "ELD-097",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Get Hornsent armor"
+  },
+  {
+    "id": "ELD-098",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Upgrade DLC weapon +10"
+  },
+  {
+    "id": "ELD-099",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Upgrade DLC spirit +10"
+  },
+  {
+    "id": "ELD-100",
+    "game": "Elden Ring: Shadow of the Erdtree",
+    "category": "Elden Ring: Shadow of the Erdtree",
+    "task": "Find 5 Scadutree Fragments"
+  },
+  {
+    "id": "ELD-101",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Margit"
+  },
+  {
+    "id": "ELD-102",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Godrick"
+  },
+  {
+    "id": "ELD-103",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Parry a boss"
+  },
+  {
+    "id": "ELD-104",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "No-summons boss win"
+  },
+  {
+    "id": "ELD-105",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Mount kill an enemy"
+  },
+  {
+    "id": "ELD-106",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Open 10 chests"
+  },
+  {
+    "id": "ELD-107",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Activate 15 graces"
+  },
+  {
+    "id": "ELD-108",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Defeat a dragon"
+  },
+  {
+    "id": "ELD-109",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat an Evergaol boss"
+  },
+  {
+    "id": "ELD-110",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Get a legendary ash"
+  },
+  {
+    "id": "ELD-111",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Invader defeated"
+  },
+  {
+    "id": "ELD-112",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat a night boss"
+  },
+  {
+    "id": "ELD-113",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Hitless mini-boss"
+  },
+  {
+    "id": "ELD-114",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Bell-bearing Hunter down"
+  },
+  {
+    "id": "ELD-115",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Kill a Runebear"
+  },
+  {
+    "id": "ELD-116",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Craft 5 items"
+  },
+  {
+    "id": "ELD-117",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Upgrade a weapon +12"
+  },
+  {
+    "id": "ELD-118",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Spirit ash +6"
+  },
+  {
+    "id": "ELD-119",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Unlock a great rune"
+  },
+  {
+    "id": "ELD-120",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Use a great rune"
+  },
+  {
+    "id": "ELD-121",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Find 10 cookbooks"
+  },
+  {
+    "id": "ELD-122",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Kill 3 Crucible Knights"
+  },
+  {
+    "id": "ELD-123",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat a Gargoyle"
+  },
+  {
+    "id": "ELD-124",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Ride lift to Siofra"
+  },
+  {
+    "id": "ELD-125",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Ride torrent 2km"
+  },
+  {
+    "id": "ELD-126",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Jump attack riposte"
+  },
+  {
+    "id": "ELD-127",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Backstab chain x3"
+  },
+  {
+    "id": "ELD-128",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Kill a Golem"
+  },
+  {
+    "id": "ELD-129",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Clear a Catacomb"
+  },
+  {
+    "id": "ELD-130",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Clear a Tunnel"
+  },
+  {
+    "id": "ELD-131",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Open Academy gate"
+  },
+  {
+    "id": "ELD-132",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Rennala"
+  },
+  {
+    "id": "ELD-133",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Radahn"
+  },
+  {
+    "id": "ELD-134",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Mohg (shack)"
+  },
+  {
+    "id": "ELD-135",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Godskin boss"
+  },
+  {
+    "id": "ELD-136",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Forge of the Giants reached"
+  },
+  {
+    "id": "ELD-137",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Fire Giant"
+  },
+  {
+    "id": "ELD-138",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Maliketh"
+  },
+  {
+    "id": "ELD-139",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Gideon"
+  },
+  {
+    "id": "ELD-140",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Godfrey"
+  },
+  {
+    "id": "ELD-141",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Radagon"
+  },
+  {
+    "id": "ELD-142",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Elden Beast down"
+  },
+  {
+    "id": "ELD-143",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Photo a dragon in flight"
+  },
+  {
+    "id": "ELD-144",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Cross poison lake raw"
+  },
+  {
+    "id": "ELD-145",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Use 3 weapon arts"
+  },
+  {
+    "id": "ELD-146",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Apply 3 bleeds"
+  },
+  {
+    "id": "ELD-147",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Break stance x3"
+  },
+  {
+    "id": "ELD-148",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Kill a Deathbird"
+  },
+  {
+    "id": "ELD-149",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Unlock all map pieces"
+  },
+  {
+    "id": "ELD-150",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Mohg, Lord of Blood"
+  },
+  {
+    "id": "ELD-151",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Messmer"
+  },
+  {
+    "id": "ELD-152",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Rellana"
+  },
+  {
+    "id": "ELD-153",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Dancing Lion"
+  },
+  {
+    "id": "ELD-154",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Divine Beast"
+  },
+  {
+    "id": "ELD-155",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Blackgaol Knight"
+  },
+  {
+    "id": "ELD-156",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Commander Gaius"
+  },
+  {
+    "id": "ELD-157",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Romina"
+  },
+  {
+    "id": "ELD-158",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Midra"
+  },
+  {
+    "id": "ELD-159",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Metyr"
+  },
+  {
+    "id": "ELD-160",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Jori, Elder Inquisitor"
+  },
+  {
+    "id": "ELD-161",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Bayle"
+  },
+  {
+    "id": "ELD-162",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Putrescent Knight"
+  },
+  {
+    "id": "ELD-163",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Lionel the Lionhearted"
+  },
+  {
+    "id": "ELD-164",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Dryleaf Dane"
+  },
+  {
+    "id": "ELD-165",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Red Bear"
+  },
+  {
+    "id": "ELD-166",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Stray Mimic"
+  },
+  {
+    "id": "ELD-167",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Demi-Human Queen Marigga"
+  },
+  {
+    "id": "ELD-168",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Black Knight Commander"
+  },
+  {
+    "id": "ELD-169",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat Needle Knight Leda"
+  },
+  {
+    "id": "ELD-170",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Beat final boss"
+  },
+  {
+    "id": "ELD-171",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Collect 10 Scadutree Fragments"
+  },
+  {
+    "id": "ELD-172",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Collect 5 Revered Spirit Ash"
+  },
+  {
+    "id": "ELD-173",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Blessing level +10"
+  },
+  {
+    "id": "ELD-174",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Blessing level +15"
+  },
+  {
+    "id": "ELD-175",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Blessing level max"
+  },
+  {
+    "id": "ELD-176",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Open three map fragments"
+  },
+  {
+    "id": "ELD-177",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Open all map fragments"
+  },
+  {
+    "id": "ELD-178",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Activate 10 Sites of Grace"
+  },
+  {
+    "id": "ELD-179",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Activate 20 Sites of Grace"
+  },
+  {
+    "id": "ELD-180",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Find a Scadutree avatar"
+  },
+  {
+    "id": "ELD-181",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Unlock Belurat shortcut"
+  },
+  {
+    "id": "ELD-182",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Unlock Castle Ensis gate"
+  },
+  {
+    "id": "ELD-183",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Enter Shadow Keep"
+  },
+  {
+    "id": "ELD-184",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Reach Scadu Altus"
+  },
+  {
+    "id": "ELD-185",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Reach Abyssal Woods"
+  },
+  {
+    "id": "ELD-186",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Reach Cerulean Coast"
+  },
+  {
+    "id": "ELD-187",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Reach Fissure"
+  },
+  {
+    "id": "ELD-188",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Find Finger Ruins of Rhia"
+  },
+  {
+    "id": "ELD-189",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Find Finger Ruins of Dheo"
+  },
+  {
+    "id": "ELD-190",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Get Backhand Blade"
+  },
+  {
+    "id": "ELD-191",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Get Great Katana"
+  },
+  {
+    "id": "ELD-192",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Get Smithscript Dagger"
+  },
+  {
+    "id": "ELD-193",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Get Beast Claws"
+  },
+  {
+    "id": "ELD-194",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Get Cross Naginata"
+  },
+  {
+    "id": "ELD-195",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Get Dryleaf Arts"
+  },
+  {
+    "id": "ELD-196",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Get Rakshasa armor"
+  },
+  {
+    "id": "ELD-197",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Get Hornsent armor"
+  },
+  {
+    "id": "ELD-198",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Upgrade DLC weapon +10"
+  },
+  {
+    "id": "ELD-199",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Upgrade DLC spirit +10"
+  },
+  {
+    "id": "ELD-200",
+    "game": "Elden Ring (Combined)",
+    "category": "Elden Ring (Combined)",
+    "task": "Find 5 Scadutree Fragments"
+  },
+  {
+    "id": "DAR-001",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Ring the first bell"
+  },
+  {
+    "id": "DAR-002",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Ring the second bell"
+  },
+  {
+    "id": "DAR-003",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Taurus Demon"
+  },
+  {
+    "id": "DAR-004",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Capra Demon"
+  },
+  {
+    "id": "DAR-005",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Gargoyles"
+  },
+  {
+    "id": "DAR-006",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Quelaag"
+  },
+  {
+    "id": "DAR-007",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Iron Golem"
+  },
+  {
+    "id": "DAR-008",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Ornstein & Smough"
+  },
+  {
+    "id": "DAR-009",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Seath"
+  },
+  {
+    "id": "DAR-010",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Nito"
+  },
+  {
+    "id": "DAR-011",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat 4 Kings"
+  },
+  {
+    "id": "DAR-012",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Bed of Chaos"
+  },
+  {
+    "id": "DAR-013",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Gwyn"
+  },
+  {
+    "id": "DAR-014",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Parry riposte x5"
+  },
+  {
+    "id": "DAR-015",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Backstab chain x3"
+  },
+  {
+    "id": "DAR-016",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "No Estus boss win"
+  },
+  {
+    "id": "DAR-017",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Kill Havel"
+  },
+  {
+    "id": "DAR-018",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Rescue Solaire"
+  },
+  {
+    "id": "DAR-019",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Summon Solaire to win"
+  },
+  {
+    "id": "DAR-020",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Rescue Lautrec"
+  },
+  {
+    "id": "DAR-021",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Free Logan"
+  },
+  {
+    "id": "DAR-022",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Find Ash Lake"
+  },
+  {
+    "id": "DAR-023",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Visit Painted World"
+  },
+  {
+    "id": "DAR-024",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Sen's boulder skip"
+  },
+  {
+    "id": "DAR-025",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Join a covenant"
+  },
+  {
+    "id": "DAR-026",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Get Firelink warp"
+  },
+  {
+    "id": "DAR-027",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Upgrade +10 weapon"
+  },
+  {
+    "id": "DAR-028",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Lightning +5 weapon"
+  },
+  {
+    "id": "DAR-029",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Kill a Black Knight"
+  },
+  {
+    "id": "DAR-030",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Kill Hydra"
+  },
+  {
+    "id": "DAR-031",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Gaping Dragon"
+  },
+  {
+    "id": "DAR-032",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Trade with Snuggly"
+  },
+  {
+    "id": "DAR-033",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Crystal lizard kill"
+  },
+  {
+    "id": "DAR-034",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Get Dark Hand"
+  },
+  {
+    "id": "DAR-035",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Darkwraith joined"
+  },
+  {
+    "id": "DAR-036",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Use Power Within"
+  },
+  {
+    "id": "DAR-037",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Chaos +2"
+  },
+  {
+    "id": "DAR-038",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "DLC area reached"
+  },
+  {
+    "id": "DAR-039",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Artorias"
+  },
+  {
+    "id": "DAR-040",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Manus"
+  },
+  {
+    "id": "DAR-041",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Kalameet"
+  },
+  {
+    "id": "DAR-042",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Sif hitless"
+  },
+  {
+    "id": "DAR-043",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Open shortcut"
+  },
+  {
+    "id": "DAR-044",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Kill mimic"
+  },
+  {
+    "id": "DAR-045",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Giant Dad cosplay"
+  },
+  {
+    "id": "DAR-046",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Egg infection"
+  },
+  {
+    "id": "DAR-047",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Get rite of kindling"
+  },
+  {
+    "id": "DAR-048",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Stray Demon"
+  },
+  {
+    "id": "DAR-049",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Beat Asylum Demon"
+  },
+  {
+    "id": "DAR-050",
+    "game": "Dark Souls",
+    "category": "Dark Souls",
+    "task": "Get Covetous Serpent Ring"
+  },
+  {
+    "id": "DAR-001",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Iudex"
+  },
+  {
+    "id": "DAR-002",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Vordt"
+  },
+  {
+    "id": "DAR-003",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Crystal Sage"
+  },
+  {
+    "id": "DAR-004",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Abyss Watchers"
+  },
+  {
+    "id": "DAR-005",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Deacons"
+  },
+  {
+    "id": "DAR-006",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Wolnir"
+  },
+  {
+    "id": "DAR-007",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Pontiff"
+  },
+  {
+    "id": "DAR-008",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Aldrich"
+  },
+  {
+    "id": "DAR-009",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Yhorm"
+  },
+  {
+    "id": "DAR-010",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Dancer"
+  },
+  {
+    "id": "DAR-011",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Dragonslayer Armor"
+  },
+  {
+    "id": "DAR-012",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Oceiros"
+  },
+  {
+    "id": "DAR-013",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Champion Gundyr"
+  },
+  {
+    "id": "DAR-014",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Twin Princes"
+  },
+  {
+    "id": "DAR-015",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Soul of Cinder"
+  },
+  {
+    "id": "DAR-016",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Parry 3 bosses"
+  },
+  {
+    "id": "DAR-017",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Backstab chain x3"
+  },
+  {
+    "id": "DAR-018",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Estusless boss win"
+  },
+  {
+    "id": "DAR-019",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Find 5 Estus shards"
+  },
+  {
+    "id": "DAR-020",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Find 3 undead bones"
+  },
+  {
+    "id": "DAR-021",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Join a covenant"
+  },
+  {
+    "id": "DAR-022",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Get a dark hand"
+  },
+  {
+    "id": "DAR-023",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Infuse a weapon"
+  },
+  {
+    "id": "DAR-024",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Upgrade +10 weapon"
+  },
+  {
+    "id": "DAR-025",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Buff weapon & win"
+  },
+  {
+    "id": "DAR-026",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Kill a Cathedral Giant"
+  },
+  {
+    "id": "DAR-027",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Kill a Stray Demon"
+  },
+  {
+    "id": "DAR-028",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Kill a Black Knight"
+  },
+  {
+    "id": "DAR-029",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Kill 5 silver knights"
+  },
+  {
+    "id": "DAR-030",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Kill a Crystal Lizard"
+  },
+  {
+    "id": "DAR-031",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Use Carthus Flame Arc"
+  },
+  {
+    "id": "DAR-032",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Rescue Greirat"
+  },
+  {
+    "id": "DAR-033",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Rescue Irina"
+  },
+  {
+    "id": "DAR-034",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Rescue Siegward"
+  },
+  {
+    "id": "DAR-035",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Sirris quest step"
+  },
+  {
+    "id": "DAR-036",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Anri quest step"
+  },
+  {
+    "id": "DAR-037",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Kill a mimic"
+  },
+  {
+    "id": "DAR-038",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Open Irithyll bridge"
+  },
+  {
+    "id": "DAR-039",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Enter Anor Londo"
+  },
+  {
+    "id": "DAR-040",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Kill a watchdog invader"
+  },
+  {
+    "id": "DAR-041",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Use a weapon art kill"
+  },
+  {
+    "id": "DAR-042",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Use tears of denial"
+  },
+  {
+    "id": "DAR-043",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "3 guard breaks"
+  },
+  {
+    "id": "DAR-044",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Kill a Outrider Knight"
+  },
+  {
+    "id": "DAR-045",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Friede"
+  },
+  {
+    "id": "DAR-046",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Gael"
+  },
+  {
+    "id": "DAR-047",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Midir"
+  },
+  {
+    "id": "DAR-048",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Demon Prince"
+  },
+  {
+    "id": "DAR-049",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Beat Halflight"
+  },
+  {
+    "id": "DAR-050",
+    "game": "Dark Souls III",
+    "category": "Dark Souls III",
+    "task": "Get Prisoner's Chain"
+  },
+  {
+    "id": "PEA-001",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Complete a Daily Workout"
+  },
+  {
+    "id": "PEA-002",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Score 800+ in Light Pairs"
+  },
+  {
+    "id": "PEA-003",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Score 3000+ in Word Fresh"
+  },
+  {
+    "id": "PEA-004",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Score 1200+ in Problem Solving"
+  },
+  {
+    "id": "PEA-005",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Play 5 games in a row"
+  },
+  {
+    "id": "PEA-006",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "New personal best"
+  },
+  {
+    "id": "PEA-007",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Gold medal in a game"
+  },
+  {
+    "id": "PEA-008",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Complete 3 workouts"
+  },
+  {
+    "id": "PEA-009",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Reach level up"
+  },
+  {
+    "id": "PEA-010",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Streak 3 days"
+  },
+  {
+    "id": "PEA-011",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Use 3 power-ups"
+  },
+  {
+    "id": "PEA-012",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Beat a friend score"
+  },
+  {
+    "id": "PEA-013",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Top 10% in a game"
+  },
+  {
+    "id": "PEA-014",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Finish a Pro Workout"
+  },
+  {
+    "id": "PEA-015",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Score 1500+ in Memory"
+  },
+  {
+    "id": "PEA-016",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Score 1200+ in Focus"
+  },
+  {
+    "id": "PEA-017",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Score 1000+ in Language"
+  },
+  {
+    "id": "PEA-018",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Perfect round in a game"
+  },
+  {
+    "id": "PEA-019",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "No mistake run"
+  },
+  {
+    "id": "PEA-020",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Complete a brain map"
+  },
+  {
+    "id": "PEA-021",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Unlock a new game"
+  },
+  {
+    "id": "PEA-022",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Hit 3 perfects"
+  },
+  {
+    "id": "PEA-023",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Complete Coach’s plan"
+  },
+  {
+    "id": "PEA-024",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Score 2000+ in math"
+  },
+  {
+    "id": "PEA-025",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Complete 10 games"
+  },
+  {
+    "id": "PEA-026",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Streak 7 days"
+  },
+  {
+    "id": "PEA-027",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Earn 5 stars today"
+  },
+  {
+    "id": "PEA-028",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Improve Brain Score"
+  },
+  {
+    "id": "PEA-029",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Complete 2 Pro Workouts"
+  },
+  {
+    "id": "PEA-030",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Score 900+ in speed"
+  },
+  {
+    "id": "PEA-031",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Share a result"
+  },
+  {
+    "id": "PEA-032",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Try a new game"
+  },
+  {
+    "id": "PEA-033",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Beat yesterday’s score"
+  },
+  {
+    "id": "PEA-034",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Play 4 categories"
+  },
+  {
+    "id": "PEA-035",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Memory perfect round"
+  },
+  {
+    "id": "PEA-036",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Focus perfect round"
+  },
+  {
+    "id": "PEA-037",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Problem Solving PB"
+  },
+  {
+    "id": "PEA-038",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Language PB"
+  },
+  {
+    "id": "PEA-039",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Speed PB"
+  },
+  {
+    "id": "PEA-040",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Accuracy 95%+"
+  },
+  {
+    "id": "PEA-041",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Play with sound off"
+  },
+  {
+    "id": "PEA-042",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Finish before timer"
+  },
+  {
+    "id": "PEA-043",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Three perfect streak"
+  },
+  {
+    "id": "PEA-044",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Complete 20 games"
+  },
+  {
+    "id": "PEA-045",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Unlock a badge"
+  },
+  {
+    "id": "PEA-046",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Play on hard mode"
+  },
+  {
+    "id": "PEA-047",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Finish a challenge pack"
+  },
+  {
+    "id": "PEA-048",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Unlock insights"
+  },
+  {
+    "id": "PEA-049",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Compare stats week"
+  },
+  {
+    "id": "PEA-050",
+    "game": "Peak",
+    "category": "Peak",
+    "task": "Do 4 workouts week"
+  },
+  {
+    "id": "RV -001",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Drive 100 miles"
+  },
+  {
+    "id": "RV -002",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "No crash for 15 min"
+  },
+  {
+    "id": "RV -003",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Perfect park"
+  },
+  {
+    "id": "RV -004",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Cook a meal"
+  },
+  {
+    "id": "RV -005",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Refuel under 30s"
+  },
+  {
+    "id": "RV -006",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Fix a flat"
+  },
+  {
+    "id": "RV -007",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Use cruise control"
+  },
+  {
+    "id": "RV -008",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Find a campsite"
+  },
+  {
+    "id": "RV -009",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Photo scenic view"
+  },
+  {
+    "id": "RV -010",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Spot wildlife"
+  },
+  {
+    "id": "RV -011",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Navigate detour"
+  },
+  {
+    "id": "RV -012",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Beat a storm"
+  },
+  {
+    "id": "RV -013",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "No lane offense trip"
+  },
+  {
+    "id": "RV -014",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Overtake safely x5"
+  },
+  {
+    "id": "RV -015",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Map a new route"
+  },
+  {
+    "id": "RV -016",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Pick up hitchhiker NPC"
+  },
+  {
+    "id": "RV -017",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Repair engine"
+  },
+  {
+    "id": "RV -018",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Clean the RV"
+  },
+  {
+    "id": "RV -019",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Set up camp fast"
+  },
+  {
+    "id": "RV -020",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Sleep full night"
+  },
+  {
+    "id": "RV -021",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "BBQ cookout"
+  },
+  {
+    "id": "RV -022",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Find a secret landmark"
+  },
+  {
+    "id": "RV -023",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "No GPS run segment"
+  },
+  {
+    "id": "RV -024",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Manual shift segment"
+  },
+  {
+    "id": "RV -025",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Back-in park first try"
+  },
+  {
+    "id": "RV -026",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Earn an achievement"
+  },
+  {
+    "id": "RV -027",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Complete a delivery"
+  },
+  {
+    "id": "RV -028",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "No honk session"
+  },
+  {
+    "id": "RV -029",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Avoid tolls route"
+  },
+  {
+    "id": "RV -030",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Spot 5 road signs"
+  },
+  {
+    "id": "RV -031",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "No speeding ticket"
+  },
+  {
+    "id": "RV -032",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Cross a state line"
+  },
+  {
+    "id": "RV -033",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Find a hidden trail"
+  },
+  {
+    "id": "RV -034",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Fish at a lake"
+  },
+  {
+    "id": "RV -035",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Fix electrical"
+  },
+  {
+    "id": "RV -036",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Use generator"
+  },
+  {
+    "id": "RV -037",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Play a mini-game"
+  },
+  {
+    "id": "RV -038",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Photo golden hour"
+  },
+  {
+    "id": "RV -039",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Avoid potholes stretch"
+  },
+  {
+    "id": "RV -040",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Help an NPC"
+  },
+  {
+    "id": "RV -041",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Rain driving clean"
+  },
+  {
+    "id": "RV -042",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Snow driving clean"
+  },
+  {
+    "id": "RV -043",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Night drive clean"
+  },
+  {
+    "id": "RV -044",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Win a time trial"
+  },
+  {
+    "id": "RV -045",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "No damage day"
+  },
+  {
+    "id": "RV -046",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Cook coffee"
+  },
+  {
+    "id": "RV -047",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Empty waste tanks"
+  },
+  {
+    "id": "RV -048",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Refill water"
+  },
+  {
+    "id": "RV -049",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Find rare souvenir"
+  },
+  {
+    "id": "RV -050",
+    "game": "RV there yet?",
+    "category": "RV there yet?",
+    "task": "Return home safe"
+  },
+  {
+    "id": "ZEL-001",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Get wooden sword"
+  },
+  {
+    "id": "ZEL-002",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Get white sword"
+  },
+  {
+    "id": "ZEL-003",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Get magical sword"
+  },
+  {
+    "id": "ZEL-004",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Buy blue candle"
+  },
+  {
+    "id": "ZEL-005",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Buy blue ring"
+  },
+  {
+    "id": "ZEL-006",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Beat Gohma"
+  },
+  {
+    "id": "ZEL-007",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Beat Dodongo"
+  },
+  {
+    "id": "ZEL-008",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Beat Aquamentus"
+  },
+  {
+    "id": "ZEL-009",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Beat Manhandla"
+  },
+  {
+    "id": "ZEL-010",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Beat Gleeok"
+  },
+  {
+    "id": "ZEL-011",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Beat Digdogger"
+  },
+  {
+    "id": "ZEL-012",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Beat Ganon"
+  },
+  {
+    "id": "ZEL-013",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Heart container +5"
+  },
+  {
+    "id": "ZEL-014",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Get bow"
+  },
+  {
+    "id": "ZEL-015",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Get boomerang"
+  },
+  {
+    "id": "ZEL-016",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Get recorder"
+  },
+  {
+    "id": "ZEL-017",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Get ladder"
+  },
+  {
+    "id": "ZEL-018",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Get raft"
+  },
+  {
+    "id": "ZEL-019",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Get power bracelet"
+  },
+  {
+    "id": "ZEL-020",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Get red candle"
+  },
+  {
+    "id": "ZEL-021",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Get magic key"
+  },
+  {
+    "id": "ZEL-022",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Find 3 bomb upgrades"
+  },
+  {
+    "id": "ZEL-023",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Open 5 bomb walls"
+  },
+  {
+    "id": "ZEL-024",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Burn 10 bushes"
+  },
+  {
+    "id": "ZEL-025",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Push 5 blocks"
+  },
+  {
+    "id": "ZEL-026",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Find 3 secret rupees"
+  },
+  {
+    "id": "ZEL-027",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Max bomb capacity"
+  },
+  {
+    "id": "ZEL-028",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Kill a Lynel"
+  },
+  {
+    "id": "ZEL-029",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Kill a Darknut"
+  },
+  {
+    "id": "ZEL-030",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Kill a Wizzrobe"
+  },
+  {
+    "id": "ZEL-031",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Take one/leave one"
+  },
+  {
+    "id": "ZEL-032",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Complete 3 dungeons"
+  },
+  {
+    "id": "ZEL-033",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Complete 6 dungeons"
+  },
+  {
+    "id": "ZEL-034",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Complete level 9"
+  },
+  {
+    "id": "ZEL-035",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "All compass maps"
+  },
+  {
+    "id": "ZEL-036",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "All old man rooms"
+  },
+  {
+    "id": "ZEL-037",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Warp whistle used"
+  },
+  {
+    "id": "ZEL-038",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Letter to old woman"
+  },
+  {
+    "id": "ZEL-039",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Buy medicine"
+  },
+  {
+    "id": "ZEL-040",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Full rupees 255"
+  },
+  {
+    "id": "ZEL-041",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Shoot silver arrow"
+  },
+  {
+    "id": "ZEL-042",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Find Power Bracelet warp"
+  },
+  {
+    "id": "ZEL-043",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Armos item found"
+  },
+  {
+    "id": "ZEL-044",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Pay the door repair"
+  },
+  {
+    "id": "ZEL-045",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Feed the hungry Goron"
+  },
+  {
+    "id": "ZEL-046",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Burn tree for stairs"
+  },
+  {
+    "id": "ZEL-047",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Push grave secret"
+  },
+  {
+    "id": "ZEL-048",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Kill Patra"
+  },
+  {
+    "id": "ZEL-049",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Find all triforce"
+  },
+  {
+    "id": "ZEL-050",
+    "game": "Zelda (NES)",
+    "category": "Zelda (NES)",
+    "task": "Get Blue Ring"
+  },
+  {
+    "id": "THE-001",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Get Master Sword"
+  },
+  {
+    "id": "THE-002",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Beat Agahnim 1"
+  },
+  {
+    "id": "THE-003",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Beat Eastern Palace"
+  },
+  {
+    "id": "THE-004",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Beat Desert Palace"
+  },
+  {
+    "id": "THE-005",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Beat Tower of Hera"
+  },
+  {
+    "id": "THE-006",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Beat Thieves’ Town"
+  },
+  {
+    "id": "THE-007",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Beat Skull Woods"
+  },
+  {
+    "id": "THE-008",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Beat Swamp Palace"
+  },
+  {
+    "id": "THE-009",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Beat Ice Palace"
+  },
+  {
+    "id": "THE-010",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Beat Misery Mire"
+  },
+  {
+    "id": "THE-011",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Beat Turtle Rock"
+  },
+  {
+    "id": "THE-012",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Beat Ganon"
+  },
+  {
+    "id": "THE-013",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Get Hookshot"
+  },
+  {
+    "id": "THE-014",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Get Hammer"
+  },
+  {
+    "id": "THE-015",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Get Titan’s Mitts"
+  },
+  {
+    "id": "THE-016",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Get Flippers"
+  },
+  {
+    "id": "THE-017",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Get Moon Pearl"
+  },
+  {
+    "id": "THE-018",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Get Mirror"
+  },
+  {
+    "id": "THE-019",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Get Fire Rod"
+  },
+  {
+    "id": "THE-020",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Get Ice Rod"
+  },
+  {
+    "id": "THE-021",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Blue Mail"
+  },
+  {
+    "id": "THE-022",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Red Mail"
+  },
+  {
+    "id": "THE-023",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Half Magic"
+  },
+  {
+    "id": "THE-024",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Silver Arrows"
+  },
+  {
+    "id": "THE-025",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Bottle + Fairy"
+  },
+  {
+    "id": "THE-026",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Tempered Sword"
+  },
+  {
+    "id": "THE-027",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Butter Sword"
+  },
+  {
+    "id": "THE-028",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Save the smith"
+  },
+  {
+    "id": "THE-029",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Purple chest delivered"
+  },
+  {
+    "id": "THE-030",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Pyramid fairy opened"
+  },
+  {
+    "id": "THE-031",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "All Pendants"
+  },
+  {
+    "id": "THE-032",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "All Crystals"
+  },
+  {
+    "id": "THE-033",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "100 rupees chest"
+  },
+  {
+    "id": "THE-034",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "20 hearts"
+  },
+  {
+    "id": "THE-035",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Open 5 bomb walls"
+  },
+  {
+    "id": "THE-036",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Burn 10 things"
+  },
+  {
+    "id": "THE-037",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Open all map"
+  },
+  {
+    "id": "THE-038",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Rescue old man"
+  },
+  {
+    "id": "THE-039",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Rescue Princess"
+  },
+  {
+    "id": "THE-040",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Quake medallion"
+  },
+  {
+    "id": "THE-041",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Bombos medallion"
+  },
+  {
+    "id": "THE-042",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Ether medallion"
+  },
+  {
+    "id": "THE-043",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Super Bunny glitch"
+  },
+  {
+    "id": "THE-044",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Spin speed trick"
+  },
+  {
+    "id": "THE-045",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Portal skip route"
+  },
+  {
+    "id": "THE-046",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Beat Blind hitless"
+  },
+  {
+    "id": "THE-047",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Tile room no damage"
+  },
+  {
+    "id": "THE-048",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Moldorm quick kill"
+  },
+  {
+    "id": "THE-049",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Ice Palace bomb jump"
+  },
+  {
+    "id": "THE-050",
+    "game": "The Legend of Zelda: A Link to the Past",
+    "category": "The Legend of Zelda: A Link to the Past",
+    "task": "Hera basement key"
+  },
+  {
+    "id": "SUP-001",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat 1-1 coinless"
+  },
+  {
+    "id": "SUP-002",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat a fortress"
+  },
+  {
+    "id": "SUP-003",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat a castle"
+  },
+  {
+    "id": "SUP-004",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat Bowser"
+  },
+  {
+    "id": "SUP-005",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat a hand trap"
+  },
+  {
+    "id": "SUP-006",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "All 5 coins in level"
+  },
+  {
+    "id": "SUP-007",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Get 3-up moon"
+  },
+  {
+    "id": "SUP-008",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Get white mushroom"
+  },
+  {
+    "id": "SUP-009",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Get a Hammer Suit"
+  },
+  {
+    "id": "SUP-010",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Get a Tanooki Suit"
+  },
+  {
+    "id": "SUP-011",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Get a Frog Suit"
+  },
+  {
+    "id": "SUP-012",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "P-switch puzzle"
+  },
+  {
+    "id": "SUP-013",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Win N-Spade game"
+  },
+  {
+    "id": "SUP-014",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Break locked door"
+  },
+  {
+    "id": "SUP-015",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Cloud skip a stage"
+  },
+  {
+    "id": "SUP-016",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Warp whistle used"
+  },
+  {
+    "id": "SUP-017",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat a ship hitless"
+  },
+  {
+    "id": "SUP-018",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Boomerang Bro kill"
+  },
+  {
+    "id": "SUP-019",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Fireball boss kill"
+  },
+  {
+    "id": "SUP-020",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Hit all music blocks"
+  },
+  {
+    "id": "SUP-021",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Find coin ship"
+  },
+  {
+    "id": "SUP-022",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Card match 3"
+  },
+  {
+    "id": "SUP-023",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Kuribo’s shoe used"
+  },
+  {
+    "id": "SUP-024",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat a tank level"
+  },
+  {
+    "id": "SUP-025",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Break a rock path"
+  },
+  {
+    "id": "SUP-026",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat 8 Airship"
+  },
+  {
+    "id": "SUP-027",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat 7 Fortress"
+  },
+  {
+    "id": "SUP-028",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat 6 Ice level"
+  },
+  {
+    "id": "SUP-029",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat 5 Desert stage"
+  },
+  {
+    "id": "SUP-030",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat 4 Giant stage"
+  },
+  {
+    "id": "SUP-031",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat 3 Water stage"
+  },
+  {
+    "id": "SUP-032",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat 2 Quicksand"
+  },
+  {
+    "id": "SUP-033",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat a maze level"
+  },
+  {
+    "id": "SUP-034",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Get Anchor item"
+  },
+  {
+    "id": "SUP-035",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Start as small Mario"
+  },
+  {
+    "id": "SUP-036",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat a level no jump"
+  },
+  {
+    "id": "SUP-037",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat a level no run"
+  },
+  {
+    "id": "SUP-038",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat a level no power-up"
+  },
+  {
+    "id": "SUP-039",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Beat auto-scroller hitless"
+  },
+  {
+    "id": "SUP-040",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Fly to hidden area"
+  },
+  {
+    "id": "SUP-041",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Whistle from 1-3"
+  },
+  {
+    "id": "SUP-042",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Hand trap skip"
+  },
+  {
+    "id": "SUP-043",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Boomerang suit use"
+  },
+  {
+    "id": "SUP-044",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Hammer suit kill"
+  },
+  {
+    "id": "SUP-045",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Frog suit clear"
+  },
+  {
+    "id": "SUP-046",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Tanooki statue skip"
+  },
+  {
+    "id": "SUP-047",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "End card star"
+  },
+  {
+    "id": "SUP-048",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "P-speed finish"
+  },
+  {
+    "id": "SUP-049",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Top of goal card"
+  },
+  {
+    "id": "SUP-050",
+    "game": "Super Mario Bros. 3",
+    "category": "Super Mario Bros. 3",
+    "task": "Find White Toad House"
+  },
+  {
+    "id": "SUP-001",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Press all 4 switches"
+  },
+  {
+    "id": "SUP-002",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Beat Bowser"
+  },
+  {
+    "id": "SUP-003",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Complete Star World"
+  },
+  {
+    "id": "SUP-004",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Complete Special World"
+  },
+  {
+    "id": "SUP-005",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Beat a ghost house"
+  },
+  {
+    "id": "SUP-006",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Beat a fortress"
+  },
+  {
+    "id": "SUP-007",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Beat a castle"
+  },
+  {
+    "id": "SUP-008",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Collect 5 dragon coins"
+  },
+  {
+    "id": "SUP-009",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Get a bonus game"
+  },
+  {
+    "id": "SUP-010",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Fireball a boss"
+  },
+  {
+    "id": "SUP-011",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Yoshi wings obtained"
+  },
+  {
+    "id": "SUP-012",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Goal tape 1-up"
+  },
+  {
+    "id": "SUP-013",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Get a 3-up moon"
+  },
+  {
+    "id": "SUP-014",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Ride Lakitu cloud"
+  },
+  {
+    "id": "SUP-015",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Secret exit found"
+  },
+  {
+    "id": "SUP-016",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Key in keyhole"
+  },
+  {
+    "id": "SUP-017",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Door/pipe fly trick"
+  },
+  {
+    "id": "SUP-018",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Clip through ground"
+  },
+  {
+    "id": "SUP-019",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Beat a level small"
+  },
+  {
+    "id": "SUP-020",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Die after goal tape"
+  },
+  {
+    "id": "SUP-021",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Donut Plains 1 fly"
+  },
+  {
+    "id": "SUP-022",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Forest of Illusion path"
+  },
+  {
+    "id": "SUP-023",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Top secret area visit"
+  },
+  {
+    "id": "SUP-024",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Chocolate Island trick"
+  },
+  {
+    "id": "SUP-025",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Vanilla Dome secret"
+  },
+  {
+    "id": "SUP-026",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Valley of Bowser clear"
+  },
+  {
+    "id": "SUP-027",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Star Road pathing"
+  },
+  {
+    "id": "SUP-028",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Butter Bridge win"
+  },
+  {
+    "id": "SUP-029",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Cheese Bridge secret"
+  },
+  {
+    "id": "SUP-030",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Yoshi coin set done"
+  },
+  {
+    "id": "SUP-031",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Blue Yoshi used"
+  },
+  {
+    "id": "SUP-032",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Yellow Yoshi stomp"
+  },
+  {
+    "id": "SUP-033",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Green Yoshi spit"
+  },
+  {
+    "id": "SUP-034",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Red Yoshi spit"
+  },
+  {
+    "id": "SUP-035",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "No Yoshi level"
+  },
+  {
+    "id": "SUP-036",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Cape cancel trick"
+  },
+  {
+    "id": "SUP-037",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Regrab P-speed"
+  },
+  {
+    "id": "SUP-038",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Shell jump finish"
+  },
+  {
+    "id": "SUP-039",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Bowser hitless"
+  },
+  {
+    "id": "SUP-040",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Reznor quick kill"
+  },
+  {
+    "id": "SUP-041",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Roy lift skip"
+  },
+  {
+    "id": "SUP-042",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Morton wall crush skip"
+  },
+  {
+    "id": "SUP-043",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Lemmy/Iggy quick"
+  },
+  {
+    "id": "SUP-044",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Switch palace glitch"
+  },
+  {
+    "id": "SUP-045",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Rope climb skip"
+  },
+  {
+    "id": "SUP-046",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Ghost house puzzle"
+  },
+  {
+    "id": "SUP-047",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Front door route"
+  },
+  {
+    "id": "SUP-048",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Back door route"
+  },
+  {
+    "id": "SUP-049",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Top of goal pole"
+  },
+  {
+    "id": "SUP-050",
+    "game": "Super Mario World",
+    "category": "Super Mario World",
+    "task": "Forest ghost secret"
+  },
+  {
+    "id": "LEA-001",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "First blood"
+  },
+  {
+    "id": "LEA-002",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Ace the enemy"
+  },
+  {
+    "id": "LEA-003",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Quadra kill"
+  },
+  {
+    "id": "LEA-004",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Triple kill"
+  },
+  {
+    "id": "LEA-005",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Pentakill (any team)"
+  },
+  {
+    "id": "LEA-006",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Dragon steal"
+  },
+  {
+    "id": "LEA-007",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Baron steal"
+  },
+  {
+    "id": "LEA-008",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Solo kill lane"
+  },
+  {
+    "id": "LEA-009",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Tower dive kill"
+  },
+  {
+    "id": "LEA-010",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Perfect KDA"
+  },
+  {
+    "id": "LEA-011",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "20+ assists"
+  },
+  {
+    "id": "LEA-012",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Top CS at 10"
+  },
+  {
+    "id": "LEA-013",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Herald secure"
+  },
+  {
+    "id": "LEA-014",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "First turret"
+  },
+  {
+    "id": "LEA-015",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "First dragon"
+  },
+  {
+    "id": "LEA-016",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Win with no deaths"
+  },
+  {
+    "id": "LEA-017",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Comeback win"
+  },
+  {
+    "id": "LEA-018",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Level lead 2+"
+  },
+  {
+    "id": "LEA-019",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Objective bounty"
+  },
+  {
+    "id": "LEA-020",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Disable enemy ward"
+  },
+  {
+    "id": "LEA-021",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Place 3 control wards"
+  },
+  {
+    "id": "LEA-022",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Vision score 40+"
+  },
+  {
+    "id": "LEA-023",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Roam successful"
+  },
+  {
+    "id": "LEA-024",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Gank successful"
+  },
+  {
+    "id": "LEA-025",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Lane swap"
+  },
+  {
+    "id": "LEA-026",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Outplay 1v2"
+  },
+  {
+    "id": "LEA-027",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Countergank"
+  },
+  {
+    "id": "LEA-028",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Tower plates 3+"
+  },
+  {
+    "id": "LEA-029",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Shutdown taken"
+  },
+  {
+    "id": "LEA-030",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Shutdown given"
+  },
+  {
+    "id": "LEA-031",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Flash dodge"
+  },
+  {
+    "id": "LEA-032",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Cleanse value"
+  },
+  {
+    "id": "LEA-033",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Smite secure"
+  },
+  {
+    "id": "LEA-034",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Solo objective"
+  },
+  {
+    "id": "LEA-035",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Bounty collected"
+  },
+  {
+    "id": "LEA-036",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Invade successful"
+  },
+  {
+    "id": "LEA-037",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Kill w/ ultimate"
+  },
+  {
+    "id": "LEA-038",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Skillshot snipe"
+  },
+  {
+    "id": "LEA-039",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Perfect skill combo"
+  },
+  {
+    "id": "LEA-040",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Stopwatch save"
+  },
+  {
+    "id": "LEA-041",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Teleport play"
+  },
+  {
+    "id": "LEA-042",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Backdoor win"
+  },
+  {
+    "id": "LEA-043",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Base race win"
+  },
+  {
+    "id": "LEA-044",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Win in OT (45+ min)"
+  },
+  {
+    "id": "LEA-045",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Win with offrole"
+  },
+  {
+    "id": "LEA-046",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Swap lanes midgame"
+  },
+  {
+    "id": "LEA-047",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Comeback from 0-3"
+  },
+  {
+    "id": "LEA-048",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Full build first"
+  },
+  {
+    "id": "LEA-049",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "End with 3 dragons"
+  },
+  {
+    "id": "LEA-050",
+    "game": "League of Legends",
+    "category": "League of Legends",
+    "task": "Elder secure"
+  },
+  {
+    "id": "WOR-001",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Complete a dungeon"
+  },
+  {
+    "id": "WOR-002",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Time a Mythic+"
+  },
+  {
+    "id": "WOR-003",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Win a battleground"
+  },
+  {
+    "id": "WOR-004",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Win an arena"
+  },
+  {
+    "id": "WOR-005",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "World quest 10x"
+  },
+  {
+    "id": "WOR-006",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Get a mount drop"
+  },
+  {
+    "id": "WOR-007",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Get a pet drop"
+  },
+  {
+    "id": "WOR-008",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Complete a raid boss"
+  },
+  {
+    "id": "WOR-009",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Do a world boss"
+  },
+  {
+    "id": "WOR-010",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Profession skill up"
+  },
+  {
+    "id": "WOR-011",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Craft an epic"
+  },
+  {
+    "id": "WOR-012",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Enchant an item"
+  },
+  {
+    "id": "WOR-013",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Transmog a set piece"
+  },
+  {
+    "id": "WOR-014",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Upgrade an item"
+  },
+  {
+    "id": "WOR-015",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Join a covenant/order"
+  },
+  {
+    "id": "WOR-016",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Do 5 achievements"
+  },
+  {
+    "id": "WOR-017",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Level up a toon"
+  },
+  {
+    "id": "WOR-018",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Alt professions up"
+  },
+  {
+    "id": "WOR-019",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Fill weekly vault row"
+  },
+  {
+    "id": "WOR-020",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Get a title"
+  },
+  {
+    "id": "WOR-021",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Toy collected"
+  },
+  {
+    "id": "WOR-022",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Complete a storyline"
+  },
+  {
+    "id": "WOR-023",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Unlock a flight path"
+  },
+  {
+    "id": "WOR-024",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Do a treasure"
+  },
+  {
+    "id": "WOR-025",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Kill a rare"
+  },
+  {
+    "id": "WOR-026",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Gather 50 herbs/ore"
+  },
+  {
+    "id": "WOR-027",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Fish a rare"
+  },
+  {
+    "id": "WOR-028",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Cook a feast"
+  },
+  {
+    "id": "WOR-029",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Complete a scenario"
+  },
+  {
+    "id": "WOR-030",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Solo an old raid boss"
+  },
+  {
+    "id": "WOR-031",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Unlock a portal"
+  },
+  {
+    "id": "WOR-032",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Weekly event complete"
+  },
+  {
+    "id": "WOR-033",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Normal raid wing"
+  },
+  {
+    "id": "WOR-034",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "LFR wing"
+  },
+  {
+    "id": "WOR-035",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Hard mode event"
+  },
+  {
+    "id": "WOR-036",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "PvP rank up"
+  },
+  {
+    "id": "WOR-037",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Rated win"
+  },
+  {
+    "id": "WOR-038",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Island/expedition win"
+  },
+  {
+    "id": "WOR-039",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Torghast/feature run"
+  },
+  {
+    "id": "WOR-040",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Renown/reputation up"
+  },
+  {
+    "id": "WOR-041",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Dance party toy"
+  },
+  {
+    "id": "WOR-042",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Pet battle win"
+  },
+  {
+    "id": "WOR-043",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Win duel"
+  },
+  {
+    "id": "WOR-044",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Unlock transmog set"
+  },
+  {
+    "id": "WOR-045",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Mount parade"
+  },
+  {
+    "id": "WOR-046",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Do a timewalking"
+  },
+  {
+    "id": "WOR-047",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Do a holiday event"
+  },
+  {
+    "id": "WOR-048",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Do a world event"
+  },
+  {
+    "id": "WOR-049",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Defeat elite outdoors"
+  },
+  {
+    "id": "WOR-050",
+    "game": "World of Warcraft",
+    "category": "World of Warcraft",
+    "task": "Loot a world treasure"
+  },
+  {
+    "id": "VAM-001",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Survive 20 minutes"
+  },
+  {
+    "id": "VAM-002",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Survive 30 minutes"
+  },
+  {
+    "id": "VAM-003",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Evolve a weapon"
+  },
+  {
+    "id": "VAM-004",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Evolve 3 weapons"
+  },
+  {
+    "id": "VAM-005",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Unlock a new character"
+  },
+  {
+    "id": "VAM-006",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Open 10 chests"
+  },
+  {
+    "id": "VAM-007",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Open 2 arcana"
+  },
+  {
+    "id": "VAM-008",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Reach 5000 coins"
+  },
+  {
+    "id": "VAM-009",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Reach level 60"
+  },
+  {
+    "id": "VAM-010",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Reach level 100"
+  },
+  {
+    "id": "VAM-011",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Hitless boss kill"
+  },
+  {
+    "id": "VAM-012",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Pick 5 passives"
+  },
+  {
+    "id": "VAM-013",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Get Garlic build"
+  },
+  {
+    "id": "VAM-014",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Get Bible build"
+  },
+  {
+    "id": "VAM-015",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Get Whip build"
+  },
+  {
+    "id": "VAM-016",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Destroy 5 guardians"
+  },
+  {
+    "id": "VAM-017",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Break the rosary cross"
+  },
+  {
+    "id": "VAM-018",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Kill Reaper (any)"
+  },
+  {
+    "id": "VAM-019",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Find a coffin"
+  },
+  {
+    "id": "VAM-020",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Open a secret stage"
+  },
+  {
+    "id": "VAM-021",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Unlock Hyper mode"
+  },
+  {
+    "id": "VAM-022",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Pick a curse item"
+  },
+  {
+    "id": "VAM-023",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Hold 2 curses & win"
+  },
+  {
+    "id": "VAM-024",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Get golden egg"
+  },
+  {
+    "id": "VAM-025",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Use floor chicken x5"
+  },
+  {
+    "id": "VAM-026",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Reach 200% move speed"
+  },
+  {
+    "id": "VAM-027",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Reach +200% might"
+  },
+  {
+    "id": "VAM-028",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Stun a boss"
+  },
+  {
+    "id": "VAM-029",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Pick random always"
+  },
+  {
+    "id": "VAM-030",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Reroll 0 run"
+  },
+  {
+    "id": "VAM-031",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Revives 0 run"
+  },
+  {
+    "id": "VAM-032",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Ars Gouda unlock"
+  },
+  {
+    "id": "VAM-033",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Moonglow clear"
+  },
+  {
+    "id": "VAM-034",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Green Acres clear"
+  },
+  {
+    "id": "VAM-035",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Bone Zone clear"
+  },
+  {
+    "id": "VAM-036",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Inlaid Library clear"
+  },
+  {
+    "id": "VAM-037",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Mad Forest clear"
+  },
+  {
+    "id": "VAM-038",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Gallo Tower clear"
+  },
+  {
+    "id": "VAM-039",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Cappella clear"
+  },
+  {
+    "id": "VAM-040",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Il Molise clear"
+  },
+  {
+    "id": "VAM-041",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Lake Foscari clear"
+  },
+  {
+    "id": "VAM-042",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Astral Stair clear"
+  },
+  {
+    "id": "VAM-043",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Abyss Foscari clear"
+  },
+  {
+    "id": "VAM-044",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Eudaimonia M clear"
+  },
+  {
+    "id": "VAM-045",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Secret character found"
+  },
+  {
+    "id": "VAM-046",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Kill 5000 enemies"
+  },
+  {
+    "id": "VAM-047",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "50k DPS build"
+  },
+  {
+    "id": "VAM-048",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Gold fever 30s"
+  },
+  {
+    "id": "VAM-049",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Pickup magnet chain"
+  },
+  {
+    "id": "VAM-050",
+    "game": "Vampire Survivors",
+    "category": "Vampire Survivors",
+    "task": "Find Orologion"
+  },
+  {
+    "id": "GEO-001",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Country correct"
+  },
+  {
+    "id": "GEO-002",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Country streak 5"
+  },
+  {
+    "id": "GEO-003",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Country streak 10"
+  },
+  {
+    "id": "GEO-004",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Score 20,000+"
+  },
+  {
+    "id": "GEO-005",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Score 23,000+"
+  },
+  {
+    "id": "GEO-006",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Score 24,500+"
+  },
+  {
+    "id": "GEO-007",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "City correct"
+  },
+  {
+    "id": "GEO-008",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Within 1km"
+  },
+  {
+    "id": "GEO-009",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Within 100m"
+  },
+  {
+    "id": "GEO-010",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Within 25m"
+  },
+  {
+    "id": "GEO-011",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "No moving round"
+  },
+  {
+    "id": "GEO-012",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "NM/NP/NZ game"
+  },
+  {
+    "id": "GEO-013",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Win a duel"
+  },
+  {
+    "id": "GEO-014",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Battle Royale win"
+  },
+  {
+    "id": "GEO-015",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Flag on screen spot"
+  },
+  {
+    "id": "GEO-016",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Language identified"
+  },
+  {
+    "id": "GEO-017",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Pole side ID"
+  },
+  {
+    "id": "GEO-018",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Car meta used"
+  },
+  {
+    "id": "GEO-019",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Gen 2 spotted"
+  },
+  {
+    "id": "GEO-020",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Gen 5 spotted"
+  },
+  {
+    "id": "GEO-021",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "US state correct"
+  },
+  {
+    "id": "GEO-022",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "EU country 10 in row"
+  },
+  {
+    "id": "GEO-023",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Asia country 5 row"
+  },
+  {
+    "id": "GEO-024",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Africa country 5 row"
+  },
+  {
+    "id": "GEO-025",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Oceania country 5 row"
+  },
+  {
+    "id": "GEO-026",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Compass trick used"
+  },
+  {
+    "id": "GEO-027",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Sun angle used"
+  },
+  {
+    "id": "GEO-028",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Bollards identified"
+  },
+  {
+    "id": "GEO-029",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Rift/snow line used"
+  },
+  {
+    "id": "GEO-030",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Road shield read"
+  },
+  {
+    "id": "GEO-031",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "License plate spot"
+  },
+  {
+    "id": "GEO-032",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Phone code clue"
+  },
+  {
+    "id": "GEO-033",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Trekker round"
+  },
+  {
+    "id": "GEO-034",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Street art clue"
+  },
+  {
+    "id": "GEO-035",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Google car roof clue"
+  },
+  {
+    "id": "GEO-036",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Unique pole top"
+  },
+  {
+    "id": "GEO-037",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Kilometer marker clue"
+  },
+  {
+    "id": "GEO-038",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Hospital sign clue"
+  },
+  {
+    "id": "GEO-039",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Speed limit clue"
+  },
+  {
+    "id": "GEO-040",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Flag colors clue"
+  },
+  {
+    "id": "GEO-041",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Rail crossing clue"
+  },
+  {
+    "id": "GEO-042",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Bridge sign clue"
+  },
+  {
+    "id": "GEO-043",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Distinct soil clue"
+  },
+  {
+    "id": "GEO-044",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Landscape biome ID"
+  },
+  {
+    "id": "GEO-045",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Language script ID"
+  },
+  {
+    "id": "GEO-046",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Win a challenge lobby"
+  },
+  {
+    "id": "GEO-047",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Map PB"
+  },
+  {
+    "id": "GEO-048",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Win with 0 heals"
+  },
+  {
+    "id": "GEO-049",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Clutch with 500 HP"
+  },
+  {
+    "id": "GEO-050",
+    "game": "GeoGuessr",
+    "category": "GeoGuessr",
+    "task": "Round guess <5s"
+  },
+  {
+    "id": "LOR-001",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat Pieta"
+  },
+  {
+    "id": "LOR-002",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat The Hushed Saint"
+  },
+  {
+    "id": "LOR-003",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat Spurned Progeny"
+  },
+  {
+    "id": "LOR-004",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat The Congregator"
+  },
+  {
+    "id": "LOR-005",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat The Gentle Gaverus"
+  },
+  {
+    "id": "LOR-006",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat The Infernal Enchantress"
+  },
+  {
+    "id": "LOR-007",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat The Lightreaper"
+  },
+  {
+    "id": "LOR-008",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat Adyr"
+  },
+  {
+    "id": "LOR-009",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat Sundered Monarch"
+  },
+  {
+    "id": "LOR-010",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat Judge Cleric"
+  },
+  {
+    "id": "LOR-011",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Parry 10 times boss"
+  },
+  {
+    "id": "LOR-012",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Backstab chain x3"
+  },
+  {
+    "id": "LOR-013",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Deflect projectile"
+  },
+  {
+    "id": "LOR-014",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Umbral lamp puzzle"
+  },
+  {
+    "id": "LOR-015",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Open 10 shortcuts"
+  },
+  {
+    "id": "LOR-016",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Find a vestige seed"
+  },
+  {
+    "id": "LOR-017",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Use vestige seed"
+  },
+  {
+    "id": "LOR-018",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Upgrade a weapon +10"
+  },
+  {
+    "id": "LOR-019",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Infuse a weapon"
+  },
+  {
+    "id": "LOR-020",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Use rune socket"
+  },
+  {
+    "id": "LOR-021",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Find all statues area"
+  },
+  {
+    "id": "LOR-022",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Cross Umbral bridge"
+  },
+  {
+    "id": "LOR-023",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Kill a parasite"
+  },
+  {
+    "id": "LOR-024",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Save an NPC"
+  },
+  {
+    "id": "LOR-025",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Do an NPC quest"
+  },
+  {
+    "id": "LOR-026",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Use throwables only"
+  },
+  {
+    "id": "LOR-027",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Apply 2 statuses"
+  },
+  {
+    "id": "LOR-028",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat dual boss"
+  },
+  {
+    "id": "LOR-029",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Use banner to block"
+  },
+  {
+    "id": "LOR-030",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Kill a Remnant"
+  },
+  {
+    "id": "LOR-031",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "No-heal mini-boss"
+  },
+  {
+    "id": "LOR-032",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Use lantern grab kill"
+  },
+  {
+    "id": "LOR-033",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Umbral only route"
+  },
+  {
+    "id": "LOR-034",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Retrieve vigor after death"
+  },
+  {
+    "id": "LOR-035",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Dual-wield boss win"
+  },
+  {
+    "id": "LOR-036",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Shield-only kill"
+  },
+  {
+    "id": "LOR-037",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Spell-only kill"
+  },
+  {
+    "id": "LOR-038",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Lamp soul-suck kill"
+  },
+  {
+    "id": "LOR-039",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Defeat an invader"
+  },
+  {
+    "id": "LOR-040",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Use wither mechanic"
+  },
+  {
+    "id": "LOR-041",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Find a secret path"
+  },
+  {
+    "id": "LOR-042",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Open a hidden wall"
+  },
+  {
+    "id": "LOR-043",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Break 10 objects"
+  },
+  {
+    "id": "LOR-044",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Ladder kickdown x5"
+  },
+  {
+    "id": "LOR-045",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "All chests zone"
+  },
+  {
+    "id": "LOR-046",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat arena hitless"
+  },
+  {
+    "id": "LOR-047",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat a radiant boss"
+  },
+  {
+    "id": "LOR-048",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat an inferno boss"
+  },
+  {
+    "id": "LOR-049",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat a frost boss"
+  },
+  {
+    "id": "LOR-050",
+    "game": "Lords of the Fallen",
+    "category": "Lords of the Fallen",
+    "task": "Beat a decay boss"
+  },
+  {
+    "id": "MEG-001",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM1 Cut Man"
+  },
+  {
+    "id": "MEG-002",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM1 Elec Man"
+  },
+  {
+    "id": "MEG-003",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM2 Metal Man"
+  },
+  {
+    "id": "MEG-004",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM2 Quick Man"
+  },
+  {
+    "id": "MEG-005",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM3 Magnet Man"
+  },
+  {
+    "id": "MEG-006",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM3 Snake Man"
+  },
+  {
+    "id": "MEG-007",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM4 Pharaoh Man"
+  },
+  {
+    "id": "MEG-008",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM4 Drill Man"
+  },
+  {
+    "id": "MEG-009",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM5 Gyro Man"
+  },
+  {
+    "id": "MEG-010",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM5 Star Man"
+  },
+  {
+    "id": "MEG-011",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM6 Flame Man"
+  },
+  {
+    "id": "MEG-012",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM6 Tomahawk Man"
+  },
+  {
+    "id": "MEG-013",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM7 Slash Man"
+  },
+  {
+    "id": "MEG-014",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM7 Shade Man"
+  },
+  {
+    "id": "MEG-015",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM8 Tengu Man"
+  },
+  {
+    "id": "MEG-016",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM8 Grenade Man"
+  },
+  {
+    "id": "MEG-017",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM9 Galaxy Man"
+  },
+  {
+    "id": "MEG-018",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM9 Plug Man"
+  },
+  {
+    "id": "MEG-019",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM10 Sheep Man"
+  },
+  {
+    "id": "MEG-020",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat MM10 Strike Man"
+  },
+  {
+    "id": "MEG-021",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Buster-only boss"
+  },
+  {
+    "id": "MEG-022",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "No damage boss"
+  },
+  {
+    "id": "MEG-023",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat a Wily stage"
+  },
+  {
+    "id": "MEG-024",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat Yellow Devil"
+  },
+  {
+    "id": "MEG-025",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat Mecha Dragon"
+  },
+  {
+    "id": "MEG-026",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat Guts Tank"
+  },
+  {
+    "id": "MEG-027",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Find E-Tank"
+  },
+  {
+    "id": "MEG-028",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat boss with weakness"
+  },
+  {
+    "id": "MEG-029",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat boss w/o weakness"
+  },
+  {
+    "id": "MEG-030",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Rush Jet section clear"
+  },
+  {
+    "id": "MEG-031",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Slide-only segment"
+  },
+  {
+    "id": "MEG-032",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Charge shot only segment"
+  },
+  {
+    "id": "MEG-033",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Defeat 3 Sniper Joes"
+  },
+  {
+    "id": "MEG-034",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat 5 robot masters"
+  },
+  {
+    "id": "MEG-035",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat 8 robot masters"
+  },
+  {
+    "id": "MEG-036",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat a boss rush"
+  },
+  {
+    "id": "MEG-037",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Collect 1-up chain"
+  },
+  {
+    "id": "MEG-038",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Perfect jump chain"
+  },
+  {
+    "id": "MEG-039",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat timed challenge"
+  },
+  {
+    "id": "MEG-040",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Beat remix challenge"
+  },
+  {
+    "id": "MEG-041",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Use Beat/assist"
+  },
+  {
+    "id": "MEG-042",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Call Eddie drop"
+  },
+  {
+    "id": "MEG-043",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Rush Coil trick"
+  },
+  {
+    "id": "MEG-044",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Refight boss quick"
+  },
+  {
+    "id": "MEG-045",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Screen wrap trick"
+  },
+  {
+    "id": "MEG-046",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Platforming gauntlet"
+  },
+  {
+    "id": "MEG-047",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Secret room found"
+  },
+  {
+    "id": "MEG-048",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Credits watched"
+  },
+  {
+    "id": "MEG-049",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Balloon/coil route"
+  },
+  {
+    "id": "MEG-050",
+    "game": "Mega Man Legacy Collection 1 & 2",
+    "category": "Mega Man Legacy Collection 1 & 2",
+    "task": "Tornado Hold segment"
+  },
+  {
+    "id": "MET-001",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Non-lethal boss win"
+  },
+  {
+    "id": "MET-002",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Boss win w/ SOCOM only"
+  },
+  {
+    "id": "MET-003",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Choke 10 guards"
+  },
+  {
+    "id": "MET-004",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Perfect stealth room"
+  },
+  {
+    "id": "MET-005",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "No alert floor"
+  },
+  {
+    "id": "MET-006",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Tactical reload save"
+  },
+  {
+    "id": "MET-007",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Hide in a box"
+  },
+  {
+    "id": "MET-008",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Vent crawl segment"
+  },
+  {
+    "id": "MET-009",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Thermal goggles used"
+  },
+  {
+    "id": "MET-010",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Nikita guided kill"
+  },
+  {
+    "id": "MET-011",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Chaff skip segment"
+  },
+  {
+    "id": "MET-012",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Camera dodge route"
+  },
+  {
+    "id": "MET-013",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Key card trick"
+  },
+  {
+    "id": "MET-014",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Codec easter egg"
+  },
+  {
+    "id": "MET-015",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Cardboard box ride"
+  },
+  {
+    "id": "MET-016",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "C4 wall discovery"
+  },
+  {
+    "id": "MET-017",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Soccer ball easter egg"
+  },
+  {
+    "id": "MET-018",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Punch-punch-kick KO"
+  },
+  {
+    "id": "MET-019",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Ration saved fight"
+  },
+  {
+    "id": "MET-020",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Dog tag collected"
+  },
+  {
+    "id": "MET-021",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Dog tags 5+"
+  },
+  {
+    "id": "MET-022",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Hold-up success"
+  },
+  {
+    "id": "MET-023",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Mines cleared"
+  },
+  {
+    "id": "MET-024",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Disable a camera"
+  },
+  {
+    "id": "MET-025",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Sneak past tank"
+  },
+  {
+    "id": "MET-026",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Sniper duel win"
+  },
+  {
+    "id": "MET-027",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Psycho fight win"
+  },
+  {
+    "id": "MET-028",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Backtrack shortcut"
+  },
+  {
+    "id": "MET-029",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Remote camera shot"
+  },
+  {
+    "id": "MET-030",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Claymore trick"
+  },
+  {
+    "id": "MET-031",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Handkerchief use"
+  },
+  {
+    "id": "MET-032",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Knock on wall lure"
+  },
+  {
+    "id": "MET-033",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Throw to knockdown"
+  },
+  {
+    "id": "MET-034",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Drag a body"
+  },
+  {
+    "id": "MET-035",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Hide in locker"
+  },
+  {
+    "id": "MET-036",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Use coolant spray"
+  },
+  {
+    "id": "MET-037",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Use coolant freeze"
+  },
+  {
+    "id": "MET-038",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Stinger lock-on"
+  },
+  {
+    "id": "MET-039",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "1st-person trick"
+  },
+  {
+    "id": "MET-040",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Boss no items used"
+  },
+  {
+    "id": "MET-041",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Stealth camo equipped"
+  },
+  {
+    "id": "MET-042",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Stealth camo run"
+  },
+  {
+    "id": "MET-043",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Soccer ball goal"
+  },
+  {
+    "id": "MET-044",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Thermal mine spot"
+  },
+  {
+    "id": "MET-045",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Night vision use"
+  },
+  {
+    "id": "MET-046",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Destroy a camera"
+  },
+  {
+    "id": "MET-047",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Card swap puzzle"
+  },
+  {
+    "id": "MET-048",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Rank S segment"
+  },
+  {
+    "id": "MET-049",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Credits skip trick"
+  },
+  {
+    "id": "MET-050",
+    "game": "Metal Gear Solid",
+    "category": "Metal Gear Solid",
+    "task": "Box-only segment"
+  },
+  {
+    "id": "PHA-001",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Identify ghost type"
+  },
+  {
+    "id": "PHA-002",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Find bone"
+  },
+  {
+    "id": "PHA-003",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Get EMF 5"
+  },
+  {
+    "id": "PHA-004",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Freezing temps"
+  },
+  {
+    "id": "PHA-005",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Ghost writing"
+  },
+  {
+    "id": "PHA-006",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Ghost orbs"
+  },
+  {
+    "id": "PHA-007",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Spirit box"
+  },
+  {
+    "id": "PHA-008",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "D.O.T.S. evidence"
+  },
+  {
+    "id": "PHA-009",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Smudge stick save"
+  },
+  {
+    "id": "PHA-010",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Smudge during hunt"
+  },
+  {
+    "id": "PHA-011",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Salt footsteps"
+  },
+  {
+    "id": "PHA-012",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Crucifix stop"
+  },
+  {
+    "id": "PHA-013",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Sanity below 25%"
+  },
+  {
+    "id": "PHA-014",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Perfect photo set"
+  },
+  {
+    "id": "PHA-015",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Ghost photo"
+  },
+  {
+    "id": "PHA-016",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Fingerprints"
+  },
+  {
+    "id": "PHA-017",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "UV evidence"
+  },
+  {
+    "id": "PHA-018",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Parabolic sound"
+  },
+  {
+    "id": "PHA-019",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Motion sensor hit"
+  },
+  {
+    "id": "PHA-020",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Escape a hunt"
+  },
+  {
+    "id": "PHA-021",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Hide-and-seek survive"
+  },
+  {
+    "id": "PHA-022",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Candle objective"
+  },
+  {
+    "id": "PHA-023",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Capture dirty water"
+  },
+  {
+    "id": "PHA-024",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Ouija board used"
+  },
+  {
+    "id": "PHA-025",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Tarot card used"
+  },
+  {
+    "id": "PHA-026",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Music box used"
+  },
+  {
+    "id": "PHA-027",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Summoning circle used"
+  },
+  {
+    "id": "PHA-028",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Voodoo doll used"
+  },
+  {
+    "id": "PHA-029",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Mirror used"
+  },
+  {
+    "id": "PHA-030",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Bone + photo"
+  },
+  {
+    "id": "PHA-031",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Cursed item found"
+  },
+  {
+    "id": "PHA-032",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "No evidence run win"
+  },
+  {
+    "id": "PHA-033",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Nightmare win"
+  },
+  {
+    "id": "PHA-034",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Professional win"
+  },
+  {
+    "id": "PHA-035",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Solo win"
+  },
+  {
+    "id": "PHA-036",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Team no deaths"
+  },
+  {
+    "id": "PHA-037",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Team wipe (fun)"
+  },
+  {
+    "id": "PHA-038",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Fuse box on"
+  },
+  {
+    "id": "PHA-039",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Breaker off full run"
+  },
+  {
+    "id": "PHA-040",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "No sprint run"
+  },
+  {
+    "id": "PHA-041",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "No sanity pills run"
+  },
+  {
+    "id": "PHA-042",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Salt+photo combo"
+  },
+  {
+    "id": "PHA-043",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Ghost event witness"
+  },
+  {
+    "id": "PHA-044",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Shadow apparition"
+  },
+  {
+    "id": "PHA-045",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Deogen outrun"
+  },
+  {
+    "id": "PHA-046",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Raiju speed seen"
+  },
+  {
+    "id": "PHA-047",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Banshee scream heard"
+  },
+  {
+    "id": "PHA-048",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Yurei smudge test"
+  },
+  {
+    "id": "PHA-049",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Shade behavior seen"
+  },
+  {
+    "id": "PHA-050",
+    "game": "Phasmophobia",
+    "category": "Phasmophobia",
+    "task": "Hantu breath seen"
+  },
+  {
+    "id": "SUP-001",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Unlock triple jump"
+  },
+  {
+    "id": "SUP-002",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Unlock gun"
+  },
+  {
+    "id": "SUP-003",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Unlock force cube"
+  },
+  {
+    "id": "SUP-004",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Unlock force beam"
+  },
+  {
+    "id": "SUP-005",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Unlock stomp"
+  },
+  {
+    "id": "SUP-006",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Open 10 chests"
+  },
+  {
+    "id": "SUP-007",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Find 10 coins"
+  },
+  {
+    "id": "SUP-008",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Find 20 coins"
+  },
+  {
+    "id": "SUP-009",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Find a purple coin"
+  },
+  {
+    "id": "SUP-010",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Find a secret area"
+  },
+  {
+    "id": "SUP-011",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Solve a mirror puzzle"
+  },
+  {
+    "id": "SUP-012",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Solve a laser puzzle"
+  },
+  {
+    "id": "SUP-013",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Solve a water puzzle"
+  },
+  {
+    "id": "SUP-014",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Open a shortcut"
+  },
+  {
+    "id": "SUP-015",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Talk to 5 NPCs"
+  },
+  {
+    "id": "SUP-016",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Buy a health upgrade"
+  },
+  {
+    "id": "SUP-017",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Buy a damage upgrade"
+  },
+  {
+    "id": "SUP-018",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Upgrade gun rate"
+  },
+  {
+    "id": "SUP-019",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Upgrade cube size"
+  },
+  {
+    "id": "SUP-020",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Upgrade beam range"
+  },
+  {
+    "id": "SUP-021",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Beat a combat arena"
+  },
+  {
+    "id": "SUP-022",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Beat a boss"
+  },
+  {
+    "id": "SUP-023",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Unlock fast travel"
+  },
+  {
+    "id": "SUP-024",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Use cube as elevator"
+  },
+  {
+    "id": "SUP-025",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Use beam bridge"
+  },
+  {
+    "id": "SUP-026",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Use stomp to reveal secret"
+  },
+  {
+    "id": "SUP-027",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Skip intended route"
+  },
+  {
+    "id": "SUP-028",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Sequence break"
+  },
+  {
+    "id": "SUP-029",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Bounce pad chain"
+  },
+  {
+    "id": "SUP-030",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Grapple trick shot"
+  },
+  {
+    "id": "SUP-031",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Color switch puzzle"
+  },
+  {
+    "id": "SUP-032",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Magnet puzzle"
+  },
+  {
+    "id": "SUP-033",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Pipe puzzle"
+  },
+  {
+    "id": "SUP-034",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Battery puzzle"
+  },
+  {
+    "id": "SUP-035",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Reflector chain"
+  },
+  {
+    "id": "SUP-036",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Portal trick"
+  },
+  {
+    "id": "SUP-037",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Trampoline to roof"
+  },
+  {
+    "id": "SUP-038",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Find dev room joke"
+  },
+  {
+    "id": "SUP-039",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Physics kill"
+  },
+  {
+    "id": "SUP-040",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Enemy juggle"
+  },
+  {
+    "id": "SUP-041",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Air control chain"
+  },
+  {
+    "id": "SUP-042",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Lava room clear"
+  },
+  {
+    "id": "SUP-043",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Acid room clear"
+  },
+  {
+    "id": "SUP-044",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "No damage fight"
+  },
+  {
+    "id": "SUP-045",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Puzzle hint ignored"
+  },
+  {
+    "id": "SUP-046",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Use cube to block laser"
+  },
+  {
+    "id": "SUP-047",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Use beam to pull item"
+  },
+  {
+    "id": "SUP-048",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Cube + stomp launch"
+  },
+  {
+    "id": "SUP-049",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Credits watched"
+  },
+  {
+    "id": "SUP-050",
+    "game": "Supraland",
+    "category": "Supraland",
+    "task": "Find All Purple Coins?"
   }
 ]

@@ -15,6 +15,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="TCB">
+  <meta name="csrf-token" content="<%= csrfToken %>">
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
@@ -569,6 +570,20 @@
           <button type="button" class="add-item-btn" onclick="addItemRow()">+ Add Item</button>
         </div>
 
+        <div class="form-group captcha-group">
+          <label>Human Check</label>
+          <div class="helper-text">Solve the question before saving your deck.</div>
+          <div class="captcha-wrapper" style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; margin:0.5rem 0;">
+            <span id="builder-captcha-question" style="font-weight:600;">
+              <%= cardCaptchaQuestion || 'Solve the challenge' %>
+            </span>
+            <button type="button" class="secondary-button" onclick="refreshBuilderCaptcha(event)" style="padding:0.35rem 0.75rem;">
+              ↻
+            </button>
+          </div>
+          <input type="text" id="captcha-answer" placeholder="Enter the answer above" autocomplete="off">
+        </div>
+
         <button type="button" class="save-btn" id="save-btn" onclick="saveCollection()" disabled>
           Save Custom Card
         </button>
@@ -658,6 +673,10 @@
     const templateCodeBtn = document.getElementById('load-template-code-btn');
     const builderTabs = document.querySelectorAll('.builder-tab');
     const tabPanels = document.querySelectorAll('.tab-panel');
+    const builderCaptchaQuestionEl = document.getElementById('builder-captcha-question');
+    const builderCaptchaInput = document.getElementById('captcha-answer');
+    const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
+    const csrfToken = csrfTokenMeta ? csrfTokenMeta.getAttribute('content') : '';
     let bingoMetaCache = null;
 
     let itemIndex = 0;
@@ -679,6 +698,27 @@
       templateCodeBtn.addEventListener('click', loadTemplateFromCode);
     }
     updateTemplateLoadButtonState();
+
+    async function refreshBuilderCaptcha(event) {
+      if (event && typeof event.preventDefault === 'function') {
+        event.preventDefault();
+      }
+      if (!builderCaptchaQuestionEl) return;
+      const trigger = event?.currentTarget;
+      try {
+        if (trigger) trigger.disabled = true;
+        const response = await fetch('/api/captcha/cardBuilder');
+        if (!response.ok) throw new Error('Failed to refresh captcha');
+        const data = await response.json();
+        builderCaptchaQuestionEl.textContent = data.question || 'Solve the challenge';
+        if (builderCaptchaInput) builderCaptchaInput.value = '';
+      } catch (error) {
+        console.error('captcha refresh failed', error);
+        builderCaptchaQuestionEl.textContent = 'Error loading challenge';
+      } finally {
+        if (trigger) trigger.disabled = false;
+      }
+    }
 
     function setTemplateStatus(message, isError = false) {
       if (!templateStatusEl) return;
@@ -1069,6 +1109,7 @@
     async function saveCollection() {
       const name = document.getElementById('collection-name').value.trim();
       const items = getItems();
+      const captchaAnswer = builderCaptchaInput ? builderCaptchaInput.value.trim() : '';
 
       if (!name) {
         alert('Please enter a card name');
@@ -1077,6 +1118,11 @@
 
       if (items.length < 25) {
         alert('Please add at least 25 items');
+        return;
+      }
+
+      if (!captchaAnswer) {
+        alert('Please solve the human check before saving.');
         return;
       }
 
@@ -1094,8 +1140,9 @@
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
+              'x-csrf-token': csrfToken
             },
-            body: JSON.stringify({ name, items })
+            body: JSON.stringify({ name, items, captchaAnswer })
           });
         } else {
           // Create new card
@@ -1103,8 +1150,9 @@
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'x-csrf-token': csrfToken
             },
-            body: JSON.stringify({ name, items })
+            body: JSON.stringify({ name, items, captchaAnswer })
           });
         }
 
@@ -1118,6 +1166,8 @@
         // Show success modal with code
         document.getElementById('card-code').textContent = data.code;
         document.getElementById('success-modal').style.display = 'flex';
+        if (builderCaptchaInput) builderCaptchaInput.value = '';
+        refreshBuilderCaptcha();
 
       } catch (error) {
         alert('Error saving card: ' + error.message);

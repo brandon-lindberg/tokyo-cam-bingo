@@ -1117,13 +1117,19 @@
     chatPlayers.forEach(p => { chatNames[p.id] = p.name; });
 
     function addChatMessage(msg) {
+      const resolvedName = msg.playerName || (msg.player && msg.player.name);
+      if (resolvedName && !chatNames[msg.playerId]) {
+        chatNames[msg.playerId] = resolvedName;
+      }
       const bubble = document.createElement('div');
       bubble.classList.add('chat-bubble', msg.playerId === playerId ? 'self' : 'other');
       bubble.style.backgroundColor = chatColors[msg.playerId] || '#ddd';
       // name header
       const header = document.createElement('div');
       header.classList.add('bubble-header');
-      header.textContent = msg.playerId === playerId ? 'You' : chatNames[msg.playerId];
+      const nameFromPayload = resolvedName || chatNames[msg.playerId];
+      const senderName = msg.playerId === playerId ? 'You' : (nameFromPayload || 'Unknown player');
+      header.textContent = senderName;
       bubble.appendChild(header);
       // message content
       const content = document.createElement('div');
@@ -1167,8 +1173,8 @@
       if (e.key === 'Enter') { e.preventDefault(); chatSend.click(); }
     });
 
-    socket.on('new_message', ({ message }) => {
-      addChatMessage(message);
+    socket.on('new_message', ({ message, playerName }) => {
+      addChatMessage({ ...message, playerName });
       if (!chatPanel.classList.contains('open')) {
         chatNotification.style.display = 'block';
         if (chatNotificationMobile) chatNotificationMobile.style.display = 'block';

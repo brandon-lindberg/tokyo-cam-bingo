@@ -760,11 +760,19 @@ app.get('/game', async (req, res) => {
   const player = game.players.find(p => p.id === playerId);
   if (!player) return res.redirect('/');
   // Fetch chat messages for this game
-  const messages = await prisma.chatMessage.findMany({
+  const rawMessages = await prisma.chatMessage.findMany({
     where: { gameId },
     orderBy: { createdAt: 'asc' },
     include: { player: { select: { id: true, name: true } } },
   });
+
+  const messages = rawMessages.map(msg => ({
+    id: msg.id,
+    playerId: msg.playerId,
+    content: msg.content,
+    createdAt: msg.createdAt,
+    playerName: msg.player?.name || 'Unknown player'
+  }));
 
   res.render('game', { game, players: game.players, currentPlayer: player, messages });
 });
@@ -1084,6 +1092,7 @@ io.on('connection', (socket) => {
     if (typeof content !== 'string' || content.length === 0 || content.length > 300) return;
     const newMsg = await prisma.chatMessage.create({ data: { gameId, playerId, content } });
     const playerInfo = await prisma.player.findUnique({ where: { id: playerId }, select: { name: true } });
+    const playerName = playerInfo?.name || 'Unknown player';
     io.to(gameId).emit('new_message', {
       message: {
         id: newMsg.id,
@@ -1091,7 +1100,7 @@ io.on('connection', (socket) => {
         content: newMsg.content,
         createdAt: newMsg.createdAt.toISOString(),
       },
-      playerName: playerInfo.name,
+      playerName,
     });
   });
 

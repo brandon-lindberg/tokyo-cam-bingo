@@ -947,6 +947,16 @@ body {
   flex-direction: column;
   gap: 0.5rem;
 }
+.chat-row {
+  display: flex;
+  width: 100%;
+}
+.chat-row.self {
+  justify-content: flex-end;
+}
+.chat-row.other {
+  justify-content: flex-start;
+}
 .chat-input {
   display: flex;
   gap: 0.5rem;
@@ -978,8 +988,7 @@ body {
   word-break: break-word;
   display: flex;
   flex-direction: column;
-  align-self: flex-start;
-  margin-right: auto;
+  margin: 0;
 }
 
 /* Chat bubble sub-elements */
@@ -1000,15 +1009,13 @@ body {
   margin-top: 0.25rem;
   align-self: flex-end;
 }
-.chat-bubble.self {
-  align-self: flex-start;
-  margin-right: auto;
+.chat-row.self .chat-bubble {
   border-bottom-right-radius: 2px;
+  color: #fff;
 }
-.chat-bubble.other {
-  align-self: flex-end;
-  margin-left: auto;
+.chat-row.other .chat-bubble {
   border-bottom-left-radius: 2px;
+  color: #111;
 }
 .notification-badge {
   position: absolute;

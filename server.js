@@ -894,7 +894,8 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
 // Join game
 app.post('/join', createJoinLimiter, csrfProtection, async (req, res) => {
   const { code, playerName, playerColor } = req.body;
-  const game = await prisma.game.findUnique({ where: { code } });
+  const sanitizedCode = (code || '').trim().toUpperCase();
+  const game = await prisma.game.findUnique({ where: { code: sanitizedCode } });
   if (!game) return res.status(404).send('Game not found');
   const players = await prisma.player.findMany({ where: { gameId: game.id } });
 
@@ -1165,7 +1166,7 @@ io.on('connection', (socket) => {
     const requestingPlayer = game.players.find(p => p.id === playerId);
     if (!requestingPlayer || !requestingPlayer.isHost) return;
 
-    const targetId = typeof targetPlayerId === 'number' ? targetPlayerId : parseInt(targetPlayerId, 10);
+    const targetId = targetPlayerId ? String(targetPlayerId) : null;
 
     if (game.mode === 'VS') {
       // VS Mode: Reroll shared card and clear stamps from affected squares
@@ -1222,7 +1223,7 @@ io.on('connection', (socket) => {
       io.to(gameId).emit('update_state', { game: updatedGame, players: updatedPlayers });
     } else {
       // Regular mode: Reroll individual player's card
-      const target = game.players.find(p => p.id === targetId);
+      const target = game.players.find(p => String(p.id) === targetId);
       if (!target) return;
       const customItems = game.customItems || null;
       const newCard = rerollCard(target.card, type, arg, customItems);

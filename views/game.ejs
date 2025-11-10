@@ -226,7 +226,7 @@
     <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 800px;">
       <span onclick="closeModal()" style="cursor: pointer; float: right; font-size: 28px;">×</span>
       <h2 id="modal-player-name"></h2>
-      <table id="modal-card" class="bingo-card"></table>
+      <table id="modal-card" class="bingo-card own-card"></table>
       <div id="modal-reroll" style="display: none;">
         <h3>Re-roll</h3>
         <select id="modal-reroll-type">
@@ -1126,14 +1126,18 @@
       if (resolvedName && !chatNames[msg.playerId]) {
         chatNames[msg.playerId] = resolvedName;
       }
+      const isSelf = String(msg.playerId) === String(playerId);
+      const rowEl = document.createElement('div');
+      rowEl.classList.add('chat-row', isSelf ? 'self' : 'other');
+
       const bubble = document.createElement('div');
-      bubble.classList.add('chat-bubble', msg.playerId === playerId ? 'self' : 'other');
+      bubble.classList.add('chat-bubble', isSelf ? 'self' : 'other');
       bubble.style.backgroundColor = chatColors[msg.playerId] || '#ddd';
       // name header
       const header = document.createElement('div');
       header.classList.add('bubble-header');
       const nameFromPayload = resolvedName || chatNames[msg.playerId];
-      const senderName = msg.playerId === playerId ? 'You' : (nameFromPayload || 'Unknown player');
+      const senderName = isSelf ? 'You' : (nameFromPayload || 'Unknown player');
       header.textContent = senderName;
       bubble.appendChild(header);
       // message content
@@ -1146,7 +1150,8 @@
       time.classList.add('bubble-time');
       time.textContent = new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       bubble.appendChild(time);
-      chatMessages.appendChild(bubble);
+      rowEl.appendChild(bubble);
+      chatMessages.appendChild(rowEl);
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 

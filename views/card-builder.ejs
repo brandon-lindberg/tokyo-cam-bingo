@@ -127,6 +127,10 @@
       min-width: 220px;
     }
 
+    .preset-load-row {
+      margin-top: 0.75rem;
+    }
+
     .template-code-row {
       display: flex;
       gap: 0.5rem;
@@ -582,7 +586,6 @@
               <option value="game">Bingo Tasks · by Game</option>
               <option value="all">Mix All Bingo Tasks</option>
             </select>
-            <button type="button" id="load-preset-btn" class="secondary-button" style="min-width: 160px;">Load Deck</button>
           </div>
           <div id="template-category-wrapper" class="preset-detail" style="display: none;">
             <label class="form-sub-label" for="templateCategory">Choose a category</label>
@@ -595,6 +598,9 @@
             <select id="templateGame" class="form-select" disabled>
               <option value="">Loading games…</option>
             </select>
+          </div>
+          <div id="template-load-row" class="preset-load-row" hidden>
+            <button type="button" id="load-preset-btn" class="secondary-button" style="min-width: 160px;">Load Deck</button>
           </div>
           <div id="template-status" class="helper-text muted"></div>
           <div class="template-divider">or</div>
@@ -647,6 +653,7 @@
     const templateGameSelect = document.getElementById('templateGame');
     const templateStatusEl = document.getElementById('template-status');
     const templateLoadBtn = document.getElementById('load-preset-btn');
+    const templateLoadRow = document.getElementById('template-load-row');
     const templateCodeInput = document.getElementById('template-card-code');
     const templateCodeBtn = document.getElementById('load-template-code-btn');
     const builderTabs = document.querySelectorAll('.builder-tab');
@@ -659,12 +666,19 @@
     if (templatePresetSelect) {
       templatePresetSelect.addEventListener('change', handleTemplatePresetChange);
     }
+    if (templateCategorySelect) {
+      templateCategorySelect.addEventListener('change', updateTemplateLoadButtonState);
+    }
+    if (templateGameSelect) {
+      templateGameSelect.addEventListener('change', updateTemplateLoadButtonState);
+    }
     if (templateLoadBtn) {
       templateLoadBtn.addEventListener('click', loadSelectedPresetTemplate);
     }
     if (templateCodeBtn) {
       templateCodeBtn.addEventListener('click', loadTemplateFromCode);
     }
+    updateTemplateLoadButtonState();
 
     function setTemplateStatus(message, isError = false) {
       if (!templateStatusEl) return;
@@ -700,6 +714,21 @@
       if ((needsCategory || needsGame) && !bingoMetaCache) {
         loadBingoMeta().catch(() => {});
       }
+      updateTemplateLoadButtonState();
+    }
+
+    function updateTemplateLoadButtonState() {
+      if (!templateLoadRow || !templatePresetSelect) return;
+      const preset = templatePresetSelect.value;
+      let shouldShow = false;
+      if (preset === 'category') {
+        shouldShow = !!(templateCategorySelect && templateCategorySelect.value);
+      } else if (preset === 'game') {
+        shouldShow = !!(templateGameSelect && templateGameSelect.value);
+      } else if (preset) {
+        shouldShow = true;
+      }
+      templateLoadRow.hidden = !shouldShow;
     }
 
     async function fetchJson(url) {

@@ -675,6 +675,7 @@
     const tabPanels = document.querySelectorAll('.tab-panel');
     const builderCaptchaQuestionEl = document.getElementById('builder-captcha-question');
     const builderCaptchaInput = document.getElementById('captcha-answer');
+    const loadCardCodeInput = document.getElementById('load-card-code');
     const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
     const csrfToken = csrfTokenMeta ? csrfTokenMeta.getAttribute('content') : '';
     let bingoMetaCache = null;
@@ -696,6 +697,16 @@
     }
     if (templateCodeBtn) {
       templateCodeBtn.addEventListener('click', loadTemplateFromCode);
+    }
+    if (templateCodeInput) {
+      templateCodeInput.addEventListener('input', function() {
+        this.value = this.value.toUpperCase();
+      });
+    }
+    if (loadCardCodeInput) {
+      loadCardCodeInput.addEventListener('input', function() {
+        this.value = this.value.toUpperCase();
+      });
     }
     updateTemplateLoadButtonState();
 

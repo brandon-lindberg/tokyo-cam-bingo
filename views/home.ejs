@@ -665,6 +665,11 @@
     if (playerColorSelect) {
       playerColorSelect.required = false;
     }
+    if (joinCodeInput) {
+      joinCodeInput.addEventListener('input', function() {
+        this.value = this.value.toUpperCase();
+      });
+    }
 
     joinCodeInput.addEventListener('blur', async function() {
       const code = this.value.trim().toUpperCase();

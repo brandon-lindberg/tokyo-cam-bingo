@@ -15,6 +15,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="TCB">
+  <meta name="csrf-token" content="<%= csrfToken %>">
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
@@ -53,6 +54,7 @@
       </div>
       <h2>Create Game</h2>
       <form action="/create" method="POST" class="create-game-form">
+        <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
 
         <!-- Player Info Section -->
         <div class="form-section">
@@ -191,6 +193,21 @@
           </div>
         </div>
 
+        <!-- CAPTCHA Section -->
+        <div class="form-section">
+          <label class="form-label">Human Check</label>
+          <div class="captcha-wrapper" style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+            <span id="create-captcha-question" class="captcha-question" style="font-weight:600;">
+              <%= createCaptchaQuestion || 'Solve the challenge' %>
+            </span>
+            <button type="button" class="secondary-button" id="refresh-create-captcha" onclick="refreshCreateCaptcha(event)" style="padding:0.4rem 0.75rem;">
+              ↻
+            </button>
+          </div>
+          <input type="text" name="captchaAnswer" class="form-input" placeholder="Enter the answer above" required autocomplete="off">
+          <p class="helper-text muted">Solve the math question so we know you are not a bot.</p>
+        </div>
+
         <!-- Win Conditions Section -->
         <div class="form-section">
           <label class="form-label">Win Conditions (select at least one)</label>
@@ -244,6 +261,7 @@
       </div>
       <h2>Join Game</h2>
       <form id="join-game-form" action="/join" method="POST">
+        <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
         <input type="password" id="join-code" name="code" placeholder="Game Code" required>
         <input type="text" name="playerName" placeholder="Your Name" required>
         <div id="color-selection" style="display: none; margin: 1rem 0;">
@@ -345,6 +363,29 @@
         console.warn('Could not clear storage:', e);
       }
     })();
+
+    async function refreshCreateCaptcha(event) {
+      if (event && typeof event.preventDefault === 'function') {
+        event.preventDefault();
+      }
+      const questionEl = document.getElementById('create-captcha-question');
+      const refreshBtn = document.getElementById('refresh-create-captcha');
+      if (!questionEl) return;
+      try {
+        if (refreshBtn) refreshBtn.disabled = true;
+        const response = await fetch('/api/captcha/createGame');
+        if (!response.ok) {
+          throw new Error('Request failed');
+        }
+        const data = await response.json();
+        questionEl.textContent = data.question || 'Solve the challenge';
+      } catch (error) {
+        console.error('captcha refresh failed', error);
+        questionEl.textContent = 'Error loading challenge';
+      } finally {
+        if (refreshBtn) refreshBtn.disabled = false;
+      }
+    }
 
     // Timer picker instance
     let timerPicker = null;

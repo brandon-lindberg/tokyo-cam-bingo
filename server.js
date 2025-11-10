@@ -1,4 +1,9 @@
 const express = require('express');
+const compression = require('compression');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const crypto = require('crypto');
+const path = require('path');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
@@ -6,7 +11,6 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const fs = require('fs');
 const itemsList = JSON.parse(fs.readFileSync('items.json'));
-const uuid = require('uuid');
 const session = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 require('dotenv').config();
@@ -20,6 +24,15 @@ const {
   getAllTasksPool
 } = require('./utils/bingoTasks');
 
+const isProduction = process.env.NODE_ENV === 'production';
+const STATIC_MAX_AGE_SECONDS = 60 * 60 * 24 * 30; // 30 days
+const BODY_LIMIT = '250kb';
+const CAPTCHA_TTL_MS = 10 * 60 * 1000;
+const CAPTCHA_TYPES = {
+  CREATE_GAME: 'createGame',
+  CARD_BUILDER: 'cardBuilder'
+};
+
 // In-memory flags and voting state
 const flagsLeft = {}; // playerId -> remaining flags
 const votesByGame = {}; // gameId -> active vote state
@@ -31,6 +44,7 @@ if (!process.env.SESSION_SECRET) {
   process.exit(1);
 }
 
+app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
 
 const buildVersion = process.env.APP_BUILD_VERSION || process.env.BUILD_ID || packageJson.version;
@@ -39,35 +53,95 @@ const enableServiceWorker = process.env.ENABLE_SERVICE_WORKER === 'true';
 app.locals.assetVersion = buildVersion;
 app.locals.enableServiceWorker = enableServiceWorker;
 
-app.use((req, res, next) => {
-  res.locals.assetVersion = app.locals.assetVersion;
-  res.locals.enableServiceWorker = app.locals.enableServiceWorker;
-  next();
+const globalLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => req.path.startsWith('/socket.io/')
 });
 
-// Add cache control middleware - no caching for HTML/dynamic content
-app.use((req, res, next) => {
-  res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
-  res.set('Pragma', 'no-cache');
-  res.set('Expires', '0');
-  next();
+const createJoinLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => {
+    res.status(429).send('Too many game actions from this IP. Please wait before trying again.');
+  }
 });
 
-app.use(express.static('public', {
-  setHeaders: (res) => {
+const cardWriteLimiter = rateLimit({
+  windowMs: 30 * 60 * 1000,
+  max: 25,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => {
+    res.status(429).json({ error: 'Too many card saves from this IP. Please wait a bit and try again.' });
+  }
+});
+
+const dynamicNoCachePatterns = [
+  /^\/$/,
+  /^\/game/,
+  /^\/card-builder/,
+  /^\/create/,
+  /^\/join/,
+  /^\/api/,
+  /^\/get-code/,
+  /^\/game-info/,
+  /^\/socket\.io/
+];
+
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+  crossOriginEmbedderPolicy: false
+}));
+app.use(compression());
+app.use(globalLimiter);
+
+app.use((req, res, next) => {
+  if (dynamicNoCachePatterns.some((pattern) => pattern.test(req.path))) {
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
     res.set('Pragma', 'no-cache');
     res.set('Expires', '0');
   }
+  next();
+});
+
+app.use(express.static('public', {
+  setHeaders: (res, servedPath) => {
+    if (servedPath && servedPath.endsWith('service-worker.js')) {
+      res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+    } else {
+      res.set('Cache-Control', `public, max-age=${STATIC_MAX_AGE_SECONDS}, immutable`);
+    }
+  }
 }));
 
-// Serve PWA files from root
-app.use('/site.webmanifest', express.static('site.webmanifest'));
-app.use('/favicon.ico', express.static('favicon.ico'));
+// Serve PWA files from root with caching
+app.get('/site.webmanifest', (req, res) => {
+  res.sendFile(path.join(__dirname, 'site.webmanifest'), {
+    headers: {
+      'Cache-Control': 'public, max-age=86400, immutable',
+      'Content-Type': 'application/manifest+json'
+    }
+  });
+});
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(session({
+app.get('/favicon.ico', (req, res) => {
+  res.sendFile(path.join(__dirname, 'favicon.ico'), {
+    headers: {
+      'Cache-Control': 'public, max-age=604800, immutable'
+    }
+  });
+});
+
+app.use(express.urlencoded({ extended: true, limit: BODY_LIMIT }));
+app.use(express.json({ limit: BODY_LIMIT }));
+
+const sessionMiddleware = session({
   store: new PrismaSessionStore(
     prisma,
     {
@@ -78,9 +152,105 @@ app.use(session({
   ),
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 } // 1 week
-}));
+  saveUninitialized: false,
+  rolling: true,
+  cookie: {
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: isProduction
+  }
+});
+
+app.use(sessionMiddleware);
+io.use((socket, next) => sessionMiddleware(socket.request, socket.request.res || {}, next));
+
+app.use((req, res, next) => {
+  if (req.session && !req.session.csrfToken) {
+    req.session.csrfToken = crypto.randomBytes(32).toString('hex');
+  }
+  res.locals.assetVersion = app.locals.assetVersion;
+  res.locals.enableServiceWorker = app.locals.enableServiceWorker;
+  res.locals.csrfToken = req.session?.csrfToken || '';
+  next();
+});
+
+const actionCooldowns = new Map();
+
+function sendCsrfError(req, res) {
+  const message = 'Invalid or missing security token.';
+  if (req.path.startsWith('/api')) {
+    return res.status(403).json({ error: message });
+  }
+  return res.status(403).send(message);
+}
+
+function csrfProtection(req, res, next) {
+  const sessionToken = req.session?.csrfToken;
+  const headerToken = req.get('x-csrf-token');
+  const token = req.body?.csrfToken || headerToken;
+  if (!sessionToken || !token || sessionToken !== token) {
+    return sendCsrfError(req, res);
+  }
+  return next();
+}
+
+function isOnCooldown(playerId, action, durationMs) {
+  if (!playerId) return true;
+  const now = Date.now();
+  const key = `${playerId}:${action}`;
+  const availableAt = actionCooldowns.get(key) || 0;
+  if (availableAt > now) {
+    return true;
+  }
+  actionCooldowns.set(key, now + durationMs);
+  return false;
+}
+
+function getSocketIdentity(socket) {
+  const session = socket.request?.session || {};
+  return {
+    playerId: session.playerId || null,
+    gameId: session.gameId || null
+  };
+}
+
+function getPlayerKey(playerId) {
+  return playerId ? String(playerId) : '';
+}
+
+function createCaptchaPayload() {
+  const a = Math.floor(Math.random() * 8) + 2;
+  const b = Math.floor(Math.random() * 8) + 2;
+  return {
+    question: `${a} + ${b} = ?`,
+    answer: String(a + b),
+    expiresAt: Date.now() + CAPTCHA_TTL_MS
+  };
+}
+
+function getCaptcha(session, key, { refresh = false } = {}) {
+  if (!session) return createCaptchaPayload();
+  if (!session.captchas) session.captchas = {};
+  const current = session.captchas[key];
+  if (refresh || !current || current.expiresAt < Date.now()) {
+    session.captchas[key] = createCaptchaPayload();
+  }
+  return session.captchas[key];
+}
+
+function validateCaptcha(session, key, submittedAnswer) {
+  if (!session || !session.captchas || !session.captchas[key]) return false;
+  const challenge = session.captchas[key];
+  if (!challenge || challenge.expiresAt < Date.now()) return false;
+  const normalized = (submittedAnswer || '').toString().trim().toLowerCase();
+  if (!normalized) return false;
+  const isValid = normalized === challenge.answer;
+  if (isValid) {
+    session.captchas[key] = createCaptchaPayload();
+  }
+  return isValid;
+}
 
 // Helper to generate random code
 function generateCode() {
@@ -349,15 +519,34 @@ async function resumeGameTimer(gameId) {
 }
 
 // Home page
-app.get('/', (req, res) => res.render('home'));
+app.get('/', (req, res) => {
+  const captcha = getCaptcha(req.session, CAPTCHA_TYPES.CREATE_GAME);
+  res.render('home', { createCaptchaQuestion: captcha.question });
+});
 
 // Card builder page
-app.get('/card-builder', (req, res) => res.render('card-builder'));
+app.get('/card-builder', (req, res) => {
+  const captcha = getCaptcha(req.session, CAPTCHA_TYPES.CARD_BUILDER);
+  res.render('card-builder', { cardCaptchaQuestion: captcha.question });
+});
 
 // Create custom card collection
-app.post('/api/card-collections', async (req, res) => {
+app.get('/api/captcha/:type', (req, res) => {
+  const { type } = req.params;
+  if (!Object.values(CAPTCHA_TYPES).includes(type)) {
+    return res.status(400).json({ error: 'Unsupported captcha type' });
+  }
+  const captcha = getCaptcha(req.session, type, { refresh: true });
+  res.json({ question: captcha.question });
+});
+
+app.post('/api/card-collections', cardWriteLimiter, csrfProtection, async (req, res) => {
   try {
-    const { name, items } = req.body;
+    const { name, items, captchaAnswer } = req.body;
+
+    if (!validateCaptcha(req.session, CAPTCHA_TYPES.CARD_BUILDER, captchaAnswer)) {
+      return res.status(400).json({ error: 'Captcha answer incorrect. Please try again.' });
+    }
 
     // Validation
     if (!name || !items || !Array.isArray(items)) {
@@ -418,10 +607,14 @@ app.get('/api/card-collections/:code', async (req, res) => {
 });
 
 // Update card collection by code
-app.put('/api/card-collections/:code', async (req, res) => {
+app.put('/api/card-collections/:code', cardWriteLimiter, csrfProtection, async (req, res) => {
   try {
     const { code } = req.params;
-    const { name, items } = req.body;
+    const { name, items, captchaAnswer } = req.body;
+
+    if (!validateCaptcha(req.session, CAPTCHA_TYPES.CARD_BUILDER, captchaAnswer)) {
+      return res.status(400).json({ error: 'Captcha answer incorrect. Please try again.' });
+    }
 
     // Validation
     if (!name || !items || !Array.isArray(items)) {
@@ -551,7 +744,7 @@ app.get('/game-info/:code', async (req, res) => {
 });
 
 // Create game
-app.post('/create', async (req, res) => {
+app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
   let winConditions = req.body.winConditions || [];
   if (!Array.isArray(winConditions)) {
     winConditions = [winConditions];
@@ -567,8 +760,12 @@ app.post('/create', async (req, res) => {
     timerDuration,
     bingoCardPreset,
     bingoCategory,
-    bingoGame
+    bingoGame,
+    captchaAnswer
   } = req.body;
+  if (!validateCaptcha(req.session, CAPTCHA_TYPES.CREATE_GAME, captchaAnswer)) {
+    return res.status(400).send('Captcha answer incorrect. Please try again.');
+  }
   const code = generateCode();
   const mode = modeType === 'VS' ? 'VS' : 'REGULAR';
 
@@ -689,7 +886,7 @@ app.post('/create', async (req, res) => {
 });
 
 // Join game
-app.post('/join', async (req, res) => {
+app.post('/join', createJoinLimiter, csrfProtection, async (req, res) => {
   const { code, playerName, playerColor } = req.body;
   const game = await prisma.game.findUnique({ where: { code } });
   if (!game) return res.status(404).send('Game not found');
@@ -790,18 +987,24 @@ app.get('/get-code', async (req, res) => {
 
 // Socket.io for real-time
 io.on('connection', (socket) => {
-  socket.on('join_room', async ({ gameId, playerId }) => {
+  socket.on('join_room', async () => {
+    const { gameId, playerId } = getSocketIdentity(socket);
+    if (!gameId || !playerId) return;
+
+    const playerKey = getPlayerKey(playerId);
+    if (!playerKey) return;
+
     socket.join(gameId);
-    // Initialize flags for player
-    if (flagsLeft[playerId] === undefined) {
-      flagsLeft[playerId] = 2;
+    if (flagsLeft[playerKey] === undefined) {
+      flagsLeft[playerKey] = 2;
     }
+
     const game = await prisma.game.findUnique({
       where: { id: gameId },
       include: { players: true },
     });
+    if (!game) return;
 
-    // Start timer if it's already running (for reconnections)
     if (game.timerEnabled && game.timerStatus === 'running' && !timerIntervals[gameId]) {
       startGameTimer(gameId);
     }
@@ -809,7 +1012,11 @@ io.on('connection', (socket) => {
     io.to(gameId).emit('update_state', { game, players: game.players });
   });
 
-  socket.on('stamp', async ({ gameId, playerId, row, col }) => {
+  socket.on('stamp', async ({ row, col }) => {
+    const { gameId, playerId } = getSocketIdentity(socket);
+    if (!gameId || !playerId) return;
+    if (isOnCooldown(playerId, 'stamp', 200)) return;
+
     const player = await prisma.player.findUnique({
       where: { id: playerId },
       include: { game: true }
@@ -820,8 +1027,9 @@ io.on('connection', (socket) => {
     const isVSMode = game.mode === 'VS';
 
     // Convert row and col to integers to ensure type consistency
-    const rowInt = parseInt(row);
-    const colInt = parseInt(col);
+    const rowInt = parseInt(row, 10);
+    const colInt = parseInt(col, 10);
+    if (Number.isNaN(rowInt) || Number.isNaN(colInt)) return;
 
     if (isVSMode) {
       // VS Mode stamping logic
@@ -930,12 +1138,22 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('reroll', async ({ gameId, targetPlayerId, type, arg }) => {
+  socket.on('reroll', async ({ targetPlayerId, type, arg }) => {
+    const { gameId, playerId } = getSocketIdentity(socket);
+    if (!gameId || !playerId) return;
+    if (!type) return;
+    if (isOnCooldown(playerId, 'reroll', 4000)) return;
+
     const game = await prisma.game.findUnique({
       where: { id: gameId },
       include: { players: true },
     });
-    if (game.status === 'ended') return;
+    if (!game || game.status === 'ended') return;
+
+    const requestingPlayer = game.players.find(p => p.id === playerId);
+    if (!requestingPlayer || !requestingPlayer.isHost) return;
+
+    const targetId = typeof targetPlayerId === 'number' ? targetPlayerId : parseInt(targetPlayerId, 10);
 
     if (game.mode === 'VS') {
       // VS Mode: Reroll shared card and clear stamps from affected squares
@@ -992,7 +1210,7 @@ io.on('connection', (socket) => {
       io.to(gameId).emit('update_state', { game: updatedGame, players: updatedPlayers });
     } else {
       // Regular mode: Reroll individual player's card
-      const target = game.players.find(p => p.id === targetPlayerId);
+      const target = game.players.find(p => p.id === targetId);
       if (!target) return;
       const customItems = game.customItems || null;
       const newCard = rerollCard(target.card, type, arg, customItems);
@@ -1003,12 +1221,18 @@ io.on('connection', (socket) => {
 
   });
 
-  socket.on('new_game', async ({ gameId }) => {
+  socket.on('new_game', async () => {
+    const { gameId, playerId } = getSocketIdentity(socket);
+    if (!gameId || !playerId) return;
+    if (isOnCooldown(playerId, 'new_game', 5000)) return;
+
     const game = await prisma.game.findUnique({
       where: { id: gameId },
       include: { players: true },
     });
-    if (game.status !== 'ended') return;
+    if (!game || game.status !== 'ended') return;
+    const requestingPlayer = game.players.find(p => p.id === playerId);
+    if (!requestingPlayer || !requestingPlayer.isHost) return;
 
     // Stop existing timer
     stopGameTimer(gameId);
@@ -1088,7 +1312,10 @@ io.on('connection', (socket) => {
   });
 
   // Handle chat messages
-  socket.on('chat_message', async ({ gameId, playerId, content }) => {
+  socket.on('chat_message', async ({ content }) => {
+    const { gameId, playerId } = getSocketIdentity(socket);
+    if (!gameId || !playerId) return;
+    if (isOnCooldown(playerId, 'chat', 1000)) return;
     if (typeof content !== 'string' || content.length === 0 || content.length > 300) return;
     const newMsg = await prisma.chatMessage.create({ data: { gameId, playerId, content } });
     const playerInfo = await prisma.player.findUnique({ where: { id: playerId }, select: { name: true } });
@@ -1105,8 +1332,11 @@ io.on('connection', (socket) => {
   });
 
   // Handle timer sync request
-  socket.on('timer_sync_request', async ({ gameId }) => {
+  socket.on('timer_sync_request', async () => {
     try {
+      const { gameId } = getSocketIdentity(socket);
+      if (!gameId) return;
+
       const game = await prisma.game.findUnique({
         where: { id: gameId }
       });
@@ -1121,11 +1351,19 @@ io.on('connection', (socket) => {
   });
 
   // Handle manual timer start
-  socket.on('start_timer', async ({ gameId }) => {
+  socket.on('start_timer', async () => {
     try {
-      const game = await prisma.game.findUnique({
-        where: { id: gameId }
+      const { gameId, playerId } = getSocketIdentity(socket);
+      if (!gameId || !playerId) return;
+      if (isOnCooldown(playerId, 'timer_control', 1000)) return;
+
+      const player = await prisma.player.findUnique({
+        where: { id: playerId },
+        include: { game: true }
       });
+      if (!player || player.gameId !== gameId || !player.isHost) return;
+
+      const game = player.game;
 
       if (game && game.timerEnabled && game.timerStatus === 'not_started') {
         const startedAt = new Date();
@@ -1154,57 +1392,67 @@ io.on('connection', (socket) => {
   });
 
   // Handle manual timer pause
-  socket.on('pause_timer', async ({ gameId }) => {
+  socket.on('pause_timer', async () => {
     try {
-      await pauseGameTimer(gameId);
+      const { gameId, playerId } = getSocketIdentity(socket);
+      if (!gameId || !playerId) return;
+      if (isOnCooldown(playerId, 'timer_control', 1000)) return;
 
-      const game = await prisma.game.findUnique({
-        where: { id: gameId }
+      const player = await prisma.player.findUnique({
+        where: { id: playerId },
+        select: { isHost: true, gameId: true }
       });
+      if (!player || player.gameId !== gameId || !player.isHost) return;
 
-      if (game) {
-        await prisma.game.update({
-          where: { id: gameId },
-          data: { timerStatus: 'paused' }
-        });
-      }
+      await pauseGameTimer(gameId);
+      await prisma.game.update({
+        where: { id: gameId },
+        data: { timerStatus: 'paused' }
+      });
     } catch (error) {
       console.error('Error pausing timer:', error);
     }
   });
 
   // Handle manual timer resume
-  socket.on('resume_timer', async ({ gameId }) => {
+  socket.on('resume_timer', async () => {
     try {
-      await resumeGameTimer(gameId);
+      const { gameId, playerId } = getSocketIdentity(socket);
+      if (!gameId || !playerId) return;
+      if (isOnCooldown(playerId, 'timer_control', 1000)) return;
 
-      const game = await prisma.game.findUnique({
-        where: { id: gameId }
+      const player = await prisma.player.findUnique({
+        where: { id: playerId },
+        select: { isHost: true, gameId: true }
       });
+      if (!player || player.gameId !== gameId || !player.isHost) return;
 
-      if (game) {
-        await prisma.game.update({
-          where: { id: gameId },
-          data: { timerStatus: 'running' }
-        });
-      }
+      await resumeGameTimer(gameId);
+      await prisma.game.update({
+        where: { id: gameId },
+        data: { timerStatus: 'running' }
+      });
     } catch (error) {
       console.error('Error resuming timer:', error);
     }
   });
 
   // Handle manual timer reset
-  socket.on('reset_timer', async ({ gameId }) => {
+  socket.on('reset_timer', async () => {
     try {
-      const game = await prisma.game.findUnique({
-        where: { id: gameId }
+      const { gameId, playerId } = getSocketIdentity(socket);
+      if (!gameId || !playerId) return;
+      if (isOnCooldown(playerId, 'timer_control', 1000)) return;
+
+      const player = await prisma.player.findUnique({
+        where: { id: playerId },
+        include: { game: true }
       });
+      if (!player || player.gameId !== gameId || !player.isHost) return;
 
+      const game = player.game;
       if (game && game.timerEnabled) {
-        // Stop the timer
         stopGameTimer(gameId);
-
-        // Reset timer fields
         await prisma.game.update({
           where: { id: gameId },
           data: {
@@ -1226,11 +1474,18 @@ io.on('connection', (socket) => {
   });
 
   // Handle throwing a flag for a questionable stamp
-  socket.on('throw_flag', async ({ gameId, flaggerId, targetPlayerId, row, col }) => {
-    // Prevent concurrent votes
-    if (votesByGame[gameId]) return;
-    // Ensure flagger has flags
-    if (!flagsLeft[flaggerId] || flagsLeft[flaggerId] <= 0) return;
+  socket.on('throw_flag', async ({ targetPlayerId, row, col }) => {
+    const { gameId, playerId } = getSocketIdentity(socket);
+    if (!gameId || !playerId) return;
+    if (isOnCooldown(playerId, 'throw_flag', 10000)) return;
+
+    const flaggerKey = getPlayerKey(playerId);
+    const gameKey = String(gameId);
+    const targetId = typeof targetPlayerId === 'number' ? targetPlayerId : parseInt(targetPlayerId, 10);
+    if (!flaggerKey || Number.isNaN(targetId)) return;
+
+    if (votesByGame[gameKey]) return;
+    if (!flagsLeft[flaggerKey] || flagsLeft[flaggerKey] <= 0) return;
 
     // Fetch current game players
     const gameData = await prisma.game.findUnique({ where: { id: gameId }, include: { players: true } });
@@ -1238,21 +1493,21 @@ io.on('connection', (socket) => {
     const players = gameData.players;
     if (!players || players.length < 2) return; // need at least 2 players
 
-    flagsLeft[flaggerId]--;
+    flagsLeft[flaggerKey]--;
 
     // Initialize vote state (snapshot eligible voters)
-    const voteState = { flaggerId: String(flaggerId), targetPlayerId: String(targetPlayerId), row, col, votes: {}, totalPlayers: 0 };
+    const voteState = { flaggerId: flaggerKey, targetPlayerId: String(targetId), row, col, votes: {}, totalPlayers: 0 };
     players.forEach(p => { voteState.votes[String(p.id)] = null; });
     voteState.totalPlayers = Object.keys(voteState.votes).length;
-    votesByGame[gameId] = voteState;
+    votesByGame[gameKey] = voteState;
 
-    const flagger = players.find(p => String(p.id) === String(flaggerId));
-    const target = players.find(p => String(p.id) === String(targetPlayerId));
+    const flagger = players.find(p => String(p.id) === flaggerKey);
+    const target = players.find(p => String(p.id) === String(targetId));
 
     io.to(gameId).emit('start_vote', {
-      flaggerId: String(flaggerId),
+      flaggerId: flaggerKey,
       flaggerName: flagger?.name || 'Player',
-      targetPlayerId: String(targetPlayerId),
+      targetPlayerId: String(targetId),
       targetPlayerName: target?.name || 'Player',
       row,
       col
@@ -1260,8 +1515,12 @@ io.on('connection', (socket) => {
   });
 
   // Handle casting a vote
-  socket.on('cast_vote', ({ gameId, playerId, vote }) => {
-    const voteState = votesByGame[gameId];
+  socket.on('cast_vote', ({ vote }) => {
+    const { gameId, playerId } = getSocketIdentity(socket);
+    if (!gameId || !playerId) return;
+
+    const gameKey = String(gameId);
+    const voteState = votesByGame[gameKey];
     if (!voteState) return;
     const pid = String(playerId);
     if (!(pid in voteState.votes)) return; // ignore non-eligible
@@ -1332,7 +1591,7 @@ io.on('connection', (socket) => {
         row: voteState.row,
         col: voteState.col
       });
-      delete votesByGame[gameId];
+      delete votesByGame[gameKey];
     }
   });
 });

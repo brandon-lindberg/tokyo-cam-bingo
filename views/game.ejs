@@ -405,7 +405,7 @@
         window.gameTimer.syncWithGame(game);
       }
       const currentCardTable = document.getElementById(`card-${playerId}`);
-      const currentPlayerData = players.find(p => p.id === playerId);
+      const currentPlayerData = players.find(p => String(p.id) === String(playerId));
 
       if (currentPlayerData) {
         if (game.mode === 'VS') {
@@ -424,7 +424,7 @@
               let stampedBy = null;
               for (const player of players) {
                 const squares = player.stampedSquares || [];
-                if (squares.some(s => s.row === r && s.col === c)) {
+                if (squares.some(s => Number(s.row) === r && Number(s.col) === c)) {
                   stampedBy = player.color;
                   break;
                 }
@@ -472,7 +472,7 @@
 
       // Update modal if open
       if (modalOpenPlayerId) {
-        const updatedPlayer = players.find(p => p.id === modalOpenPlayerId);
+        const updatedPlayer = players.find(p => String(p.id) === String(modalOpenPlayerId));
         if (updatedPlayer) {
           const modalCard = document.getElementById('modal-card');
           modalCard.innerHTML = '';
@@ -513,7 +513,7 @@
       const select = flagTargetSelect;
       select.innerHTML = '<option value="">-- Choose Player --</option>';
       allPlayers.forEach(p => {
-        if (p.id !== playerId) {
+        if (String(p.id) !== String(playerId)) {
           const opt = document.createElement('option');
           opt.value = p.id;
           opt.textContent = p.name;
@@ -684,7 +684,7 @@
 
     function showPlayerCard(targetPlayerId) {
       modalOpenPlayerId = targetPlayerId;
-      const player = allPlayers.find(p => p.id === targetPlayerId);
+      const player = allPlayers.find(p => String(p.id) === String(targetPlayerId));
       if (!player) return;
 
       document.getElementById('modal-player-name').textContent = player.name + "'s Card";
@@ -991,7 +991,11 @@
 
           let stampedGrid = Array(5).fill(null).map(() => Array(5).fill(false));
           squares.forEach(({ row, col }) => {
-            stampedGrid[row][col] = true;
+            const rIndex = Number(row);
+            const cIndex = Number(col);
+            if (!Number.isNaN(rIndex) && !Number.isNaN(cIndex)) {
+              stampedGrid[rIndex][cIndex] = true;
+            }
           });
 
           score += stampedGrid.filter(row => row.every(cell => cell)).length;
@@ -1049,10 +1053,10 @@
 
       scoredPlayers.sort((a, b) => b.score - a.score || b.stampedCount - a.stampedCount);
 
-      scoredPlayers.forEach((p, index) => {
-        const tr = document.createElement('tr');
-        const colorBadge = gameMode === 'VS' && p.color ? `<span class="color-badge ${p.color}"></span>` : '';
-        const nameTd = `<td>${colorBadge}${p.id === playerId ? p.name : `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>`}</td>`;
+    scoredPlayers.forEach((p, index) => {
+      const tr = document.createElement('tr');
+      const colorBadge = gameMode === 'VS' && p.color ? `<span class="color-badge ${p.color}"></span>` : '';
+      const nameTd = `<td>${colorBadge}${String(p.id) === String(playerId) ? p.name : `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>`}</td>`;
         tr.innerHTML = `
           <td>${index + 1}</td>
           ${nameTd}

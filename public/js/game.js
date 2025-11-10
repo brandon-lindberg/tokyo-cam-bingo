@@ -225,7 +225,11 @@ function updateLeaderboard(players, gameMode) {
       // Create grid to check win conditions
       let stampedGrid = Array(5).fill(null).map(() => Array(5).fill(false));
       squares.forEach(({ row, col }) => {
-        stampedGrid[row][col] = true;
+        const rIndex = Number(row);
+        const cIndex = Number(col);
+        if (!Number.isNaN(rIndex) && !Number.isNaN(cIndex)) {
+          stampedGrid[rIndex][cIndex] = true;
+        }
       });
 
       // Completed rows
@@ -292,7 +296,8 @@ function updateLeaderboard(players, gameMode) {
   scoredPlayers.forEach((p, index) => {
     const tr = document.createElement('tr');
     const colorBadge = gameMode === 'VS' && p.color ? `<span class="color-badge ${p.color}"></span>` : '';
-    const nameTd = `<td>${colorBadge}${p.id === playerId ? p.name : `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>`}</td>`;
+    const isCurrentPlayer = typeof playerId !== 'undefined' && String(p.id) === String(playerId);
+    const nameTd = `<td>${colorBadge}${isCurrentPlayer ? p.name : `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>`}</td>`;
     tr.innerHTML = `
       <td>${index + 1}</td>
       ${nameTd}

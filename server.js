@@ -882,7 +882,13 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
   });
   req.session.gameId = game.id;
   req.session.playerId = player.id;
-  res.redirect('/game');
+  req.session.save((err) => {
+    if (err) {
+      console.error('Session save error on create:', err);
+      return res.status(500).send('Failed to start game.');
+    }
+    res.redirect('/game');
+  });
 });
 
 // Join game
@@ -942,7 +948,13 @@ app.post('/join', createJoinLimiter, csrfProtection, async (req, res) => {
   });
   io.to(game.id).emit('update_state', { game: updatedGame, players: updatedGame.players });
 
-  res.redirect('/game');
+  req.session.save((err) => {
+    if (err) {
+      console.error('Session save error on join:', err);
+      return res.status(500).send('Failed to join game.');
+    }
+    res.redirect('/game');
+  });
 });
 
 // Game page

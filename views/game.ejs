@@ -26,7 +26,12 @@
 </head>
 <body class="game-page has-global-top-bar" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>" data-game-mode="<%= game.mode %>" data-flags-enabled="<%= game.flagsEnabled %>" data-rerolls-enabled="<%= game.rerollsEnabled %>" data-player-color="<%= currentPlayer.color || '' %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-timer-enabled="<%= game.timerEnabled %>" data-timer-duration="<%= game.timerDuration || 0 %>" data-timer-status="<%= game.timerStatus || 'not_started' %>" data-timer-started-at="<%= game.timerStartedAt ? game.timerStartedAt.toISOString() : '' %>" data-locale="<%= locale %>">
   <div class="global-top-bar">
-    <%- include('partials/locale-switcher') %>
+    <div class="top-bar-left">
+      <a href="/">← <%= t('actions.backToHome') %></a>
+    </div>
+    <div class="top-bar-right">
+      <%- include('partials/locale-switcher') %>
+    </div>
   </div>
 <aside class="sidebar">
   <div class="sidebar-header">

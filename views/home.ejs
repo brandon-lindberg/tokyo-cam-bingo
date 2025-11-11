@@ -50,6 +50,10 @@
         <a href="/card-builder" style="color: #00BFFF; text-decoration: none; font-size: 1rem;">
           <%= t('home.createCustomCardLink') %>
         </a>
+        <span style="margin: 0 0.5rem; color: #666;">|</span>
+        <a href="/gallery" style="color: #FF69B4; text-decoration: none; font-size: 1rem;">
+          <%= t('home.browseGalleryLink') %>
+        </a>
       </div>
       <div style="text-align: center; margin-top: 2rem;">
         <img src="/tokyo-cam-bingo.png?v=<%= assetVersion %>" alt="Tokyo Cam Bingo" style="max-width: 300px; width: 100%; height: auto;">
@@ -644,7 +648,8 @@
             const response = await fetch(`/api/card-collections/${code}`);
             if (response.ok) {
               const cardData = await response.json();
-              customCardInfo.textContent = `✓ "${cardData.name}" loaded (${cardData.itemCount} items)`;
+              const lockIcon = cardData.isLocked ? ' 🔒' : '';
+              customCardInfo.textContent = `✓ "${cardData.name}" loaded (${cardData.itemCount} items)${lockIcon}`;
               customCardInfo.style.color = '#10B981';
             } else {
               customCardInfo.textContent = '✗ Custom card not found';
@@ -827,6 +832,35 @@
         handleBingoPresetChange();
       }
       initRulebookModal();
+
+      // Check for customCardCode URL parameter and auto-open host form
+      const urlParams = new URLSearchParams(window.location.search);
+      const customCardCodeParam = urlParams.get('customCardCode');
+      if (customCardCodeParam) {
+        // Show host form
+        showHostForm();
+
+        // Pre-fill and show custom card section
+        const customCardInput = document.getElementById('customCardCode');
+        if (customCardInput) {
+          // Show the custom card input section
+          const customCardSection = document.getElementById('custom-card-input-section');
+          const customCardButton = document.querySelector('button[onclick*="toggleCustomCardInput"]');
+          if (customCardSection && customCardButton) {
+            customCardSection.style.display = 'block';
+            customCardButton.textContent = '- Remove Custom Card';
+          }
+
+          // Set the value and trigger validation
+          customCardInput.value = customCardCodeParam.toUpperCase();
+          customCardInput.dispatchEvent(new Event('blur'));
+
+          // Scroll to the custom card section
+          setTimeout(() => {
+            customCardSection?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 300);
+        }
+      }
     });
   </script>
 </body>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= pageTitle %></title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="<%= metaDescription %>">
+
+  <!-- Open Graph Meta Tags for Social Sharing -->
+  <meta property="og:title" content="<%= card.name %> - Tokyo Cam Bingo">
+  <meta property="og:description" content="<%= metaDescription %>">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= cardUrl %>">
+  <meta property="og:image" content="<%= qrCode %>">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= card.name %> - Tokyo Cam Bingo">
+  <meta name="twitter:description" content="<%= metaDescription %>">
+  <meta name="twitter:image" content="<%= qrCode %>">
+
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#FF69B4">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
+  <style>
+    .card-preview-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .card-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .card-title {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #FF69B4;
+    }
+    .card-meta {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .card-stats {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #FF69B4;
+    }
+    .stat-label {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .card-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .card-actions button, .card-actions a {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .primary-action {
+      background: linear-gradient(135deg, #FF69B4, #FF1493);
+      color: white;
+    }
+    .secondary-action {
+      background: #00BFFF;
+      color: white;
+    }
+    .tertiary-action {
+      background: #6c757d;
+      color: white;
+    }
+    .qr-section {
+      text-align: center;
+      margin: 2rem 0;
+      padding: 2rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .qr-code {
+      max-width: 200px;
+      margin: 1rem auto;
+    }
+    .items-section {
+      margin: 2rem 0;
+    }
+    .items-toggle {
+      background: #00BFFF;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      width: 100%;
+    }
+    .items-list {
+      display: none;
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .items-list.show {
+      display: block;
+    }
+    .item {
+      padding: 0.5rem;
+      border-bottom: 1px solid #ddd;
+    }
+    .item:last-child {
+      border-bottom: none;
+    }
+    .lock-badge {
+      display: inline-block;
+      background: #ffc107;
+      color: #000;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-left: 0.5rem;
+    }
+    .share-url {
+      background: #f8f9fa;
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-family: monospace;
+      word-break: break-all;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body class="has-global-top-bar" data-asset-version="<%= assetVersion %>" data-locale="<%= locale %>">
+  <div class="global-top-bar">
+    <div class="top-bar-left">
+      <a href="/" style="text-decoration: none; color: inherit;">← <%= t('actions.backToHome') %></a>
+    </div>
+    <div class="top-bar-right">
+      <%- include('partials/locale-switcher') %>
+    </div>
+  </div>
+
+  <div class="card-preview-container">
+    <div class="card-header">
+      <h1 class="card-title">
+        <%= card.name %>
+        <% if (card.isLocked) { %>
+          <span class="lock-badge">🔒 <%= t('cardPreview.locked') %></span>
+        <% } %>
+      </h1>
+      <div class="card-meta">
+        <%= t('cardPreview.code') %>: <strong><%= card.code %></strong>
+        <% if (card.creatorName) { %>
+          | <%= t('cardPreview.createdBy') %>: <%= card.creatorName %>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="card-stats">
+      <div class="stat-item">
+        <div class="stat-value"><%= card.items.length %></div>
+        <div class="stat-label"><%= t('cardPreview.items') %></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value"><%= card.usageCount %></div>
+        <div class="stat-label"><%= t('cardPreview.timesUsed') %></div>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <a href="/?customCardCode=<%= card.code %>" class="primary-action">
+        🎮 <%= t('cardPreview.startGame') %>
+      </a>
+      <a href="/card-builder?template=<%= card.code %>" class="secondary-action">
+        📋 <%= t('cardPreview.duplicate') %>
+      </a>
+      <button onclick="copyLink()" class="tertiary-action">
+        🔗 <%= t('cardPreview.copyLink') %>
+      </button>
+      <button onclick="reportCard()" class="tertiary-action" style="background: #dc3545;">
+        🚩 <%= t('cardPreview.report') %>
+      </button>
+    </div>
+
+    <div class="qr-section">
+      <h3><%= t('cardPreview.scanToShare') %></h3>
+      <img src="<%= qrCode %>" alt="QR Code" class="qr-code">
+      <div class="share-url"><%= cardUrl %></div>
+    </div>
+
+    <div class="items-section">
+      <button class="items-toggle" onclick="toggleItems()">
+        <span id="toggle-text">▼ <%= t('cardPreview.viewAllItems') %></span>
+      </button>
+      <div class="items-list" id="items-list">
+        <% card.items.forEach((item, index) => { %>
+          <div class="item"><%= index + 1 %>. <%= item %></div>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleItems() {
+      const list = document.getElementById('items-list');
+      const text = document.getElementById('toggle-text');
+      if (list.classList.contains('show')) {
+        list.classList.remove('show');
+        text.innerHTML = '▼ <%= t("cardPreview.viewAllItems") %>';
+      } else {
+        list.classList.add('show');
+        text.innerHTML = '▲ <%= t("cardPreview.hideItems") %>';
+      }
+    }
+
+    function copyLink() {
+      const url = '<%= cardUrl %>';
+      navigator.clipboard.writeText(url).then(() => {
+        alert('<%= t("cardPreview.linkCopied") %>');
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+        alert('<%= t("cardPreview.copyFailed") %>');
+      });
+    }
+
+    function reportCard() {
+      const reason = prompt('<%= t("cardPreview.reportPrompt") %>');
+      if (reason && reason.trim()) {
+        fetch('/api/report-card', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            cardCode: '<%= card.code %>',
+            reason: reason
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('<%= t("cardPreview.reportSuccess") %>');
+          } else {
+            alert('<%= t("cardPreview.reportFailed") %>');
+          }
+        })
+        .catch(err => {
+          console.error('Report failed:', err);
+          alert('<%= t("cardPreview.reportFailed") %>');
+        });
+      }
+    }
+  </script>
+</body>
+</html>

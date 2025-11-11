@@ -655,6 +655,107 @@ app.get('/card-builder', (req, res) => {
   res.render('card-builder', { cardCaptchaQuestion: captcha.question });
 });
 
+// Card preview page
+app.get('/card/:code', async (req, res) => {
+  try {
+    const { code } = req.params;
+    const collection = await prisma.itemCollection.findUnique({
+      where: { code: code.toUpperCase() }
+    });
+
+    if (!collection) {
+      return res.status(404).render('error', {
+        pageTitle: 'Card Not Found',
+        error: 'Card not found',
+        message: 'The card you are looking for does not exist.'
+      });
+    }
+
+    // Generate QR code for sharing
+    const QRCode = require('qrcode');
+    const cardUrl = `${req.protocol}://${req.get('host')}/card/${collection.code}`;
+    const qrCodeDataUrl = await QRCode.toDataURL(cardUrl);
+
+    res.render('card-preview', {
+      card: collection,
+      qrCode: qrCodeDataUrl,
+      cardUrl: cardUrl,
+      pageTitle: `${collection.name} - Tokyo Cam Bingo Card`,
+      metaDescription: `Check out this custom Tokyo Cam Bingo card: ${collection.name} with ${collection.items.length} items.`
+    });
+  } catch (error) {
+    console.error('Error fetching card preview:', error);
+    res.status(500).render('error', {
+      pageTitle: 'Error',
+      error: 'Server Error',
+      message: 'Failed to load card preview.'
+    });
+  }
+});
+
+// Public gallery page
+app.get('/gallery', async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 24; // Cards per page
+    const offset = (page - 1) * limit;
+    const search = req.query.search || '';
+    const sortBy = req.query.sort || 'recent'; // recent, popular
+
+    // Build where clause - only show public AND locked cards
+    const whereClause = {
+      isPublic: true,
+      isLocked: true
+    };
+
+    // Add search filter if provided
+    if (search) {
+      whereClause.name = {
+        contains: search,
+        mode: 'insensitive'
+      };
+    }
+
+    // Build orderBy clause
+    let orderBy = {};
+    if (sortBy === 'popular') {
+      orderBy = { usageCount: 'desc' };
+    } else {
+      orderBy = { createdAt: 'desc' };
+    }
+
+    // Get total count for pagination
+    const totalCards = await prisma.itemCollection.count({ where: whereClause });
+    const totalPages = Math.ceil(totalCards / limit);
+
+    // Get cards for current page
+    const cards = await prisma.itemCollection.findMany({
+      where: whereClause,
+      orderBy: orderBy,
+      take: limit,
+      skip: offset
+    });
+
+    res.render('gallery', {
+      cards: cards,
+      currentPage: page,
+      totalPages: totalPages,
+      totalCards: totalCards,
+      search: search,
+      sortBy: sortBy,
+      pageTitle: 'Browse Custom Cards - Tokyo Cam Bingo',
+      metaDescription: 'Browse and discover custom bingo cards created by the community for Tokyo Cam Bingo.'
+    });
+  } catch (error) {
+    console.error('Error fetching gallery:', error);
+    res.status(500).render('error', {
+      pageTitle: 'Error',
+      error: 'Server Error',
+      message: 'Failed to load gallery.'
+    });
+  }
+});
+
 // Create custom card collection
 app.get('/api/captcha/:type', (req, res) => {
   const { type } = req.params;
@@ -667,7 +768,7 @@ app.get('/api/captcha/:type', (req, res) => {
 
 app.post('/api/card-collections', cardWriteLimiter, csrfProtection, async (req, res) => {
   try {
-    const { name, items, captchaAnswer } = req.body;
+    const { name, items, captchaAnswer, isLocked, isPublic, creatorName, tags } = req.body;
 
     if (!validateCaptcha(req.session, CAPTCHA_TYPES.CARD_BUILDER, captchaAnswer)) {
       return res.status(400).json({ error: 'Captcha answer incorrect. Please try again.' });
@@ -681,6 +782,9 @@ app.post('/api/card-collections', cardWriteLimiter, csrfProtection, async (req, 
     if (items.length < 25) {
       return res.status(400).json({ error: 'Minimum 25 items required' });
     }
+
+    // Only allow isPublic if card is locked
+    const shouldBePublic = isPublic && isLocked;
 
     // Generate unique code
     let code;
@@ -696,7 +800,11 @@ app.post('/api/card-collections', cardWriteLimiter, csrfProtection, async (req, 
       data: {
         code,
         name,
-        items: items
+        items: items,
+        isLocked: isLocked || false,
+        isPublic: shouldBePublic,
+        creatorName: creatorName || null,
+        tags: tags || null
       }
     });
 
@@ -723,7 +831,8 @@ app.get('/api/card-collections/:code', async (req, res) => {
       code: collection.code,
       name: collection.name,
       items: collection.items,
-      itemCount: collection.items.length
+      itemCount: collection.items.length,
+      isLocked: collection.isLocked
     });
   } catch (error) {
     console.error('Error fetching card collection:', error);
@@ -759,6 +868,13 @@ app.put('/api/card-collections/:code', cardWriteLimiter, csrfProtection, async (
       return res.status(404).json({ error: 'Card not found' });
     }
 
+    // Check if card is locked
+    if (existing.isLocked) {
+      return res.status(403).json({
+        error: 'This card is locked and cannot be edited. You can duplicate it from the Template tab to create your own version.'
+      });
+    }
+
     // Update collection
     const updated = await prisma.itemCollection.update({
       where: { code: code.toUpperCase() },
@@ -772,6 +888,37 @@ app.put('/api/card-collections/:code', cardWriteLimiter, csrfProtection, async (
   } catch (error) {
     console.error('Error updating card collection:', error);
     res.status(500).json({ error: 'Failed to update card collection' });
+  }
+});
+
+// Report inappropriate card
+app.post('/api/report-card', async (req, res) => {
+  try {
+    const { cardCode, reason } = req.body;
+
+    if (!cardCode || !reason) {
+      return res.status(400).json({ success: false, error: 'Card code and reason required' });
+    }
+
+    // Verify card exists
+    const card = await prisma.itemCollection.findUnique({
+      where: { code: cardCode.toUpperCase() }
+    });
+
+    if (!card) {
+      return res.status(404).json({ success: false, error: 'Card not found' });
+    }
+
+    // Log the report (you can store this in database later if needed)
+    console.log(`CARD REPORT - Code: ${cardCode}, Reason: ${reason}, Card Name: ${card.name}`);
+
+    // TODO: Store reports in database for moderation
+    // For now, just log and return success
+
+    res.json({ success: true, message: 'Report submitted successfully' });
+  } catch (error) {
+    console.error('Error reporting card:', error);
+    res.status(500).json({ success: false, error: 'Failed to submit report' });
   }
 });
 

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Terms of Service - Tokyo Cam Bingo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
+  <style>
+    .terms-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .terms-content {
+      padding: 2rem;
+    }
+    .terms-content h1 {
+      color: #FF69B4;
+      margin-bottom: 1rem;
+    }
+    .terms-content h2 {
+      color: #333;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .terms-content p, .terms-content li {
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      color: #666;
+    }
+    .terms-content ul {
+      margin-left: 2rem;
+    }
+    .last-updated {
+      color: #999;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body class="has-global-top-bar" data-asset-version="<%= assetVersion %>" data-locale="<%= locale %>">
+  <div class="global-top-bar">
+    <div class="top-bar-left">
+      <a href="/" style="text-decoration: none; color: inherit;">← Back to Home</a>
+    </div>
+    <div class="top-bar-right">
+      <%- include('partials/locale-switcher') %>
+    </div>
+  </div>
+
+  <div class="terms-container">
+    <div class="terms-content">
+      <h1>Terms of Service</h1>
+      <p class="last-updated">Last Updated: <%= new Date().toLocaleDateString() %></p>
+
+      <h2>1. Acceptance of Terms</h2>
+      <p>
+        By creating and sharing custom bingo cards on Tokyo Cam Bingo, you agree to abide by these Terms of Service.
+        If you do not agree with these terms, please do not create or share custom cards.
+      </p>
+
+      <h2>2. Content Guidelines</h2>
+      <p>When creating custom bingo cards, you agree that your content will NOT include:</p>
+      <ul>
+        <li>Illegal content or content promoting illegal activities</li>
+        <li>Hate speech, harassment, or content targeting individuals or groups</li>
+        <li>Sexually explicit or adult content</li>
+        <li>Violence, gore, or content promoting self-harm</li>
+        <li>Spam, phishing, or malicious content</li>
+        <li>Content that infringes on intellectual property rights of others</li>
+        <li>Personal information of others without their consent</li>
+      </ul>
+
+      <h2>3. Content Moderation</h2>
+      <p>
+        We reserve the right to remove any custom cards that violate these terms without prior notice.
+        Users can report inappropriate content, and all reports will be reviewed by moderators.
+        Repeated violations may result in restrictions on your ability to create and share cards.
+      </p>
+
+      <h2>4. User Responsibilities</h2>
+      <p>You are responsible for:</p>
+      <ul>
+        <li>The content of any custom cards you create and share</li>
+        <li>Ensuring you have the right to use any content you include</li>
+        <li>Respecting the intellectual property and privacy rights of others</li>
+        <li>Using the service in a manner that does not disrupt or harm the platform or other users</li>
+      </ul>
+
+      <h2>5. Intellectual Property</h2>
+      <p>
+        By creating and sharing custom cards, you grant Tokyo Cam Bingo a non-exclusive, worldwide license to
+        display, distribute, and use your content for the purpose of operating and promoting the service.
+        You retain ownership of your content and can delete it at any time (if not locked).
+      </p>
+
+      <h2>6. Locked and Public Cards</h2>
+      <p>
+        When you mark a card as "locked" and "public", you understand that:
+      </p>
+      <ul>
+        <li>The card cannot be edited by you or anyone else</li>
+        <li>The card will be visible in the public gallery for others to use</li>
+        <li>Others can duplicate and modify copies of your card</li>
+        <li>You cannot unlock or unpublish the card once it is locked and public</li>
+      </ul>
+
+      <h2>7. Disclaimer</h2>
+      <p>
+        Tokyo Cam Bingo is provided "as is" without warranties of any kind. We do not guarantee the accuracy,
+        completeness, or reliability of user-generated content. Use of custom cards is at your own risk.
+      </p>
+
+      <h2>8. Limitation of Liability</h2>
+      <p>
+        To the maximum extent permitted by law, Tokyo Cam Bingo shall not be liable for any indirect, incidental,
+        special, consequential, or punitive damages arising from your use of the service or any custom cards.
+      </p>
+
+      <h2>9. Changes to Terms</h2>
+      <p>
+        We reserve the right to modify these Terms of Service at any time. Continued use of the service after
+        changes constitutes acceptance of the new terms.
+      </p>
+
+      <h2>10. Contact</h2>
+      <p>
+        If you have questions about these Terms of Service or wish to report content violations, please use the
+        report button on the card preview page or contact us through the appropriate channels.
+      </p>
+
+      <p style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #ddd; text-align: center;">
+        By creating custom cards on Tokyo Cam Bingo, you acknowledge that you have read, understood,
+        and agree to be bound by these Terms of Service.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

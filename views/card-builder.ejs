@@ -618,6 +618,19 @@
           <div class="helper-text"><%= t('cardBuilder.creatorNameHelper') %></div>
         </div>
 
+        <div class="form-group tos-group" id="tos-group">
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="tos-checkbox" style="cursor: pointer;">
+            <span><%= t('cardBuilder.tosLabel') %></span>
+          </label>
+          <div class="helper-text">
+            <%= t('cardBuilder.tosHelper') %>
+            <a href="/terms" target="_blank" style="color: #FF69B4; text-decoration: underline;">
+              <%= t('cardBuilder.tosLink') %>
+            </a>
+          </div>
+        </div>
+
         <button type="button" class="save-btn" id="save-btn" onclick="saveCollection()" disabled>
           <%= t('cardBuilder.saveButton') %>
         </button>
@@ -1215,6 +1228,7 @@
       const isLocked = document.getElementById('lock-card-checkbox').checked;
       const isPublic = document.getElementById('public-card-checkbox').checked;
       const creatorName = document.getElementById('creator-name').value.trim();
+      const tosAccepted = document.getElementById('tos-checkbox').checked;
 
       if (!name) {
         alert(translateText('cardBuilder.errors.nameRequired'));
@@ -1228,6 +1242,11 @@
 
       if (!captchaAnswer) {
         alert(translateText('cardBuilder.errors.captchaRequired'));
+        return;
+      }
+
+      if (!tosAccepted && !editingCardCode) {
+        alert(translateText('cardBuilder.tosHelper'));
         return;
       }
 
@@ -1257,7 +1276,7 @@
               'Content-Type': 'application/json',
               'x-csrf-token': csrfToken
             },
-            body: JSON.stringify({ name, items, captchaAnswer, isLocked, isPublic, creatorName })
+            body: JSON.stringify({ name, items, captchaAnswer, isLocked, isPublic, creatorName, tosAccepted })
           });
         }
 

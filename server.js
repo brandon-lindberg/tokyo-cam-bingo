@@ -655,6 +655,11 @@ app.get('/card-builder', (req, res) => {
   res.render('card-builder', { cardCaptchaQuestion: captcha.question });
 });
 
+// Terms of Service page
+app.get('/terms', (req, res) => {
+  res.render('terms');
+});
+
 // Card preview page
 app.get('/card/:code', async (req, res) => {
   try {
@@ -768,7 +773,7 @@ app.get('/api/captcha/:type', (req, res) => {
 
 app.post('/api/card-collections', cardWriteLimiter, csrfProtection, async (req, res) => {
   try {
-    const { name, items, captchaAnswer, isLocked, isPublic, creatorName, tags } = req.body;
+    const { name, items, captchaAnswer, isLocked, isPublic, creatorName, tags, tosAccepted } = req.body;
 
     if (!validateCaptcha(req.session, CAPTCHA_TYPES.CARD_BUILDER, captchaAnswer)) {
       return res.status(400).json({ error: 'Captcha answer incorrect. Please try again.' });
@@ -781,6 +786,11 @@ app.post('/api/card-collections', cardWriteLimiter, csrfProtection, async (req, 
 
     if (items.length < 25) {
       return res.status(400).json({ error: 'Minimum 25 items required' });
+    }
+
+    // Require TOS acceptance
+    if (!tosAccepted) {
+      return res.status(400).json({ error: 'You must accept the Terms of Service to create a card' });
     }
 
     // Only allow isPublic if card is locked
@@ -804,7 +814,8 @@ app.post('/api/card-collections', cardWriteLimiter, csrfProtection, async (req, 
         isLocked: isLocked || false,
         isPublic: shouldBePublic,
         creatorName: creatorName || null,
-        tags: tags || null
+        tags: tags || null,
+        tosAcceptedAt: new Date()
       }
     });
 
@@ -923,6 +934,232 @@ app.post('/api/report-card', async (req, res) => {
   } catch (error) {
     console.error('Error reporting card:', error);
     res.status(500).json({ success: false, error: 'Failed to submit report' });
+  }
+});
+
+// ============================================
+// ADMIN ROUTES (Hidden)
+// ============================================
+
+// Admin middleware - check if user is authenticated
+function requireAdmin(req, res, next) {
+  if (req.session && req.session.isAdmin) {
+    return next();
+  }
+  return res.status(401).send('Unauthorized. Please login first.');
+}
+
+// Admin login page (hidden route)
+app.get('/admin-dashboard-secret', (req, res) => {
+  if (req.session && req.session.isAdmin) {
+    return res.redirect('/admin-dashboard-secret/dashboard');
+  }
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Admin Login</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          background: #f5f5f5;
+          margin: 0;
+        }
+        .login-box {
+          background: white;
+          padding: 2rem;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+          max-width: 400px;
+          width: 100%;
+        }
+        h1 {
+          margin: 0 0 1.5rem 0;
+          color: #333;
+        }
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+        input {
+          padding: 0.75rem;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          font-size: 1rem;
+        }
+        button {
+          padding: 0.75rem;
+          background: #FF69B4;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          font-size: 1rem;
+          cursor: pointer;
+        }
+        button:hover {
+          background: #FF1493;
+        }
+        .error {
+          color: red;
+          font-size: 0.9rem;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="login-box">
+        <h1>🔒 Admin Login</h1>
+        <form action="/admin-dashboard-secret/login" method="POST">
+          <input type="password" name="password" placeholder="Enter admin password" required>
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </body>
+    </html>
+  `);
+});
+
+// Admin login handler
+app.post('/admin-dashboard-secret/login', express.urlencoded({ extended: true }), (req, res) => {
+  const { password } = req.body;
+  if (password === process.env.ADMIN_PASSWORD) {
+    req.session.isAdmin = true;
+    return res.redirect('/admin-dashboard-secret/dashboard');
+  }
+  res.send('Invalid password. <a href="/admin-dashboard-secret">Try again</a>');
+});
+
+// Admin logout
+app.get('/admin-dashboard-secret/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Session destruction error:', err);
+    }
+    res.redirect('/admin-dashboard-secret');
+  });
+});
+
+// Admin dashboard (main view)
+app.get('/admin-dashboard-secret/dashboard', requireAdmin, async (req, res) => {
+  try {
+    const pendingReports = await prisma.cardReport.count({ where: { status: 'pending' } });
+    const totalReports = await prisma.cardReport.count();
+    const totalCards = await prisma.itemCollection.count();
+    const publicCards = await prisma.itemCollection.count({ where: { isPublic: true, isLocked: true } });
+
+    res.render('admin-dashboard', {
+      pendingReports,
+      totalReports,
+      totalCards,
+      publicCards,
+      pageTitle: 'Admin Dashboard',
+      locale: req.locale || 'en',
+      assetVersion: process.env.npm_package_version || Date.now()
+    });
+  } catch (error) {
+    console.error('Error loading admin dashboard:', error);
+    res.status(500).send('Error loading dashboard');
+  }
+});
+
+// Admin API - Get all reports
+app.get('/admin-dashboard-secret/api/reports', requireAdmin, async (req, res) => {
+  try {
+    const status = req.query.status || 'all';
+    const whereClause = status === 'all' ? {} : { status };
+
+    const reports = await prisma.cardReport.findMany({
+      where: whereClause,
+      orderBy: { createdAt: 'desc' },
+      take: 100
+    });
+
+    // Fetch card details for each report
+    const reportsWithCards = await Promise.all(reports.map(async (report) => {
+      const card = await prisma.itemCollection.findUnique({
+        where: { code: report.cardCode }
+      });
+      return { ...report, card };
+    }));
+
+    res.json(reportsWithCards);
+  } catch (error) {
+    console.error('Error fetching reports:', error);
+    res.status(500).json({ error: 'Failed to fetch reports' });
+  }
+});
+
+// Admin API - Update report status
+app.post('/admin-dashboard-secret/api/reports/:id/status', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!['pending', 'reviewed', 'dismissed'].includes(status)) {
+      return res.status(400).json({ error: 'Invalid status' });
+    }
+
+    const updated = await prisma.cardReport.update({
+      where: { id },
+      data: {
+        status,
+        reviewedAt: status !== 'pending' ? new Date() : null
+      }
+    });
+
+    res.json({ success: true, report: updated });
+  } catch (error) {
+    console.error('Error updating report:', error);
+    res.status(500).json({ error: 'Failed to update report' });
+  }
+});
+
+// Admin API - Delete card
+app.delete('/admin-dashboard-secret/api/cards/:code', requireAdmin, async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    await prisma.itemCollection.delete({
+      where: { code: code.toUpperCase() }
+    });
+
+    console.log(`ADMIN ACTION - Deleted card: ${code}`);
+    res.json({ success: true, message: 'Card deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting card:', error);
+    res.status(500).json({ error: 'Failed to delete card' });
+  }
+});
+
+// Admin API - Get all cards
+app.get('/admin-dashboard-secret/api/cards', requireAdmin, async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 50;
+    const offset = (page - 1) * limit;
+
+    const cards = await prisma.itemCollection.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      skip: offset
+    });
+
+    const totalCards = await prisma.itemCollection.count();
+
+    res.json({
+      cards,
+      currentPage: page,
+      totalPages: Math.ceil(totalCards / limit),
+      totalCards
+    });
+  } catch (error) {
+    console.error('Error fetching cards:', error);
+    res.status(500).json({ error: 'Failed to fetch cards' });
   }
 });
 
@@ -1099,6 +1336,12 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
       if (collection) {
         customItems = collection.items;
         cardPresetDetails = { type: 'custom_code', value: sanitizedCustomCard };
+
+        // Increment usage count
+        await prisma.itemCollection.update({
+          where: { code: sanitizedCustomCard },
+          data: { usageCount: { increment: 1 } }
+        });
       }
     } catch (error) {
       console.error('Error fetching custom card:', error);

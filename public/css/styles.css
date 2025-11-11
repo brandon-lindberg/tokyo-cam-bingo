@@ -112,6 +112,22 @@ body.splash-active {
   background: transparent;
 }
 
+@media (max-width: 768px) {
+  body.has-global-top-bar {
+    padding-top: 1.25rem;
+  }
+
+  .global-top-bar {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    padding: 0 1rem 0.65rem;
+    margin-bottom: 0.75rem;
+    pointer-events: auto;
+  }
+}
+
 .locale-switcher {
   pointer-events: auto;
   display: inline-flex;
@@ -182,8 +198,8 @@ body.splash-active {
 
 @media (max-width: 640px) {
   .global-top-bar {
-    padding: 0 0.75rem;
-    top: 0.6rem;
+    padding: 0 0.5rem 0.4rem;
+    margin-bottom: 0.5rem;
   }
   
   .locale-switcher {

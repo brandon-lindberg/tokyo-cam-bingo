@@ -1,10 +1,26 @@
+<% const localeOptions = Array.isArray(availableLocales) && availableLocales.length ? availableLocales : [{ code: 'en', label: 'English' }]; %>
+<% const safeLocaleCount = Math.max(1, localeOptions.length); %>
+<% const activeLocaleIndex = Math.max(0, localeOptions.findIndex((entry) => entry.code === locale)); %>
 <form class="locale-switcher" method="POST" action="/set-locale">
-  <label for="locale-select" class="sr-only"><%= t('common.language') %></label>
+  <span class="sr-only" id="locale-switcher-label"><%= t('common.language') %></span>
   <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
   <input type="hidden" name="returnTo" value="<%= currentPath %>">
-  <select id="locale-select" name="locale" onchange="this.form.submit()">
-    <% availableLocales.forEach((entry) => { %>
-      <option value="<%= entry.code %>" <%= entry.code === locale ? 'selected' : '' %>><%= entry.label %></option>
+  <div
+    class="locale-toggle"
+    role="group"
+    aria-labelledby="locale-switcher-label"
+    style="--locale-count:<%= safeLocaleCount %>; --active-index:<%= activeLocaleIndex %>;"
+  >
+    <% localeOptions.forEach((entry) => { %>
+      <button
+        type="submit"
+        name="locale"
+        value="<%= entry.code %>"
+        class="locale-toggle__option <%= entry.code === locale ? 'is-active' : '' %>"
+        aria-pressed="<%= entry.code === locale ? 'true' : 'false' %>"
+      >
+        <span><%= entry.label %></span>
+      </button>
     <% }) %>
-  </select>
+  </div>
 </form>

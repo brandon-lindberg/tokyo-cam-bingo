@@ -85,10 +85,27 @@
       padding: 1.5rem;
       transition: transform 0.2s, box-shadow 0.2s;
       cursor: pointer;
+      position: relative;
     }
     .card-item:hover {
       transform: translateY(-4px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .card-item.featured {
+      background: linear-gradient(135deg, #FFF9E6 0%, #FFFFFF 100%);
+      border-color: #FFD700;
+    }
+    .featured-badge {
+      position: absolute;
+      top: -8px;
+      right: 10px;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #000;
+      padding: 0.25rem 0.75rem;
+      border-radius: 16px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     .card-item-header {
       display: flex;
@@ -188,6 +205,32 @@
       font-size: 4rem;
       margin-bottom: 1rem;
     }
+    .tag-filter {
+      flex: 0 0 auto;
+    }
+    .tag-filter select {
+      padding: 0.75rem 1rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: white;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.5rem;
+    }
+    .tag-badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      background: #f0f0f0;
+      color: #666;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
   </style>
 </head>
 <body class="has-global-top-bar" data-asset-version="<%= assetVersion %>" data-locale="<%= locale %>">
@@ -218,8 +261,21 @@
             id="search-input"
           >
           <input type="hidden" name="sort" value="<%= sortBy %>">
+          <input type="hidden" name="tag" value="<%= tagFilter %>">
         </form>
       </div>
+      <% if (availableTags.length > 0) { %>
+        <div class="tag-filter">
+          <select onchange="changeTag(this.value)">
+            <option value=""><%= t('gallery.filterAll') %></option>
+            <% availableTags.forEach(tag => { %>
+              <option value="<%= tag %>" <%= tagFilter === tag ? 'selected' : '' %>>
+                <%= tag %>
+              </option>
+            <% }); %>
+          </select>
+        </div>
+      <% } %>
       <div class="sort-controls">
         <button
           class="sort-btn <%= sortBy === 'recent' ? 'active' : '' %>"
@@ -248,7 +304,10 @@
     <% } else { %>
       <div class="gallery-grid">
         <% cards.forEach(card => { %>
-          <div class="card-item" onclick="window.location.href='/card/<%= card.code %>'">
+          <div class="card-item <%= card.isFeatured ? 'featured' : '' %>" onclick="window.location.href='/card/<%= card.code %>'">
+            <% if (card.isFeatured) { %>
+              <div class="featured-badge">⭐ FEATURED</div>
+            <% } %>
             <div class="card-item-header">
               <h3 class="card-item-title"><%= card.name %></h3>
               <span class="lock-icon">🔒</span>
@@ -260,6 +319,13 @@
             <% if (card.creatorName) { %>
               <div class="card-item-creator">
                 <%= t('gallery.by') %> <%= card.creatorName %>
+              </div>
+            <% } %>
+            <% if (card.tags && card.tags.length > 0) { %>
+              <div class="card-tags" onclick="event.stopPropagation()">
+                <% card.tags.forEach(tag => { %>
+                  <span class="tag-badge" onclick="filterByTag('<%= tag %>')"><%= tag %></span>
+                <% }); %>
               </div>
             <% } %>
             <div class="card-item-actions" onclick="event.stopPropagation()">
@@ -327,6 +393,21 @@
       url.searchParams.set('sort', sortType);
       url.searchParams.set('page', '1'); // Reset to first page on sort change
       window.location.href = url.toString();
+    }
+
+    function changeTag(tag) {
+      const url = new URL(window.location);
+      if (tag) {
+        url.searchParams.set('tag', tag);
+      } else {
+        url.searchParams.delete('tag');
+      }
+      url.searchParams.set('page', '1'); // Reset to first page on tag change
+      window.location.href = url.toString();
+    }
+
+    function filterByTag(tag) {
+      changeTag(tag);
     }
 
     function goToPage(page) {

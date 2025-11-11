@@ -66,6 +66,7 @@ model ItemCollection {
   usageCount    Int      @default(0) // Track how many times card is used
   tags          Json?    // Array of tags for discovery/filtering
   tosAcceptedAt DateTime? // When user accepted Terms of Service
+  isFeatured    Boolean  @default(false) // Staff-picked featured card
   createdAt     DateTime @default(now())
 }
 

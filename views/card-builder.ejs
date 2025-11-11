@@ -618,6 +618,12 @@
           <div class="helper-text"><%= t('cardBuilder.creatorNameHelper') %></div>
         </div>
 
+        <div class="form-group tags-group" id="tags-group" style="display: none;">
+          <label for="tags-input"><%= t('cardBuilder.tagsLabel') %></label>
+          <input type="text" id="tags-input" placeholder="<%= t('cardBuilder.tagsPlaceholder') %>" maxlength="100">
+          <div class="helper-text"><%= t('cardBuilder.tagsHelper') %></div>
+        </div>
+
         <div class="form-group tos-group" id="tos-group">
           <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
             <input type="checkbox" id="tos-checkbox" style="cursor: pointer;">
@@ -1210,13 +1216,16 @@
       const isLocked = document.getElementById('lock-card-checkbox').checked;
       const publicGroup = document.getElementById('public-group');
       const creatorGroup = document.getElementById('creator-group');
+      const tagsGroup = document.getElementById('tags-group');
 
       if (isLocked) {
         publicGroup.style.display = 'block';
         creatorGroup.style.display = 'block';
+        tagsGroup.style.display = 'block';
       } else {
         publicGroup.style.display = 'none';
         creatorGroup.style.display = 'none';
+        tagsGroup.style.display = 'none';
         document.getElementById('public-card-checkbox').checked = false;
       }
     }
@@ -1228,7 +1237,18 @@
       const isLocked = document.getElementById('lock-card-checkbox').checked;
       const isPublic = document.getElementById('public-card-checkbox').checked;
       const creatorName = document.getElementById('creator-name').value.trim();
+      const tagsInput = document.getElementById('tags-input').value.trim();
       const tosAccepted = document.getElementById('tos-checkbox').checked;
+
+      // Process tags: split by comma, trim, filter empty, limit to 5
+      let tags = null;
+      if (tagsInput) {
+        tags = tagsInput
+          .split(',')
+          .map(tag => tag.trim().toLowerCase())
+          .filter(tag => tag.length > 0)
+          .slice(0, 5);
+      }
 
       if (!name) {
         alert(translateText('cardBuilder.errors.nameRequired'));
@@ -1276,7 +1296,7 @@
               'Content-Type': 'application/json',
               'x-csrf-token': csrfToken
             },
-            body: JSON.stringify({ name, items, captchaAnswer, isLocked, isPublic, creatorName, tosAccepted })
+            body: JSON.stringify({ name, items, captchaAnswer, isLocked, isPublic, creatorName, tags, tosAccepted })
           });
         }
 

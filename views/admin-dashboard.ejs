@@ -363,6 +363,7 @@
                 <strong>${card.name}</strong> (${card.code})
                 ${card.isLocked ? '<span class="status-badge status-reviewed">LOCKED</span>' : ''}
                 ${card.isPublic ? '<span class="status-badge status-pending">PUBLIC</span>' : ''}
+                ${card.isFeatured ? '<span class="status-badge" style="background: #FFD700; color: #000;">⭐ FEATURED</span>' : ''}
               </div>
               <div class="card-meta">
                 Created: ${new Date(card.createdAt).toLocaleDateString()}
@@ -377,6 +378,9 @@
 
             <div class="actions">
               <button class="btn btn-view" onclick="window.open('/card/${card.code}', '_blank')">View Card</button>
+              <button class="btn ${card.isFeatured ? 'btn-dismiss' : 'btn-reviewed'}" onclick="toggleFeatured('${card.code}', ${!card.isFeatured})">
+                ${card.isFeatured ? 'Unfeature' : '⭐ Feature'}
+              </button>
               <button class="btn btn-delete" onclick="deleteCard('${card.code}')">Delete Card</button>
             </div>
           </div>
@@ -427,6 +431,29 @@
       } catch (error) {
         console.error('Error deleting card:', error);
         alert('Error deleting card');
+      }
+    }
+
+    async function toggleFeatured(cardCode, isFeatured) {
+      const action = isFeatured ? 'feature' : 'unfeature';
+      if (!confirm(`Are you sure you want to ${action} card ${cardCode}?`)) return;
+
+      try {
+        const response = await fetch(`/admin-dashboard-secret/api/cards/${cardCode}/featured`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ isFeatured })
+        });
+
+        if (response.ok) {
+          alert(`Card ${isFeatured ? 'featured' : 'unfeatured'} successfully`);
+          loadCards();
+        } else {
+          alert('Failed to update featured status');
+        }
+      } catch (error) {
+        console.error('Error updating featured status:', error);
+        alert('Error updating featured status');
       }
     }
 

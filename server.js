@@ -706,6 +706,7 @@ app.get('/gallery', async (req, res) => {
     const offset = (page - 1) * limit;
     const search = req.query.search || '';
     const sortBy = req.query.sort || 'recent'; // recent, popular
+    const tagFilter = req.query.tag || ''; // tag filter
 
     // Build where clause - only show public AND locked cards
     const whereClause = {
@@ -721,12 +722,21 @@ app.get('/gallery', async (req, res) => {
       };
     }
 
-    // Build orderBy clause
-    let orderBy = {};
+    // Add tag filter if provided
+    if (tagFilter) {
+      whereClause.tags = {
+        path: '$',
+        array_contains: tagFilter
+      };
+    }
+
+    // Build orderBy clause - Featured cards always come first
+    let orderBy = [];
+    orderBy.push({ isFeatured: 'desc' }); // Featured first
     if (sortBy === 'popular') {
-      orderBy = { usageCount: 'desc' };
+      orderBy.push({ usageCount: 'desc' });
     } else {
-      orderBy = { createdAt: 'desc' };
+      orderBy.push({ createdAt: 'desc' });
     }
 
     // Get total count for pagination
@@ -741,6 +751,21 @@ app.get('/gallery', async (req, res) => {
       skip: offset
     });
 
+    // Get all unique tags from public cards for filter dropdown
+    const allPublicCards = await prisma.itemCollection.findMany({
+      where: { isPublic: true, isLocked: true },
+      select: { tags: true }
+    });
+
+    const allTags = new Set();
+    allPublicCards.forEach(card => {
+      if (card.tags && Array.isArray(card.tags)) {
+        card.tags.forEach(tag => allTags.add(tag));
+      }
+    });
+
+    const uniqueTags = Array.from(allTags).sort();
+
     res.render('gallery', {
       cards: cards,
       currentPage: page,
@@ -748,6 +773,8 @@ app.get('/gallery', async (req, res) => {
       totalCards: totalCards,
       search: search,
       sortBy: sortBy,
+      tagFilter: tagFilter,
+      availableTags: uniqueTags,
       pageTitle: 'Browse Custom Cards - Tokyo Cam Bingo',
       metaDescription: 'Browse and discover custom bingo cards created by the community for Tokyo Cam Bingo.'
     });
@@ -1133,6 +1160,25 @@ app.delete('/admin-dashboard-secret/api/cards/:code', requireAdmin, async (req, 
   } catch (error) {
     console.error('Error deleting card:', error);
     res.status(500).json({ error: 'Failed to delete card' });
+  }
+});
+
+// Admin API - Toggle featured status
+app.post('/admin-dashboard-secret/api/cards/:code/featured', requireAdmin, async (req, res) => {
+  try {
+    const { code } = req.params;
+    const { isFeatured } = req.body;
+
+    const card = await prisma.itemCollection.update({
+      where: { code: code.toUpperCase() },
+      data: { isFeatured: isFeatured }
+    });
+
+    console.log(`ADMIN ACTION - Set card ${code} featured status to: ${isFeatured}`);
+    res.json({ success: true, isFeatured: card.isFeatured });
+  } catch (error) {
+    console.error('Error updating featured status:', error);
+    res.status(500).json({ error: 'Failed to update featured status' });
   }
 });
 

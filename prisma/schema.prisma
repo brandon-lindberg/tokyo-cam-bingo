@@ -74,3 +74,12 @@ model Session {
   data      String
   expiresAt DateTime
 }
+
+model CardReport {
+  id        String   @id @default(uuid())
+  cardCode  String
+  reason    String
+  status    String   @default("pending") // pending, reviewed, dismissed
+  createdAt DateTime @default(now())
+  reviewedAt DateTime?
+}

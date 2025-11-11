@@ -42,7 +42,7 @@
       margin-bottom: 2rem;
       flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
     }
     .search-box {
       flex: 1;
@@ -62,7 +62,6 @@
     .sort-btn {
       padding: 0.75rem 1.5rem;
       border: 2px solid #ddd;
-      background: white;
       border-radius: 8px;
       cursor: pointer;
       font-size: 0.9rem;
@@ -277,23 +276,46 @@
 
       <% if (totalPages > 1) { %>
         <div class="pagination">
-          <button class="page-btn" <%= currentPage === 1 ? 'disabled' : '' %> onclick="goToPage(<%= currentPage - 1 %>)">
-            ← <%= t('gallery.previous') %>
-          </button>
+          <% const prevPage = currentPage - 1; %>
+          <% const isPrevDisabled = currentPage === 1; %>
+          <% if (isPrevDisabled) { %>
+            <button class="page-btn" disabled>
+              ← <%= t('gallery.previous') %>
+            </button>
+          <% } else { %>
+            <button class="page-btn" data-page="<%= prevPage %>">
+              ← <%= t('gallery.previous') %>
+            </button>
+          <% } %>
 
           <% for (let i = 1; i <= totalPages; i++) { %>
             <% if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) { %>
-              <button class="page-btn <%= i === currentPage ? 'active' : '' %>" onclick="goToPage(<%= i %>)">
-                <%= i %>
-              </button>
+              <% const isActive = i === currentPage; %>
+              <% if (isActive) { %>
+                <button class="page-btn active" data-page="<%= i %>">
+                  <%= i %>
+                </button>
+              <% } else { %>
+                <button class="page-btn" data-page="<%= i %>">
+                  <%= i %>
+                </button>
+              <% } %>
             <% } else if (i === currentPage - 3 || i === currentPage + 3) { %>
               <span class="page-btn" disabled>...</span>
             <% } %>
           <% } %>
 
-          <button class="page-btn" <%= currentPage === totalPages ? 'disabled' : '' %> onclick="goToPage(<%= currentPage + 1 %>)">
-            <%= t('gallery.next') %> →
-          </button>
+          <% const nextPage = currentPage + 1; %>
+          <% const isNextDisabled = currentPage === totalPages; %>
+          <% if (isNextDisabled) { %>
+            <button class="page-btn" disabled>
+              <%= t('gallery.next') %> →
+            </button>
+          <% } else { %>
+            <button class="page-btn" data-page="<%= nextPage %>">
+              <%= t('gallery.next') %> →
+            </button>
+          <% } %>
         </div>
       <% } %>
     <% } %>
@@ -312,6 +334,19 @@
       url.searchParams.set('page', page);
       window.location.href = url.toString();
     }
+
+    // Add click handlers to pagination buttons
+    document.addEventListener('DOMContentLoaded', function() {
+      const pageButtons = document.querySelectorAll('.page-btn[data-page]');
+      pageButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+          const page = this.getAttribute('data-page');
+          if (page) {
+            goToPage(parseInt(page));
+          }
+        });
+      });
+    });
 
     // Auto-submit search after user stops typing
     let searchTimeout;

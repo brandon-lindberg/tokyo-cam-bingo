@@ -408,13 +408,15 @@
     "duplicate": "Duplicate & Edit",
     "copyLink": "Copy Link",
     "report": "Report",
-    "scanToShare": "Scan QR Code to Share",
+    "showQR": "Show QR Code",
+    "hideQR": "Hide QR Code",
+    "scanToShare": "Scan to Share",
     "viewAllItems": "View All Items",
     "hideItems": "Hide Items",
     "linkCopied": "Link copied to clipboard!",
     "copyFailed": "Failed to copy link",
-    "reportPrompt": "Please describe why you're reporting this card:",
-    "reportSuccess": "Thank you for your report. We'll review it shortly.",
+    "reportPrompt": "Please describe why you are reporting this card:",
+    "reportSuccess": "Thank you for your report. We will review it shortly.",
     "reportFailed": "Failed to submit report. Please try again."
   },
   "gallery": {

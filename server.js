@@ -909,11 +909,15 @@ app.post('/api/report-card', async (req, res) => {
       return res.status(404).json({ success: false, error: 'Card not found' });
     }
 
-    // Log the report (you can store this in database later if needed)
-    console.log(`CARD REPORT - Code: ${cardCode}, Reason: ${reason}, Card Name: ${card.name}`);
+    // Store report in database
+    const report = await prisma.cardReport.create({
+      data: {
+        cardCode: cardCode.toUpperCase(),
+        reason: reason.trim()
+      }
+    });
 
-    // TODO: Store reports in database for moderation
-    // For now, just log and return success
+    console.log(`CARD REPORT CREATED - ID: ${report.id}, Code: ${cardCode}, Card Name: ${card.name}`);
 
     res.json({ success: true, message: 'Report submitted successfully' });
   } catch (error) {

@@ -212,8 +212,8 @@
               "body": "Coordinate finds and strategize with the built-in chat panel."
             },
             {
-              "label": "Streamer Mode",
-              "body": "Toggle a cleaner layout when you are broadcasting the game."
+              "label": "Streamer Mode & OBS Setup",
+              "body": "Toggle Streamer Mode for a transparent background perfect for OBS overlays. Click 'Popout Card' to open a separate window with just your bingo card. In OBS, add a Browser Source (not Window Capture) with the popout URL. Set width/height to your preference (e.g., 800x800). Check 'Shutdown source when not visible' and 'Refresh browser when scene becomes active'. If colors don't appear after updates, right-click the source in OBS and select 'Refresh' to clear the cache OR press the Refresh the cache of current page button."
             }
           ]
         }

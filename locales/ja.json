@@ -242,6 +242,9 @@
     "rerollInstruction": "リロールしたい範囲をタップしてください",
     "streamerModeOff": "配信モード: オフ",
     "streamerModeOn": "配信モード: オン",
+    "minimalModeOff": "ミニマルモード: オフ",
+    "minimalModeOn": "ミニマルモード: オン",
+    "popoutCard": "カードをポップアウト",
     "exitToHome": "ホームに戻る",
     "timerExpired": {
       "title": "時間切れ！",
@@ -450,7 +453,8 @@
   "alerts": {
     "rerollMissingSelection": "リロール種別と範囲を選択してください。",
     "invalidGameCode": "有効なゲームコードを入力してください。",
-    "captchaIncorrect": "キャプチャの答えが違います。もう一度お試しください。"
+    "captchaIncorrect": "キャプチャの答えが違います。もう一度お試しください。",
+    "popupBlocked": "ポップアップがブロックされました！このサイトのポップアップを許可してください。"
   },
   "errors": {
     "generic": "問題が発生しました。もう一度お試しください。",

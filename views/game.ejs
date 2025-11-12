@@ -76,10 +76,21 @@
       <tbody></tbody>
     </table>
   </div>
-  <% if (currentPlayer.isHost && game.rerollsEnabled) { %>
-    <div class="reroll-section">
-      <div class="reroll-controls">
-        <button onclick="enterRerollMode('<%= currentPlayer.id %>')"><%= t('actions.enterRerollMode') %></button>
+</aside>
+
+<!-- Hamburger Menu (Lower Left) -->
+<div class="hamburger-menu-container">
+  <button class="hamburger-toggle" onclick="toggleHamburgerMenu()" aria-label="Toggle menu">
+    <span class="hamburger-icon">☰</span>
+  </button>
+  <div class="hamburger-menu" id="hamburger-menu" style="display: none;">
+    <div class="hamburger-menu-content">
+      <button id="streamer-toggle-btn" onclick="toggleStreamerMode(); closeHamburgerOnMobile();"><span data-streamer-state="off"><%= t('game.streamerModeOff') %></span></button>
+      <button id="minimal-toggle-btn" onclick="toggleMinimalMode(); closeHamburgerOnMobile();"><span data-minimal-state="off"><%= t('game.minimalModeOff') %></span></button>
+      <button id="popout-btn" onclick="popoutCard(); closeHamburgerOnMobile();"><%= t('game.popoutCard') %></button>
+      <% if (currentPlayer.isHost && game.rerollsEnabled) { %>
+        <hr class="hamburger-divider">
+        <button onclick="enterRerollMode('<%= currentPlayer.id %>'); closeHamburgerOnMobile();"><%= t('actions.enterRerollMode') %></button>
         <div id="reroll-mode-<%= currentPlayer.id %>" style="display:none;">
           <select id="reroll-type-<%= currentPlayer.id %>" onchange="handleTypeChange('<%= currentPlayer.id %>')">
             <option value=""><%= t('game.reroll.selectType') %></option>
@@ -98,16 +109,10 @@
           <button onclick="confirmReroll('<%= currentPlayer.id %>')"><%= t('game.reroll.confirm') %></button>
           <button onclick="exitRerollMode('<%= currentPlayer.id %>')"><%= t('actions.cancel') %></button>
         </div>
-      </div>
-      <button id="streamer-toggle-btn" onclick="toggleStreamerMode()"><span data-streamer-state="off"><%= t('game.streamerModeOff') %></span></button>
+      <% } %>
     </div>
-  <% } %>
-  <% if (!currentPlayer.isHost) { %>
-    <div class="nonhost-streamer-section">
-      <button id="streamer-toggle-btn-nonhost" onclick="toggleStreamerModeNonHost()"><span data-streamer-state="off"><%= t('game.streamerModeOff') %></span></button>
-    </div>
-  <% } %>
-</aside>
+  </div>
+</div>
   <div class="container">
     <div class="game-header">
     <%
@@ -513,6 +518,17 @@
     socket.on('win', ({ playerName, winCondition }) => {
       showWinnerModal(playerName, winCondition);
     });
+
+    // Listen for card reveal events from other windows
+    socket.on('card_revealed', ({ playerId: revealedPlayerId }) => {
+      if (String(revealedPlayerId) === String(playerId) && gameMode === 'VS') {
+        const cover = document.getElementById('card-cover');
+        if (cover) {
+          cover.classList.add('hidden');
+          localStorage.setItem('cardRevealed_' + gameId, 'true');
+        }
+      }
+    });
     // Flag selection modal logic
     const flagSelectModal = document.getElementById('flag-select-modal');
     const flagBtn = document.getElementById('flag-button');
@@ -619,14 +635,16 @@
       const cover = document.getElementById('card-cover');
       if (cover) {
         cover.classList.add('hidden');
-        // Store reveal state in sessionStorage so it persists on reload
-        sessionStorage.setItem('cardRevealed_' + gameId, 'true');
+        // Store reveal state in localStorage so it syncs across windows
+        localStorage.setItem('cardRevealed_' + gameId, 'true');
+        // Emit socket event to sync with all windows including OBS Browser Source
+        socket.emit('card_revealed');
       }
     }
 
     // Check if card was already revealed
     if (gameMode === 'VS') {
-      const wasRevealed = sessionStorage.getItem('cardRevealed_' + gameId);
+      const wasRevealed = localStorage.getItem('cardRevealed_' + gameId);
       if (wasRevealed === 'true') {
         const cover = document.getElementById('card-cover');
         if (cover) {
@@ -644,7 +662,7 @@
       }
       // Reset card cover for VS mode
       if (gameMode === 'VS') {
-        sessionStorage.removeItem('cardRevealed_' + gameId);
+        localStorage.removeItem('cardRevealed_' + gameId);
         const cover = document.getElementById('card-cover');
         if (cover) {
           cover.classList.remove('hidden');
@@ -1254,6 +1272,63 @@
       const btnNH = document.getElementById('streamer-toggle-btn-nonhost');
       setStreamerLabel(btnNH, document.body.classList.contains('streamer-mode'));
     }
+
+    function setMinimalLabel(button, isOn) {
+      if (!button) return;
+      const label = button.querySelector('[data-minimal-state]') || button;
+      label.textContent = isOn ? translateText('game.minimalModeOn') : translateText('game.minimalModeOff');
+      label.dataset.minimalState = isOn ? 'on' : 'off';
+    }
+    function toggleMinimalMode() {
+      document.body.classList.toggle('minimal-mode');
+      const btn = document.getElementById('minimal-toggle-btn');
+      setMinimalLabel(btn, document.body.classList.contains('minimal-mode'));
+    }
+    function toggleMinimalModeNonHost() {
+      document.body.classList.toggle('minimal-mode');
+      const btnNH = document.getElementById('minimal-toggle-btn-nonhost');
+      setMinimalLabel(btnNH, document.body.classList.contains('minimal-mode'));
+    }
+
+    function popoutCard() {
+      const gameId = document.body.dataset.gameId;
+      const playerId = document.body.dataset.playerId;
+      const popoutUrl = `/game/${gameId}/popout?playerId=${playerId}`;
+      const popoutWindow = window.open(popoutUrl, 'BingoCardPopout', 'width=600,height=600,resizable=yes,scrollbars=no');
+      if (popoutWindow) {
+        popoutWindow.focus();
+      } else {
+        alert(translateText('alerts.popupBlocked') || 'Popup blocked! Please allow popups for this site.');
+      }
+    }
+
+    function toggleHamburgerMenu() {
+      const menu = document.getElementById('hamburger-menu');
+      if (menu.style.display === 'none') {
+        menu.style.display = 'block';
+      } else {
+        menu.style.display = 'none';
+      }
+    }
+
+    function closeHamburgerOnMobile() {
+      // Auto-close menu on mobile after clicking an option
+      if (window.innerWidth <= 768) {
+        const menu = document.getElementById('hamburger-menu');
+        menu.style.display = 'none';
+      }
+    }
+
+    // Close hamburger menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('hamburger-menu');
+      const toggle = document.querySelector('.hamburger-toggle');
+      const container = document.querySelector('.hamburger-menu-container');
+
+      if (menu && toggle && !container.contains(event.target)) {
+        menu.style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>

@@ -1582,6 +1582,30 @@ app.get('/game', async (req, res) => {
   res.render('game', { game, players: game.players, currentPlayer: player, messages });
 });
 
+// Popout card view (minimal, transparent, for streaming)
+app.get('/game/:gameId/popout', async (req, res) => {
+  const { gameId } = req.params;
+  const { playerId } = req.query;
+
+  if (!gameId || !playerId) return res.redirect('/');
+
+  const game = await prisma.game.findUnique({
+    where: { id: gameId },
+    include: { players: true },
+  });
+
+  if (!game) return res.redirect('/');
+
+  const player = game.players.find(p => p.id === playerId);
+  if (!player) return res.redirect('/');
+
+  // Set session for socket authentication (needed for OBS Browser Source)
+  req.session.gameId = gameId;
+  req.session.playerId = playerId;
+
+  res.render('popout', { game, players: game.players, currentPlayer: player });
+});
+
 // Get game code (for copy, host-only)
 app.get('/get-code', async (req, res) => {
   const { gameId, playerId } = req.session;
@@ -1744,6 +1768,14 @@ io.on('connection', (socket) => {
 
       io.to(gameId).emit('update_state', { game: updatedGame, players: updatedPlayers });
     }
+  });
+
+  socket.on('card_revealed', async () => {
+    const { gameId, playerId } = getSocketIdentity(socket);
+    if (!gameId || !playerId) return;
+
+    // Broadcast to all clients in the room that the card was revealed
+    io.to(gameId).emit('card_revealed', { playerId });
   });
 
   socket.on('reroll', async ({ targetPlayerId, type, arg }) => {

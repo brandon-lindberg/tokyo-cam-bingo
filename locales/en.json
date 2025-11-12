@@ -243,6 +243,9 @@
     "flagButton": "Throw Flag",
     "streamerModeOff": "Streamer Mode: Off",
     "streamerModeOn": "Streamer Mode: On",
+    "minimalModeOff": "Minimal Mode: Off",
+    "minimalModeOn": "Minimal Mode: On",
+    "popoutCard": "Popout Card",
     "exitToHome": "Exit to Home",
     "timerExpired": {
       "title": "Time's Up!",
@@ -451,7 +454,8 @@
   "alerts": {
     "rerollMissingSelection": "Please select a type and an area to re-roll.",
     "invalidGameCode": "Please enter a valid game code.",
-    "captchaIncorrect": "Captcha answer incorrect. Please try again."
+    "captchaIncorrect": "Captcha answer incorrect. Please try again.",
+    "popupBlocked": "Popup blocked! Please allow popups for this site."
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",

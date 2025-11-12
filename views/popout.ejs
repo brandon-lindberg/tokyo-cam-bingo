@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html style="background: none !important; background-color: transparent !important;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= t('common.appName') %> - Card</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    /* Force transparency - highest priority */
+    html {
+      background: none !important;
+      background-color: transparent !important;
+    }
+    /* Popout-specific styles */
+    body {
+      background: none !important;
+      background-color: transparent !important;
+      margin: 0;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .popout-container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .bingo-card {
+      width: 100%;
+      max-width: 100%;
+    }
+    /* Ensure card cover is opaque in popout */
+    .card-cover-overlay {
+      background-color: #f0f0f0 !important;
+    }
+    /* VS Mode colored stamps - semi-transparent color on opaque white */
+    .vs-card td.stamped-RED {
+      background: linear-gradient(rgba(255, 0, 0, 0.4), rgba(255, 0, 0, 0.4)), #ffffff !important;
+    }
+    .vs-card td.stamped-BLUE {
+      background: linear-gradient(rgba(0, 0, 255, 0.4), rgba(0, 0, 255, 0.4)), #ffffff !important;
+    }
+    .vs-card td.stamped-GREEN {
+      background: linear-gradient(rgba(0, 255, 0, 0.4), rgba(0, 255, 0, 0.4)), #ffffff !important;
+    }
+    .vs-card td.stamped-YELLOW {
+      background: linear-gradient(rgba(255, 255, 0, 0.4), rgba(255, 255, 0, 0.4)), #ffffff !important;
+    }
+    .vs-card td.stamped-PURPLE {
+      background: linear-gradient(rgba(128, 0, 128, 0.4), rgba(128, 0, 128, 0.4)), #ffffff !important;
+    }
+    .vs-card td.stamped-ORANGE {
+      background: linear-gradient(rgba(255, 165, 0, 0.4), rgba(255, 165, 0, 0.4)), #ffffff !important;
+    }
+    .vs-card td.stamped-PINK {
+      background: linear-gradient(rgba(255, 192, 203, 0.4), rgba(255, 192, 203, 0.4)), #ffffff !important;
+    }
+    .vs-card td.stamped-CYAN {
+      background: linear-gradient(rgba(0, 255, 255, 0.4), rgba(0, 255, 255, 0.4)), #ffffff !important;
+    }
+  </style>
+</head>
+<body class="streamer-mode" style="background: none !important; background-color: transparent !important;" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-game-mode="<%= game.mode %>" data-locale="<%= locale %>">
+  <div class="popout-container">
+    <% if (game.mode === 'VS') { %>
+      <div class="card-cover-overlay" id="card-cover" onclick="revealCard()">
+        <div class="cover-icon">🎴</div>
+        <div class="cover-text"><%= t('game.cardCover.title') %></div>
+        <div class="cover-subtext"><%= t('game.cardCover.subtitle') %></div>
+      </div>
+    <% } %>
+    <table id="card-<%= currentPlayer.id %>" class="bingo-card <%= game.mode === 'VS' ? 'vs-card' : 'own-card' %>">
+      <% currentPlayer.card.forEach((row, r) => { %>
+        <tr>
+          <% row.forEach((tile, c) => { %>
+            <td class="<%= tile.stamped ? 'stamped' : '' %>" data-row="<%= r %>" data-col="<%= c %>">
+              <div class="tile-content"><%= translateItem(tile.item) %></div>
+            </td>
+          <% }) %>
+        </tr>
+      <% }) %>
+    </table>
+  </div>
+
+  <%- include('partials/i18n-script', { namespaces: ['game', 'items'] }) %>
+  <script>
+    const socket = io();
+    const translateItemText = (value) => {
+      const dict = window.APP_I18N && window.APP_I18N.items;
+      return (dict && dict[value]) || value;
+    };
+    const gameId = document.body.dataset.gameId;
+    const playerId = document.body.dataset.playerId;
+    const gameMode = document.body.dataset.gameMode;
+
+    socket.emit('join_room', { gameId, playerId });
+
+    // Listen for card reveal events from other windows (set up before initialization)
+    socket.on('card_revealed', ({ playerId: revealedPlayerId }) => {
+      if (String(revealedPlayerId) === String(playerId) && gameMode === 'VS') {
+        const cover = document.getElementById('card-cover');
+        if (cover) {
+          cover.classList.add('hidden');
+          localStorage.setItem('cardRevealed_' + gameId, 'true');
+        }
+      }
+    });
+
+    // Initialize colored stamps on page load for VS mode
+    <% if (game.mode === 'VS') { %>
+      (function initializeColoredStamps() {
+        const currentCardTable = document.getElementById('card-<%= currentPlayer.id %>');
+        const players = <%- JSON.stringify(players) %>;
+        const currentPlayerData = players.find(p => String(p.id) === String(playerId));
+
+        if (currentPlayerData && currentCardTable) {
+          currentPlayerData.card.forEach((row, r) => {
+            row.forEach((tile, c) => {
+              const td = currentCardTable.rows[r].cells[c];
+
+              // Clear all stamp classes
+              td.className = '';
+              td.dataset.row = r;
+              td.dataset.col = c;
+
+              // Check which player (if any) has stamped this square
+              let stampedBy = null;
+              for (const player of players) {
+                const squares = player.stampedSquares || [];
+                if (squares.some(s => Number(s.row) === r && Number(s.col) === c)) {
+                  stampedBy = player.color;
+                  break;
+                }
+              }
+
+              if (stampedBy) {
+                td.classList.add(`stamped-${stampedBy}`);
+              }
+            });
+          });
+        }
+      })();
+    <% } %>
+
+    const nextFrame = window.requestAnimationFrame ? (cb) => window.requestAnimationFrame(cb) : (cb) => setTimeout(cb, 16);
+    const TILE_FONT_MIN_PX = 10;
+    const TILE_FONT_STEP = 0.5;
+    const TILE_FONT_MAX_ITERATIONS = 40;
+
+    function debounce(fn, wait = 150) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn.apply(this, args), wait);
+      };
+    }
+
+    function fitTileText(tile) {
+      if (!tile) return;
+      tile.classList.remove('tile-scroll');
+      tile.style.fontSize = '';
+      const computed = window.getComputedStyle(tile);
+      let size = parseFloat(computed.fontSize) || 16;
+      const minSize = Math.max(TILE_FONT_MIN_PX, size * 0.55);
+      tile.style.fontSize = `${size}px`;
+      let iterations = 0;
+      while ((tile.scrollHeight > tile.clientHeight || tile.scrollWidth > tile.clientWidth) &&
+        size > minSize &&
+        iterations < TILE_FONT_MAX_ITERATIONS) {
+        size -= TILE_FONT_STEP;
+        tile.style.fontSize = `${size}px`;
+        iterations++;
+      }
+      if (tile.scrollHeight > tile.clientHeight || tile.scrollWidth > tile.clientWidth) {
+        tile.style.fontSize = `${minSize}px`;
+        if (tile.scrollHeight > tile.clientHeight) {
+          tile.classList.add('tile-scroll');
+        }
+      }
+    }
+
+    function fitTiles(scope) {
+      const root = scope && typeof scope.querySelectorAll === 'function' ? scope : document;
+      const tiles = root.querySelectorAll('.tile-content');
+      tiles.forEach(fitTileText);
+    }
+
+    function scheduleTileResize(scope) {
+      nextFrame(() => fitTiles(scope || document));
+    }
+
+    const debouncedTileResize = debounce(() => fitTiles(document), 200);
+    window.addEventListener('resize', debouncedTileResize);
+
+    // Update state from server
+    socket.on('update_state', (data) => {
+      const { game, players } = data;
+      const currentCardTable = document.getElementById(`card-${playerId}`);
+      const currentPlayerData = players.find(p => String(p.id) === String(playerId));
+
+      if (currentPlayerData) {
+        if (game.mode === 'VS') {
+          // VS Mode: Update colored stamps based on all players
+          currentPlayerData.card.forEach((row, r) => {
+            row.forEach((tile, c) => {
+              const td = currentCardTable.rows[r].cells[c];
+              td.querySelector('.tile-content').textContent = translateItemText(tile.item);
+
+              // Clear all stamp classes
+              td.className = '';
+              td.dataset.row = r;
+              td.dataset.col = c;
+
+              // Check which player (if any) has stamped this square
+              let stampedBy = null;
+              for (const player of players) {
+                const squares = player.stampedSquares || [];
+                if (squares.some(s => Number(s.row) === r && Number(s.col) === c)) {
+                  stampedBy = player.color;
+                  break;
+                }
+              }
+
+              if (stampedBy) {
+                td.classList.add(`stamped-${stampedBy}`);
+              }
+            });
+          });
+        } else {
+          // Regular mode: Original stamping logic
+          currentPlayerData.card.forEach((row, r) => {
+            row.forEach((tile, c) => {
+              const td = currentCardTable.rows[r].cells[c];
+              td.querySelector('.tile-content').textContent = translateItemText(tile.item);
+              td.classList.toggle('stamped', tile.stamped);
+            });
+          });
+        }
+      }
+
+      if (currentCardTable) {
+        scheduleTileResize(currentCardTable);
+      }
+    });
+
+    // Card reveal function for VS mode
+    function revealCard() {
+      const cover = document.getElementById('card-cover');
+      if (cover) {
+        cover.classList.add('hidden');
+        // Store reveal state in localStorage so it syncs across windows
+        localStorage.setItem('cardRevealed_' + gameId, 'true');
+        // Emit socket event to sync with all windows including OBS Browser Source
+        socket.emit('card_revealed');
+      }
+    }
+
+    // Check if card was already revealed (sync with main window)
+    if (gameMode === 'VS') {
+      const wasRevealed = localStorage.getItem('cardRevealed_' + gameId);
+      if (wasRevealed === 'true') {
+        const cover = document.getElementById('card-cover');
+        if (cover) {
+          cover.classList.add('hidden');
+        }
+      }
+    }
+
+    // Listen for storage events to sync reveal state across windows
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'cardRevealed_' + gameId && e.newValue === 'true') {
+        const cover = document.getElementById('card-cover');
+        if (cover) {
+          cover.classList.add('hidden');
+        }
+      }
+    });
+
+    // Initial tile sizing
+    scheduleTileResize(document.getElementById('card-<%= currentPlayer.id %>'));
+  </script>
+</body>
+</html>

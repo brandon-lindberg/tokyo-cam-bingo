@@ -1623,24 +1623,214 @@ body.splash-active {
   gap: 0.5rem;
 }
 
+.reroll-controls button {
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  white-space: nowrap;
+  min-width: 140px;
+  text-align: center;
+}
+
+/* Host Streamer Mode Buttons */
+.host-streamer-section {
+  margin-top: auto;
+  padding: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.host-streamer-section button {
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  white-space: nowrap;
+  min-width: 140px;
+  text-align: center;
+}
+
 /* Non-Host Streamer Mode Button */
 .nonhost-streamer-section {
   margin-top: auto;
   padding: 1rem;
   display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 }
 
+.nonhost-streamer-section button {
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  white-space: nowrap;
+  min-width: 140px;
+  text-align: center;
+}
+
 /* Streamer Mode Overrides */
 body.streamer-mode {
-  background-color: #00B140 !important;
+  background: none !important;
+  background-color: transparent !important;
+}
+body.streamer-mode::before,
+body.streamer-mode::after {
+  display: none !important;
+}
+html:has(body.streamer-mode) {
+  background: none !important;
+  background-color: transparent !important;
 }
 body.streamer-mode .bingo-card td {
-  background-color: rgba(255, 255, 255, 0.15) !important;
+  background-color: #ffffff !important;
+}
+/* VS Mode colored stamps in streamer mode - semi-transparent color on opaque white */
+body.streamer-mode .vs-card td.stamped-RED {
+  background: linear-gradient(rgba(255, 0, 0, 0.4), rgba(255, 0, 0, 0.4)), #ffffff !important;
+}
+body.streamer-mode .vs-card td.stamped-BLUE {
+  background: linear-gradient(rgba(0, 0, 255, 0.4), rgba(0, 0, 255, 0.4)), #ffffff !important;
+}
+body.streamer-mode .vs-card td.stamped-GREEN {
+  background: linear-gradient(rgba(0, 255, 0, 0.4), rgba(0, 255, 0, 0.4)), #ffffff !important;
+}
+body.streamer-mode .vs-card td.stamped-YELLOW {
+  background: linear-gradient(rgba(255, 255, 0, 0.4), rgba(255, 255, 0, 0.4)), #ffffff !important;
+}
+body.streamer-mode .vs-card td.stamped-PURPLE {
+  background: linear-gradient(rgba(128, 0, 128, 0.4), rgba(128, 0, 128, 0.4)), #ffffff !important;
+}
+body.streamer-mode .vs-card td.stamped-ORANGE {
+  background: linear-gradient(rgba(255, 165, 0, 0.4), rgba(255, 165, 0, 0.4)), #ffffff !important;
+}
+body.streamer-mode .vs-card td.stamped-PINK {
+  background: linear-gradient(rgba(255, 192, 203, 0.4), rgba(255, 192, 203, 0.4)), #ffffff !important;
+}
+body.streamer-mode .vs-card td.stamped-CYAN {
+  background: linear-gradient(rgba(0, 255, 255, 0.4), rgba(0, 255, 255, 0.4)), #ffffff !important;
+}
+body.streamer-mode .card-cover-overlay {
+  background-color: rgba(240, 240, 240, 0.98) !important;
 }
 body.streamer-mode .game-header h1 {
   display: none !important;
+}
+
+/* Minimal Mode - Hide UI elements, show only card */
+body.minimal-mode .sidebar {
+  display: none !important;
+}
+body.minimal-mode .bottom-app-bar {
+  display: none !important;
+}
+body.minimal-mode .game-header {
+  display: none !important;
+}
+body.minimal-mode .container {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+body.minimal-mode.game-page {
+  margin-left: 0 !important;
+  padding: 0 !important;
+}
+body.minimal-mode .hamburger-menu-container {
+  display: none !important;
+}
+
+/* Hamburger Menu Styling */
+.hamburger-menu-container {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 1000;
+}
+
+.hamburger-toggle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #00BFFF;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.hamburger-toggle:hover {
+  background-color: #009ACD;
+  transform: scale(1.05);
+}
+
+.hamburger-icon {
+  font-size: 1.5rem;
+  color: white;
+  line-height: 1;
+}
+
+.hamburger-menu {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  max-width: 300px;
+  z-index: 999;
+}
+
+.hamburger-menu-content {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hamburger-menu-content button {
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  white-space: nowrap;
+  text-align: left;
+  width: 100%;
+}
+
+.hamburger-menu-content select {
+  font-size: 0.875rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.hamburger-divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 0.25rem 0;
+}
+
+.hamburger-menu-content [id^="reroll-mode-"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+.hamburger-menu-content p {
+  font-size: 0.8rem;
+  margin: 0;
+  color: #666;
+}
+
+/* Hide on mobile - use bottom app bar instead */
+@media (max-width: 768px) {
+  .hamburger-menu-container {
+    display: none;
+  }
 }
 /* Hide streamer toggle in reroll mode */
 .reroll-section.reroll-active #streamer-toggle-btn {

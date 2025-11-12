@@ -46,6 +46,7 @@
     "welcomeHeading": "東京カムビンゴへようこそ",
     "ruleBook": "ルールブック",
     "createCustomCardLink": "+ カスタムカードを作成",
+    "browseGalleryLink": "テンプレートを探す",
     "hostFormTitle": "ゲームを作成",
     "hostNameLabel": "あなたの名前",
     "hostNamePlaceholder": "名前を入力",
@@ -211,8 +212,8 @@
               "body": "備え付けのチャットで見つけたものを共有したり作戦を立てられます。"
             },
             {
-              "label": "配信者モード",
-              "body": "配信向けにシンプルなレイアウトへ切り替えられます。"
+              "label": "配信者モード & OBS設定",
+              "body": "配信者モードをオンにすると、OBSオーバーレイに最適な透明な背景になります。「カードをポップアウト」をクリックすると、ビンゴカードだけの別ウィンドウが開きます。OBSでは、ブラウザソース（ウィンドウキャプチャではなく）でポップアウトURLを追加してください。幅と高さはお好みに設定してください（例：800x800）。「表示されていないときにソースをシャットダウンする」と「シーンがアクティブになったときにブラウザを更新する」にチェックを入れてください。更新後に色が表示されない場合は、OBSでソースを右クリックして「更新」を選択してキャッシュをクリアしてください。"
             }
           ]
         }
@@ -241,6 +242,9 @@
     "rerollInstruction": "リロールしたい範囲をタップしてください",
     "streamerModeOff": "配信モード: オフ",
     "streamerModeOn": "配信モード: オン",
+    "minimalModeOff": "ミニマルモード: オフ",
+    "minimalModeOn": "ミニマルモード: オン",
+    "popoutCard": "カードをポップアウト",
     "exitToHome": "ホームに戻る",
     "timerExpired": {
       "title": "時間切れ！",
@@ -255,6 +259,10 @@
     "chatUnknown": "不明なプレイヤー",
     "copyPrompt": "ゲームコードをコピーしてください:",
     "playerCardTitle": "{name}のカード",
+    "cardCover": {
+      "title": "クリックしてカードを表示",
+      "subtitle": "準備ができたら！"
+    },
     "reroll": {
       "modalTitle": "リロール",
       "typeLabel": "種別",
@@ -314,6 +322,7 @@
     "metaDescription": "東京カムビンゴ用のカスタムビンゴカードを作成しましょう。",
     "header": "カスタムビンゴカードを作成",
     "subheader": "25項目以上を追加して自分だけのカードを作りましょう",
+    "browseGalleryLink": "コミュニティテンプレートを探す",
     "tabs": {
       "create": "新しいカードを作成",
       "template": "デッキから開始",
@@ -330,6 +339,21 @@
     "captchaHelper": "デッキを保存する前にこの問題を解いてください。",
     "captchaQuestionFallback": "問題を解いてください",
     "captchaPlaceholder": "上の答えを入力",
+    "lockCardLabel": "このカードをテンプレートとしてロック",
+    "lockCardHelper": "ロックされたカードは編集できませんが、複製は可能です。他の人と共有するテンプレートに最適！",
+    "publicCardLabel": "公開ギャラリーに追加",
+    "publicCardHelper": "公開ギャラリーでテンプレートを共有し、他の人に見つけてもらいましょう。ロックされたカードのみ可能です！",
+    "creatorNameLabel": "作成者名（任意）",
+    "creatorNamePlaceholder": "例：あなたの名前",
+    "creatorNameHelper": "公開ギャラリーに追加すると、あなたの名前が表示されます。",
+    "tagsLabel": "タグ（任意）",
+    "tagsPlaceholder": "例：アニメ、ゲーム、旅行",
+    "tagsHelper": "カンマ区切りでタグを追加すると、他の人が見つけやすくなります。最大5個まで。",
+    "tosLabel": "利用規約に同意します",
+    "tosHelper": "カードを作成するには、利用規約に同意する必要があります。",
+    "tosLink": "利用規約を読む",
+    "viewCard": "カードを表示",
+    "shareCard": "リンクを共有",
     "saveButton": "カスタムカードを保存",
     "updateButton": "カスタムカードを更新",
     "templateSectionLabel": "オプション：既存のデッキから読み込む",
@@ -369,6 +393,8 @@
       "presetEmpty": "プリセットに項目がありません。",
       "duplicateCodeInvalid": "複製するカードコード（6文字）を入力してください。",
       "loadCodeInvalid": "有効な6文字のコードを入力してください。",
+      "cardLocked": "このカードはロックされており、編集できません。",
+      "cardLockedHint": "「デッキから開始」タブから複製して、自分用のバージョンを作成できます。",
       "cardNotFound": "カードが見つかりません。",
       "loadedPreset": "{name}（{count}項目）を読み込みました。保存すると新しいコードが発行されます。",
       "loadingCard": "{code} のカードを読み込み中...",
@@ -377,15 +403,58 @@
       "cardLoadError": "カードの読み込み中にエラーが発生しました。",
       "saving": "保存中...",
       "copied": "コピーしました！",
+      "shareLinkCopied": "共有リンクをコピーしました！",
+      "shareLink": "このリンクを共有:",
       "itemPlaceholder": "項目名を入力",
       "removeItem": "削除",
       "remixName": "{name} リミックス"
     }
   },
+  "cardPreview": {
+    "locked": "ロック済みテンプレート",
+    "code": "コード",
+    "createdBy": "作成者",
+    "items": "項目",
+    "timesUsed": "使用回数",
+    "startGame": "ゲームを開始",
+    "duplicate": "複製して編集",
+    "copyLink": "リンクをコピー",
+    "report": "報告",
+    "shareOn": "共有する",
+    "showQR": "QRコードを表示",
+    "hideQR": "QRコードを隠す",
+    "scanToShare": "スキャンして共有",
+    "viewAllItems": "すべての項目を表示",
+    "hideItems": "項目を隠す",
+    "linkCopied": "リンクをコピーしました！",
+    "copyFailed": "リンクのコピーに失敗しました",
+    "reportPrompt": "このカードを報告する理由を入力してください：",
+    "reportSuccess": "報告ありがとうございます。すぐに確認します。",
+    "reportFailed": "報告の送信に失敗しました。もう一度お試しください。"
+  },
+  "gallery": {
+    "title": "カスタムカードを探す",
+    "subtitle": "コミュニティが作成したビンゴカードを見つけて使用",
+    "totalCards": "{count}枚のカードが利用可能",
+    "searchPlaceholder": "名前で検索...",
+    "sortRecent": "新着順",
+    "sortPopular": "人気順",
+    "filterAll": "すべてのタグ",
+    "noCards": "カードがまだありません",
+    "noCardsDescription": "最初の公開テンプレートを作成しましょう！",
+    "createFirst": "最初のテンプレートを作成",
+    "items": "項目",
+    "by": "作成者",
+    "play": "プレイ",
+    "view": "表示",
+    "previous": "前へ",
+    "next": "次へ"
+  },
   "alerts": {
     "rerollMissingSelection": "リロール種別と範囲を選択してください。",
     "invalidGameCode": "有効なゲームコードを入力してください。",
-    "captchaIncorrect": "キャプチャの答えが違います。もう一度お試しください。"
+    "captchaIncorrect": "キャプチャの答えが違います。もう一度お試しください。",
+    "popupBlocked": "ポップアップがブロックされました！このサイトのポップアップを許可してください。"
   },
   "errors": {
     "generic": "問題が発生しました。もう一度お試しください。",

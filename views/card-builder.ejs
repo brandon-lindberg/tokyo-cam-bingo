@@ -544,6 +544,11 @@
     <div class="builder-header">
       <h1><%= t('cardBuilder.header') %></h1>
       <p><%= t('cardBuilder.subheader') %></p>
+      <div style="text-align: center; margin-top: 0.5rem;">
+        <a href="/gallery" style="color: #FF69B4; text-decoration: none; font-size: 0.95rem;">
+          🎴 <%= t('cardBuilder.browseGalleryLink') %>
+        </a>
+      </div>
     </div>
 
     <div class="builder-form">
@@ -589,6 +594,47 @@
             </button>
           </div>
           <input type="text" id="captcha-answer" placeholder="<%= t('cardBuilder.captchaPlaceholder') %>" autocomplete="off">
+        </div>
+
+        <div class="form-group lock-group" id="lock-group">
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="lock-card-checkbox" style="cursor: pointer;" onchange="togglePublicOption()">
+            <span><%= t('cardBuilder.lockCardLabel') %></span>
+          </label>
+          <div class="helper-text"><%= t('cardBuilder.lockCardHelper') %></div>
+        </div>
+
+        <div class="form-group public-group" id="public-group" style="display: none;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="public-card-checkbox" style="cursor: pointer;">
+            <span><%= t('cardBuilder.publicCardLabel') %></span>
+          </label>
+          <div class="helper-text"><%= t('cardBuilder.publicCardHelper') %></div>
+        </div>
+
+        <div class="form-group creator-group" id="creator-group" style="display: none;">
+          <label for="creator-name"><%= t('cardBuilder.creatorNameLabel') %></label>
+          <input type="text" id="creator-name" placeholder="<%= t('cardBuilder.creatorNamePlaceholder') %>" maxlength="50">
+          <div class="helper-text"><%= t('cardBuilder.creatorNameHelper') %></div>
+        </div>
+
+        <div class="form-group tags-group" id="tags-group" style="display: none;">
+          <label for="tags-input"><%= t('cardBuilder.tagsLabel') %></label>
+          <input type="text" id="tags-input" placeholder="<%= t('cardBuilder.tagsPlaceholder') %>" maxlength="100">
+          <div class="helper-text"><%= t('cardBuilder.tagsHelper') %></div>
+        </div>
+
+        <div class="form-group tos-group" id="tos-group">
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="tos-checkbox" style="cursor: pointer;">
+            <span><%= t('cardBuilder.tosLabel') %></span>
+          </label>
+          <div class="helper-text">
+            <%= t('cardBuilder.tosHelper') %>
+            <a href="/terms" target="_blank" style="color: #FF69B4; text-decoration: underline;">
+              <%= t('cardBuilder.tosLink') %>
+            </a>
+          </div>
         </div>
 
         <button type="button" class="save-btn" id="save-btn" onclick="saveCollection()" disabled>
@@ -662,7 +708,16 @@
         <%= t('cardBuilder.successHint') %>
       </p>
 
-      <button class="copy-code-btn" onclick="copyCode()"><%= t('actions.copyCode') %></button>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+        <button class="copy-code-btn" onclick="copyCode()"><%= t('actions.copyCode') %></button>
+        <button class="copy-code-btn" onclick="viewCard()" style="background: #00BFFF;">
+          <%= t('cardBuilder.viewCard') %>
+        </button>
+        <button class="copy-code-btn" onclick="shareCard()" style="background: #10B981;">
+          🔗 <%= t('cardBuilder.shareCard') %>
+        </button>
+      </div>
+
       <button class="home-btn" onclick="window.location.href='/'"><%= t('cardBuilder.successHomeButton') %></button>
     </div>
   </div>
@@ -940,6 +995,14 @@
       if (saveBtn) {
         saveBtn.textContent = translateText('cardBuilder.saveButton');
       }
+      // Show lock checkbox when creating new card
+      document.getElementById('lock-group').style.display = 'block';
+      document.getElementById('lock-card-checkbox').checked = false;
+      // Hide public and creator groups initially (shown when lock is checked)
+      document.getElementById('public-group').style.display = 'none';
+      document.getElementById('creator-group').style.display = 'none';
+      document.getElementById('public-card-checkbox').checked = false;
+      document.getElementById('creator-name').value = '';
       const nameInput = document.getElementById('collection-name');
       if (nameInput && (options.forceName || !nameInput.value.trim())) {
     const baseName = data.label || data.name || translateText('cardBuilder.defaultCardName');
@@ -996,6 +1059,12 @@
 
         const cardData = await response.json();
 
+        // Check if card is locked
+        if (cardData.isLocked) {
+          statusEl.innerHTML = `<span style="color: #F59E0B;">🔒 ${translateText('cardBuilder.messages.cardLocked')}</span><br><span style="color: #6B7280; font-size: 0.9em;">${translateText('cardBuilder.messages.cardLockedHint')}</span>`;
+          return;
+        }
+
         // Populate card name
         document.getElementById('collection-name').value = cardData.name;
 
@@ -1010,6 +1079,9 @@
 
         // Set editing mode
         editingCardCode = code;
+
+        // Hide lock checkbox when editing existing card
+        document.getElementById('lock-group').style.display = 'none';
 
         // Update button text
         document.getElementById('save-btn').textContent = translateText('cardBuilder.updateButton');
@@ -1140,10 +1212,43 @@
       return items;
     }
 
+    function togglePublicOption() {
+      const isLocked = document.getElementById('lock-card-checkbox').checked;
+      const publicGroup = document.getElementById('public-group');
+      const creatorGroup = document.getElementById('creator-group');
+      const tagsGroup = document.getElementById('tags-group');
+
+      if (isLocked) {
+        publicGroup.style.display = 'block';
+        creatorGroup.style.display = 'block';
+        tagsGroup.style.display = 'block';
+      } else {
+        publicGroup.style.display = 'none';
+        creatorGroup.style.display = 'none';
+        tagsGroup.style.display = 'none';
+        document.getElementById('public-card-checkbox').checked = false;
+      }
+    }
+
     async function saveCollection() {
       const name = document.getElementById('collection-name').value.trim();
       const items = getItems();
       const captchaAnswer = builderCaptchaInput ? builderCaptchaInput.value.trim() : '';
+      const isLocked = document.getElementById('lock-card-checkbox').checked;
+      const isPublic = document.getElementById('public-card-checkbox').checked;
+      const creatorName = document.getElementById('creator-name').value.trim();
+      const tagsInput = document.getElementById('tags-input').value.trim();
+      const tosAccepted = document.getElementById('tos-checkbox').checked;
+
+      // Process tags: split by comma, trim, filter empty, limit to 5
+      let tags = null;
+      if (tagsInput) {
+        tags = tagsInput
+          .split(',')
+          .map(tag => tag.trim().toLowerCase())
+          .filter(tag => tag.length > 0)
+          .slice(0, 5);
+      }
 
       if (!name) {
         alert(translateText('cardBuilder.errors.nameRequired'));
@@ -1160,6 +1265,11 @@
         return;
       }
 
+      if (!tosAccepted && !editingCardCode) {
+        alert(translateText('cardBuilder.tosHelper'));
+        return;
+      }
+
       // Disable button during save
       const saveBtn = document.getElementById('save-btn');
       saveBtn.disabled = true;
@@ -1169,7 +1279,7 @@
         let response;
 
         if (editingCardCode) {
-          // Update existing card
+          // Update existing card (don't allow changing lock status on update)
           response = await fetch(`/api/card-collections/${editingCardCode}`, {
             method: 'PUT',
             headers: {
@@ -1186,7 +1296,7 @@
               'Content-Type': 'application/json',
               'x-csrf-token': csrfToken
             },
-            body: JSON.stringify({ name, items, captchaAnswer })
+            body: JSON.stringify({ name, items, captchaAnswer, isLocked, isPublic, creatorName, tags, tosAccepted })
           });
         }
 
@@ -1219,6 +1329,22 @@
         setTimeout(() => {
           btn.textContent = originalText;
         }, 2000);
+      });
+    }
+
+    function viewCard() {
+      const code = document.getElementById('card-code').textContent;
+      window.location.href = `/card/${code}`;
+    }
+
+    function shareCard() {
+      const code = document.getElementById('card-code').textContent;
+      const shareUrl = `${window.location.origin}/card/${code}`;
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        alert(translateText('cardBuilder.messages.shareLinkCopied'));
+      }).catch(() => {
+        // Fallback: show the URL in a prompt
+        prompt(translateText('cardBuilder.messages.shareLink'), shareUrl);
       });
     }
 

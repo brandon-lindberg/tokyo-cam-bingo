@@ -46,6 +46,7 @@
     "welcomeHeading": "Welcome to Tokyo Cam Bingo",
     "ruleBook": "Rule Book",
     "createCustomCardLink": "+ Create Custom Card",
+    "browseGalleryLink": "Browse Templates",
     "hostFormTitle": "Create Game",
     "hostNameLabel": "Your Name",
     "hostNamePlaceholder": "Enter your name",
@@ -211,8 +212,8 @@
               "body": "Coordinate finds and strategize with the built-in chat panel."
             },
             {
-              "label": "Streamer Mode",
-              "body": "Toggle a cleaner layout when you are broadcasting the game."
+              "label": "Streamer Mode & OBS Setup",
+              "body": "Toggle Streamer Mode for a transparent background perfect for OBS overlays. Click 'Popout Card' to open a separate window with just your bingo card. In OBS, add a Browser Source (not Window Capture) with the popout URL. Set width/height to your preference (e.g., 800x800). Check 'Shutdown source when not visible' and 'Refresh browser when scene becomes active'. If colors don't appear after updates, right-click the source in OBS and select 'Refresh' to clear the cache OR press the Refresh the cache of current page button."
             }
           ]
         }
@@ -242,6 +243,9 @@
     "flagButton": "Throw Flag",
     "streamerModeOff": "Streamer Mode: Off",
     "streamerModeOn": "Streamer Mode: On",
+    "minimalModeOff": "Minimal Mode: Off",
+    "minimalModeOn": "Minimal Mode: On",
+    "popoutCard": "Popout Card",
     "exitToHome": "Exit to Home",
     "timerExpired": {
       "title": "Time's Up!",
@@ -256,6 +260,10 @@
     "chatUnknown": "Unknown player",
     "copyPrompt": "Copy your game code:",
     "playerCardTitle": "{name}'s Card",
+    "cardCover": {
+      "title": "Click to Reveal Your Card",
+      "subtitle": "Ready when you are!"
+    },
     "reroll": {
       "modalTitle": "Re-roll",
       "typeLabel": "Type",
@@ -315,6 +323,7 @@
     "metaDescription": "Create custom bingo cards for Tokyo Cam Bingo watch parties.",
     "header": "Create Custom Bingo Card",
     "subheader": "Add at least 25 items to create your custom card",
+    "browseGalleryLink": "Browse Community Templates",
     "tabs": {
       "create": "Create New Card",
       "template": "Start From Deck",
@@ -331,6 +340,21 @@
     "captchaHelper": "Solve the question before saving your deck.",
     "captchaQuestionFallback": "Solve the challenge",
     "captchaPlaceholder": "Enter the answer above",
+    "lockCardLabel": "Lock this card as a template",
+    "lockCardHelper": "Locked cards cannot be edited, only duplicated. Perfect for sharing templates with others!",
+    "publicCardLabel": "Add to public gallery",
+    "publicCardHelper": "Share your template in the public gallery for others to discover. Only works with locked cards!",
+    "creatorNameLabel": "Creator name (optional)",
+    "creatorNamePlaceholder": "e.g., Your Name",
+    "creatorNameHelper": "Your name will be shown if you add this to the public gallery.",
+    "tagsLabel": "Tags (optional)",
+    "tagsPlaceholder": "e.g., anime, gaming, travel",
+    "tagsHelper": "Add comma-separated tags to help others find your card. Max 5 tags.",
+    "tosLabel": "I agree to the Terms of Service",
+    "tosHelper": "You must agree to our Terms of Service to create a card.",
+    "tosLink": "Read Terms of Service",
+    "viewCard": "View Card",
+    "shareCard": "Share Link",
     "saveButton": "Save Custom Card",
     "updateButton": "Update Custom Card",
     "templateSectionLabel": "Optional: Prefill From an Existing Deck",
@@ -370,6 +394,8 @@
       "presetEmpty": "Preset did not return any items.",
       "duplicateCodeInvalid": "Enter a valid 6-letter card code to duplicate.",
       "loadCodeInvalid": "Please enter a valid 6-character code",
+      "cardLocked": "This card is locked and cannot be edited.",
+      "cardLockedHint": "You can duplicate it from the 'Start From Deck' tab to create your own version.",
       "cardNotFound": "Card not found",
       "loadedPreset": "Loaded {name} ({count} items). Save to create a new code.",
       "loadingCard": "Loading card {code}...",
@@ -378,15 +404,58 @@
       "cardLoadError": "Error loading card",
       "saving": "Saving...",
       "copied": "Copied!",
+      "shareLinkCopied": "Share link copied to clipboard!",
+      "shareLink": "Share this link:",
       "itemPlaceholder": "Enter item name",
       "removeItem": "Remove",
       "remixName": "{name} Remix"
     }
   },
+  "cardPreview": {
+    "locked": "Locked Template",
+    "code": "Code",
+    "createdBy": "Created by",
+    "items": "Items",
+    "timesUsed": "Times Used",
+    "startGame": "Start Game",
+    "duplicate": "Duplicate & Edit",
+    "copyLink": "Copy Link",
+    "report": "Report",
+    "shareOn": "Share on",
+    "showQR": "Show QR Code",
+    "hideQR": "Hide QR Code",
+    "scanToShare": "Scan to Share",
+    "viewAllItems": "View All Items",
+    "hideItems": "Hide Items",
+    "linkCopied": "Link copied to clipboard!",
+    "copyFailed": "Failed to copy link",
+    "reportPrompt": "Please describe why you are reporting this card:",
+    "reportSuccess": "Thank you for your report. We will review it shortly.",
+    "reportFailed": "Failed to submit report. Please try again."
+  },
+  "gallery": {
+    "title": "Browse Custom Cards",
+    "subtitle": "Discover and use community-created bingo cards",
+    "totalCards": "{count} cards available",
+    "searchPlaceholder": "Search by name...",
+    "sortRecent": "Recent",
+    "sortPopular": "Popular",
+    "filterAll": "All Tags",
+    "noCards": "No Cards Yet",
+    "noCardsDescription": "Be the first to create a public template!",
+    "createFirst": "Create Your First Template",
+    "items": "items",
+    "by": "by",
+    "play": "Play",
+    "view": "View",
+    "previous": "Previous",
+    "next": "Next"
+  },
   "alerts": {
     "rerollMissingSelection": "Please select a type and an area to re-roll.",
     "invalidGameCode": "Please enter a valid game code.",
-    "captchaIncorrect": "Captcha answer incorrect. Please try again."
+    "captchaIncorrect": "Captcha answer incorrect. Please try again.",
+    "popupBlocked": "Popup blocked! Please allow popups for this site."
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",

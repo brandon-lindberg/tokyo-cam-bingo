@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= pageTitle %></title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="<%= metaDescription %>">
+
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#FF69B4">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
+  <style>
+    .gallery-container {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .gallery-title {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #FF69B4;
+    }
+    .gallery-subtitle {
+      color: #666;
+      font-size: 1.1rem;
+    }
+    .gallery-controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .search-box {
+      flex: 1;
+      min-width: 200px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .sort-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .sort-btn {
+      padding: 0.75rem 1.5rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .sort-btn.active {
+      background: #FF69B4;
+      color: white;
+      border-color: #FF69B4;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .card-item {
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+    .card-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .card-item.featured {
+      background: linear-gradient(135deg, #FFF9E6 0%, #FFFFFF 100%);
+      border-color: #FFD700;
+    }
+    .featured-badge {
+      position: absolute;
+      top: -8px;
+      right: 10px;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #000;
+      padding: 0.25rem 0.75rem;
+      border-radius: 16px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .card-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .card-item-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #FF69B4;
+      margin: 0;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .lock-icon {
+      font-size: 1.2rem;
+      color: #ffc107;
+    }
+    .card-item-meta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .card-item-creator {
+      color: #666;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
+    .card-item-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .card-item-btn {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: opacity 0.2s;
+    }
+    .card-item-btn:hover {
+      opacity: 0.8;
+    }
+    .btn-play {
+      background: linear-gradient(135deg, #FF69B4, #FF1493);
+      color: white;
+    }
+    .btn-view {
+      background: #00BFFF;
+      color: white;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+    .page-btn {
+      padding: 0.5rem 1rem;
+      border: 2px solid #ddd;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .page-btn:hover {
+      background: #f8f9fa;
+    }
+    .page-btn.active {
+      background: #FF69B4;
+      color: white;
+      border-color: #FF69B4;
+    }
+    .page-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #666;
+    }
+    .empty-state-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+    .tag-filter {
+      flex: 0 0 auto;
+    }
+    .tag-filter select {
+      padding: 0.75rem 1rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: white;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.5rem;
+    }
+    .tag-badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      background: #f0f0f0;
+      color: #666;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body class="has-global-top-bar" data-asset-version="<%= assetVersion %>" data-locale="<%= locale %>">
+  <div class="global-top-bar">
+    <div class="top-bar-left">
+      <a href="/" style="text-decoration: none; color: inherit;">← <%= t('actions.backToHome') %></a>
+    </div>
+    <div class="top-bar-right">
+      <%- include('partials/locale-switcher') %>
+    </div>
+  </div>
+
+  <div class="gallery-container">
+    <div class="gallery-header">
+      <h1 class="gallery-title"><%= t('gallery.title') %></h1>
+      <p class="gallery-subtitle"><%= t('gallery.subtitle') %></p>
+      <p style="color: #666;"><%= t('gallery.totalCards', { count: totalCards }) %></p>
+    </div>
+
+    <div class="gallery-controls">
+      <div class="search-box">
+        <form action="/gallery" method="get" id="search-form">
+          <input
+            type="text"
+            name="search"
+            placeholder="<%= t('gallery.searchPlaceholder') %>"
+            value="<%= search %>"
+            id="search-input"
+          >
+          <input type="hidden" name="sort" value="<%= sortBy %>">
+          <input type="hidden" name="tag" value="<%= tagFilter %>">
+        </form>
+      </div>
+      <% if (availableTags.length > 0) { %>
+        <div class="tag-filter">
+          <select onchange="changeTag(this.value)">
+            <option value=""><%= t('gallery.filterAll') %></option>
+            <% availableTags.forEach(tag => { %>
+              <option value="<%= tag %>" <%= tagFilter === tag ? 'selected' : '' %>>
+                <%= tag %>
+              </option>
+            <% }); %>
+          </select>
+        </div>
+      <% } %>
+      <div class="sort-controls">
+        <button
+          class="sort-btn <%= sortBy === 'recent' ? 'active' : '' %>"
+          onclick="changeSort('recent')"
+        >
+          🕐 <%= t('gallery.sortRecent') %>
+        </button>
+        <button
+          class="sort-btn <%= sortBy === 'popular' ? 'active' : '' %>"
+          onclick="changeSort('popular')"
+        >
+          🔥 <%= t('gallery.sortPopular') %>
+        </button>
+      </div>
+    </div>
+
+    <% if (cards.length === 0) { %>
+      <div class="empty-state">
+        <div class="empty-state-icon">🎴</div>
+        <h2><%= t('gallery.noCards') %></h2>
+        <p><%= t('gallery.noCardsDescription') %></p>
+        <a href="/card-builder" style="color: #00BFFF; text-decoration: none; font-size: 1.1rem;">
+          <%= t('gallery.createFirst') %> →
+        </a>
+      </div>
+    <% } else { %>
+      <div class="gallery-grid">
+        <% cards.forEach(card => { %>
+          <div class="card-item <%= card.isFeatured ? 'featured' : '' %>" onclick="window.location.href='/card/<%= card.code %>'">
+            <% if (card.isFeatured) { %>
+              <div class="featured-badge">⭐ FEATURED</div>
+            <% } %>
+            <div class="card-item-header">
+              <h3 class="card-item-title"><%= card.name %></h3>
+              <span class="lock-icon">🔒</span>
+            </div>
+            <div class="card-item-meta">
+              <span class="meta-item">🎴 <%= card.items.length %> <%= t('gallery.items') %></span>
+              <span class="meta-item">👥 <%= card.usageCount %></span>
+            </div>
+            <% if (card.creatorName) { %>
+              <div class="card-item-creator">
+                <%= t('gallery.by') %> <%= card.creatorName %>
+              </div>
+            <% } %>
+            <% if (card.tags && card.tags.length > 0) { %>
+              <div class="card-tags" onclick="event.stopPropagation()">
+                <% card.tags.forEach(tag => { %>
+                  <span class="tag-badge" onclick="filterByTag('<%= tag %>')"><%= tag %></span>
+                <% }); %>
+              </div>
+            <% } %>
+            <div class="card-item-actions" onclick="event.stopPropagation()">
+              <button class="card-item-btn btn-play" onclick="window.location.href='/?customCardCode=<%= card.code %>'">
+                🎮 <%= t('gallery.play') %>
+              </button>
+              <button class="card-item-btn btn-view" onclick="window.location.href='/card/<%= card.code %>'">
+                👁️ <%= t('gallery.view') %>
+              </button>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+
+      <% if (totalPages > 1) { %>
+        <div class="pagination">
+          <% const prevPage = currentPage - 1; %>
+          <% const isPrevDisabled = currentPage === 1; %>
+          <% if (isPrevDisabled) { %>
+            <button class="page-btn" disabled>
+              ← <%= t('gallery.previous') %>
+            </button>
+          <% } else { %>
+            <button class="page-btn" data-page="<%= prevPage %>">
+              ← <%= t('gallery.previous') %>
+            </button>
+          <% } %>
+
+          <% for (let i = 1; i <= totalPages; i++) { %>
+            <% if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) { %>
+              <% const isActive = i === currentPage; %>
+              <% if (isActive) { %>
+                <button class="page-btn active" data-page="<%= i %>">
+                  <%= i %>
+                </button>
+              <% } else { %>
+                <button class="page-btn" data-page="<%= i %>">
+                  <%= i %>
+                </button>
+              <% } %>
+            <% } else if (i === currentPage - 3 || i === currentPage + 3) { %>
+              <span class="page-btn" disabled>...</span>
+            <% } %>
+          <% } %>
+
+          <% const nextPage = currentPage + 1; %>
+          <% const isNextDisabled = currentPage === totalPages; %>
+          <% if (isNextDisabled) { %>
+            <button class="page-btn" disabled>
+              <%= t('gallery.next') %> →
+            </button>
+          <% } else { %>
+            <button class="page-btn" data-page="<%= nextPage %>">
+              <%= t('gallery.next') %> →
+            </button>
+          <% } %>
+        </div>
+      <% } %>
+    <% } %>
+  </div>
+
+  <script>
+    function changeSort(sortType) {
+      const url = new URL(window.location);
+      url.searchParams.set('sort', sortType);
+      url.searchParams.set('page', '1'); // Reset to first page on sort change
+      window.location.href = url.toString();
+    }
+
+    function changeTag(tag) {
+      const url = new URL(window.location);
+      if (tag) {
+        url.searchParams.set('tag', tag);
+      } else {
+        url.searchParams.delete('tag');
+      }
+      url.searchParams.set('page', '1'); // Reset to first page on tag change
+      window.location.href = url.toString();
+    }
+
+    function filterByTag(tag) {
+      changeTag(tag);
+    }
+
+    function goToPage(page) {
+      const url = new URL(window.location);
+      url.searchParams.set('page', page);
+      window.location.href = url.toString();
+    }
+
+    // Add click handlers to pagination buttons
+    document.addEventListener('DOMContentLoaded', function() {
+      const pageButtons = document.querySelectorAll('.page-btn[data-page]');
+      pageButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+          const page = this.getAttribute('data-page');
+          if (page) {
+            goToPage(parseInt(page));
+          }
+        });
+      });
+    });
+
+    // Auto-submit search after user stops typing
+    let searchTimeout;
+    document.getElementById('search-input').addEventListener('input', function() {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        document.getElementById('search-form').submit();
+      }, 500);
+    });
+  </script>
+</body>
+</html>

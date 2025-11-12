@@ -56,11 +56,18 @@ model ChatMessage {
 }
 
 model ItemCollection {
-  id        String   @id @default(uuid())
-  code      String   @unique
-  name      String
-  items     Json     // Array of item strings (min 25)
-  createdAt DateTime @default(now())
+  id            String   @id @default(uuid())
+  code          String   @unique
+  name          String
+  items         Json     // Array of item strings (min 25)
+  isLocked      Boolean  @default(false) // Prevents editing, allows duplication only
+  isPublic      Boolean  @default(false) // Show in public gallery (only if locked)
+  creatorName   String?  // Optional creator attribution
+  usageCount    Int      @default(0) // Track how many times card is used
+  tags          Json?    // Array of tags for discovery/filtering
+  tosAcceptedAt DateTime? // When user accepted Terms of Service
+  isFeatured    Boolean  @default(false) // Staff-picked featured card
+  createdAt     DateTime @default(now())
 }
 
 model Session {
@@ -68,4 +75,13 @@ model Session {
   sid       String   @unique
   data      String
   expiresAt DateTime
+}
+
+model CardReport {
+  id        String   @id @default(uuid())
+  cardCode  String
+  reason    String
+  status    String   @default("pending") // pending, reviewed, dismissed
+  createdAt DateTime @default(now())
+  reviewedAt DateTime?
 }

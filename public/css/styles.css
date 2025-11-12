@@ -684,6 +684,7 @@ body.splash-active {
   /* Card Section */
   .card-section {
     flex: 2;
+    position: relative;
   }
   
   .bingo-card {
@@ -1394,11 +1395,21 @@ body.splash-active {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.1); }
 }
-.card-section {
-  position: relative;
-}
 .card-cover-overlay.hidden {
   display: none;
+}
+
+/* Card cover mobile responsive */
+@media (max-width: 768px) {
+  .card-cover-overlay .cover-icon {
+    font-size: 3rem;
+  }
+  .card-cover-overlay .cover-text {
+    font-size: 1.2rem;
+  }
+  .card-cover-overlay .cover-subtext {
+    font-size: 0.875rem;
+  }
 }
 
 /* Hanko press animation */

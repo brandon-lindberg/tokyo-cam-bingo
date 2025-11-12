@@ -149,13 +149,11 @@
 
     <div class="game-layout">
       <div class="card-section">
-        <% if (game.mode === 'VS') { %>
-          <div class="card-cover-overlay" id="card-cover" onclick="revealCard()">
-            <div class="cover-icon">🎴</div>
-            <div class="cover-text"><%= t('game.cardCover.title') %></div>
-            <div class="cover-subtext"><%= t('game.cardCover.subtitle') %></div>
-          </div>
-        <% } %>
+        <div class="card-cover-overlay <%= currentPlayer.cardRevealed ? 'hidden' : '' %>" id="card-cover" onclick="revealCard()">
+          <div class="cover-icon">🎴</div>
+          <div class="cover-text"><%= t('game.cardCover.title') %></div>
+          <div class="cover-subtext"><%= t('game.cardCover.subtitle') %></div>
+        </div>
         <table id="card-<%= currentPlayer.id %>" class="bingo-card <%= game.mode === 'VS' ? 'vs-card' : 'own-card' %>">
           <% currentPlayer.card.forEach((row, r) => { %>
             <tr>
@@ -521,7 +519,7 @@
 
     // Listen for card reveal events from other windows
     socket.on('card_revealed', ({ playerId: revealedPlayerId }) => {
-      if (String(revealedPlayerId) === String(playerId) && gameMode === 'VS') {
+      if (String(revealedPlayerId) === String(playerId)) {
         const cover = document.getElementById('card-cover');
         if (cover) {
           cover.classList.add('hidden');
@@ -630,7 +628,7 @@
       };
     })();
 
-    // Card reveal function for VS mode
+    // Card reveal function
     function revealCard() {
       const cover = document.getElementById('card-cover');
       if (cover) {
@@ -643,13 +641,11 @@
     }
 
     // Check if card was already revealed
-    if (gameMode === 'VS') {
-      const wasRevealed = localStorage.getItem('cardRevealed_' + gameId);
-      if (wasRevealed === 'true') {
-        const cover = document.getElementById('card-cover');
-        if (cover) {
-          cover.classList.add('hidden');
-        }
+    const wasRevealed = localStorage.getItem('cardRevealed_' + gameId);
+    if (wasRevealed === 'true') {
+      const cover = document.getElementById('card-cover');
+      if (cover) {
+        cover.classList.add('hidden');
       }
     }
 
@@ -660,13 +656,11 @@
       if (window.gameTimer) {
         window.gameTimer.resetToInitial();
       }
-      // Reset card cover for VS mode
-      if (gameMode === 'VS') {
-        localStorage.removeItem('cardRevealed_' + gameId);
-        const cover = document.getElementById('card-cover');
-        if (cover) {
-          cover.classList.remove('hidden');
-        }
+      // Reset card cover
+      localStorage.removeItem('cardRevealed_' + gameId);
+      const cover = document.getElementById('card-cover');
+      if (cover) {
+        cover.classList.remove('hidden');
       }
       // Close winner modal
       const winnerModal = document.getElementById('winner-modal');

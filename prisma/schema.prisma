@@ -41,6 +41,7 @@ model Player {
   card            Json     // 5x5 array: [[{item: "str", stamped: false}, ...], ...]
   color           String?  // For VS mode: RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, PINK, CYAN
   stampedSquares  Json?    // For VS mode: array of {row, col, color}
+  cardRevealed    Boolean  @default(false) // Whether player has revealed their card
   game            Game     @relation(fields: [gameId], references: [id])
   messages        ChatMessage[]
 }

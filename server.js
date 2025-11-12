@@ -1774,6 +1774,12 @@ io.on('connection', (socket) => {
     const { gameId, playerId } = getSocketIdentity(socket);
     if (!gameId || !playerId) return;
 
+    // Update player's cardRevealed status in database
+    await prisma.player.update({
+      where: { id: playerId },
+      data: { cardRevealed: true }
+    });
+
     // Broadcast to all clients in the room that the card was revealed
     io.to(gameId).emit('card_revealed', { playerId });
   });
@@ -1905,7 +1911,7 @@ io.on('connection', (socket) => {
       for (const player of game.players) {
         await prisma.player.update({
           where: { id: player.id },
-          data: { card: newSharedCard, stampedSquares: [] }
+          data: { card: newSharedCard, stampedSquares: [], cardRevealed: false }
         });
       }
 
@@ -1942,7 +1948,7 @@ io.on('connection', (socket) => {
         usedCards.push(JSON.stringify(uniqueCard));
         await prisma.player.update({
           where: { id: player.id },
-          data: { card: uniqueCard }
+          data: { card: uniqueCard, cardRevealed: false }
         });
       }
 

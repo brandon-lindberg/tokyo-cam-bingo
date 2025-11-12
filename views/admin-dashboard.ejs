@@ -381,6 +381,12 @@
               <button class="btn ${card.isFeatured ? 'btn-dismiss' : 'btn-reviewed'}" onclick="toggleFeatured('${card.code}', ${!card.isFeatured})">
                 ${card.isFeatured ? 'Unfeature' : '⭐ Feature'}
               </button>
+              <button class="btn ${card.isLocked ? 'btn-dismiss' : 'btn-reviewed'}" onclick="toggleLocked('${card.code}', ${!card.isLocked})">
+                ${card.isLocked ? '🔓 Unlock' : '🔒 Lock'}
+              </button>
+              <button class="btn ${card.isPublic ? 'btn-dismiss' : 'btn-reviewed'}" onclick="togglePublic('${card.code}', ${!card.isPublic})" ${!card.isLocked && !card.isPublic ? 'disabled title="Card must be locked to make it public"' : ''}>
+                ${card.isPublic ? '👁️ Make Private' : '👁️ Make Public'}
+              </button>
               <button class="btn btn-delete" onclick="deleteCard('${card.code}')">Delete Card</button>
             </div>
           </div>
@@ -422,15 +428,23 @@
         });
 
         if (response.ok) {
-          alert('Card deleted successfully');
+          const data = await response.json();
+          const reportInfo = data.deletedReports > 0 ? ` (and ${data.deletedReports} related report${data.deletedReports > 1 ? 's' : ''})` : '';
+          alert(`Card deleted successfully${reportInfo}`);
           loadReports(currentFilter);
           loadCards();
         } else {
-          alert('Failed to delete card');
+          // Try to get the error message from the response
+          try {
+            const errorData = await response.json();
+            alert(`Failed to delete card: ${errorData.error || 'Unknown error'}`);
+          } catch {
+            alert('Failed to delete card');
+          }
         }
       } catch (error) {
         console.error('Error deleting card:', error);
-        alert('Error deleting card');
+        alert(`Error deleting card: ${error.message}`);
       }
     }
 
@@ -454,6 +468,62 @@
       } catch (error) {
         console.error('Error updating featured status:', error);
         alert('Error updating featured status');
+      }
+    }
+
+    async function toggleLocked(cardCode, isLocked) {
+      const action = isLocked ? 'lock' : 'unlock';
+      if (!confirm(`Are you sure you want to ${action} card ${cardCode}?`)) return;
+
+      try {
+        const response = await fetch(`/admin-dashboard-secret/api/cards/${cardCode}/locked`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ isLocked })
+        });
+
+        if (response.ok) {
+          alert(`Card ${isLocked ? 'locked' : 'unlocked'} successfully`);
+          loadCards();
+        } else {
+          try {
+            const errorData = await response.json();
+            alert(`Failed to update locked status: ${errorData.error || 'Unknown error'}`);
+          } catch {
+            alert('Failed to update locked status');
+          }
+        }
+      } catch (error) {
+        console.error('Error updating locked status:', error);
+        alert(`Error updating locked status: ${error.message}`);
+      }
+    }
+
+    async function togglePublic(cardCode, isPublic) {
+      const action = isPublic ? 'make public' : 'make private';
+      if (!confirm(`Are you sure you want to ${action} card ${cardCode}?`)) return;
+
+      try {
+        const response = await fetch(`/admin-dashboard-secret/api/cards/${cardCode}/public`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ isPublic })
+        });
+
+        if (response.ok) {
+          alert(`Card ${isPublic ? 'made public' : 'made private'} successfully`);
+          loadCards();
+        } else {
+          try {
+            const errorData = await response.json();
+            alert(`Failed to update public status: ${errorData.error || 'Unknown error'}`);
+          } catch {
+            alert('Failed to update public status');
+          }
+        }
+      } catch (error) {
+        console.error('Error updating public status:', error);
+        alert(`Error updating public status: ${error.message}`);
       }
     }
 

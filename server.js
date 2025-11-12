@@ -1150,16 +1150,36 @@ app.post('/admin-dashboard-secret/api/reports/:id/status', requireAdmin, async (
 app.delete('/admin-dashboard-secret/api/cards/:code', requireAdmin, async (req, res) => {
   try {
     const { code } = req.params;
+    const upperCode = code.toUpperCase();
 
-    await prisma.itemCollection.delete({
-      where: { code: code.toUpperCase() }
+    // First, delete any related CardReports (cascade delete)
+    const deletedReports = await prisma.cardReport.deleteMany({
+      where: { cardCode: upperCode }
     });
 
-    console.log(`ADMIN ACTION - Deleted card: ${code}`);
-    res.json({ success: true, message: 'Card deleted successfully' });
+    // Then delete the card itself
+    await prisma.itemCollection.delete({
+      where: { code: upperCode }
+    });
+
+    console.log(`ADMIN ACTION - Deleted card: ${code} (and ${deletedReports.count} related reports)`);
+    res.json({
+      success: true,
+      message: 'Card deleted successfully',
+      deletedReports: deletedReports.count
+    });
   } catch (error) {
     console.error('Error deleting card:', error);
-    res.status(500).json({ error: 'Failed to delete card' });
+
+    // Provide more detailed error message
+    let errorMessage = 'Failed to delete card';
+    if (error.code === 'P2025') {
+      errorMessage = 'Card not found';
+    } else if (error.message) {
+      errorMessage = `Failed to delete card: ${error.message}`;
+    }
+
+    res.status(500).json({ error: errorMessage });
   }
 });
 
@@ -1179,6 +1199,59 @@ app.post('/admin-dashboard-secret/api/cards/:code/featured', requireAdmin, async
   } catch (error) {
     console.error('Error updating featured status:', error);
     res.status(500).json({ error: 'Failed to update featured status' });
+  }
+});
+
+// Admin API - Toggle locked status
+app.post('/admin-dashboard-secret/api/cards/:code/locked', requireAdmin, async (req, res) => {
+  try {
+    const { code } = req.params;
+    const { isLocked } = req.body;
+
+    const card = await prisma.itemCollection.update({
+      where: { code: code.toUpperCase() },
+      data: { isLocked: isLocked }
+    });
+
+    console.log(`ADMIN ACTION - Set card ${code} locked status to: ${isLocked}`);
+    res.json({ success: true, isLocked: card.isLocked });
+  } catch (error) {
+    console.error('Error updating locked status:', error);
+    res.status(500).json({ error: 'Failed to update locked status' });
+  }
+});
+
+// Admin API - Toggle public status
+app.post('/admin-dashboard-secret/api/cards/:code/public', requireAdmin, async (req, res) => {
+  try {
+    const { code } = req.params;
+    const { isPublic } = req.body;
+    const upperCode = code.toUpperCase();
+
+    // Get current card to check if it's locked
+    const currentCard = await prisma.itemCollection.findUnique({
+      where: { code: upperCode }
+    });
+
+    if (!currentCard) {
+      return res.status(404).json({ error: 'Card not found' });
+    }
+
+    // Only allow making public if card is locked
+    if (isPublic && !currentCard.isLocked) {
+      return res.status(400).json({ error: 'Card must be locked before making it public' });
+    }
+
+    const card = await prisma.itemCollection.update({
+      where: { code: upperCode },
+      data: { isPublic: isPublic }
+    });
+
+    console.log(`ADMIN ACTION - Set card ${code} public status to: ${isPublic}`);
+    res.json({ success: true, isPublic: card.isPublic });
+  } catch (error) {
+    console.error('Error updating public status:', error);
+    res.status(500).json({ error: 'Failed to update public status' });
   }
 });
 

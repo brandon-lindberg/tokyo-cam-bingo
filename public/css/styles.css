@@ -1354,6 +1354,53 @@ body.splash-active {
 .color-badge.PINK { background-color: rgba(255, 192, 203, 0.8); }
 .color-badge.CYAN { background-color: rgba(0, 255, 255, 0.8); }
 
+/* VS Mode Card Cover */
+.card-cover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 8px;
+}
+.card-cover-overlay .cover-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+.card-cover-overlay .cover-text {
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 1rem;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+}
+.card-cover-overlay .cover-subtext {
+  color: #666;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+.card-section {
+  position: relative;
+}
+.card-cover-overlay.hidden {
+  display: none;
+}
+
 /* Hanko press animation */
 @keyframes hanko-press {
   0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }

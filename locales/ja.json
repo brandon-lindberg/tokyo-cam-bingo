@@ -256,6 +256,10 @@
     "chatUnknown": "不明なプレイヤー",
     "copyPrompt": "ゲームコードをコピーしてください:",
     "playerCardTitle": "{name}のカード",
+    "cardCover": {
+      "title": "クリックしてカードを表示",
+      "subtitle": "準備ができたら！"
+    },
     "reroll": {
       "modalTitle": "リロール",
       "typeLabel": "種別",

@@ -257,6 +257,10 @@
     "chatUnknown": "Unknown player",
     "copyPrompt": "Copy your game code:",
     "playerCardTitle": "{name}'s Card",
+    "cardCover": {
+      "title": "Click to Reveal Your Card",
+      "subtitle": "Ready when you are!"
+    },
     "reroll": {
       "modalTitle": "Re-roll",
       "typeLabel": "Type",

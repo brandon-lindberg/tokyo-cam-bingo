@@ -24,15 +24,7 @@
   <script src="/js/timer.js?v=<%= assetVersion %>"></script>
   <script src="/js/game.js?v=<%= assetVersion %>"></script>
 </head>
-<body class="game-page has-global-top-bar" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>" data-game-mode="<%= game.mode %>" data-flags-enabled="<%= game.flagsEnabled %>" data-rerolls-enabled="<%= game.rerollsEnabled %>" data-player-color="<%= currentPlayer.color || '' %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-timer-enabled="<%= game.timerEnabled %>" data-timer-duration="<%= game.timerDuration || 0 %>" data-timer-status="<%= game.timerStatus || 'not_started' %>" data-timer-started-at="<%= game.timerStartedAt ? game.timerStartedAt.toISOString() : '' %>" data-locale="<%= locale %>">
-  <div class="global-top-bar">
-    <div class="top-bar-left">
-      <a href="/">← <%= t('actions.backToHome') %></a>
-    </div>
-    <div class="top-bar-right">
-      <%- include('partials/locale-switcher') %>
-    </div>
-  </div>
+<body class="game-page" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>" data-game-mode="<%= game.mode %>" data-flags-enabled="<%= game.flagsEnabled %>" data-rerolls-enabled="<%= game.rerollsEnabled %>" data-player-color="<%= currentPlayer.color || '' %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-timer-enabled="<%= game.timerEnabled %>" data-timer-duration="<%= game.timerDuration || 0 %>" data-timer-status="<%= game.timerStatus || 'not_started' %>" data-timer-started-at="<%= game.timerStartedAt ? game.timerStartedAt.toISOString() : '' %>" data-locale="<%= locale %>">
 <aside class="sidebar">
   <div class="sidebar-header">
     <div class="copy-code-wrapper">
@@ -152,6 +144,13 @@
 
     <div class="game-layout">
       <div class="card-section">
+        <% if (game.mode === 'VS') { %>
+          <div class="card-cover-overlay" id="card-cover" onclick="revealCard()">
+            <div class="cover-icon">🎴</div>
+            <div class="cover-text"><%= t('game.cardCover.title') %></div>
+            <div class="cover-subtext"><%= t('game.cardCover.subtitle') %></div>
+          </div>
+        <% } %>
         <table id="card-<%= currentPlayer.id %>" class="bingo-card <%= game.mode === 'VS' ? 'vs-card' : 'own-card' %>">
           <% currentPlayer.card.forEach((row, r) => { %>
             <tr>
@@ -163,7 +162,7 @@
             </tr>
           <% }) %>
         </table>
-        
+
         <!-- Original host reroll controls removed here -->
       </div>
       
@@ -615,12 +614,41 @@
       };
     })();
 
+    // Card reveal function for VS mode
+    function revealCard() {
+      const cover = document.getElementById('card-cover');
+      if (cover) {
+        cover.classList.add('hidden');
+        // Store reveal state in sessionStorage so it persists on reload
+        sessionStorage.setItem('cardRevealed_' + gameId, 'true');
+      }
+    }
+
+    // Check if card was already revealed
+    if (gameMode === 'VS') {
+      const wasRevealed = sessionStorage.getItem('cardRevealed_' + gameId);
+      if (wasRevealed === 'true') {
+        const cover = document.getElementById('card-cover');
+        if (cover) {
+          cover.classList.add('hidden');
+        }
+      }
+    }
+
     function startNewGame() {
       socket.emit('new_game', { gameId });
       document.body.dataset.timerStatus = 'not_started';
       document.body.dataset.timerStartedAt = '';
       if (window.gameTimer) {
         window.gameTimer.resetToInitial();
+      }
+      // Reset card cover for VS mode
+      if (gameMode === 'VS') {
+        sessionStorage.removeItem('cardRevealed_' + gameId);
+        const cover = document.getElementById('card-cover');
+        if (cover) {
+          cover.classList.remove('hidden');
+        }
       }
       // Close winner modal
       const winnerModal = document.getElementById('winner-modal');

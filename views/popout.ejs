@@ -69,13 +69,11 @@
 </head>
 <body class="streamer-mode" style="background: none !important; background-color: transparent !important;" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-game-mode="<%= game.mode %>" data-locale="<%= locale %>">
   <div class="popout-container">
-    <% if (game.mode === 'VS') { %>
-      <div class="card-cover-overlay" id="card-cover" onclick="revealCard()">
-        <div class="cover-icon">🎴</div>
-        <div class="cover-text"><%= t('game.cardCover.title') %></div>
-        <div class="cover-subtext"><%= t('game.cardCover.subtitle') %></div>
-      </div>
-    <% } %>
+    <div class="card-cover-overlay <%= currentPlayer.cardRevealed ? 'hidden' : '' %>" id="card-cover" onclick="revealCard()">
+      <div class="cover-icon">🎴</div>
+      <div class="cover-text"><%= t('game.cardCover.title') %></div>
+      <div class="cover-subtext"><%= t('game.cardCover.subtitle') %></div>
+    </div>
     <table id="card-<%= currentPlayer.id %>" class="bingo-card <%= game.mode === 'VS' ? 'vs-card' : 'own-card' %>">
       <% currentPlayer.card.forEach((row, r) => { %>
         <tr>
@@ -104,7 +102,7 @@
 
     // Listen for card reveal events from other windows (set up before initialization)
     socket.on('card_revealed', ({ playerId: revealedPlayerId }) => {
-      if (String(revealedPlayerId) === String(playerId) && gameMode === 'VS') {
+      if (String(revealedPlayerId) === String(playerId)) {
         const cover = document.getElementById('card-cover');
         if (cover) {
           cover.classList.add('hidden');
@@ -263,13 +261,11 @@
     }
 
     // Check if card was already revealed (sync with main window)
-    if (gameMode === 'VS') {
-      const wasRevealed = localStorage.getItem('cardRevealed_' + gameId);
-      if (wasRevealed === 'true') {
-        const cover = document.getElementById('card-cover');
-        if (cover) {
-          cover.classList.add('hidden');
-        }
+    const wasRevealed = localStorage.getItem('cardRevealed_' + gameId);
+    if (wasRevealed === 'true') {
+      const cover = document.getElementById('card-cover');
+      if (cover) {
+        cover.classList.add('hidden');
       }
     }
 

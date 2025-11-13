@@ -314,31 +314,53 @@
       letter-spacing: 0.2rem;
     }
 
-    .copy-code-btn {
-      background-color: #10B981;
-      color: white;
-      border: none;
+    .modal-button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .copy-code-btn,
+    .home-btn {
+      min-width: 200px;
       padding: 0.75rem 1.5rem;
+      border: none;
       border-radius: 8px;
       cursor: pointer;
       font-family: 'Roboto', sans-serif;
-      margin-top: 1rem;
+      font-size: 1rem;
+      color: white;
+      transition: background-color 0.2s;
+    }
+
+    .copy-code-btn {
+      background-color: #10B981;
     }
 
     .copy-code-btn:hover {
       background-color: #0EA371;
     }
 
+    .view-card-btn {
+      background-color: #00BFFF;
+    }
+
+    .view-card-btn:hover {
+      background-color: #009ACD;
+    }
+
+    .share-card-btn {
+      background-color: #10B981;
+    }
+
+    .share-card-btn:hover {
+      background-color: #0EA371;
+    }
+
     .home-btn {
       background-color: #00BFFF;
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'Roboto', sans-serif;
-      margin-top: 1rem;
-      margin-left: 0.5rem;
     }
 
     .home-btn:hover {
@@ -479,11 +501,15 @@
         padding: 1rem;
       }
 
+      .modal-button-container {
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
       .copy-code-btn,
       .home-btn {
-        display: block;
         width: 100%;
-        margin: 0.5rem 0;
+        min-width: auto;
         padding: 0.75rem 1rem;
       }
 
@@ -708,17 +734,16 @@
         <%= t('cardBuilder.successHint') %>
       </p>
 
-      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+      <div class="modal-button-container">
         <button class="copy-code-btn" onclick="copyCode()"><%= t('actions.copyCode') %></button>
-        <button class="copy-code-btn" onclick="viewCard()" style="background: #00BFFF;">
+        <button class="copy-code-btn view-card-btn" onclick="viewCard()">
           <%= t('cardBuilder.viewCard') %>
         </button>
-        <button class="copy-code-btn" onclick="shareCard()" style="background: #10B981;">
+        <button class="copy-code-btn share-card-btn" onclick="shareCard()">
           🔗 <%= t('cardBuilder.shareCard') %>
         </button>
+        <button class="home-btn" onclick="window.location.href='/'"><%= t('cardBuilder.successHomeButton') %></button>
       </div>
-
-      <button class="home-btn" onclick="window.location.href='/'"><%= t('cardBuilder.successHomeButton') %></button>
     </div>
   </div>
 

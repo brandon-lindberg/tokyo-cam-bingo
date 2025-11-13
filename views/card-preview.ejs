@@ -1,25 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= locale || 'en' %>">
 <head>
+  <% 
+    const resolvedTitle = pageTitle || t('seo.cardPreview.title');
+    const resolvedDescription = metaDescription || t('seo.cardPreview.description');
+    const canonicalUrl = cardUrl || (typeof buildCanonical === 'function' ? buildCanonical('/card-preview') : '/card-preview');
+    const shareImageUrl = shareImage || (typeof buildCanonical === 'function' ? buildCanonical('/tokyo-cam-bingo.png') : '/tokyo-cam-bingo.png');
+  %>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= pageTitle %></title>
-
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="<%= metaDescription %>">
-
-  <!-- Open Graph Meta Tags for Social Sharing -->
-  <meta property="og:title" content="<%= card.name %> - Tokyo Cam Bingo">
-  <meta property="og:description" content="<%= metaDescription %>">
+  <title><%= resolvedTitle %></title>
+  <meta name="description" content="<%= resolvedDescription %>">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<%= canonicalUrl %>">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="<%= cardUrl %>">
-  <meta property="og:image" content="<%= qrCode %>">
-
-  <!-- Twitter Card Meta Tags -->
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:title" content="<%= card.name %> - Tokyo Cam Bingo">
+  <meta property="og:description" content="<%= resolvedDescription %>">
+  <meta property="og:image" content="<%= shareImageUrl %>">
+  <meta property="og:site_name" content="<%= t('common.appName') %>">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="<%= card.name %> - Tokyo Cam Bingo">
-  <meta name="twitter:description" content="<%= metaDescription %>">
-  <meta name="twitter:image" content="<%= qrCode %>">
+  <meta name="twitter:description" content="<%= resolvedDescription %>">
+  <meta name="twitter:image" content="<%= shareImageUrl %>">
+  <meta name="google-site-verification" content="EDU39xuTQRdazoV6JCNadlQGNms3bWyW-0-BGy1eFOY">
 
   <!-- PWA Meta Tags -->
   <meta name="theme-color" content="#FF69B4">
@@ -28,6 +32,8 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
   <style>

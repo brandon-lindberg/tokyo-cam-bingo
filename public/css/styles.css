@@ -290,6 +290,101 @@ body.splash-active {
     text-align: center;
   }
 
+  .hero-lede {
+    max-width: 720px;
+    margin: 0.75rem auto 0;
+    font-size: 1.15rem;
+    color: #1f2937;
+  }
+
+  .hero-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 1rem auto 0;
+  }
+
+  .hero-tag {
+    border-radius: 999px;
+    border: 1px solid rgba(255, 105, 180, 0.3);
+    background: rgba(255, 105, 180, 0.08);
+    color: #d61f69;
+    padding: 0.35rem 0.9rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .hero-subtext {
+    max-width: 720px;
+    margin: 0.5rem auto 0;
+    color: #475467;
+    font-size: 1rem;
+  }
+
+  .seo-feature-callout {
+    margin: 2rem auto 0;
+    max-width: 840px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    padding: 1.5rem;
+    text-align: left;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  }
+
+  .seo-feature-heading {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #0f172a;
+  }
+
+  .seo-feature-subheading {
+    margin: 0.25rem 0 1rem;
+    color: #475467;
+    font-size: 0.95rem;
+  }
+
+  .seo-feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .seo-feature-list li {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    font-size: 0.95rem;
+    color: #111827;
+  }
+
+  .seo-feature-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+
+  .streamer-proof {
+    max-width: 720px;
+    margin: 1.5rem auto 0;
+    font-size: 0.95rem;
+    color: #374151;
+    background: rgba(0, 191, 255, 0.08);
+    border: 1px solid rgba(0, 191, 255, 0.2);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+  }
+
   /* Only add left margin on desktop non-game pages */
   @media (min-width: 769px) {
     .welcome-container {

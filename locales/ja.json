@@ -5,7 +5,7 @@
   },
   "common": {
     "appName": "東京カムビンゴ",
-    "tagline": "東京のライブ配信を観ながら友達とビンゴを遊ぼう",
+    "tagline": "東京発のゲーマービンゴ＆ロックアウトビンゴをストリーマー仲間と楽しもう",
     "language": "言語",
     "loading": "読み込み中..."
   },
@@ -47,6 +47,24 @@
     "ruleBook": "ルールブック",
     "createCustomCardLink": "+ カスタムカードを作成",
     "browseGalleryLink": "テンプレートを探す",
+    "heroDescription": "数秒でストリーマー向けのゲーマービンゴ／ロックアウトビンゴ部屋を立ち上げよう。",
+    "heroLockoutDescription": "Ludwigスタイルの対戦イベント発想で、VSスコア・リロール・タイマー管理はすべて東京カムビンゴにお任せ。",
+    "heroTags": [
+      "ストリーマービンゴ",
+      "ゲーマービンゴ",
+      "ロックアウトビンゴ",
+      "ウォッチパーティー"
+    ],
+    "seoHighlights": {
+      "title": "配信者のためのロックアウトビンゴ機能",
+      "subtitle": "Twitch・YouTube・Kickのイベントを追加ツールなしで運営できます。",
+      "items": [
+        "共有リンクだけでVSロックアウト、1対1、最大10人のゲーマービンゴを開催。",
+        "モデレーションフラッグ、リロール、タイマーで公平な進行をキープ。",
+        "東京お題やコミュニティカードを読み込み、英語／日本語どちらでも表示。"
+      ]
+    },
+    "streamerLockoutCallout": "Ludwigのようにロックアウトビンゴを配信するクリエイター向けに、リーダーボード・チャット・配信オーバーレイを1つの画面にまとめました。",
     "hostFormTitle": "ゲームを作成",
     "hostNameLabel": "あなたの名前",
     "hostNamePlaceholder": "名前を入力",
@@ -317,11 +335,34 @@
       "confirm": "確定"
     }
   },
+  "seo": {
+    "home": {
+      "title": "Tokyo Cam Bingo | ストリーマー向けゲーマー＆ロックアウトビンゴ",
+      "description": "タイマーやリロール、配信オーバーレイ対応でゲーマービンゴとロックアウトビンゴを最大10人まで簡単に開催。"
+    },
+    "cardBuilder": {
+      "title": "カスタムゲーマービンゴカードビルダー | Tokyo Cam Bingo",
+      "description": "ゲーマービンゴ／ロックアウトビンゴ用のカードを作成し、東京カムビンゴで共有しましょう。"
+    },
+    "game": {
+      "title": "ライブ{mode}ゲーマービンゴロビー | Tokyo Cam Bingo",
+      "description": "{mode}カードのチャット、タイマー、リロール、リーダーボードをブラウザ1つで管理。"
+    },
+    "gallery": {
+      "title": "ゲーマー＆ロックアウトカードギャラリー | Tokyo Cam Bingo",
+      "description": "コミュニティ制作のゲーマービンゴ／ロックアウトビンゴテンプレートを見つけよう。"
+    },
+    "cardPreview": {
+      "title": "ゲーマービンゴカードをプレビュー | Tokyo Cam Bingo",
+      "description": "QRコード付きでロックアウト対応カードを共有し、配信にすぐ使えます。"
+    }
+  },
   "cardBuilder": {
     "pageTitle": "カスタムカードを作成 - 東京カムビンゴ",
-    "metaDescription": "東京カムビンゴ用のカスタムビンゴカードを作成しましょう。",
+    "metaDescription": "東京カムビンゴ用のゲーマービンゴ／ロックアウトビンゴカードを作成しましょう。",
     "header": "カスタムビンゴカードを作成",
     "subheader": "25項目以上を追加して自分だけのカードを作りましょう",
+    "builderSubtitle": "ゲーマービンゴやロックアウトビンゴ、Ludwig風トーナメント用デッキ作成に最適です。",
     "browseGalleryLink": "コミュニティテンプレートを探す",
     "tabs": {
       "create": "新しいカードを作成",
@@ -433,15 +474,15 @@
     "reportFailed": "報告の送信に失敗しました。もう一度お試しください。"
   },
   "gallery": {
-    "title": "カスタムカードを探す",
-    "subtitle": "コミュニティが作成したビンゴカードを見つけて使用",
+    "title": "ゲーマー＆ロックアウトカードギャラリー",
+    "subtitle": "コミュニティ製のゲーマービンゴ／ロックアウトビンゴカードを配信ですぐに使えます。",
     "totalCards": "{count}枚のカードが利用可能",
     "searchPlaceholder": "名前で検索...",
     "sortRecent": "新着順",
     "sortPopular": "人気順",
     "filterAll": "すべてのタグ",
     "noCards": "カードがまだありません",
-    "noCardsDescription": "最初の公開テンプレートを作成しましょう！",
+    "noCardsDescription": "最初のゲーマービンゴ／ロックアウトテンプレをシェアしましょう！",
     "createFirst": "最初のテンプレートを作成",
     "items": "項目",
     "by": "作成者",

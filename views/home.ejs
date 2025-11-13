@@ -1,12 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= locale || 'en' %>">
 <head>
+  <% 
+    const pageTitle = t('seo.home.title');
+    const pageDescription = t('seo.home.description');
+    const canonicalUrl = typeof buildCanonical === 'function' ? buildCanonical('/') : (siteUrl ? `${siteUrl}/` : '/');
+    const shareImage = typeof buildCanonical === 'function' ? buildCanonical('/tokyo-cam-bingo.png') : '/tokyo-cam-bingo.png';
+    const heroHighlights = t('home.seoHighlights.items') || [];
+    const heroTags = t('home.heroTags') || [];
+    const structuredData = {
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: t('common.appName'),
+      applicationCategory: 'GameApplication',
+      operatingSystem: 'Web',
+      url: canonicalUrl,
+      description: pageDescription,
+      inLanguage: locale || 'en',
+      keywords: ['streamer bingo', 'gamer bingo', 'lockout bingo', 'Tokyo'],
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD'
+      },
+      featureList: heroHighlights
+    };
+  %>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= t('common.appName') %></title>
+  <title><%= pageTitle %></title>
+  <meta name="description" content="<%= pageDescription %>">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:title" content="<%= pageTitle %>">
+  <meta property="og:description" content="<%= pageDescription %>">
+  <meta property="og:image" content="<%= shareImage %>">
+  <meta property="og:site_name" content="<%= t('common.appName') %>">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= pageTitle %>">
+  <meta name="twitter:description" content="<%= pageDescription %>">
+  <meta name="twitter:image" content="<%= shareImage %>">
+  <meta name="google-site-verification" content="EDU39xuTQRdazoV6JCNadlQGNms3bWyW-0-BGy1eFOY">
 
   <!-- PWA Meta Tags -->
-  <meta name="description" content="<%= t('common.tagline') %>">
   <meta name="theme-color" content="#FF69B4">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -17,12 +55,17 @@
   <meta name="apple-mobile-web-app-title" content="TCB">
   <meta name="csrf-token" content="<%= csrfToken %>">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
   <link rel="stylesheet" href="/css/timer-picker.css?v=<%= assetVersion %>">
   <script src="/js/pwa-install.js?v=<%= assetVersion %>" defer></script>
   <script src="/js/splash.js?v=<%= assetVersion %>" defer></script>
   <script src="/js/timer-picker.js?v=<%= assetVersion %>"></script>
+  <script type="application/ld+json">
+    <%= JSON.stringify(structuredData) %>
+  </script>
 </head>
 <body class="splash-active has-global-top-bar" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>">
   <div class="global-top-bar">
@@ -45,6 +88,13 @@
   <div class="container welcome-container" style="margin: 0 auto;">
     <div id="welcome-content">
       <h1><%= t('home.welcomeHeading') %></h1>
+      <p class="hero-lede"><%= t('home.heroDescription') %></p>
+      <div class="hero-tags" role="list">
+        <% (heroTags || []).forEach((tag) => { %>
+          <span class="hero-tag" role="listitem"><%= tag %></span>
+        <% }) %>
+      </div>
+      <p class="hero-subtext"><%= t('home.heroLockoutDescription') %></p>
       <div class="button-group">
         <button onclick="showHostForm()"><%= t('actions.hostGame') %></button>
         <button onclick="showJoinForm()"><%= t('actions.joinGame') %></button>
@@ -63,6 +113,21 @@
       </div>
       <div style="text-align: center; margin-top: 2rem;">
         <img src="/tokyo-cam-bingo.png?v=<%= assetVersion %>" alt="Tokyo Cam Bingo" style="max-width: 300px; width: 100%; height: auto;">
+      </div>
+      <div class="seo-feature-callout" aria-label="<%= t('home.seoHighlights.title') %>">
+        <p class="seo-feature-heading"><%= t('home.seoHighlights.title') %></p>
+        <p class="seo-feature-subheading"><%= t('home.seoHighlights.subtitle') %></p>
+        <ul class="seo-feature-list">
+          <% (heroHighlights || []).forEach((item) => { %>
+            <li>
+              <span class="seo-feature-icon" aria-hidden="true">✓</span>
+              <span><%= item %></span>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+      <div class="streamer-proof">
+        <p><%= t('home.streamerLockoutCallout') %></p>
       </div>
     </div>
     

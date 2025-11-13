@@ -35,6 +35,9 @@ const {
   getAllTasksPool
 } = require('./utils/bingoTasks');
 
+const PUBLIC_SITE_URL = (process.env.PUBLIC_SITE_URL || '').replace(/\/$/, '');
+const SITEMAP_STATIC_PATHS = ['/', '/card-builder', '/gallery', '/terms'];
+
 const isProduction = process.env.NODE_ENV === 'production';
 const STATIC_MAX_AGE_SECONDS = 60 * 60 * 24 * 30; // 30 days
 const BODY_LIMIT = '250kb';
@@ -66,6 +69,7 @@ const enableServiceWorker = process.env.ENABLE_SERVICE_WORKER === 'true';
 
 app.locals.assetVersion = buildVersion;
 app.locals.enableServiceWorker = enableServiceWorker;
+app.locals.siteUrl = PUBLIC_SITE_URL;
 
 const globalLimiter = rateLimit({
   windowMs: 60 * 1000,
@@ -133,6 +137,33 @@ app.use(express.static('public', {
     }
   }
 }));
+
+app.get('/robots.txt', (req, res) => {
+  const sitemapUrl = buildAbsoluteUrl(req, '/sitemap.xml');
+  const lines = [
+    'User-agent: *',
+    'Disallow:',
+    `Sitemap: ${sitemapUrl}`
+  ];
+  res.type('text/plain').send(lines.join('\n'));
+});
+
+app.get('/sitemap.xml', (req, res) => {
+  const urls = SITEMAP_STATIC_PATHS.map((path) => {
+    const loc = buildAbsoluteUrl(req, path);
+    return `
+  <url>
+    <loc>${loc}</loc>
+    <changefreq>weekly</changefreq>
+  </url>`;
+  }).join('');
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls}
+</urlset>`;
+  res.type('application/xml').send(xml);
+});
 
 // Serve PWA files from root with caching
 app.get('/site.webmanifest', (req, res) => {
@@ -202,10 +233,36 @@ app.use((req, res, next) => {
   res.locals.enableServiceWorker = app.locals.enableServiceWorker;
   res.locals.csrfToken = req.session?.csrfToken || '';
   res.locals.currentPath = req.originalUrl || '/';
+  res.locals.siteUrl = app.locals.siteUrl;
+  res.locals.buildCanonical = (path = req.originalUrl || '/') => buildAbsoluteUrl(req, path);
+  res.locals.canonicalUrl = buildAbsoluteUrl(req, req.originalUrl || '/');
   next();
 });
 
 const actionCooldowns = new Map();
+
+function buildAbsoluteUrl(req, targetPath = '/') {
+  const safePath = typeof targetPath === 'string' && targetPath.length ? targetPath : '/';
+  const isAbsolute = /^https?:\/\//i.test(safePath);
+  if (isAbsolute) {
+    return safePath;
+  }
+  if (PUBLIC_SITE_URL) {
+    try {
+      return new URL(safePath, PUBLIC_SITE_URL).toString();
+    } catch (error) {
+      console.warn('Failed to build absolute URL from PUBLIC_SITE_URL', error);
+      return PUBLIC_SITE_URL;
+    }
+  }
+  const host = req.get('host');
+  if (!host) {
+    return safePath;
+  }
+  const normalizedPath = safePath.startsWith('/') ? safePath : `/${safePath}`;
+  const protocol = req.protocol || (req.secure ? 'https' : 'http') || 'https';
+  return `${protocol}://${host}${normalizedPath}`;
+}
 
 function parseCookies(header = '') {
   if (!header) return {};
@@ -679,7 +736,8 @@ app.get('/card/:code', async (req, res) => {
 
     // Generate QR code for sharing
     const QRCode = require('qrcode');
-    const cardUrl = `${req.protocol}://${req.get('host')}/card/${collection.code}`;
+    const cardPath = `/card/${collection.code}`;
+    const cardUrl = buildAbsoluteUrl(req, cardPath);
     const qrCodeDataUrl = await QRCode.toDataURL(cardUrl);
 
     // Get captcha for report functionality
@@ -689,6 +747,7 @@ app.get('/card/:code', async (req, res) => {
       card: collection,
       qrCode: qrCodeDataUrl,
       cardUrl: cardUrl,
+      shareImage: buildAbsoluteUrl(req, '/tokyo-cam-bingo.png'),
       pageTitle: `${collection.name} - Tokyo Cam Bingo Card`,
       metaDescription: `Check out this custom Tokyo Cam Bingo card: ${collection.name} with ${collection.items.length} items.`,
       reportCaptchaQuestion: reportCaptcha.question
@@ -771,6 +830,10 @@ app.get('/gallery', async (req, res) => {
 
     const uniqueTags = Array.from(allTags).sort();
 
+    const translateFn = typeof res.locals.t === 'function' ? res.locals.t : () => null;
+    const pageTitle = translateFn('seo.gallery.title') || 'Browse Gamer Bingo Cards - Tokyo Cam Bingo';
+    const metaDescription = translateFn('seo.gallery.description') || 'Discover gamer bingo and lockout bingo cards created by the Tokyo Cam Bingo community.';
+
     res.render('gallery', {
       cards: cards,
       currentPage: page,
@@ -780,8 +843,8 @@ app.get('/gallery', async (req, res) => {
       sortBy: sortBy,
       tagFilter: tagFilter,
       availableTags: uniqueTags,
-      pageTitle: 'Browse Custom Cards - Tokyo Cam Bingo',
-      metaDescription: 'Browse and discover custom bingo cards created by the community for Tokyo Cam Bingo.'
+      pageTitle,
+      metaDescription
     });
   } catch (error) {
     console.error('Error fetching gallery:', error);

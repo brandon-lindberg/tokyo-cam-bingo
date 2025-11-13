@@ -1,19 +1,30 @@
 (() => {
-  const HIDE_DELAY_MS = 2500; // fade-out starts at 2.5s mark
+  const SCREENS = [
+    { id: 'splash-screen', duration: 2000 },
+    { id: 'splash-screen-2', duration: 2000 }
+  ];
   const TRANSITION_BUFFER_MS = 600;
+  let currentScreenIndex = 0;
   let hideScheduled = false;
 
-  const hideSplash = () => {
-    const splash = document.getElementById('splash-screen');
+  const hideCurrentScreen = () => {
+    const splash = document.getElementById(SCREENS[currentScreenIndex].id);
     if (!splash) return;
 
     splash.classList.remove('splash-screen--visible');
     splash.classList.add('splash-screen--hidden');
-    document.body.classList.remove('splash-active');
 
     window.setTimeout(() => {
       if (splash.parentElement) {
         splash.remove();
+      }
+      // Check if there's a next screen
+      if (currentScreenIndex < SCREENS.length - 1) {
+        currentScreenIndex++;
+        showNextScreen();
+      } else {
+        // All screens done
+        document.body.classList.remove('splash-active');
       }
     }, TRANSITION_BUFFER_MS);
   };
@@ -21,18 +32,23 @@
   const scheduleHide = () => {
     if (hideScheduled) return;
     hideScheduled = true;
-    window.setTimeout(hideSplash, HIDE_DELAY_MS);
+    window.setTimeout(hideCurrentScreen, SCREENS[currentScreenIndex].duration);
   };
 
-  const initSplash = () => {
-    const splash = document.getElementById('splash-screen');
+  const showNextScreen = () => {
+    const splash = document.getElementById(SCREENS[currentScreenIndex].id);
     if (!splash) return;
 
     window.requestAnimationFrame(() => {
       splash.classList.add('splash-screen--visible');
     });
 
+    hideScheduled = false; // Reset for next screen
     scheduleHide();
+  };
+
+  const initSplash = () => {
+    showNextScreen();
   };
 
   if (document.readyState === 'loading') {

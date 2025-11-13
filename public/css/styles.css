@@ -23,7 +23,7 @@ body.splash-active {
     background-color: #000;
   }
 
-  body.splash-active > :not(#splash-screen) {
+  body.splash-active > :not(#splash-screen):not(#splash-screen-2) {
     visibility: hidden;
   }
 
@@ -43,6 +43,29 @@ body.splash-active {
   .splash-screen img {
     width: clamp(180px, 50vw, 480px);
     max-width: 90vw;
+    height: auto;
+  }
+
+  .splash-screen .splash-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .splash-association-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 500;
+    color: #FFFFFF;
+    margin: 0;
+    text-align: center;
+  }
+
+  .splash-association-image {
+    width: clamp(150px, 40vw, 400px);
+    max-width: 80vw;
     height: auto;
   }
 

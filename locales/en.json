@@ -47,21 +47,22 @@
     "ruleBook": "Rule Book",
     "createCustomCardLink": "+ Create Custom Card",
     "browseGalleryLink": "Browse Templates",
-    "heroDescription": "Spin up streamer-ready lockout bingo lobbies in seconds",
-    "heroLockoutDescription": "Inspired by lockout bingo challenges, Tokyo Cam Bingo brings lockout and gamer style bingo, made by streamers for streamers",
+    "heroDescription": "Spin up streamer-ready Lockout Bingo lobbies in seconds",
+    "heroLockoutDescription": "Inspired by Lockout Bingo challenges, Tokyo Cam Bingo brings Lockout and Gamer style Bingo to you, made by streamers for streamers and gamers alike",
     "heroTags": [
       "Lockout Bingo",
       "Streamer Bingo",
       "Gamer Bingo",
-      "Watch Parties"
+      "Watch Parties",
+      "Speedrunners"
     ],
     "seoHighlights": {
-      "title": "Built for creators who need reliable lockout bingo tools",
+      "title": "Built for creators who need reliable Lockout Bingo tools",
       "subtitle": "Cover Twitch, YouTube, and Kick events without extra plugins",
       "items": [
-        "Host VS lockout, head-to-head, or 10-player gamer bingo rooms with one shareable link",
-        "Use moderation flags, rerolls, and timers to keep every square fair on stream",
-        "Load custom Tokyo prompts or import community cards, then localize everything (EN/JA)"
+        "Host VS. Games, Lockout, Head-to-Head, or 10-player Gamer Bingo rooms with one shareable link",
+        "Use moderation flags, rerolls, and timers to keep every square fair and competitive",
+        "Play with pre-built cards or build and play with your own custom or community built cards"
       ]
     },
     "streamerLockoutCallout": "Creators popularized lockout bingo for competitive streams—Tokyo Cam Bingo bakes in leaderboards, chat, and streamer overlays so your event looks pro.",

@@ -1,12 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= locale || 'en' %>">
 <head>
+  <% 
+    const isVsMode = game.mode === 'VS';
+    const modeToken = isVsMode
+      ? (locale === 'ja' ? 'ロックアウトビンゴ' : 'Lockout Bingo')
+      : (locale === 'ja' ? 'ゲーマービンゴ' : 'Gamer Bingo');
+    const pageTitle = t('seo.game.title', { mode: modeToken });
+    const pageDescription = t('seo.game.description', { mode: modeToken });
+    const canonicalUrl = typeof buildCanonical === 'function' ? buildCanonical('/game') : (siteUrl ? `${siteUrl}/game` : '/game');
+    const shareImage = typeof buildCanonical === 'function' ? buildCanonical('/tokyo-cam-bingo.png') : '/tokyo-cam-bingo.png';
+  %>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= t('common.appName') %></title>
-
-  <!-- PWA Meta Tags -->
-  <meta name="description" content="<%= t('common.tagline') %>">
+  <title><%= pageTitle %></title>
+  <meta name="description" content="<%= pageDescription %>">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:title" content="<%= pageTitle %>">
+  <meta property="og:description" content="<%= pageDescription %>">
+  <meta property="og:image" content="<%= shareImage %>">
+  <meta property="og:site_name" content="<%= t('common.appName') %>">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= pageTitle %>">
+  <meta name="twitter:description" content="<%= pageDescription %>">
+  <meta name="twitter:image" content="<%= shareImage %>">
+  <meta name="google-site-verification" content="EDU39xuTQRdazoV6JCNadlQGNms3bWyW-0-BGy1eFOY">
   <meta name="theme-color" content="#FF69B4">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -17,6 +38,8 @@
   <meta name="apple-mobile-web-app-title" content="TCB">
   <meta name="csrf-token" content="<%= csrfToken %>">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
   <script src="/js/pwa-install.js?v=<%= assetVersion %>" defer></script>

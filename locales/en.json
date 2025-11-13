@@ -5,7 +5,7 @@
   },
   "common": {
     "appName": "Tokyo Cam Bingo",
-    "tagline": "Play bingo while watching Tokyo live streams with friends",
+    "tagline": "Host streamer-friendly gamer & lockout bingo showdowns live with friends",
     "language": "Language",
     "loading": "Loading..."
   },
@@ -47,6 +47,24 @@
     "ruleBook": "Rule Book",
     "createCustomCardLink": "+ Create Custom Card",
     "browseGalleryLink": "Browse Templates",
+    "heroDescription": "Spin up streamer-ready gamer bingo and lockout bingo lobbies in seconds.",
+    "heroLockoutDescription": "Inspired by Ludwig-style challenges, Tokyo Cam Bingo handles VS scoring, rerolls, and timers so you can focus on the hype.",
+    "heroTags": [
+      "Streamer Bingo",
+      "Gamer Bingo",
+      "Lockout Bingo",
+      "Watch Parties"
+    ],
+    "seoHighlights": {
+      "title": "Built for creators who need reliable lockout bingo tools",
+      "subtitle": "Cover Twitch, YouTube, and Kick events without extra plugins.",
+      "items": [
+        "Host VS lockout, head-to-head, or 10-player gamer bingo rooms with one shareable link.",
+        "Use moderation flags, rerolls, and timers to keep every square fair on stream.",
+        "Load custom Tokyo prompts or import community cards, then localize everything (EN/JA)."
+      ]
+    },
+    "streamerLockoutCallout": "Creators popularized lockout bingo for competitive streams—Tokyo Cam Bingo bakes in leaderboards, chat, and streamer overlays so your event looks pro.",
     "hostFormTitle": "Create Game",
     "hostNameLabel": "Your Name",
     "hostNamePlaceholder": "Enter your name",
@@ -318,11 +336,34 @@
       "confirm": "Confirm"
     }
   },
+  "seo": {
+    "home": {
+      "title": "Tokyo Cam Bingo | Streamer Gamer & Lockout Bingo Platform",
+      "description": "Host gamer bingo, lockout bingo, and watch-party challenges for up to 10 players with timers, rerolls, and streamer-friendly overlays."
+    },
+    "cardBuilder": {
+      "title": "Custom Gamer Bingo Card Builder | Tokyo Cam Bingo",
+      "description": "Design, lock, and share custom gamer or lockout bingo decks for your next Tokyo Cam Bingo stream."
+    },
+    "game": {
+      "title": "Live {mode} Gamer Bingo Lobby | Tokyo Cam Bingo",
+      "description": "Track {mode} boards with built-in chat, timer controls, rerolls, and leaderboards from any browser."
+    },
+    "gallery": {
+      "title": "Gamer & Lockout Bingo Card Gallery | Tokyo Cam Bingo",
+      "description": "Browse and download community-made gamer bingo and lockout bingo templates for your stream."
+    },
+    "cardPreview": {
+      "title": "Preview Gamer Bingo Card | Tokyo Cam Bingo",
+      "description": "Share lockout-ready gamer bingo cards with QR codes, download links, and community tags."
+    }
+  },
   "cardBuilder": {
     "pageTitle": "Create Custom Card - Tokyo Cam Bingo",
-    "metaDescription": "Create custom bingo cards for Tokyo Cam Bingo watch parties.",
+    "metaDescription": "Create gamer and lockout bingo cards for Tokyo Cam Bingo watch parties.",
     "header": "Create Custom Bingo Card",
     "subheader": "Add at least 25 items to create your custom card",
+    "builderSubtitle": "Perfect for gamer bingo, lockout bingo, or Ludwig-style tournament decks—build once and share everywhere.",
     "browseGalleryLink": "Browse Community Templates",
     "tabs": {
       "create": "Create New Card",
@@ -434,15 +475,15 @@
     "reportFailed": "Failed to submit report. Please try again."
   },
   "gallery": {
-    "title": "Browse Custom Cards",
-    "subtitle": "Discover and use community-created bingo cards",
+    "title": "Gamer & Lockout Card Gallery",
+    "subtitle": "Discover community-made gamer bingo and lockout bingo cards ready for your next stream night.",
     "totalCards": "{count} cards available",
     "searchPlaceholder": "Search by name...",
     "sortRecent": "Recent",
     "sortPopular": "Popular",
     "filterAll": "All Tags",
     "noCards": "No Cards Yet",
-    "noCardsDescription": "Be the first to create a public template!",
+    "noCardsDescription": "Be the first to share a gamer or lockout bingo template!",
     "createFirst": "Create Your First Template",
     "items": "items",
     "by": "by",

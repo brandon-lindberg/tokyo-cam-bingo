@@ -1,20 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= locale || 'en' %>">
 <head>
+  <% 
+    const resolvedTitle = pageTitle || t('seo.gallery.title');
+    const resolvedDescription = metaDescription || t('seo.gallery.description');
+    const canonicalUrl = typeof buildCanonical === 'function' ? buildCanonical('/gallery') : (siteUrl ? `${siteUrl}/gallery` : '/gallery');
+    const shareImage = typeof buildCanonical === 'function' ? buildCanonical('/tokyo-cam-bingo.png') : '/tokyo-cam-bingo.png';
+  %>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= pageTitle %></title>
-
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="<%= metaDescription %>">
-
-  <!-- PWA Meta Tags -->
+  <title><%= resolvedTitle %></title>
+  <meta name="description" content="<%= resolvedDescription %>">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:title" content="<%= resolvedTitle %>">
+  <meta property="og:description" content="<%= resolvedDescription %>">
+  <meta property="og:image" content="<%= shareImage %>">
+  <meta property="og:site_name" content="<%= t('common.appName') %>">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= resolvedTitle %>">
+  <meta name="twitter:description" content="<%= resolvedDescription %>">
+  <meta name="twitter:image" content="<%= shareImage %>">
+  <meta name="google-site-verification" content="EDU39xuTQRdazoV6JCNadlQGNms3bWyW-0-BGy1eFOY">
   <meta name="theme-color" content="#FF69B4">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
   <style>

@@ -1,0 +1,35 @@
+<% const currentTheme = theme === 'dark' ? 'dark' : 'light'; %>
+<% const variant = typeof themeToggleVariant === 'string' ? themeToggleVariant : 'default'; %>
+<% const toggleId = `theme-toggle-${Math.random().toString(36).slice(2, 8)}`; %>
+<div
+  class="theme-switcher theme-switcher--<%= variant %>"
+  data-theme-switcher
+  data-current-theme="<%= currentTheme %>"
+>
+  <span class="sr-only" id="<%= toggleId %>"><%= t('common.theme.label') %></span>
+  <div
+    class="theme-toggle"
+    role="group"
+    aria-labelledby="<%= toggleId %>"
+    style="--active-index:<%= currentTheme === 'dark' ? 1 : 0 %>;"
+  >
+    <button
+      type="button"
+      class="theme-toggle__option <%= currentTheme === 'light' ? 'is-active' : '' %>"
+      data-theme-value="light"
+      aria-pressed="<%= currentTheme === 'light' ? 'true' : 'false' %>"
+    >
+      <span aria-hidden="true">☀️</span>
+      <span><%= t('common.theme.light') %></span>
+    </button>
+    <button
+      type="button"
+      class="theme-toggle__option <%= currentTheme === 'dark' ? 'is-active' : '' %>"
+      data-theme-value="dark"
+      aria-pressed="<%= currentTheme === 'dark' ? 'true' : 'false' %>"
+    >
+      <span aria-hidden="true">🌙</span>
+      <span><%= t('common.theme.dark') %></span>
+    </button>
+  </div>
+</div>

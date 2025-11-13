@@ -6,12 +6,15 @@
   <title>Terms of Service - Tokyo Cam Bingo</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <script src="/js/theme-toggle.js?v=<%= assetVersion %>" defer></script>
+  <script src="/js/preferences-menu.js?v=<%= assetVersion %>" defer></script>
   <style>
     .terms-container {
       max-width: 800px;
       margin: 2rem auto;
       padding: 0 1rem;
-      background: white;
+      background: var(--color-surface);
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
@@ -19,36 +22,36 @@
       padding: 2rem;
     }
     .terms-content h1 {
-      color: #FF69B4;
+      color: var(--color-heading);
       margin-bottom: 1rem;
     }
     .terms-content h2 {
-      color: #333;
+      color: var(--color-text);
       margin-top: 1.5rem;
       margin-bottom: 0.75rem;
     }
     .terms-content p, .terms-content li {
       line-height: 1.6;
       margin-bottom: 1rem;
-      color: #666;
+      color: var(--color-subtle);
     }
     .terms-content ul {
       margin-left: 2rem;
     }
     .last-updated {
-      color: #999;
+      color: var(--color-subtle);
       font-size: 0.9rem;
       margin-bottom: 1.5rem;
     }
   </style>
 </head>
-<body class="has-global-top-bar" data-asset-version="<%= assetVersion %>" data-locale="<%= locale %>">
+<body class="has-global-top-bar <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>" data-theme="<%= theme %>" data-asset-version="<%= assetVersion %>" data-locale="<%= locale %>">
   <div class="global-top-bar">
     <div class="top-bar-left">
       <a href="/" style="text-decoration: none; color: inherit;">← Back to Home</a>
     </div>
     <div class="top-bar-right">
-      <%- include('partials/locale-switcher') %>
+      <%- include('partials/preferences-menu') %>
     </div>
   </div>
 

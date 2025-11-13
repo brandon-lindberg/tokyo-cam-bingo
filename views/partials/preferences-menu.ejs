@@ -1,0 +1,41 @@
+<% const preferencesMenuId = `preferences-menu-${Math.random().toString(36).slice(2, 10)}`; %>
+<div class="preferences-menu-wrapper">
+  <button
+    type="button"
+    class="preferences-menu__button"
+    data-preferences-toggle
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-controls="<%= preferencesMenuId %>"
+    aria-label="<%= t('common.preferences') %>"
+  >
+    <span aria-hidden="true" class="preferences-menu__icon">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+  </button>
+  <div
+    id="<%= preferencesMenuId %>"
+    class="preferences-menu"
+    data-preferences-menu
+    hidden
+  >
+    <div class="preferences-menu__section">
+      <div class="preferences-menu__label-row">
+        <span class="preferences-menu__label"><%= t('common.theme.label') %></span>
+      </div>
+      <div class="preferences-menu__control">
+        <%- include('theme-toggle', { themeToggleVariant: 'compact' }) %>
+      </div>
+    </div>
+    <div class="preferences-menu__section">
+      <div class="preferences-menu__label-row">
+        <span class="preferences-menu__label"><%= t('common.language') %></span>
+      </div>
+      <div class="preferences-menu__control">
+        <%- include('locale-switcher', { localeSwitcherVariant: 'compact' }) %>
+      </div>
+    </div>
+  </div>
+</div>

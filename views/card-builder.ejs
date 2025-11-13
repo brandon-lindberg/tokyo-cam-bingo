@@ -39,6 +39,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
   <script src="/js/pwa-install.js?v=<%= assetVersion %>" defer></script>
+  <script src="/js/theme-toggle.js?v=<%= assetVersion %>" defer></script>
+  <script src="/js/preferences-menu.js?v=<%= assetVersion %>" defer></script>
   <style>
     .card-builder-container {
       max-width: 800px;
@@ -51,14 +53,14 @@
       margin-bottom: 2rem;
     }
     .builder-header .builder-subtitle {
-      color: #475467;
+      color: var(--color-muted);
       font-size: 1rem;
       max-width: 640px;
       margin: 0.75rem auto 0;
     }
 
     .builder-form {
-      background: white;
+      background: var(--color-surface);
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -73,9 +75,9 @@
 
     .builder-tab {
       flex: 1 1 160px;
-      border: 2px solid #E0E0E0;
-      background: #F8FBFF;
-      color: #555;
+      border: 2px solid var(--color-border-strong);
+      background: var(--color-surface-alt);
+      color: var(--color-subtle);
       padding: 0.65rem 0.9rem;
       border-radius: 999px;
       font-family: 'Poppins', sans-serif;
@@ -85,10 +87,10 @@
     }
 
     .builder-tab.active {
-      border-color: #00BFFF;
-      background: #00BFFF;
-      color: white;
-      box-shadow: 0 4px 10px rgba(0,191,255,0.25);
+      border-color: var(--color-accent);
+      background: var(--color-accent);
+      color: var(--color-button-text);
+      box-shadow: 0 4px 10px var(--color-accent-soft-strong);
     }
 
     .tab-panel {
@@ -103,6 +105,13 @@
       margin-bottom: 1.5rem;
     }
 
+    .form-group--load-card {
+      background: var(--color-surface-alt);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 0;
+    }
+
     .form-group label {
       display: block;
       font-family: 'Poppins', sans-serif;
@@ -115,25 +124,25 @@
       width: 100%;
       padding: 0.75rem;
       font-size: 1rem;
-      border: 2px solid #E0E0E0;
+      border: 2px solid var(--color-border-strong);
       border-radius: 8px;
       font-family: 'Roboto', sans-serif;
     }
     .template-section {
-      border: 1px solid #E0E0E0;
+      border: 1px solid var(--color-border-strong);
       border-radius: 8px;
       padding: 1rem;
-      background: #FAFEFF;
+      background: var(--color-surface-alt);
     }
 
     .helper-text {
       font-size: 0.9rem;
-      color: #666;
+      color: var(--color-subtle);
       margin-top: 0.5rem;
     }
 
     .helper-text.muted {
-      color: #94A3B8;
+      color: var(--color-muted);
     }
 
     .helper-text.error {
@@ -173,7 +182,7 @@
       text-align: center;
       font-size: 0.8rem;
       letter-spacing: 0.08em;
-      color: #999;
+      color: var(--color-subtle);
       text-transform: uppercase;
       margin: 1rem 0;
     }
@@ -191,7 +200,7 @@
       overflow-y: auto;
       margin-bottom: 1rem;
       padding: 1rem;
-      background: #F0F8FF;
+      background: var(--color-surface-alt);
       border-radius: 8px;
     }
 
@@ -205,7 +214,7 @@
     .item-number {
       min-width: 40px;
       font-weight: 600;
-      color: #666;
+      color: var(--color-subtle);
       text-align: right;
       font-size: 0.95rem;
     }
@@ -213,9 +222,11 @@
     .item-row input {
       flex: 1;
       padding: 0.6rem;
-      border: 1px solid #ccc;
+      border: 1px solid var(--color-border-strong);
       border-radius: 4px;
       font-family: 'Roboto', sans-serif;
+      background: var(--color-surface);
+      color: var(--color-text);
     }
 
     .item-row button {
@@ -250,7 +261,7 @@
 
     .item-count {
       text-align: center;
-      color: #666;
+      color: var(--color-subtle);
       margin-bottom: 1rem;
       font-size: 0.95rem;
     }
@@ -268,8 +279,8 @@
       padding: 1rem 2rem;
       font-size: 1.2rem;
       font-family: 'Poppins', sans-serif;
-      background-color: #00BFFF;
-      color: white;
+      background-color: var(--color-accent);
+      color: var(--color-button-text);
       border: none;
       border-radius: 8px;
       cursor: pointer;
@@ -278,18 +289,18 @@
     }
 
     .save-btn:hover:not(:disabled) {
-      background-color: #009ACD;
+      background-color: var(--color-accent-hover);
     }
 
     .save-btn:disabled {
-      background-color: #ccc;
+      background-color: var(--color-border-strong);
       cursor: not-allowed;
     }
 
     .back-link {
       display: inline-block;
       margin-bottom: 1rem;
-      color: #00BFFF;
+      color: var(--color-accent);
       text-decoration: none;
       font-size: 1rem;
     }
@@ -310,7 +321,7 @@
     }
 
     .modal-card {
-      background: #ffffff;
+      background: var(--color-surface);
       width: 90%;
       max-width: 500px;
       border-radius: 16px;
@@ -324,17 +335,17 @@
     }
 
     .code-display {
-      background: #F0F8FF;
+      background: var(--color-surface-alt);
       padding: 1.5rem;
       border-radius: 8px;
       margin: 1.5rem 0;
-      border: 2px solid #00BFFF;
+      border: 2px solid var(--color-accent);
     }
 
     .code-text {
       font-family: 'Courier New', monospace;
       font-size: 2rem;
-      color: #00BFFF;
+      color: var(--color-accent);
       font-weight: bold;
       letter-spacing: 0.2rem;
     }
@@ -369,11 +380,11 @@
     }
 
     .view-card-btn {
-      background-color: #00BFFF;
+      background-color: var(--color-accent);
     }
 
     .view-card-btn:hover {
-      background-color: #009ACD;
+      background-color: var(--color-accent-hover);
     }
 
     .share-card-btn {
@@ -385,11 +396,11 @@
     }
 
     .home-btn {
-      background-color: #00BFFF;
+      background-color: var(--color-accent);
     }
 
     .home-btn:hover {
-      background-color: #009ACD;
+      background-color: var(--color-accent-hover);
     }
 
     /* Mobile Responsive Styles */
@@ -432,7 +443,7 @@
       }
 
       /* Load card section mobile */
-      .form-group[style*="background: #F0F8FF"] {
+      .form-group--load-card {
         padding: 0.75rem !important;
       }
 
@@ -581,13 +592,13 @@
     }
   </style>
 </head>
-<body class="has-global-top-bar" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>">
+<body class="has-global-top-bar <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>" data-theme="<%= theme %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>">
   <div class="global-top-bar">
     <div class="top-bar-left">
       <a href="/">← <%= t('actions.backToHome') %></a>
     </div>
     <div class="top-bar-right">
-      <%- include('partials/locale-switcher') %>
+      <%- include('partials/preferences-menu') %>
     </div>
   </div>
   <div class="card-builder-container">
@@ -597,7 +608,7 @@
       <p><%= t('cardBuilder.subheader') %></p>
       <p class="builder-subtitle"><%= t('cardBuilder.builderSubtitle') %></p>
       <div style="text-align: center; margin-top: 0.5rem;">
-        <a href="/gallery" style="color: #FF69B4; text-decoration: none; font-size: 0.95rem;">
+        <a href="/gallery" style="color: var(--color-heading); text-decoration: none; font-size: 0.95rem;">
           🎴 <%= t('cardBuilder.browseGalleryLink') %>
         </a>
       </div>
@@ -683,7 +694,7 @@
           </label>
           <div class="helper-text">
             <%= t('cardBuilder.tosHelper') %>
-            <a href="/terms" target="_blank" style="color: #FF69B4; text-decoration: underline;">
+            <a href="/terms" target="_blank" style="color: var(--color-heading); text-decoration: underline;">
               <%= t('cardBuilder.tosLink') %>
             </a>
           </div>
@@ -733,7 +744,7 @@
       </div>
 
       <div class="tab-panel" id="tab-existing" role="tabpanel" aria-labelledby="tab-btn-existing" hidden>
-        <div class="form-group" style="background: #F0F8FF; padding: 1rem; border-radius: 8px; margin-bottom: 0;">
+        <div class="form-group form-group--load-card">
           <label for="load-card-code"><%= t('cardBuilder.existingSectionLabel') %></label>
           <div class="helper-text"><%= t('cardBuilder.existingSectionHelper') %></div>
           <div style="display: flex; gap: 0.5rem; align-items: center;">

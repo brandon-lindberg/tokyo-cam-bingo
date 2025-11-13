@@ -7,7 +7,13 @@
     "appName": "Tokyo Cam Bingo",
     "tagline": "Host streamer-friendly gamer & lockout bingo showdowns live with friends",
     "language": "Language",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "theme": {
+      "label": "Theme",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "preferences": "Preferences"
   },
   "actions": {
     "hostGame": "Host Game",

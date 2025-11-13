@@ -29,11 +29,14 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
+  <meta name="csrf-token" content="<%= csrfToken %>">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
+  <script src="/js/preferences-menu.js?v=<%= assetVersion %>" defer></script>
+  <script src="/js/theme-toggle.js?v=<%= assetVersion %>" defer></script>
   <style>
     .gallery-container {
       max-width: 1400px;
@@ -47,10 +50,10 @@
     .gallery-title {
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
-      color: #FF69B4;
+      color: var(--color-heading);
     }
     .gallery-subtitle {
-      color: #666;
+      color: var(--color-subtle);
       font-size: 1.1rem;
     }
     .gallery-controls {
@@ -68,9 +71,11 @@
     .search-box input {
       width: 100%;
       padding: 0.75rem 1rem;
-      border: 2px solid #ddd;
+      border: 2px solid var(--color-border-strong);
       border-radius: 8px;
       font-size: 1rem;
+      background: var(--color-surface);
+      color: var(--color-text);
     }
     .sort-controls {
       display: flex;
@@ -78,16 +83,18 @@
     }
     .sort-btn {
       padding: 0.75rem 1.5rem;
-      border: 2px solid #ddd;
+      border: 2px solid var(--color-border-strong);
       border-radius: 8px;
       cursor: pointer;
       font-size: 0.9rem;
       transition: all 0.2s;
+      background: transparent;
+      color: var(--color-text);
     }
     .sort-btn.active {
-      background: #FF69B4;
+      background: var(--color-heading);
       color: white;
-      border-color: #FF69B4;
+      border-color: var(--color-heading);
     }
     .gallery-grid {
       display: grid;
@@ -96,8 +103,8 @@
       margin-bottom: 2rem;
     }
     .card-item {
-      background: white;
-      border: 2px solid #ddd;
+      background: var(--color-surface);
+      border: 2px solid var(--color-border-strong);
       border-radius: 12px;
       padding: 1.5rem;
       transition: transform 0.2s, box-shadow 0.2s;
@@ -133,7 +140,7 @@
     .card-item-title {
       font-size: 1.2rem;
       font-weight: bold;
-      color: #FF69B4;
+      color: var(--color-heading);
       margin: 0;
       flex: 1;
       overflow: hidden;
@@ -149,7 +156,7 @@
       gap: 1rem;
       margin-bottom: 1rem;
       font-size: 0.9rem;
-      color: #666;
+      color: var(--color-subtle);
     }
     .meta-item {
       display: flex;
@@ -157,7 +164,7 @@
       gap: 0.25rem;
     }
     .card-item-creator {
-      color: #666;
+      color: var(--color-subtle);
       font-size: 0.85rem;
       margin-bottom: 1rem;
       font-style: italic;
@@ -183,7 +190,7 @@
       color: white;
     }
     .btn-view {
-      background: #00BFFF;
+      background: var(--color-accent);
       color: white;
     }
     .pagination {
@@ -195,19 +202,20 @@
     }
     .page-btn {
       padding: 0.5rem 1rem;
-      border: 2px solid #ddd;
-      background: white;
+      border: 2px solid var(--color-border-strong);
+      background: var(--color-surface);
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s;
+      color: var(--color-text);
     }
     .page-btn:hover {
-      background: #f8f9fa;
+      background: var(--color-surface-alt);
     }
     .page-btn.active {
-      background: #FF69B4;
+      background: var(--color-heading);
       color: white;
-      border-color: #FF69B4;
+      border-color: var(--color-heading);
     }
     .page-btn:disabled {
       opacity: 0.5;
@@ -216,7 +224,7 @@
     .empty-state {
       text-align: center;
       padding: 4rem 2rem;
-      color: #666;
+      color: var(--color-subtle);
     }
     .empty-state-icon {
       font-size: 4rem;
@@ -227,11 +235,12 @@
     }
     .tag-filter select {
       padding: 0.75rem 1rem;
-      border: 2px solid #ddd;
+      border: 2px solid var(--color-border-strong);
       border-radius: 8px;
       font-size: 0.9rem;
       cursor: pointer;
-      background: white;
+      background: var(--color-surface);
+      color: var(--color-text);
     }
     .card-tags {
       display: flex;
@@ -242,21 +251,21 @@
     .tag-badge {
       display: inline-block;
       padding: 0.15rem 0.5rem;
-      background: #f0f0f0;
-      color: #666;
+      background: var(--color-surface-alt);
+      color: var(--color-subtle);
       border-radius: 12px;
       font-size: 0.75rem;
       font-weight: 500;
     }
   </style>
 </head>
-<body class="has-global-top-bar" data-asset-version="<%= assetVersion %>" data-locale="<%= locale %>">
+<body class="has-global-top-bar <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>" data-theme="<%= theme %>" data-asset-version="<%= assetVersion %>" data-locale="<%= locale %>">
   <div class="global-top-bar">
     <div class="top-bar-left">
       <a href="/" style="text-decoration: none; color: inherit;">← <%= t('actions.backToHome') %></a>
     </div>
     <div class="top-bar-right">
-      <%- include('partials/locale-switcher') %>
+      <%- include('partials/preferences-menu') %>
     </div>
   </div>
 
@@ -264,7 +273,7 @@
     <div class="gallery-header">
       <h1 class="gallery-title"><%= t('gallery.title') %></h1>
       <p class="gallery-subtitle"><%= t('gallery.subtitle') %></p>
-      <p style="color: #666;"><%= t('gallery.totalCards', { count: totalCards }) %></p>
+      <p style="color: var(--color-subtle);"><%= t('gallery.totalCards', { count: totalCards }) %></p>
     </div>
 
     <div class="gallery-controls">
@@ -302,7 +311,7 @@
         <div class="empty-state-icon">🎴</div>
         <h2><%= t('gallery.noCards') %></h2>
         <p><%= t('gallery.noCardsDescription') %></p>
-        <a href="/card-builder" style="color: #00BFFF; text-decoration: none; font-size: 1.1rem;">
+        <a href="/card-builder" style="color: var(--color-accent); text-decoration: none; font-size: 1.1rem;">
           <%= t('gallery.createFirst') %> →
         </a>
       </div>

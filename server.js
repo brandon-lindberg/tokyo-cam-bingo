@@ -49,6 +49,10 @@ const CAPTCHA_TYPES = {
 };
 const LOCALE_COOKIE_NAME = 'locale';
 const LOCALE_COOKIE_MAX_AGE = 365 * 24 * 60 * 60 * 1000; // 1 year
+const THEME_COOKIE_NAME = 'theme';
+const THEME_COOKIE_MAX_AGE = LOCALE_COOKIE_MAX_AGE;
+const DEFAULT_THEME = 'light';
+const SUPPORTED_THEMES = new Set(['light', 'dark']);
 
 // In-memory flags and voting state
 const flagsLeft = {}; // playerId -> remaining flags
@@ -226,6 +230,16 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
+  const theme = determineRequestTheme(req);
+  if (req.session && req.session.theme !== theme) {
+    req.session.theme = theme;
+  }
+  req.theme = theme;
+  res.locals.theme = theme;
+  next();
+});
+
+app.use((req, res, next) => {
   if (req.session && !req.session.csrfToken) {
     req.session.csrfToken = crypto.randomBytes(32).toString('hex');
   }
@@ -330,6 +344,42 @@ function persistLocalePreference(req, res, locale) {
   });
 }
 
+function normalizeTheme(value = '') {
+  const normalized = (value || '').toString().toLowerCase();
+  return SUPPORTED_THEMES.has(normalized) ? normalized : '';
+}
+
+function determineRequestTheme(req) {
+  const sessionTheme = normalizeTheme(req.session?.theme);
+  if (sessionTheme) {
+    return sessionTheme;
+  }
+
+  const cookies = parseCookies(req.headers?.cookie || '');
+  const cookieTheme = normalizeTheme(cookies[THEME_COOKIE_NAME]);
+  if (cookieTheme) {
+    return cookieTheme;
+  }
+
+  return DEFAULT_THEME;
+}
+
+function persistThemePreference(req, res, theme) {
+  if (req.session) {
+    req.session.theme = theme;
+  }
+  res.cookie(THEME_COOKIE_NAME, theme, {
+    maxAge: THEME_COOKIE_MAX_AGE,
+    sameSite: 'lax'
+  });
+}
+
+function requestPrefersJson(req) {
+  const acceptHeader = (req.get('accept') || '').toLowerCase();
+  const requestedWith = (req.get('x-requested-with') || '').toLowerCase();
+  return acceptHeader.includes('application/json') || requestedWith === 'xmlhttprequest';
+}
+
 function sanitizeReturnPath(pathValue) {
   if (typeof pathValue === 'string' && pathValue.startsWith('/') && !pathValue.startsWith('//')) {
     return pathValue;
@@ -371,6 +421,31 @@ app.post('/set-locale', csrfProtection, (req, res) => {
     persistLocalePreference(req, res, requestedLocale);
     req.locale = requestedLocale;
   }
+  if (req.session) {
+    req.session.save(() => res.redirect(returnTo));
+  } else {
+    res.redirect(returnTo);
+  }
+});
+
+app.post('/set-theme', csrfProtection, (req, res) => {
+  const requestedTheme = normalizeTheme(req.body?.theme);
+  const wantsJson = requestPrefersJson(req);
+  if (!requestedTheme) {
+    if (wantsJson) {
+      return res.status(400).json({ error: 'Unsupported theme selection.', theme: req.theme || DEFAULT_THEME });
+    }
+    const fallbackPath = sanitizeReturnPath(req.body?.returnTo || req.get('referer') || '/');
+    return res.redirect(fallbackPath);
+  }
+
+  persistThemePreference(req, res, requestedTheme);
+  req.theme = requestedTheme;
+  if (wantsJson) {
+    return res.json({ theme: requestedTheme });
+  }
+
+  const returnTo = sanitizeReturnPath(req.body?.returnTo || req.get('referer') || '/');
   if (req.session) {
     req.session.save(() => res.redirect(returnTo));
   } else {

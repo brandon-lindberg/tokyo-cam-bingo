@@ -240,8 +240,8 @@
     <h2 style="margin-bottom: 1rem;">Card Reports</h2>
 
     <div class="filter-buttons">
-      <button class="filter-btn active" onclick="filterReports('all')">All</button>
-      <button class="filter-btn" onclick="filterReports('pending')">Pending</button>
+      <button class="filter-btn" onclick="filterReports('all')">All</button>
+      <button class="filter-btn active" onclick="filterReports('pending')">Pending</button>
       <button class="filter-btn" onclick="filterReports('reviewed')">Reviewed</button>
       <button class="filter-btn" onclick="filterReports('dismissed')">Dismissed</button>
     </div>
@@ -255,7 +255,7 @@
   </div>
 
   <script>
-    let currentFilter = 'all';
+    let currentFilter = 'pending';
 
     function showTab(tabName) {
       document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
@@ -528,7 +528,7 @@
     }
 
     // Load reports on page load
-    loadReports('all');
+    loadReports(currentFilter);
   </script>
 </body>
 </html>

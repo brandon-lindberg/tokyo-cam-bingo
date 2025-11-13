@@ -264,18 +264,6 @@
           <input type="hidden" name="tag" value="<%= tagFilter %>">
         </form>
       </div>
-      <% if (availableTags.length > 0) { %>
-        <div class="tag-filter">
-          <select onchange="changeTag(this.value)">
-            <option value=""><%= t('gallery.filterAll') %></option>
-            <% availableTags.forEach(tag => { %>
-              <option value="<%= tag %>" <%= tagFilter === tag ? 'selected' : '' %>>
-                <%= tag %>
-              </option>
-            <% }); %>
-          </select>
-        </div>
-      <% } %>
       <div class="sort-controls">
         <button
           class="sort-btn <%= sortBy === 'recent' ? 'active' : '' %>"

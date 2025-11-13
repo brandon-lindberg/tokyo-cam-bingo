@@ -41,7 +41,8 @@ const BODY_LIMIT = '250kb';
 const CAPTCHA_TTL_MS = 10 * 60 * 1000;
 const CAPTCHA_TYPES = {
   CREATE_GAME: 'createGame',
-  CARD_BUILDER: 'cardBuilder'
+  CARD_BUILDER: 'cardBuilder',
+  REPORT_CARD: 'reportCard'
 };
 const LOCALE_COOKIE_NAME = 'locale';
 const LOCALE_COOKIE_MAX_AGE = 365 * 24 * 60 * 60 * 1000; // 1 year
@@ -681,12 +682,16 @@ app.get('/card/:code', async (req, res) => {
     const cardUrl = `${req.protocol}://${req.get('host')}/card/${collection.code}`;
     const qrCodeDataUrl = await QRCode.toDataURL(cardUrl);
 
+    // Get captcha for report functionality
+    const reportCaptcha = getCaptcha(req.session, CAPTCHA_TYPES.REPORT_CARD);
+
     res.render('card-preview', {
       card: collection,
       qrCode: qrCodeDataUrl,
       cardUrl: cardUrl,
       pageTitle: `${collection.name} - Tokyo Cam Bingo Card`,
-      metaDescription: `Check out this custom Tokyo Cam Bingo card: ${collection.name} with ${collection.items.length} items.`
+      metaDescription: `Check out this custom Tokyo Cam Bingo card: ${collection.name} with ${collection.items.length} items.`,
+      reportCaptchaQuestion: reportCaptcha.question
     });
   } catch (error) {
     console.error('Error fetching card preview:', error);
@@ -932,7 +937,12 @@ app.put('/api/card-collections/:code', cardWriteLimiter, csrfProtection, async (
 // Report inappropriate card
 app.post('/api/report-card', async (req, res) => {
   try {
-    const { cardCode, reason } = req.body;
+    const { cardCode, reason, captchaAnswer } = req.body;
+
+    // Validate captcha first
+    if (!validateCaptcha(req.session, CAPTCHA_TYPES.REPORT_CARD, captchaAnswer)) {
+      return res.status(400).json({ success: false, error: 'Captcha answer incorrect. Please try again.' });
+    }
 
     if (!cardCode || !reason) {
       return res.status(400).json({ success: false, error: 'Card code and reason required' });

@@ -263,7 +263,7 @@
 <body class="has-global-top-bar" data-asset-version="<%= assetVersion %>" data-locale="<%= locale %>">
   <div class="global-top-bar">
     <div class="top-bar-left">
-      <a href="/" style="text-decoration: none; color: inherit;">← <%= t('actions.backToHome') %></a>
+      <a href="/gallery" style="text-decoration: none; color: inherit;">← Back to Gallery</a>
     </div>
     <div class="top-bar-right">
       <%- include('partials/locale-switcher') %>
@@ -379,6 +379,47 @@
     </div>
   </div>
 
+  <!-- Report Modal -->
+  <div class="modal-overlay" id="report-modal" style="display: none;">
+    <div class="modal-card" style="max-width: 500px;">
+      <h2 style="color: #dc3545; margin-bottom: 1rem;">🚩 <%= t('cardPreview.report') %></h2>
+      <p style="color: #666; margin-bottom: 1rem;"><%= t('cardPreview.reportPrompt') %></p>
+
+      <div style="margin-bottom: 1rem;">
+        <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: #333;">
+          Reason for report:
+        </label>
+        <textarea id="report-reason" placeholder="Please describe why you are reporting this card..."
+          style="width: 100%; padding: 0.75rem; border: 2px solid #E0E0E0; border-radius: 8px; font-family: 'Roboto', sans-serif; min-height: 100px; resize: vertical;"></textarea>
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: #333;">
+          Verify you are human:
+        </label>
+        <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+          <span id="report-captcha-question" style="font-weight: 600; color: #FF69B4;">
+            <%= reportCaptchaQuestion || '2 + 2 = ?' %>
+          </span>
+          <button type="button" class="secondary-button" onclick="refreshReportCaptcha()" style="padding: 0.35rem 0.75rem; background: transparent; border: 1px solid #00BFFF; color: #00BFFF; border-radius: 8px; cursor: pointer;">
+            ↻
+          </button>
+        </div>
+        <input type="text" id="report-captcha-answer" placeholder="Your answer"
+          style="width: 100%; padding: 0.75rem; border: 2px solid #E0E0E0; border-radius: 8px; font-family: 'Roboto', sans-serif;" autocomplete="off">
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; justify-content: center;">
+        <button onclick="submitReport()" style="background: #dc3545; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-family: 'Roboto', sans-serif;">
+          Submit Report
+        </button>
+        <button onclick="closeReportModal()" style="background: #6c757d; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-family: 'Roboto', sans-serif;">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     function toggleQR() {
       const section = document.getElementById('qr-section');
@@ -438,30 +479,72 @@
     }
 
     function reportCard() {
-      const reason = prompt('<%= t("cardPreview.reportPrompt") %>');
-      if (reason && reason.trim()) {
-        fetch('/api/report-card', {
+      document.getElementById('report-modal').style.display = 'flex';
+      document.body.classList.add('modal-open');
+    }
+
+    function closeReportModal() {
+      document.getElementById('report-modal').style.display = 'none';
+      document.body.classList.remove('modal-open');
+      document.getElementById('report-reason').value = '';
+      document.getElementById('report-captcha-answer').value = '';
+    }
+
+    async function refreshReportCaptcha() {
+      const questionEl = document.getElementById('report-captcha-question');
+      try {
+        const response = await fetch('/api/captcha/reportCard');
+        if (!response.ok) throw new Error('Failed to refresh captcha');
+        const data = await response.json();
+        questionEl.textContent = data.question || '2 + 2 = ?';
+        document.getElementById('report-captcha-answer').value = '';
+      } catch (error) {
+        console.error('Captcha refresh failed:', error);
+        questionEl.textContent = 'Error loading captcha';
+      }
+    }
+
+    async function submitReport() {
+      const reason = document.getElementById('report-reason').value.trim();
+      const captchaAnswer = document.getElementById('report-captcha-answer').value.trim();
+
+      if (!reason) {
+        alert('Please provide a reason for reporting this card.');
+        return;
+      }
+
+      if (!captchaAnswer) {
+        alert('Please answer the math problem to verify you are human.');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/report-card', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             cardCode: '<%= card.code %>',
-            reason: reason
+            reason: reason,
+            captchaAnswer: captchaAnswer
           })
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            alert('<%= t("cardPreview.reportSuccess") %>');
-          } else {
-            alert('<%= t("cardPreview.reportFailed") %>');
-          }
-        })
-        .catch(err => {
-          console.error('Report failed:', err);
-          alert('<%= t("cardPreview.reportFailed") %>');
         });
+
+        const data = await response.json();
+
+        if (data.success) {
+          alert('<%= t("cardPreview.reportSuccess") %>');
+          closeReportModal();
+        } else {
+          alert(data.error || '<%= t("cardPreview.reportFailed") %>');
+          if (data.error && data.error.toLowerCase().includes('captcha')) {
+            refreshReportCaptcha();
+          }
+        }
+      } catch (err) {
+        console.error('Report failed:', err);
+        alert('<%= t("cardPreview.reportFailed") %>');
       }
     }
   </script>

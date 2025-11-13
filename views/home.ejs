@@ -62,18 +62,20 @@
   <link rel="stylesheet" href="/css/timer-picker.css?v=<%= assetVersion %>">
   <script src="/js/pwa-install.js?v=<%= assetVersion %>" defer></script>
   <script src="/js/splash.js?v=<%= assetVersion %>" defer></script>
+  <script src="/js/theme-toggle.js?v=<%= assetVersion %>" defer></script>
+  <script src="/js/preferences-menu.js?v=<%= assetVersion %>" defer></script>
   <script src="/js/timer-picker.js?v=<%= assetVersion %>"></script>
   <script type="application/ld+json">
     <%= JSON.stringify(structuredData) %>
   </script>
 </head>
-<body class="splash-active has-global-top-bar" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>">
+<body class="splash-active has-global-top-bar <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>" data-theme="<%= theme %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>">
   <div class="global-top-bar">
     <div class="top-bar-left">
       <a id="top-bar-back" href="#" onclick="backToHome(); return false;" style="visibility: hidden; pointer-events: none;">← <%= t('actions.backToHome') %></a>
     </div>
     <div class="top-bar-right">
-      <%- include('partials/locale-switcher') %>
+      <%- include('partials/preferences-menu') %>
     </div>
   </div>
   <div id="splash-screen" class="splash-screen" role="presentation" aria-hidden="true">
@@ -103,11 +105,11 @@
         <button type="button" id="rulebook-open"><%= t('home.ruleBook') %></button>
       </div>
       <div style="text-align: center; margin-top: 1rem;">
-        <a href="/card-builder" style="color: #00BFFF; text-decoration: none; font-size: 1rem;">
+        <a href="/card-builder" style="color: var(--color-accent); text-decoration: none; font-size: 1rem;">
           <%= t('home.createCustomCardLink') %>
         </a>
         <span style="margin: 0 0.5rem; color: #666;">|</span>
-        <a href="/gallery" style="color: #FF69B4; text-decoration: none; font-size: 1rem;">
+        <a href="/gallery" style="color: var(--color-heading); text-decoration: none; font-size: 1rem;">
           <%= t('home.browseGalleryLink') %>
         </a>
       </div>

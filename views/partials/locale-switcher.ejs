@@ -1,12 +1,13 @@
 <% const localeOptions = Array.isArray(availableLocales) && availableLocales.length ? availableLocales : [{ code: 'en', label: 'English' }]; %>
 <% const safeLocaleCount = Math.max(1, localeOptions.length); %>
 <% const activeLocaleIndex = Math.max(0, localeOptions.findIndex((entry) => entry.code === locale)); %>
-<form class="locale-switcher" method="POST" action="/set-locale">
+<% const localeVariant = typeof localeSwitcherVariant === 'string' ? localeSwitcherVariant : 'default'; %>
+<form class="locale-switcher locale-switcher--<%= localeVariant %>" method="POST" action="/set-locale">
   <span class="sr-only" id="locale-switcher-label"><%= t('common.language') %></span>
   <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
   <input type="hidden" name="returnTo" value="<%= currentPath %>">
   <div
-    class="locale-toggle"
+    class="locale-toggle locale-toggle--<%= localeVariant %>"
     role="group"
     aria-labelledby="locale-switcher-label"
     style="--locale-count:<%= safeLocaleCount %>; --active-index:<%= activeLocaleIndex %>;"

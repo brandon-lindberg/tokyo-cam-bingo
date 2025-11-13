@@ -47,12 +47,12 @@
     "ruleBook": "Rule Book",
     "createCustomCardLink": "+ Create Custom Card",
     "browseGalleryLink": "Browse Templates",
-    "heroDescription": "Spin up streamer-ready gamer bingo and lockout bingo lobbies in seconds.",
-    "heroLockoutDescription": "Inspired by Ludwig-style challenges, Tokyo Cam Bingo handles VS scoring, rerolls, and timers so you can focus on the hype.",
+    "heroDescription": "Spin up streamer-ready lockout bingo lobbies in seconds.",
+    "heroLockoutDescription": "Inspired by lockout bingo challenges, Tokyo Cam Bingo brings lockout and gamer style bingo, made by streamers for streamers.",
     "heroTags": [
+      "Lockout Bingo",
       "Streamer Bingo",
       "Gamer Bingo",
-      "Lockout Bingo",
       "Watch Parties"
     ],
     "seoHighlights": {

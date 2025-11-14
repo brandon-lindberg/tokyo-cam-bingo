@@ -390,39 +390,37 @@
 
   <!-- Report Modal -->
   <div class="modal-overlay" id="report-modal" style="display: none;">
-    <div class="modal-card" style="max-width: 500px;">
-      <h2 style="color: #dc3545; margin-bottom: 1rem;">🚩 <%= t('cardPreview.report') %></h2>
-      <p style="color: var(--color-subtle); margin-bottom: 1rem;"><%= t('cardPreview.reportPrompt') %></p>
+    <div class="modal-card modal-card--report">
+      <h2 class="modal-title modal-title--danger">🚩 <%= t('cardPreview.report') %></h2>
+      <p class="modal-subtitle modal-subtitle--muted"><%= t('cardPreview.reportPrompt') %></p>
 
-      <div style="margin-bottom: 1rem;">
-        <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--color-text);">
+      <div class="modal-field">
+        <label for="report-reason">
           Reason for report:
         </label>
-        <textarea id="report-reason" placeholder="Please describe why you are reporting this card..."
-          style="width: 100%; padding: 0.75rem; border: 2px solid var(--color-border-strong); border-radius: 8px; font-family: 'Roboto', sans-serif; min-height: 100px; resize: vertical; background: var(--color-surface); color: var(--color-text);"></textarea>
+        <textarea id="report-reason" placeholder="Please describe why you are reporting this card..." rows="4"></textarea>
       </div>
 
-      <div style="margin-bottom: 1.5rem;">
-        <label style="display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--color-text);">
+      <div class="modal-field">
+        <label for="report-captcha-answer">
           Verify you are human:
         </label>
-        <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
-          <span id="report-captcha-question" style="font-weight: 600; color: var(--color-heading);">
+        <div class="modal-captcha-row">
+          <span id="report-captcha-question" class="modal-captcha-question">
             <%= reportCaptchaQuestion || '2 + 2 = ?' %>
           </span>
-          <button type="button" class="secondary-button" onclick="refreshReportCaptcha()" style="padding: 0.35rem 0.75rem; background: transparent; border: 1px solid var(--color-accent); color: var(--color-accent); border-radius: 8px; cursor: pointer;">
+          <button type="button" class="secondary-button" onclick="refreshReportCaptcha()">
             ↻
           </button>
         </div>
-        <input type="text" id="report-captcha-answer" placeholder="Your answer"
-          style="width: 100%; padding: 0.75rem; border: 2px solid var(--color-border-strong); border-radius: 8px; font-family: 'Roboto', sans-serif; background: var(--color-surface); color: var(--color-text);" autocomplete="off">
+        <input type="text" id="report-captcha-answer" placeholder="Your answer" autocomplete="off">
       </div>
 
-      <div style="display: flex; gap: 0.75rem; justify-content: center;">
-        <button onclick="submitReport()" style="background: #dc3545; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-family: 'Roboto', sans-serif;">
+      <div class="modal-button-group">
+        <button type="button" class="btn btn-danger" onclick="submitReport()">
           Submit Report
         </button>
-        <button onclick="closeReportModal()" style="background: #6c757d; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-family: 'Roboto', sans-serif;">
+        <button type="button" class="btn btn-secondary" onclick="closeReportModal()">
           Cancel
         </button>
       </div>

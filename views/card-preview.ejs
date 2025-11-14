@@ -322,7 +322,11 @@
     <% if (card.tags && card.tags.length > 0) { %>
       <div class="card-tags-section">
         <% card.tags.forEach(tag => { %>
-          <span class="tag-badge" onclick="window.location.href='/gallery?tag=<%= tag %>'"><%= tag %></span>
+          <span
+            class="tag-badge"
+            onclick="window.location.href='/gallery?tag=<%= encodeURIComponent(tag) %>'">
+            <%= tag %>
+          </span>
         <% }); %>
       </div>
     <% } %>

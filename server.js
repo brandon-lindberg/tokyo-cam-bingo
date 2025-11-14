@@ -870,7 +870,7 @@ app.get('/gallery', async (req, res) => {
     const offset = (page - 1) * limit;
     const search = req.query.search || '';
     const sortBy = req.query.sort || 'recent'; // recent, popular
-    const tagFilter = req.query.tag || ''; // tag filter
+    const tagFilter = (req.query.tag || '').toString().trim(); // tag filter
 
     // Build where clause - only show public AND locked cards
     const whereClause = {
@@ -889,7 +889,6 @@ app.get('/gallery', async (req, res) => {
     // Add tag filter if provided
     if (tagFilter) {
       whereClause.tags = {
-        path: '$',
         array_contains: tagFilter
       };
     }

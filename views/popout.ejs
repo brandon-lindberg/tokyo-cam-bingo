@@ -88,6 +88,7 @@
   </div>
 
   <%- include('partials/i18n-script', { namespaces: ['game', 'items'] }) %>
+  <script id="popout-players" type="application/json"><%- JSON.stringify(players || []) %></script>
   <script>
     const socket = io();
     const translateItemText = (value) => {
@@ -97,6 +98,11 @@
     const gameId = document.body.dataset.gameId;
     const playerId = document.body.dataset.playerId;
     const gameMode = document.body.dataset.gameMode;
+    const playersDataElement = document.getElementById('popout-players');
+    const popoutPlayers = playersDataElement ? JSON.parse(playersDataElement.textContent || '[]') : [];
+    if (playersDataElement) {
+      playersDataElement.remove();
+    }
 
     socket.emit('join_room', { gameId, playerId });
 
@@ -111,41 +117,39 @@
       }
     });
 
-    // Initialize colored stamps on page load for VS mode
-    <% if (game.mode === 'VS') { %>
-      (function initializeColoredStamps() {
-        const currentCardTable = document.getElementById('card-<%= currentPlayer.id %>');
-        const players = <%- JSON.stringify(players) %>;
-        const currentPlayerData = players.find(p => String(p.id) === String(playerId));
-
-        if (currentPlayerData && currentCardTable) {
-          currentPlayerData.card.forEach((row, r) => {
-            row.forEach((tile, c) => {
-              const td = currentCardTable.rows[r].cells[c];
-
-              // Clear all stamp classes
-              td.className = '';
-              td.dataset.row = r;
-              td.dataset.col = c;
-
-              // Check which player (if any) has stamped this square
-              let stampedBy = null;
-              for (const player of players) {
-                const squares = player.stampedSquares || [];
-                if (squares.some(s => Number(s.row) === r && Number(s.col) === c)) {
-                  stampedBy = player.color;
-                  break;
-                }
-              }
-
-              if (stampedBy) {
-                td.classList.add(`stamped-${stampedBy}`);
-              }
-            });
-          });
-        }
-      })();
-    <% } %>
+    function initializeColoredStamps() {
+      if (gameMode !== 'VS') {
+        return;
+      }
+      const currentCardTable = document.getElementById(`card-${playerId}`);
+      if (!currentCardTable) {
+        return;
+      }
+      const currentPlayerData = popoutPlayers.find((p) => String(p.id) === String(playerId));
+      if (!currentPlayerData) {
+        return;
+      }
+      currentPlayerData.card.forEach((row, r) => {
+        row.forEach((tile, c) => {
+          const td = currentCardTable.rows[r].cells[c];
+          td.className = '';
+          td.dataset.row = r;
+          td.dataset.col = c;
+          let stampedBy = null;
+          for (const player of popoutPlayers) {
+            const squares = player.stampedSquares || [];
+            if (squares.some((s) => Number(s.row) === r && Number(s.col) === c)) {
+              stampedBy = player.color;
+              break;
+            }
+          }
+          if (stampedBy) {
+            td.classList.add(`stamped-${stampedBy}`);
+          }
+        });
+      });
+    }
+    initializeColoredStamps();
 
     const nextFrame = window.requestAnimationFrame ? (cb) => window.requestAnimationFrame(cb) : (cb) => setTimeout(cb, 16);
     const TILE_FONT_MIN_PX = 10;
@@ -280,7 +284,7 @@
     });
 
     // Initial tile sizing
-    scheduleTileResize(document.getElementById('card-<%= currentPlayer.id %>'));
+    scheduleTileResize(document.getElementById(`card-${playerId}`));
   </script>
 </body>
 </html>

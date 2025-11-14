@@ -284,6 +284,26 @@
         "If the card is caching an old game, right-click the Browser Source, choose Properties, and click Refresh cache of current page at the bottom."
       ]
     },
+    "deviceLink": {
+      "openButton": "Link mobile device",
+      "modalTitle": "Link another device",
+      "modalDescription": "Scan the QR code or enter the code and PIN on your phone. Links last 24 hours.",
+      "note": "Keep this safe—anyone with access can control your card.",
+      "manualReminder": "If you can’t scan, open tokyo-cam-bingo.com/link on your phone and enter the code + PIN.",
+      "codeLabel": "Code",
+      "pinLabel": "PIN",
+      "shareLabel": "Shareable link",
+      "copyLink": "Copy link",
+      "generate": "Generate new link",
+      "loading": "Creating secure link…",
+      "error": "Couldn't create a link. Please try again.",
+      "placeholder": "Generate a link to see your code and QR.",
+      "expiresIn": "Expires in {time}",
+      "expired": "Expired",
+      "qrAlt": "Device link QR code",
+      "securityError": "Missing security token. Refresh and try again.",
+      "copyUnavailable": "Link not ready to copy yet."
+    },
     "exitToHome": "Exit to Home",
     "timerExpired": {
       "title": "Time's Up!",
@@ -527,9 +547,22 @@
     "generic": "Something went wrong. Please try again.",
     "rateLimited": "Too many requests. Please wait and try again."
   },
+  "linkPage": {
+    "title": "Link Your Device | Tokyo Cam Bingo",
+    "description": "Connect your phone to an existing Tokyo Cam Bingo game with a secure code.",
+    "heading": "Link your device",
+    "instructions": "Enter the code and PIN provided by the host to control the game from this device.",
+    "codeLabel": "Link code",
+    "pinLabel": "PIN",
+    "submit": "Connect to game",
+    "securityNote": "Only enter codes from hosts you trust. Anyone with the link can act as that player.",
+    "helper": "Already linked on this device? Just visit /game—your trusted link lasts for 7 days.",
+    "backToHome": "← Back to home"
+  },
   "notifications": {
     "codeCopied": "Code copied!",
-    "codeShown": "Shown code to copy"
+    "codeShown": "Shown code to copy",
+    "linkCopied": "Link copied!"
   },
   "vote": {
     "prompt": "Vote now!",

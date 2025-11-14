@@ -10,6 +10,7 @@ const io = require('socket.io')(http);
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const fs = require('fs');
+const QRCode = require('qrcode');
 const itemsList = JSON.parse(fs.readFileSync('items.json'));
 const session = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
@@ -59,6 +60,12 @@ const ADMIN_HEARTBEAT_INTERVAL_MS = Math.max(
   10000,
   Math.min(60000, Math.floor(ADMIN_IDLE_TIMEOUT_MS / 2))
 );
+const DEVICE_LINK_CODE_LENGTH = 8;
+const DEVICE_LINK_PIN_LENGTH = 4;
+const DEVICE_LINK_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+const DEVICE_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+const DEVICE_TOKEN_COOKIE_NAME = 'device_token';
+const DEVICE_LINK_CODE_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 
 // In-memory flags and voting state
 const flagsLeft = {}; // playerId -> remaining flags
@@ -219,6 +226,13 @@ const sessionMiddleware = session({
 
 app.use(sessionMiddleware);
 io.use((socket, next) => sessionMiddleware(socket.request, socket.request.res || {}, next));
+app.use(async (req, res, next) => {
+  if (req.session?.playerId && req.session?.gameId) {
+    return next();
+  }
+  await attemptRestoreSessionFromDeviceToken(req, res);
+  return next();
+});
 
 app.use((req, res, next) => {
   const { locale, source } = determineRequestLocale(req);
@@ -265,6 +279,192 @@ app.use((req, res, next) => {
 });
 
 const actionCooldowns = new Map();
+
+function hashValue(value = '') {
+  return crypto.createHash('sha256').update(value).digest('hex');
+}
+
+function sanitizeDeviceLinkCode(value = '') {
+  return (value || '')
+    .toString()
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, '')
+    .slice(0, DEVICE_LINK_CODE_LENGTH);
+}
+
+function sanitizeDeviceLinkPin(value = '') {
+  return (value || '')
+    .toString()
+    .replace(/[^0-9]/g, '')
+    .slice(0, DEVICE_LINK_PIN_LENGTH);
+}
+
+function generateRandomString(length, alphabet) {
+  const chars = [];
+  for (let i = 0; i < length; i++) {
+    const idx = crypto.randomInt(0, alphabet.length);
+    chars.push(alphabet[idx]);
+  }
+  return chars.join('');
+}
+
+async function generateUniqueDeviceLinkCode() {
+  let code = '';
+  let attempts = 0;
+  while (!code || attempts < 10) {
+    attempts++;
+    const candidate = generateRandomString(DEVICE_LINK_CODE_LENGTH, DEVICE_LINK_CODE_ALPHABET);
+    // eslint-disable-next-line no-await-in-loop
+    const existing = await prisma.deviceLink.findUnique({ where: { code: candidate } });
+    if (!existing) {
+      code = candidate;
+      break;
+    }
+  }
+  if (!code) {
+    // Fallback to timestamp-based code if collisions keep happening
+    code = `${Date.now()}`.slice(-DEVICE_LINK_CODE_LENGTH).toUpperCase();
+  }
+  return code;
+}
+
+function generateDeviceLinkPin() {
+  return generateRandomString(DEVICE_LINK_PIN_LENGTH, '0123456789');
+}
+
+function deriveDeviceLinkStatus(link) {
+  if (!link) return 'unknown';
+  if (link.status === 'revoked') return 'revoked';
+  if (link.expiresAt && link.expiresAt.getTime() <= Date.now()) {
+    return 'expired';
+  }
+  return 'active';
+}
+
+function clearDeviceTokenCookie(res) {
+  res.cookie(DEVICE_TOKEN_COOKIE_NAME, '', {
+    maxAge: 0,
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: isProduction
+  });
+}
+
+function setDeviceTokenCookie(res, token) {
+  res.cookie(DEVICE_TOKEN_COOKIE_NAME, token, {
+    maxAge: DEVICE_TOKEN_TTL_MS,
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: isProduction
+  });
+}
+
+async function completeDeviceLinkSession(req, res, link) {
+  if (!req.session) return;
+  const token = crypto.randomBytes(32).toString('hex');
+  const now = new Date();
+  const tokenExpiresAt = new Date(now.getTime() + DEVICE_TOKEN_TTL_MS);
+  await prisma.deviceLink.update({
+    where: { id: link.id },
+    data: {
+      trustedTokenHash: hashValue(token),
+      trustedTokenExpiresAt: tokenExpiresAt,
+      lastUsedAt: now
+    }
+  });
+  setDeviceTokenCookie(res, token);
+  req.session.gameId = link.gameId;
+  req.session.playerId = link.playerId;
+  req.session.deviceLinkId = link.id;
+  await new Promise((resolve) => {
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error after device link:', err);
+      }
+      resolve();
+    });
+  });
+}
+
+async function attemptRestoreSessionFromDeviceToken(req, res) {
+  if (!req.session) return;
+  const cookies = parseCookies(req.headers?.cookie || '');
+  const rawToken = cookies[DEVICE_TOKEN_COOKIE_NAME];
+  if (!rawToken || req.session.playerId || req.session.gameId) {
+    return;
+  }
+  try {
+    const tokenHash = hashValue(rawToken);
+    const link = await prisma.deviceLink.findFirst({
+      where: {
+        trustedTokenHash: tokenHash
+      }
+    });
+    if (!link) {
+      clearDeviceTokenCookie(res);
+      return;
+    }
+    if (
+      link.status !== 'active' ||
+      !link.trustedTokenExpiresAt ||
+      link.trustedTokenExpiresAt.getTime() <= Date.now() ||
+      (link.expiresAt && link.expiresAt.getTime() <= Date.now())
+    ) {
+      await prisma.deviceLink.update({
+        where: { id: link.id },
+        data: {
+          trustedTokenHash: null,
+          trustedTokenExpiresAt: null
+        }
+      }).catch(() => {});
+      clearDeviceTokenCookie(res);
+      return;
+    }
+    req.session.gameId = link.gameId;
+    req.session.playerId = link.playerId;
+    req.session.deviceLinkId = link.id;
+    await prisma.deviceLink.update({
+      where: { id: link.id },
+      data: {
+        lastUsedAt: new Date()
+      }
+    }).catch(() => {});
+    await new Promise((resolve) => {
+      req.session.save((err) => {
+        if (err) {
+          console.error('Session save error during device token restore:', err);
+        }
+        resolve();
+      });
+    });
+  } catch (error) {
+    console.error('Error restoring session from device token:', error);
+    clearDeviceTokenCookie(res);
+  }
+}
+
+async function validateDeviceLinkCredentials(codeInput, pinInput) {
+  const code = sanitizeDeviceLinkCode(codeInput);
+  const pin = sanitizeDeviceLinkPin(pinInput);
+  if (!code || code.length !== DEVICE_LINK_CODE_LENGTH) {
+    return { error: 'Invalid link code.' };
+  }
+  if (!pin || pin.length !== DEVICE_LINK_PIN_LENGTH) {
+    return { error: 'Invalid PIN.' };
+  }
+  const link = await prisma.deviceLink.findUnique({ where: { code } });
+  if (!link) {
+    return { error: 'Link not found.' };
+  }
+  const status = deriveDeviceLinkStatus(link);
+  if (status !== 'active') {
+    return { error: status === 'expired' ? 'Link expired.' : 'Link revoked.' };
+  }
+  if (hashValue(pin) !== link.pinHash) {
+    return { error: 'Incorrect PIN.' };
+  }
+  return { link };
+}
 
 function buildAbsoluteUrl(req, targetPath = '/') {
   const safePath = typeof targetPath === 'string' && targetPath.length ? targetPath : '/';
@@ -835,7 +1035,6 @@ app.get('/card/:code', async (req, res) => {
     }
 
     // Generate QR code for sharing
-    const QRCode = require('qrcode');
     const cardPath = `/card/${collection.code}`;
     const cardUrl = buildAbsoluteUrl(req, cardPath);
     const qrCodeDataUrl = await QRCode.toDataURL(cardUrl);
@@ -1948,6 +2147,156 @@ app.get('/get-code', async (req, res) => {
   const game = await prisma.game.findUnique({ where: { id: gameId } });
   if (!game) return res.status(404).send('Not found');
   res.send(game.code);
+});
+
+// Device link landing page
+app.get(['/link', '/link/:code'], (req, res) => {
+  if (req.session?.playerId && req.session?.gameId) {
+    return res.redirect('/game');
+  }
+  const codeParam = sanitizeDeviceLinkCode(req.params?.code || req.query?.code || '');
+  const pinParam = sanitizeDeviceLinkPin(req.query?.pin || '');
+  return res.render('device-link', {
+    codePrefill: codeParam,
+    pinPrefill: pinParam,
+    errorMessage: '',
+    infoMessage: '',
+    codeLength: DEVICE_LINK_CODE_LENGTH,
+    pinLength: DEVICE_LINK_PIN_LENGTH
+  });
+});
+
+// Device link APIs
+app.get('/api/device-links', async (req, res) => {
+  const { playerId } = req.session;
+  if (!playerId) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+  const links = await prisma.deviceLink.findMany({
+    where: { playerId },
+    orderBy: { createdAt: 'desc' }
+  });
+  const now = Date.now();
+  const payload = links.map((link) => ({
+    id: link.id,
+    code: link.code,
+    status: deriveDeviceLinkStatus(link),
+    expiresAt: link.expiresAt,
+    lastUsedAt: link.lastUsedAt,
+    createdAt: link.createdAt,
+    trustedTokenExpiresAt: link.trustedTokenExpiresAt,
+    hasTrustedDevice: Boolean(link.trustedTokenHash && link.trustedTokenExpiresAt && link.trustedTokenExpiresAt.getTime() > now)
+  }));
+  res.json({ links: payload });
+});
+
+app.post('/api/device-links', csrfProtection, async (req, res) => {
+  try {
+    const { playerId } = req.session;
+    if (!playerId) {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+    const player = await prisma.player.findUnique({
+      where: { id: playerId },
+      select: { id: true, gameId: true }
+    });
+    if (!player) {
+      return res.status(404).json({ error: 'Player not found' });
+    }
+
+    const code = await generateUniqueDeviceLinkCode();
+    const pin = generateDeviceLinkPin();
+    const expiresAt = new Date(Date.now() + DEVICE_LINK_TTL_MS);
+
+    const record = await prisma.deviceLink.create({
+      data: {
+        code,
+        pinHash: hashValue(pin),
+        playerId: player.id,
+        gameId: player.gameId,
+        expiresAt
+      }
+    });
+
+    const linkUrl = buildAbsoluteUrl(req, `/link/${record.code}?pin=${pin}`);
+    let qrCode = '';
+    try {
+      qrCode = await QRCode.toDataURL(linkUrl);
+    } catch (error) {
+      console.warn('Failed to generate device link QR code', error?.message || error);
+    }
+
+    return res.json({
+      id: record.id,
+      code,
+      pin,
+      expiresAt,
+      linkUrl,
+      qrCode
+    });
+  } catch (error) {
+    console.error('Error creating device link:', error);
+    return res.status(500).json({ error: 'Failed to create device link' });
+  }
+});
+
+app.post('/api/device-links/:id/revoke', csrfProtection, async (req, res) => {
+  const { playerId } = req.session;
+  if (!playerId) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+  const { id } = req.params;
+  const link = await prisma.deviceLink.findUnique({ where: { id } });
+  if (!link || link.playerId !== playerId) {
+    return res.status(404).json({ error: 'Link not found' });
+  }
+  await prisma.deviceLink.update({
+    where: { id },
+    data: {
+      status: 'revoked',
+      trustedTokenHash: null,
+      trustedTokenExpiresAt: null
+    }
+  });
+  res.json({ success: true });
+});
+
+app.post('/api/device-links/redeem', csrfProtection, async (req, res) => {
+  const wantsJson = requestPrefersJson(req);
+  const { code: codeInput, pin: pinInput } = req.body || {};
+  const result = await validateDeviceLinkCredentials(codeInput, pinInput);
+  if (result.error || !result.link) {
+    if (wantsJson) {
+      return res.status(400).json({ error: result.error || 'Unable to link device.' });
+    }
+    return res.status(400).send(result.error || 'Unable to link device.');
+  }
+  await completeDeviceLinkSession(req, res, result.link);
+  if (wantsJson) {
+    return res.json({ success: true });
+  }
+  return res.redirect('/game');
+});
+
+app.post('/link', csrfProtection, async (req, res) => {
+  if (req.session?.playerId && req.session?.gameId) {
+    return res.redirect('/game');
+  }
+  const codeInput = req.body?.code;
+  const pinInput = req.body?.pin;
+  const result = await validateDeviceLinkCredentials(codeInput, pinInput);
+  if (result.error || !result.link) {
+    return res.status(400).render('device-link', {
+      codePrefill: sanitizeDeviceLinkCode(codeInput),
+      pinPrefill: sanitizeDeviceLinkPin(pinInput),
+      errorMessage: result.error || 'Unable to link device.',
+      infoMessage: '',
+      codeLength: DEVICE_LINK_CODE_LENGTH,
+      pinLength: DEVICE_LINK_PIN_LENGTH
+    });
+  }
+  await completeDeviceLinkSession(req, res, result.link);
+  return res.redirect('/game');
 });
 
 // Socket.io for real-time

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="<%= locale || 'en' %>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= t('linkPage.title') %></title>
+  <meta name="description" content="<%= t('linkPage.description') %>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css?v=<%= assetVersion %>">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
+<body class="link-page <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>">
+  <main class="link-page__container">
+    <section class="link-card">
+      <header class="link-card__header">
+        <span aria-hidden="true" class="link-card__icon">🔗</span>
+        <div>
+          <h1><%= t('linkPage.heading') %></h1>
+          <p class="link-card__subtitle"><%= t('linkPage.instructions') %></p>
+        </div>
+      </header>
+
+      <% if (infoMessage) { %>
+        <div class="link-alert link-alert--info"><%= infoMessage %></div>
+      <% } %>
+      <% if (errorMessage) { %>
+        <div class="link-alert link-alert--error"><%= errorMessage %></div>
+      <% } %>
+
+      <form method="POST" action="/link" class="link-form">
+        <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
+        <label class="link-form__label" for="link-code"><%= t('linkPage.codeLabel') %></label>
+        <input
+          id="link-code"
+          name="code"
+          class="link-form__input"
+          inputmode="text"
+          autocomplete="one-time-code"
+          maxlength="<%= codeLength || 8 %>"
+          placeholder="ABC12345"
+          value="<%= codePrefill || '' %>"
+          required>
+
+        <label class="link-form__label" for="link-pin"><%= t('linkPage.pinLabel') %></label>
+        <input
+          id="link-pin"
+          name="pin"
+          class="link-form__input"
+          inputmode="numeric"
+          pattern="\\d{4}"
+          maxlength="<%= pinLength || 4 %>"
+          placeholder="1234"
+          value="<%= pinPrefill || '' %>"
+          required>
+
+        <button type="submit" class="link-form__submit"><%= t('linkPage.submit') %></button>
+      </form>
+
+      <p class="link-card__footnote"><%= t('linkPage.securityNote') %></p>
+      <p class="link-card__helper"><%= t('linkPage.helper') %></p>
+      <a href="/" class="link-card__back"><%= t('linkPage.backToHome') %></a>
+    </section>
+  </main>
+</body>
+</html>

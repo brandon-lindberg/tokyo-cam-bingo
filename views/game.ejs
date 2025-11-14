@@ -125,6 +125,7 @@
       <button id="minimal-toggle-btn" onclick="toggleMinimalMode(); closeHamburgerOnMobile();"><span data-minimal-state="off"><%= t('game.minimalModeOff') %></span></button>
       <button id="stream-instructions-btn" onclick="openStreamInstructions(); closeHamburgerOnMobile();"><%= streamGuide.buttonLabel || 'OBS Setup Guide' %></button>
       <button id="popout-btn" onclick="popoutCard(); closeHamburgerOnMobile();"><%= t('game.popoutCard') %></button>
+      <button id="device-link-btn" onclick="openDeviceLinkModal(); closeHamburgerOnMobile();"><%= t('game.deviceLink.openButton') %></button>
       <% if (currentPlayer.isHost && game.rerollsEnabled) { %>
         <hr class="hamburger-divider">
         <button onclick="enterRerollMode('<%= currentPlayer.id %>'); closeHamburgerOnMobile();"><%= t('actions.enterRerollMode') %></button>
@@ -147,6 +148,46 @@
           <button onclick="exitRerollMode('<%= currentPlayer.id %>')"><%= t('actions.cancel') %></button>
         </div>
       <% } %>
+    </div>
+  </div>
+</div>
+
+<div id="device-link-modal" class="modal-overlay" style="display:none;">
+  <div class="modal-card modal-card--device-link" role="dialog" aria-modal="true" aria-labelledby="device-link-title">
+    <div class="modal-header">
+      <span aria-hidden="true">📱</span>
+      <h3 id="device-link-title" class="modal-title"><%= t('game.deviceLink.modalTitle') %></h3>
+    </div>
+    <p class="modal-subtitle modal-subtitle--muted"><%= t('game.deviceLink.modalDescription') %></p>
+    <p class="device-link-note"><%= t('game.deviceLink.note') %></p>
+    <div class="device-link-display" aria-live="polite">
+      <div class="device-link-field">
+        <span class="device-link-label"><%= t('game.deviceLink.codeLabel') %></span>
+        <div id="device-link-code" class="device-link-value">------</div>
+      </div>
+      <div class="device-link-field">
+        <span class="device-link-label"><%= t('game.deviceLink.pinLabel') %></span>
+        <div id="device-link-pin" class="device-link-value device-link-pin">----</div>
+      </div>
+    </div>
+    <div class="device-link-qr-wrapper">
+      <img id="device-link-qr" alt="<%= t('game.deviceLink.qrAlt') %>">
+      <div id="device-link-placeholder" class="device-link-placeholder"><%= t('game.deviceLink.placeholder') %></div>
+    </div>
+    <div class="device-link-share">
+      <span class="device-link-share-label"><%= t('game.deviceLink.shareLabel') %></span>
+      <div class="device-link-share-row">
+        <input id="device-link-url" type="text" readonly value="">
+        <button type="button" onclick="copyDeviceLinkUrl()"><%= t('game.deviceLink.copyLink') %></button>
+      </div>
+    </div>
+    <p class="device-link-note"><%= t('game.deviceLink.manualReminder') %></p>
+    <p id="device-link-expiry" class="device-link-expiry"></p>
+    <p id="device-link-status" class="device-link-status"></p>
+    <p id="device-link-error" class="modal-error"></p>
+    <div class="modal-actions device-link-actions">
+      <button type="button" id="device-link-refresh" onclick="requestDeviceLink()"><%= t('game.deviceLink.generate') %></button>
+      <button type="button" class="btn btn-secondary" onclick="closeDeviceLinkModal()"><%= t('actions.close') %></button>
     </div>
   </div>
 </div>
@@ -425,6 +466,16 @@
     const playerId = document.body.dataset.playerId;
     const playerName = document.body.dataset.playerName;
     const isHost = document.body.dataset.isHost === 'true';
+    const csrfTokenValue = (document.querySelector('meta[name="csrf-token"]') || { getAttribute: () => '' }).getAttribute('content') || '';
+    const deviceLinkState = {
+      modal: null,
+      loading: false,
+      current: null,
+      expiresAt: null,
+      expiryTimer: null
+    };
+    const deviceLinkPlaceholderCode = '------';
+    const deviceLinkPlaceholderPin = '----';
 
     // Initialize game timer if enabled
     let gameTimer = null;
@@ -1451,6 +1502,248 @@
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && modal.style.display === 'flex') {
           closeStreamInstructions();
+        }
+      });
+    })();
+
+    function openDeviceLinkModal() {
+      const modal = document.getElementById('device-link-modal');
+      if (!modal) return;
+      deviceLinkState.modal = modal;
+      modal.style.display = 'flex';
+      document.body.classList.add('modal-open');
+      resetDeviceLinkUI();
+      requestDeviceLink();
+    }
+
+    function closeDeviceLinkModal() {
+      const modal = deviceLinkState.modal || document.getElementById('device-link-modal');
+      if (!modal) return;
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+      deviceLinkState.modal = null;
+      if (deviceLinkState.expiryTimer) {
+        clearInterval(deviceLinkState.expiryTimer);
+        deviceLinkState.expiryTimer = null;
+      }
+    }
+
+    function resetDeviceLinkUI() {
+      const codeEl = document.getElementById('device-link-code');
+      if (codeEl) codeEl.textContent = deviceLinkPlaceholderCode;
+      const pinEl = document.getElementById('device-link-pin');
+      if (pinEl) pinEl.textContent = deviceLinkPlaceholderPin;
+      const urlInput = document.getElementById('device-link-url');
+      if (urlInput) urlInput.value = '';
+      const qrImg = document.getElementById('device-link-qr');
+      const placeholder = document.getElementById('device-link-placeholder');
+      if (qrImg) {
+        qrImg.removeAttribute('src');
+        qrImg.style.display = 'none';
+      }
+      if (placeholder) {
+        placeholder.style.display = 'block';
+      }
+      setDeviceLinkStatus('');
+      setDeviceLinkError('');
+      updateDeviceLinkExpiry(null);
+    }
+
+    function setDeviceLinkLoading(isLoading) {
+      deviceLinkState.loading = isLoading;
+      const button = document.getElementById('device-link-refresh');
+      if (button) {
+        button.disabled = Boolean(isLoading);
+        button.setAttribute('aria-busy', isLoading ? 'true' : 'false');
+      }
+    }
+
+    function setDeviceLinkStatus(message) {
+      const statusEl = document.getElementById('device-link-status');
+      if (statusEl) {
+        statusEl.textContent = message || '';
+      }
+    }
+
+    function setDeviceLinkError(message) {
+      const errorEl = document.getElementById('device-link-error');
+      if (errorEl) {
+        errorEl.textContent = message || '';
+      }
+    }
+
+    function updateDeviceLinkUI(payload) {
+      if (!payload) return;
+      deviceLinkState.current = payload;
+      const codeEl = document.getElementById('device-link-code');
+      if (codeEl) {
+        codeEl.textContent = payload.code || deviceLinkPlaceholderCode;
+      }
+      const pinEl = document.getElementById('device-link-pin');
+      if (pinEl) {
+        pinEl.textContent = payload.pin || deviceLinkPlaceholderPin;
+      }
+      const urlInput = document.getElementById('device-link-url');
+      if (urlInput) {
+        urlInput.value = payload.linkUrl || '';
+      }
+      const qrImg = document.getElementById('device-link-qr');
+      const placeholder = document.getElementById('device-link-placeholder');
+      if (payload.qrCode && qrImg) {
+        qrImg.src = payload.qrCode;
+        qrImg.style.display = 'block';
+        if (placeholder) {
+          placeholder.style.display = 'none';
+        }
+      } else if (qrImg) {
+        qrImg.style.display = 'none';
+        if (placeholder) {
+          placeholder.style.display = 'block';
+        }
+      }
+      setDeviceLinkStatus('');
+      setDeviceLinkError('');
+      startDeviceLinkExpiryTimer(payload.expiresAt);
+    }
+
+    function formatDeviceLinkDuration(ms) {
+      const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      if (hours > 0) {
+        return `${hours}h ${minutes}m`;
+      }
+      if (minutes > 0) {
+        return `${minutes}m ${seconds}s`;
+      }
+      return `${seconds}s`;
+    }
+
+    function updateDeviceLinkExpiry(expiresAt) {
+      const expiryEl = document.getElementById('device-link-expiry');
+      if (!expiryEl) return;
+      if (!expiresAt) {
+        expiryEl.textContent = '';
+        return;
+      }
+      const expiryDate = expiresAt instanceof Date ? expiresAt : new Date(expiresAt);
+      const diff = expiryDate.getTime() - Date.now();
+      if (diff <= 0) {
+        expiryEl.textContent = translateText('game.deviceLink.expired');
+        return;
+      }
+      expiryEl.textContent = translateText('game.deviceLink.expiresIn', { time: formatDeviceLinkDuration(diff) });
+    }
+
+    function startDeviceLinkExpiryTimer(expiresAt) {
+      if (deviceLinkState.expiryTimer) {
+        clearInterval(deviceLinkState.expiryTimer);
+        deviceLinkState.expiryTimer = null;
+      }
+      deviceLinkState.expiresAt = expiresAt ? new Date(expiresAt) : null;
+      updateDeviceLinkExpiry(deviceLinkState.expiresAt);
+      if (!deviceLinkState.expiresAt) {
+        return;
+      }
+      deviceLinkState.expiryTimer = setInterval(() => {
+        updateDeviceLinkExpiry(deviceLinkState.expiresAt);
+        if (deviceLinkState.expiresAt && deviceLinkState.expiresAt.getTime() <= Date.now()) {
+          clearInterval(deviceLinkState.expiryTimer);
+          deviceLinkState.expiryTimer = null;
+        }
+      }, 30000);
+    }
+
+    async function requestDeviceLink() {
+      if (deviceLinkState.loading) return;
+      if (!csrfTokenValue) {
+        setDeviceLinkError(translateText('game.deviceLink.securityError'));
+        return;
+      }
+      setDeviceLinkLoading(true);
+      setDeviceLinkStatus(translateText('game.deviceLink.loading'));
+      setDeviceLinkError('');
+      try {
+        const response = await fetch('/api/device-links', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-csrf-token': csrfTokenValue
+          },
+          body: JSON.stringify({})
+        });
+        let payload = {};
+        try {
+          payload = await response.json();
+        } catch (error) {
+          payload = {};
+        }
+        if (!response.ok) {
+          throw new Error(payload.error || translateText('game.deviceLink.error'));
+        }
+        updateDeviceLinkUI(payload);
+      } catch (error) {
+        console.error('Device link creation error:', error);
+        setDeviceLinkError(error.message || translateText('game.deviceLink.error'));
+      } finally {
+        setDeviceLinkLoading(false);
+        setDeviceLinkStatus('');
+      }
+    }
+
+    function showDeviceLinkToast(message) {
+      const toast = document.getElementById('copy-toast-mobile');
+      if (!toast) return;
+      toast.textContent = message;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 2000);
+    }
+
+    function copyDeviceLinkUrl() {
+      const input = document.getElementById('device-link-url');
+      if (!input || !input.value) {
+        setDeviceLinkError(translateText('game.deviceLink.copyUnavailable'));
+        return;
+      }
+      const value = input.value;
+      const onSuccess = () => {
+        const message = translateText('notifications.linkCopied');
+        setDeviceLinkStatus(message);
+        showDeviceLinkToast(message);
+      };
+      const fallbackCopy = () => {
+        try {
+          input.removeAttribute('readonly');
+          input.select();
+          document.execCommand('copy');
+          input.setAttribute('readonly', 'readonly');
+          input.blur();
+          onSuccess();
+        } catch (error) {
+          setDeviceLinkError(translateText('game.deviceLink.copyUnavailable'));
+        }
+      };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(value).then(onSuccess).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+    }
+
+    (function initDeviceLinkModal() {
+      const modal = document.getElementById('device-link-modal');
+      if (!modal) return;
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          closeDeviceLinkModal();
+        }
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.style.display === 'flex') {
+          closeDeviceLinkModal();
         }
       });
     })();

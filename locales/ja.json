@@ -282,6 +282,26 @@
         "カードが古いゲームのまま表示される場合はブラウザソースを右クリックし、プロパティを開いて下部の「現在のページのキャッシュをリフレッシュ」を押します。"
       ]
     },
+    "deviceLink": {
+      "openButton": "モバイル端末をリンク",
+      "modalTitle": "別デバイスをリンク",
+      "modalDescription": "QRコードを読み取るか、コードとPINを入力して接続します。リンクは24時間有効です。",
+      "note": "このコードを知っている人はカードを操作できます。大切に保管してください。",
+      "manualReminder": "QRを使えない場合は携帯でtokyo-cam-bingo.com/linkを開き、コードとPINを入力してください。",
+      "codeLabel": "コード",
+      "pinLabel": "PIN",
+      "shareLabel": "共有リンク",
+      "copyLink": "リンクをコピー",
+      "generate": "新しいリンクを作成",
+      "loading": "安全なリンクを作成中...",
+      "error": "リンクを作成できませんでした。再試行してください。",
+      "placeholder": "コードとQRを表示するにはリンクを作成してください。",
+      "expiresIn": "{time}で期限切れ",
+      "expired": "期限切れ",
+      "qrAlt": "デバイスリンク用QRコード",
+      "securityError": "セキュリティトークンが不足しています。リロードして再試行してください。",
+      "copyUnavailable": "まだコピーできるリンクがありません。"
+    },
     "exitToHome": "ホームに戻る",
     "timerExpired": {
       "title": "時間切れ！",
@@ -525,9 +545,22 @@
     "generic": "問題が発生しました。もう一度お試しください。",
     "rateLimited": "リクエストが多すぎます。しばらくしてからお試しください。"
   },
+  "linkPage": {
+    "title": "デバイスをリンク | Tokyo Cam Bingo",
+    "description": "ホストから受け取ったコードで携帯を既存のゲームに接続します。",
+    "heading": "デバイスをリンク",
+    "instructions": "ホストが共有したコードとPINを入力すると、この端末からカードを操作できます。",
+    "codeLabel": "リンクコード",
+    "pinLabel": "PIN",
+    "submit": "ゲームに接続",
+    "securityNote": "信頼できるホストからのコードのみ入力してください。他の人に知られると操作される恐れがあります。",
+    "helper": "この端末ですでにリンク済みなら /game を開くだけで再開できます（7日間有効）。",
+    "backToHome": "← ホームへ戻る"
+  },
   "notifications": {
     "codeCopied": "コードをコピーしました！",
-    "codeShown": "コピー用にコードを表示しました"
+    "codeShown": "コピー用にコードを表示しました",
+    "linkCopied": "リンクをコピーしました！"
   },
   "vote": {
     "prompt": "今すぐ投票！",

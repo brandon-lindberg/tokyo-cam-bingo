@@ -1712,7 +1712,8 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
       gameId: game.id,
       card,
       color: mode === 'VS' ? hostColor : null,
-      stampedSquares: mode === 'VS' ? [] : null
+      stampedSquares: mode === 'VS' ? [] : null,
+      themePreference: req.theme || DEFAULT_THEME
     },
   });
   req.session.gameId = game.id;
@@ -1771,7 +1772,8 @@ app.post('/join', createJoinLimiter, csrfProtection, async (req, res) => {
       gameId: game.id,
       card,
       color: game.mode === 'VS' ? playerColor : null,
-      stampedSquares: game.mode === 'VS' ? [] : null
+      stampedSquares: game.mode === 'VS' ? [] : null,
+      themePreference: req.theme || DEFAULT_THEME
     },
   });
   req.session.gameId = game.id;
@@ -1804,11 +1806,24 @@ app.get('/game', async (req, res) => {
   if (!game) return res.redirect('/');
   const player = game.players.find(p => p.id === playerId);
   if (!player) return res.redirect('/');
-  const effectiveTheme = normalizeTheme(player.themePreference) || req.theme || DEFAULT_THEME;
-  if (effectiveTheme !== req.theme) {
+  let requestTheme = normalizeTheme(req.theme);
+  const playerTheme = normalizeTheme(player.themePreference);
+
+  if (requestTheme && requestTheme !== playerTheme) {
+    await persistPlayerThemePreference(req, requestTheme);
+  } else if (!requestTheme && playerTheme) {
+    persistThemePreference(req, res, playerTheme);
+    req.theme = playerTheme;
+    requestTheme = playerTheme;
+  }
+
+  const effectiveTheme = requestTheme || playerTheme || DEFAULT_THEME;
+
+  if (!requestTheme && !playerTheme) {
     persistThemePreference(req, res, effectiveTheme);
     req.theme = effectiveTheme;
   }
+
   res.locals.theme = effectiveTheme;
   // Fetch chat messages for this game
   const rawMessages = await prisma.chatMessage.findMany({
@@ -1846,14 +1861,28 @@ app.get('/game/:gameId/popout', async (req, res) => {
   if (!player) return res.redirect('/');
 
   const queryTheme = normalizeTheme(req.query?.theme);
-  let effectiveTheme = queryTheme || normalizeTheme(player.themePreference) || req.theme || DEFAULT_THEME;
-  if (queryTheme && queryTheme !== player.themePreference) {
+  let requestTheme = normalizeTheme(req.theme);
+  let playerTheme = normalizeTheme(player.themePreference);
+  let effectiveTheme = queryTheme || requestTheme || playerTheme || DEFAULT_THEME;
+
+  if (queryTheme && queryTheme !== playerTheme) {
     try {
       await prisma.player.update({ where: { id: player.id }, data: { themePreference: queryTheme } });
+      playerTheme = queryTheme;
     } catch (error) {
       console.warn('Failed to update player theme preference from popout', error?.message || error);
     }
+  } else if (!queryTheme && requestTheme && requestTheme !== playerTheme) {
+    await persistPlayerThemePreference(req, requestTheme);
+    playerTheme = requestTheme;
+  } else if (!queryTheme && !requestTheme && playerTheme) {
+    persistThemePreference(req, res, playerTheme);
+    req.theme = playerTheme;
+    requestTheme = playerTheme;
   }
+
+  effectiveTheme = queryTheme || requestTheme || playerTheme || DEFAULT_THEME;
+
   persistThemePreference(req, res, effectiveTheme);
   req.theme = effectiveTheme;
   res.locals.theme = effectiveTheme;

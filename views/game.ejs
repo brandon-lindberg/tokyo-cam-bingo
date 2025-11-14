@@ -263,18 +263,73 @@
 
   <!-- Bottom App Bar for Mobile -->
   <div class="bottom-app-bar mobile-only">
-    <button onclick="toggleDrawer('leaderboard')"><%= t('game.leaderboard') %></button>
-    <div class="bottom-app-bar-item">
-      <button id="chat-toggle-mobile" class="chat-toggle-button">
-        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
-      </button>
+    <button
+      type="button"
+      class="bottom-app-bar__button"
+      onclick="toggleDrawer('leaderboard')"
+      aria-label="<%= t('game.leaderboard') %>"
+      title="<%= t('game.leaderboard') %>"
+    >
+      <span class="sr-only"><%= t('game.leaderboard') %></span>
+      <span class="bottom-app-bar__icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" role="presentation" focusable="false">
+          <path d="M4 20h16" />
+          <path d="M7 20v-7" />
+          <path d="M12 20V8" />
+          <path d="M17 20v-9" />
+        </svg>
+      </span>
+    </button>
+    <button
+      type="button"
+      id="chat-toggle-mobile"
+      class="bottom-app-bar__button"
+      aria-label="<%= t('game.chatToggle') %>"
+      title="<%= t('game.chatToggle') %>"
+    >
+      <span class="sr-only"><%= t('game.chatToggle') %></span>
+      <span class="bottom-app-bar__icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" role="presentation" focusable="false">
+          <path d="M5 5h14v10H9l-4 4V5z" />
+        </svg>
+      </span>
       <span id="chat-notification-mobile" class="notification-badge"></span>
-    </div>
+    </button>
     <% if (game.flagsEnabled) { %>
-      <button id="flag-button-mobile" class="chat-toggle-button" title="<%= t('game.flagButton') %>">🚩</button>
+      <button
+        type="button"
+        id="flag-button-mobile"
+        class="bottom-app-bar__button"
+        aria-label="<%= t('game.flagButton') %>"
+        title="<%= t('game.flagButton') %>"
+      >
+        <span class="sr-only"><%= t('game.flagButton') %></span>
+        <span class="bottom-app-bar__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" role="presentation" focusable="false">
+            <path d="M7 20V6" />
+            <path d="M7 6h9l-2.5 2.5L16 11H7" />
+          </svg>
+        </span>
+      </button>
     <% } %>
     <% if (currentPlayer.isHost) { %>
-      <button id="copy-code-mobile" onclick="copyGameCode()" title="<%= t('actions.copyCode') %>"><%= t('actions.copyCode') %></button>
+      <button
+        type="button"
+        id="copy-code-mobile"
+        class="bottom-app-bar__button"
+        onclick="copyGameCode()"
+        aria-label="<%= t('actions.copyCode') %>"
+        title="<%= t('actions.copyCode') %>"
+      >
+        <span class="sr-only"><%= t('actions.copyCode') %></span>
+        <span class="bottom-app-bar__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" role="presentation" focusable="false">
+            <rect x="8" y="7" width="8" height="12" rx="1.5" />
+            <path d="M9 4h6" />
+            <path d="M9 6h6" />
+          </svg>
+        </span>
+      </button>
     <% } %>
   </div>
   <!-- Centered mobile toast for copy code -->

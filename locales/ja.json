@@ -268,6 +268,7 @@
     "streamerModeOn": "配信モード: オン",
     "minimalModeOff": "ミニマルモード: オフ",
     "minimalModeOn": "ミニマルモード: オン",
+    "minimalModeExit": "ミニマルモードを終了",
     "popoutCard": "カードをポップアウト",
     "exitToHome": "ホームに戻る",
     "timerExpired": {
@@ -489,6 +490,9 @@
     "sortRecent": "新着順",
     "sortPopular": "人気順",
     "filterAll": "すべてのタグ",
+    "filterLabel": "タグで絞り込む",
+    "filterActive": "「{tag}」タグのカードを表示中",
+    "clearFilter": "フィルター解除",
     "noCards": "カードがまだありません",
     "noCardsDescription": "最初のゲーマービンゴ／ロックアウトテンプレをシェアしましょう！",
     "createFirst": "最初のテンプレートを作成",

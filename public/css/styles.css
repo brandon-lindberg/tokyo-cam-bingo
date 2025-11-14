@@ -1733,14 +1733,14 @@ input, select {
   }
 }
 
-/* Custom cursor for own card; adjust hotspot (half width and full height of cursor image) */
+/* Custom cursor for own card; adjust hotspot (slightly above bottom center) */
 .own-card td:not(.stamped) {
-  cursor: url('/images/hanko.png') 50 100, auto;
+  cursor: url('/images/hanko-cursor.png') 48 96, auto;
 }
 
 /* Custom cursor for VS mode cards */
 .vs-card td {
-  cursor: url('/images/hanko.png') 50 100, auto;
+  cursor: url('/images/hanko-cursor.png') 48 96, auto;
 }
 
 /* Hanko stamp overlay for own card: centered with tile content */
@@ -2224,6 +2224,34 @@ body.minimal-mode.game-page {
 }
 body.minimal-mode .hamburger-menu-container {
   display: none !important;
+}
+.minimal-exit-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2000;
+  padding: 0.65rem 1.25rem;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--color-accent);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  display: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.minimal-exit-btn:hover,
+.minimal-exit-btn:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+.minimal-exit-btn:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 3px;
+}
+body.minimal-mode .minimal-exit-btn {
+  display: inline-flex;
 }
 
 /* Hamburger Menu Styling */

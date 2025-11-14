@@ -206,7 +206,7 @@
     }
   </style>
 </head>
-<body>
+<body data-admin-heartbeat-interval="<%= adminHeartbeatInterval || 0 %>">
   <div class="header">
     <h1>🛡️ Admin Dashboard</h1>
     <a href="/admin-dashboard-secret/logout" class="logout-btn">Logout</a>
@@ -255,7 +255,7 @@
   </div>
 
   <script>
-    const ADMIN_HEARTBEAT_INTERVAL = <%= Number(adminHeartbeatInterval) || 0 %>;
+    const ADMIN_HEARTBEAT_INTERVAL = Number(document.body.dataset.adminHeartbeatInterval || '0');
     const ADMIN_HEARTBEAT_URL = '/admin-dashboard-secret/api/heartbeat';
     let currentFilter = 'pending';
 

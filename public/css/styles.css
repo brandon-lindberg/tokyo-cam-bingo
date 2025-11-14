@@ -1735,7 +1735,7 @@ input, select {
 
 /* Custom cursor for own card; hotspot is slightly above bottom center */
 .own-card {
-  cursor: url('/images/hanko-cursor.png') 16 29, auto;
+  cursor: url('/images/hanko-cursor.png') 32 58, auto;
 }
 .own-card td:not(.stamped),
 .own-card td:not(.stamped) .tile-content {
@@ -1744,7 +1744,7 @@ input, select {
 
 /* Custom cursor for VS mode cards */
 .vs-card {
-  cursor: url('/images/hanko-cursor.png') 16 29, auto;
+  cursor: url('/images/hanko-cursor.png') 32 58, auto;
 }
 .vs-card td,
 .vs-card td .tile-content {

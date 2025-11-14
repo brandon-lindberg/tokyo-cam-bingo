@@ -42,6 +42,7 @@ model Player {
   color           String?  // For VS mode: RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, PINK, CYAN
   stampedSquares  Json?    // For VS mode: array of {row, col, color}
   cardRevealed    Boolean  @default(false) // Whether player has revealed their card
+  themePreference String   @default("light")
   game            Game     @relation(fields: [gameId], references: [id])
   messages        ChatMessage[]
 }

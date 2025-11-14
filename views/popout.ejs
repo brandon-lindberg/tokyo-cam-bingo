@@ -38,36 +38,36 @@
     }
     /* Ensure card cover is opaque in popout */
     .card-cover-overlay {
-      background-color: #f0f0f0 !important;
+      background-color: var(--color-surface) !important;
     }
     /* VS Mode colored stamps - semi-transparent color on opaque white */
     .vs-card td.stamped-RED {
-      background: linear-gradient(rgba(255, 0, 0, 0.4), rgba(255, 0, 0, 0.4)), #ffffff !important;
+      background: linear-gradient(rgba(255, 0, 0, 0.4), rgba(255, 0, 0, 0.4)), var(--color-surface) !important;
     }
     .vs-card td.stamped-BLUE {
-      background: linear-gradient(rgba(0, 0, 255, 0.4), rgba(0, 0, 255, 0.4)), #ffffff !important;
+      background: linear-gradient(rgba(0, 0, 255, 0.4), rgba(0, 0, 255, 0.4)), var(--color-surface) !important;
     }
     .vs-card td.stamped-GREEN {
-      background: linear-gradient(rgba(0, 255, 0, 0.4), rgba(0, 255, 0, 0.4)), #ffffff !important;
+      background: linear-gradient(rgba(0, 255, 0, 0.4), rgba(0, 255, 0, 0.4)), var(--color-surface) !important;
     }
     .vs-card td.stamped-YELLOW {
-      background: linear-gradient(rgba(255, 255, 0, 0.4), rgba(255, 255, 0, 0.4)), #ffffff !important;
+      background: linear-gradient(rgba(255, 255, 0, 0.4), rgba(255, 255, 0, 0.4)), var(--color-surface) !important;
     }
     .vs-card td.stamped-PURPLE {
-      background: linear-gradient(rgba(128, 0, 128, 0.4), rgba(128, 0, 128, 0.4)), #ffffff !important;
+      background: linear-gradient(rgba(128, 0, 128, 0.4), rgba(128, 0, 128, 0.4)), var(--color-surface) !important;
     }
     .vs-card td.stamped-ORANGE {
-      background: linear-gradient(rgba(255, 165, 0, 0.4), rgba(255, 165, 0, 0.4)), #ffffff !important;
+      background: linear-gradient(rgba(255, 165, 0, 0.4), rgba(255, 165, 0, 0.4)), var(--color-surface) !important;
     }
     .vs-card td.stamped-PINK {
-      background: linear-gradient(rgba(255, 192, 203, 0.4), rgba(255, 192, 203, 0.4)), #ffffff !important;
+      background: linear-gradient(rgba(255, 192, 203, 0.4), rgba(255, 192, 203, 0.4)), var(--color-surface) !important;
     }
     .vs-card td.stamped-CYAN {
-      background: linear-gradient(rgba(0, 255, 255, 0.4), rgba(0, 255, 255, 0.4)), #ffffff !important;
+      background: linear-gradient(rgba(0, 255, 255, 0.4), rgba(0, 255, 255, 0.4)), var(--color-surface) !important;
     }
   </style>
 </head>
-<body class="streamer-mode" style="background: none !important; background-color: transparent !important;" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-game-mode="<%= game.mode %>" data-locale="<%= locale %>">
+<body class="streamer-mode <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>" style="background: none !important; background-color: transparent !important;" data-theme="<%= theme %>" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-game-mode="<%= game.mode %>" data-locale="<%= locale %>">
   <div class="popout-container">
     <div class="card-cover-overlay <%= currentPlayer.cardRevealed ? 'hidden' : '' %>" id="card-cover" onclick="revealCard()">
       <div class="cover-icon">🎴</div>

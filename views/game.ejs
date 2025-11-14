@@ -234,38 +234,44 @@
   </div>
 
   <!-- Winner Modal -->
-  <div id="winner-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:1001;">
-    <div style="background:#fff; padding:2rem; border-radius:8px; text-align:center; max-width:90%; margin:auto;">
-      <h2 id="winner-modal-name" style="color: #10B981; margin-bottom: 0.5rem; font-size: 2rem;"><%= t('game.winnerHeading') %></h2>
-      <p id="winner-modal-condition" style="font-size: 1.2rem; margin-bottom: 1.5rem; color: #333;"><%= t('game.winnerConditionLabel') %></p>
-      <div id="winner-modal-buttons" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+  <div id="winner-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-card modal-card--status">
+      <h2 id="winner-modal-name" class="modal-title modal-title--success modal-title--xl"><%= t('game.winnerHeading') %></h2>
+      <p id="winner-modal-condition" class="modal-subtitle modal-subtitle--strong"><%= t('game.winnerConditionLabel') %></p>
+      <div id="winner-modal-buttons" class="modal-actions modal-actions--wrap">
         <% if (currentPlayer.isHost) { %>
-          <button onclick="startNewGame()" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #00BFFF; color: white; border: none; border-radius: 8px; cursor: pointer;"><%= t('game.winnerNewGame') %></button>
+          <button class="btn btn-accent btn-lg" onclick="startNewGame()"><%= t('game.winnerNewGame') %></button>
         <% } %>
-        <button onclick="location.href = '/'" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #FF69B4; color: white; border: none; border-radius: 8px; cursor: pointer;"><%= t('game.exitToHome') %></button>
+        <button class="btn btn-heading btn-lg" onclick="location.href = '/'">
+          <%= t('game.exitToHome') %>
+        </button>
       </div>
     </div>
   </div>
 
   <!-- Timer Expired Modal -->
-  <div id="timer-expired-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); align-items:center; justify-content:center; z-index:1002;">
-    <div style="background:#fff; padding:2rem; border-radius:12px; text-align:center; max-width:90%; margin:auto; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
-      <div style="font-size: 3rem; margin-bottom: 1rem;">⏰</div>
-      <h2 id="timer-expired-title" style="color: #F59E0B; margin-bottom: 0.5rem; font-size: 2rem;"><%= t('game.timerExpired.title') %></h2>
-      <p id="timer-expired-message" style="font-size: 1.1rem; margin-bottom: 1rem; color: #666;"><%= t('game.timerExpired.message') %></p>
-      <p id="timer-expired-winner" style="font-size: 1.3rem; font-weight: 600; margin-bottom: 1.5rem; color: #10B981; display: none;"><%= t('game.timerExpired.winnerPrefix') %> <span id="timer-expired-winner-name"></span></p>
-      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+  <div id="timer-expired-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-card modal-card--status">
+      <div class="modal-icon" aria-hidden="true">⏰</div>
+      <h2 id="timer-expired-title" class="modal-title modal-title--warning modal-title--xl"><%= t('game.timerExpired.title') %></h2>
+      <p id="timer-expired-message" class="modal-subtitle modal-subtitle--muted"><%= t('game.timerExpired.message') %></p>
+      <p id="timer-expired-winner" class="modal-subtitle modal-subtitle--success" style="display: none;">
+        <%= t('game.timerExpired.winnerPrefix') %> <span id="timer-expired-winner-name"></span>
+      </p>
+      <div class="modal-actions modal-actions--wrap">
         <% if (currentPlayer.isHost) { %>
-          <button onclick="startNewGame(); closeTimerExpiredModal();" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #00BFFF; color: white; border: none; border-radius: 8px; cursor: pointer;"><%= t('game.winnerNewGame') %></button>
+          <button class="btn btn-accent btn-lg" onclick="startNewGame(); closeTimerExpiredModal();"><%= t('game.winnerNewGame') %></button>
         <% } %>
-        <button onclick="location.href = '/'" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #FF69B4; color: white; border: none; border-radius: 8px; cursor: pointer;"><%= t('game.exitToHome') %></button>
+        <button class="btn btn-heading btn-lg" onclick="location.href = '/'">
+          <%= t('game.exitToHome') %>
+        </button>
       </div>
     </div>
   </div>
   <!-- Modal for opponent cards -->
-  <div id="player-modal" style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
-    <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 800px;">
-      <span onclick="closeModal()" style="cursor: pointer; float: right; font-size: 28px;">×</span>
+  <div id="player-modal" class="modal-overlay modal-overlay--scroll" style="display: none;">
+    <div class="modal-card modal-card--player">
+      <button type="button" class="modal-close-button" onclick="closeModal()" aria-label="<%= t('actions.close') %>">&times;</button>
       <h2 id="modal-player-name"></h2>
       <table id="modal-card" class="bingo-card own-card"></table>
       <div id="modal-reroll" style="display: none;">
@@ -1318,7 +1324,8 @@
     function popoutCard() {
       const gameId = document.body.dataset.gameId;
       const playerId = document.body.dataset.playerId;
-      const popoutUrl = `/game/${gameId}/popout?playerId=${playerId}`;
+      const theme = document.body.dataset.theme || 'light';
+      const popoutUrl = `/game/${gameId}/popout?playerId=${playerId}&theme=${theme}`;
       const popoutWindow = window.open(popoutUrl, 'BingoCardPopout', 'width=600,height=600,resizable=yes,scrollbars=no');
       if (popoutWindow) {
         popoutWindow.focus();

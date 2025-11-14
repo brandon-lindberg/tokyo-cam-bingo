@@ -230,9 +230,14 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  const theme = determineRequestTheme(req);
-  if (req.session && req.session.theme !== theme) {
-    req.session.theme = theme;
+  let theme = normalizeTheme(req.query?.theme);
+  if (theme) {
+    persistThemePreference(req, res, theme);
+  } else {
+    theme = determineRequestTheme(req);
+    if (req.session && req.session.theme !== theme) {
+      req.session.theme = theme;
+    }
   }
   req.theme = theme;
   res.locals.theme = theme;
@@ -374,6 +379,19 @@ function persistThemePreference(req, res, theme) {
   });
 }
 
+async function persistPlayerThemePreference(req, theme) {
+  const playerId = req.session?.playerId;
+  if (!playerId) return;
+  try {
+    await prisma.player.update({
+      where: { id: playerId },
+      data: { themePreference: theme }
+    });
+  } catch (error) {
+    console.warn('Failed to persist player theme preference', error?.message || error);
+  }
+}
+
 function requestPrefersJson(req) {
   const acceptHeader = (req.get('accept') || '').toLowerCase();
   const requestedWith = (req.get('x-requested-with') || '').toLowerCase();
@@ -428,7 +446,7 @@ app.post('/set-locale', csrfProtection, (req, res) => {
   }
 });
 
-app.post('/set-theme', csrfProtection, (req, res) => {
+app.post('/set-theme', csrfProtection, async (req, res) => {
   const requestedTheme = normalizeTheme(req.body?.theme);
   const wantsJson = requestPrefersJson(req);
   if (!requestedTheme) {
@@ -440,6 +458,7 @@ app.post('/set-theme', csrfProtection, (req, res) => {
   }
 
   persistThemePreference(req, res, requestedTheme);
+  await persistPlayerThemePreference(req, requestedTheme);
   req.theme = requestedTheme;
   if (wantsJson) {
     return res.json({ theme: requestedTheme });
@@ -1785,6 +1804,12 @@ app.get('/game', async (req, res) => {
   if (!game) return res.redirect('/');
   const player = game.players.find(p => p.id === playerId);
   if (!player) return res.redirect('/');
+  const effectiveTheme = normalizeTheme(player.themePreference) || req.theme || DEFAULT_THEME;
+  if (effectiveTheme !== req.theme) {
+    persistThemePreference(req, res, effectiveTheme);
+    req.theme = effectiveTheme;
+  }
+  res.locals.theme = effectiveTheme;
   // Fetch chat messages for this game
   const rawMessages = await prisma.chatMessage.findMany({
     where: { gameId },
@@ -1820,11 +1845,24 @@ app.get('/game/:gameId/popout', async (req, res) => {
   const player = game.players.find(p => p.id === playerId);
   if (!player) return res.redirect('/');
 
+  const queryTheme = normalizeTheme(req.query?.theme);
+  let effectiveTheme = queryTheme || normalizeTheme(player.themePreference) || req.theme || DEFAULT_THEME;
+  if (queryTheme && queryTheme !== player.themePreference) {
+    try {
+      await prisma.player.update({ where: { id: player.id }, data: { themePreference: queryTheme } });
+    } catch (error) {
+      console.warn('Failed to update player theme preference from popout', error?.message || error);
+    }
+  }
+  persistThemePreference(req, res, effectiveTheme);
+  req.theme = effectiveTheme;
+  res.locals.theme = effectiveTheme;
+
   // Set session for socket authentication (needed for OBS Browser Source)
   req.session.gameId = gameId;
   req.session.playerId = playerId;
 
-  res.render('popout', { game, players: game.players, currentPlayer: player });
+  res.render('popout', { game, players: game.players, currentPlayer: player, theme: effectiveTheme });
 });
 
 // Get game code (for copy, host-only)

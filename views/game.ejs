@@ -778,7 +778,15 @@
       const player = allPlayers.find(p => String(p.id) === String(targetPlayerId));
       if (!player) return;
 
-    document.getElementById('modal-player-name').textContent = translateText('game.playerCardTitle', { name: player.name });
+      const isVsMode = gameMode === 'VS';
+      const stampedLookup = new Set();
+      if (isVsMode) {
+        (player.stampedSquares || []).forEach(({ row, col }) => {
+          stampedLookup.add(`${row},${col}`);
+        });
+      }
+
+      document.getElementById('modal-player-name').textContent = translateText('game.playerCardTitle', { name: player.name });
       const modalCard = document.getElementById('modal-card');
       modalCard.innerHTML = '';
       player.card.forEach((row, r) => {
@@ -789,7 +797,8 @@
           div.className = 'tile-content';
           div.textContent = translateItemText(tile.item);
           td.appendChild(div);
-          td.classList.toggle('stamped', tile.stamped);
+          const stamped = isVsMode ? stampedLookup.has(`${r},${c}`) : Boolean(tile.stamped);
+          td.classList.toggle('stamped', stamped);
           td.dataset.row = r;
           td.dataset.col = c;
           tr.appendChild(td);

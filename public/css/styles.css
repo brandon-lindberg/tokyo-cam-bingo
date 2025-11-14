@@ -1734,17 +1734,19 @@ input, select {
 }
 
 /* Custom cursor for own card; hotspot is slightly above bottom center */
-.own-card td:not(.stamped) {
-  cursor: url('/images/hanko-cursor.png') 32 58, auto;
+.own-card {
+  cursor: url('/images/hanko-cursor.png') 16 29, auto;
 }
+.own-card td:not(.stamped),
 .own-card td:not(.stamped) .tile-content {
   cursor: inherit;
 }
 
 /* Custom cursor for VS mode cards */
-.vs-card td {
-  cursor: url('/images/hanko-cursor.png') 32 58, auto;
+.vs-card {
+  cursor: url('/images/hanko-cursor.png') 16 29, auto;
 }
+.vs-card td,
 .vs-card td .tile-content {
   cursor: inherit;
 }

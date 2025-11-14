@@ -31,6 +31,7 @@ model Game {
   createdAt           DateTime  @default(now())
   players             Player[]
   messages            ChatMessage[]
+  deviceLinks         DeviceLink[]
 }
 
 model Player {
@@ -45,6 +46,7 @@ model Player {
   themePreference String   @default("light")
   game            Game     @relation(fields: [gameId], references: [id])
   messages        ChatMessage[]
+  deviceLinks     DeviceLink[]
 }
 
 model ChatMessage {
@@ -86,4 +88,24 @@ model CardReport {
   status    String   @default("pending") // pending, reviewed, dismissed
   createdAt DateTime @default(now())
   reviewedAt DateTime?
+}
+
+model DeviceLink {
+  id                    String   @id @default(uuid())
+  code                  String   @unique
+  pinHash               String
+  status                String   @default("active") // active, revoked
+  expiresAt             DateTime
+  lastUsedAt            DateTime?
+  trustedTokenHash      String?
+  trustedTokenExpiresAt DateTime?
+  playerId              String
+  gameId                String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  player                Player   @relation(fields: [playerId], references: [id])
+  game                  Game     @relation(fields: [gameId], references: [id])
+
+  @@index([playerId])
+  @@index([gameId])
 }

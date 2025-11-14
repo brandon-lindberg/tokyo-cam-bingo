@@ -2443,6 +2443,9 @@ body.minimal-mode .minimal-exit-btn {
 .modal-card--instructions {
   max-width: 640px;
 }
+.modal-card--device-link {
+  max-width: 560px;
+}
 .rulebook-modal-card {
   max-height: 90vh;
   overflow-y: auto;
@@ -2528,6 +2531,206 @@ body.minimal-mode .minimal-exit-btn {
 }
 .modal-actions--wrap {
   flex-wrap: wrap;
+}
+.device-link-display {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.device-link-field {
+  background: var(--color-surface-alt);
+  border-radius: 12px;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+}
+.device-link-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-bottom: 0.25rem;
+}
+.device-link-value {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.65rem;
+  letter-spacing: 0.25rem;
+  color: var(--color-heading);
+  text-transform: uppercase;
+}
+.device-link-pin {
+  letter-spacing: 0.4rem;
+}
+.device-link-share {
+  margin: 1rem 0;
+}
+.device-link-share-label {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-bottom: 0.35rem;
+  display: block;
+}
+.device-link-share-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.device-link-share-row input {
+  flex: 1;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+}
+.device-link-share-row button {
+  white-space: nowrap;
+}
+.device-link-qr-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  background: var(--color-surface-alt);
+  border-radius: 12px;
+  border: 1px dashed var(--color-border);
+  margin-bottom: 0.75rem;
+  position: relative;
+}
+.device-link-qr-wrapper img {
+  max-width: 180px;
+  width: 100%;
+  height: auto;
+  display: none;
+}
+.device-link-placeholder {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  text-align: center;
+  padding: 0 1rem;
+}
+.device-link-expiry {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  margin: 0.5rem 0 0;
+}
+.modal-error {
+  color: var(--color-danger);
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0;
+  min-height: 1.2rem;
+}
+.device-link-note {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin: 0.5rem 0;
+}
+.device-link-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.device-link-status {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  min-height: 1.2rem;
+}
+
+/* Device link landing page */
+.link-page {
+  min-height: 100vh;
+  margin: 0;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+}
+.link-page__container {
+  width: 100%;
+  max-width: 480px;
+}
+.link-card {
+  background: var(--color-surface);
+  border-radius: 18px;
+  padding: 1.75rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+  border: 1px solid var(--color-border);
+}
+.link-card__header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.link-card__icon {
+  font-size: 2.25rem;
+}
+.link-card__subtitle {
+  margin: 0.35rem 0 0;
+  color: var(--color-muted);
+}
+.link-alert {
+  border-radius: 10px;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+}
+.link-alert--error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+}
+.link-alert--info {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+}
+.link-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.link-form__label {
+  font-weight: 500;
+  color: var(--color-text);
+}
+.link-form__input {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+.link-form__input#link-pin {
+  text-transform: none;
+}
+.link-form__submit {
+  margin-top: 0.5rem;
+  padding: 0.85rem;
+  font-size: 1rem;
+}
+.link-card__footnote,
+.link-card__helper {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  margin-top: 0.75rem;
+}
+.link-card__back {
+  display: inline-block;
+  margin-top: 1.25rem;
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.link-card__back:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .link-card {
+    padding: 1.25rem;
+  }
 }
 .modal-footer {
   margin-top: 0.75rem;

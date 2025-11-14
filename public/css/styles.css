@@ -2440,6 +2440,9 @@ body.minimal-mode .minimal-exit-btn {
   max-width: 900px;
   position: relative;
 }
+.modal-card--instructions {
+  max-width: 640px;
+}
 .rulebook-modal-card {
   max-height: 90vh;
   overflow-y: auto;
@@ -2469,6 +2472,14 @@ body.minimal-mode .minimal-exit-btn {
 }
 .rulebook-list li strong {
   color: var(--color-text);
+}
+.modal-ordered-list {
+  margin: 0.75rem 0 1.25rem 1.25rem;
+  padding: 0;
+  line-height: 1.6;
+}
+.modal-ordered-list li {
+  margin-bottom: 0.5rem;
 }
 .modal-header {
   display: flex;

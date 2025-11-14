@@ -66,7 +66,7 @@
   <script src="/js/preferences-menu.js?v=<%= assetVersion %>" defer></script>
   <script src="/js/timer-picker.js?v=<%= assetVersion %>"></script>
   <script type="application/ld+json">
-    <%= JSON.stringify(structuredData) %>
+    <%- JSON.stringify(structuredData) %>
   </script>
 </head>
 <body class="splash-active has-global-top-bar <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>" data-theme="<%= theme %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>">

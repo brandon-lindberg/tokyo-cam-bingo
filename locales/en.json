@@ -5,7 +5,7 @@
   },
   "common": {
     "appName": "Tokyo Cam Bingo",
-    "tagline": "Host streamer-friendly gamer & lockout bingo showdowns live with friends",
+    "tagline": "Host streamer-friendly Lockout bingo & Gamer bingo showdowns live with friends",
     "language": "Language",
     "loading": "Loading...",
     "theme": {
@@ -71,7 +71,7 @@
         "Play with pre-built cards or build and play with your own custom or community built cards"
       ]
     },
-    "streamerLockoutCallout": "Creators popularized lockout bingo for competitive streams—Tokyo Cam Bingo bakes in leaderboards, chat, and streamer overlays so your event looks pro.",
+    "streamerLockoutCallout": "Creators popularized Lockout bingo for competitive streams—Tokyo Cam Bingo bakes in leaderboards, chat, and streamer overlays so your event looks pro.",
     "hostFormTitle": "Create Game",
     "hostNameLabel": "Your Name",
     "hostNamePlaceholder": "Enter your name",

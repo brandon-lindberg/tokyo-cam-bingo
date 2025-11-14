@@ -238,7 +238,7 @@
             },
             {
               "label": "Streamer Mode & OBS Setup",
-              "body": "Toggle Streamer Mode for a transparent background perfect for OBS overlays. Click 'Popout Card' to open a separate window with just your bingo card. In OBS, add a Browser Source (not Window Capture) with the popout URL. Set width/height to your preference (e.g., 800x800). Check 'Shutdown source when not visible' and 'Refresh browser when scene becomes active'. If colors don't appear after updates, right-click the source in OBS and select 'Refresh' to clear the cache OR press the Refresh the cache of current page button."
+              "body": "Streaming the popout card in OBS: 1) Add a Browser Source (not Window Capture) to your scene. 2) Copy the popout window URL and paste it into the Browser Source URL field. 3) Set the width and height to 600x600 or 800x800 (adjust as needed). 4) Leave the rest of the Browser Source settings at their defaults. 5) If the card shows an old game, right-click the Browser Source, open Properties, and click 'Refresh cache of current page'."
             }
           ]
         }
@@ -272,6 +272,18 @@
     "minimalModeOn": "Minimal Mode: On",
     "minimalModeExit": "Exit Minimal Mode",
     "popoutCard": "Popout Card",
+    "streamInstructions": {
+      "buttonLabel": "OBS Setup Guide",
+      "title": "Stream the Popout in OBS",
+      "intro": "Follow these steps to add the popout card to a Browser Source in OBS:",
+      "steps": [
+        "Add a new Browser Source to your OBS scene.",
+        "Copy the URL from the popout card window and paste it into the Browser Source URL field.",
+        "Set the width and height to 600x600 or 800x800 (feel free to adjust once it is in the scene).",
+        "Leave the remaining Browser Source settings at their default values.",
+        "If the card is caching an old game, right-click the Browser Source, choose Properties, and click Refresh cache of current page at the bottom."
+      ]
+    },
     "exitToHome": "Exit to Home",
     "timerExpired": {
       "title": "Time's Up!",

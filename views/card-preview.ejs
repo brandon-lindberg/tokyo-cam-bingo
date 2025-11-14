@@ -79,11 +79,11 @@
       color: var(--color-subtle);
     }
     .card-actions {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
       margin-bottom: 2rem;
+      width: 100%;
     }
     .card-actions button {
       padding: 1rem 2rem;
@@ -91,8 +91,13 @@
       border-radius: 8px;
       border: none;
       cursor: pointer;
-      display: inline-block;
       font-family: inherit;
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      text-align: center;
     }
     .primary-action {
       background: linear-gradient(135deg, #FF69B4, #FF1493);

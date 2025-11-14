@@ -1234,8 +1234,9 @@ input, select {
   }
   
   #leaderboard th {
-    background-color: var(--color-heading);
-    color: white;
+    background-color: var(--color-accent-soft);
+    color: var(--color-text);
+    border-bottom: 2px solid var(--color-accent);
   }
 
 /* Truncate player names to 12 characters in desktop leaderboard */

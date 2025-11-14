@@ -283,6 +283,8 @@
     "chatUnknown": "不明なプレイヤー",
     "copyPrompt": "ゲームコードをコピーしてください:",
     "playerCardTitle": "{name}のカード",
+    "cardNotRevealedTitle": "カードは非公開",
+    "cardNotRevealed": "相手はまだカードを公開していません。",
     "cardCover": {
       "title": "クリックしてカードを表示",
       "subtitle": "準備ができたら！"

@@ -338,6 +338,18 @@
       </div>
     </div>
   </div>
+
+  <!-- Card Hidden Modal -->
+  <div id="card-hidden-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-card modal-card--status">
+      <div class="modal-icon" aria-hidden="true">🙈</div>
+      <h2 class="modal-title modal-title--warning"><%= t('game.cardNotRevealedTitle') %></h2>
+      <p class="modal-subtitle modal-subtitle--muted"><%= t('game.cardNotRevealed') %></p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-heading" onclick="closeCardHiddenModal()"><%= t('actions.close') %></button>
+      </div>
+    </div>
+  </div>
   
   <div id="chat-panel" class="chat-panel">
     <div class="chat-header">
@@ -528,6 +540,13 @@
         const updatedPlayer = players.find(p => String(p.id) === String(modalOpenPlayerId));
         if (updatedPlayer) {
           const modalCard = document.getElementById('modal-card');
+          const isVsMode = game.mode === 'VS';
+          const stampedLookup = new Map();
+          if (isVsMode) {
+            (updatedPlayer.stampedSquares || []).forEach(({ row, col, color }) => {
+              stampedLookup.set(`${row},${col}`, color || '');
+            });
+          }
           modalCard.innerHTML = '';
           updatedPlayer.card.forEach((row, r) => {
             const tr = document.createElement('tr');
@@ -537,7 +556,12 @@
               div.className = 'tile-content';
               div.textContent = translateItemText(tile.item);
               td.appendChild(div);
-              td.classList.toggle('stamped', tile.stamped);
+              const stampColor = stampedLookup.get(`${r},${c}`);
+              const stamped = isVsMode ? Boolean(stampColor) : Boolean(tile.stamped);
+              td.classList.toggle('stamped', stamped);
+              if (isVsMode && stampColor) {
+                td.classList.add(`stamped-${stampColor}`);
+              }
               td.dataset.row = r;
               td.dataset.col = c;
               tr.appendChild(td);
@@ -561,6 +585,15 @@
         if (cover) {
           cover.classList.add('hidden');
           localStorage.setItem('cardRevealed_' + gameId, 'true');
+        }
+      }
+
+      const revealedPlayer = allPlayers.find((p) => String(p.id) === String(revealedPlayerId));
+      if (revealedPlayer) {
+        revealedPlayer.cardRevealed = true;
+        updateLeaderboard(allPlayers, gameMode);
+        if (document.getElementById('drawer-leaderboard')) {
+          updateDrawerLeaderboard(allPlayers, gameMode);
         }
       }
     });
@@ -777,12 +810,17 @@
       modalOpenPlayerId = targetPlayerId;
       const player = allPlayers.find(p => String(p.id) === String(targetPlayerId));
       if (!player) return;
+      const isCurrentPlayerView = String(targetPlayerId) === String(playerId);
+      if (!player.cardRevealed && !isCurrentPlayerView) {
+        openCardHiddenModal();
+        return;
+      }
 
       const isVsMode = gameMode === 'VS';
-      const stampedLookup = new Set();
+      const stampedLookup = new Map();
       if (isVsMode) {
-        (player.stampedSquares || []).forEach(({ row, col }) => {
-          stampedLookup.add(`${row},${col}`);
+        (player.stampedSquares || []).forEach(({ row, col, color }) => {
+          stampedLookup.set(`${row},${col}`, color || '');
         });
       }
 
@@ -797,8 +835,12 @@
           div.className = 'tile-content';
           div.textContent = translateItemText(tile.item);
           td.appendChild(div);
-          const stamped = isVsMode ? stampedLookup.has(`${r},${c}`) : Boolean(tile.stamped);
+          const stampColor = stampedLookup.get(`${r},${c}`);
+          const stamped = isVsMode ? Boolean(stampColor) : Boolean(tile.stamped);
           td.classList.toggle('stamped', stamped);
+          if (isVsMode && stampColor) {
+            td.classList.add(`stamped-${stampColor}`);
+          }
           td.dataset.row = r;
           td.dataset.col = c;
           tr.appendChild(td);
@@ -830,6 +872,20 @@
 
       document.getElementById('player-modal').style.display = 'block';
       scheduleTileResize(modalCard);
+    }
+
+    function openCardHiddenModal() {
+      const modal = document.getElementById('card-hidden-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+      }
+    }
+
+    function closeCardHiddenModal() {
+      const modal = document.getElementById('card-hidden-modal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
     }
 
     function closeModal() {
@@ -1149,7 +1205,7 @@
           if (antiComplete) score++;
         }
 
-        return { id: player.id, name: player.name, score, stampedCount, color: player.color };
+        return { id: player.id, name: player.name, score, stampedCount, color: player.color, cardRevealed: player.cardRevealed };
       });
 
       scoredPlayers.sort((a, b) => b.score - a.score || b.stampedCount - a.stampedCount);
@@ -1157,7 +1213,12 @@
     scoredPlayers.forEach((p, index) => {
       const tr = document.createElement('tr');
       const colorBadge = gameMode === 'VS' && p.color ? `<span class="color-badge ${p.color}"></span>` : '';
-      const nameTd = `<td>${colorBadge}${String(p.id) === String(playerId) ? p.name : `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>`}</td>`;
+    const isSelf = String(p.id) === String(playerId);
+    const canViewCard = !isSelf && Boolean(p.cardRevealed);
+    const nameContent = isSelf
+      ? p.name
+      : (canViewCard ? `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>` : p.name);
+    const nameTd = `<td>${colorBadge}${nameContent}</td>`;
         tr.innerHTML = `
           <td>${index + 1}</td>
           ${nameTd}

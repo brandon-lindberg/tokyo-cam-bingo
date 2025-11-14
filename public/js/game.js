@@ -287,7 +287,7 @@ function updateLeaderboard(players, gameMode) {
       if (antiComplete) score++;
     }
 
-    return { id: player.id, name: player.name, score, stampedCount, color: player.color };
+    return { id: player.id, name: player.name, score, stampedCount, color: player.color, cardRevealed: player.cardRevealed };
   });
 
   // Sort: score desc, then stamped desc
@@ -298,7 +298,11 @@ function updateLeaderboard(players, gameMode) {
     const tr = document.createElement('tr');
     const colorBadge = gameMode === 'VS' && p.color ? `<span class="color-badge ${p.color}"></span>` : '';
     const isCurrentPlayer = typeof playerId !== 'undefined' && String(p.id) === String(playerId);
-    const nameTd = `<td>${colorBadge}${isCurrentPlayer ? p.name : `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>`}</td>`;
+    const canViewCard = !isCurrentPlayer && Boolean(p.cardRevealed);
+    const nameContent = isCurrentPlayer
+      ? p.name
+      : (canViewCard ? `<span style="cursor: pointer; text-decoration: underline;" onclick="showPlayerCard('${p.id}')">${p.name}</span>` : p.name);
+    const nameTd = `<td>${colorBadge}${nameContent}</td>`;
     tr.innerHTML = `
       <td>${index + 1}</td>
       ${nameTd}

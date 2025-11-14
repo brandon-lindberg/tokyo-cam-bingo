@@ -285,6 +285,8 @@
     "chatUnknown": "Unknown player",
     "copyPrompt": "Copy your game code:",
     "playerCardTitle": "{name}'s Card",
+    "cardNotRevealedTitle": "Card Hidden",
+    "cardNotRevealed": "That player hasn't revealed their card yet.",
     "cardCover": {
       "title": "Click to Reveal Your Card",
       "subtitle": "Ready when you are!"

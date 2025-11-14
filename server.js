@@ -53,6 +53,12 @@ const THEME_COOKIE_NAME = 'theme';
 const THEME_COOKIE_MAX_AGE = LOCALE_COOKIE_MAX_AGE;
 const DEFAULT_THEME = 'light';
 const SUPPORTED_THEMES = new Set(['light', 'dark']);
+const ADMIN_IDLE_TIMEOUT_MINUTES = Math.max(parseInt(process.env.ADMIN_IDLE_TIMEOUT_MINUTES || '2', 10), 1);
+const ADMIN_IDLE_TIMEOUT_MS = ADMIN_IDLE_TIMEOUT_MINUTES * 60 * 1000;
+const ADMIN_HEARTBEAT_INTERVAL_MS = Math.max(
+  10000,
+  Math.min(60000, Math.floor(ADMIN_IDLE_TIMEOUT_MS / 2))
+);
 
 // In-memory flags and voting state
 const flagsLeft = {}; // playerId -> remaining flags
@@ -1135,12 +1141,42 @@ app.post('/api/report-card', async (req, res) => {
 // ADMIN ROUTES (Hidden)
 // ============================================
 
+function markAdminSessionExpired(session) {
+  if (!session) return;
+  delete session.isAdmin;
+  delete session.adminLastActiveAt;
+}
+
+function hasActiveAdminSession(session) {
+  if (!session || !session.isAdmin) {
+    return false;
+  }
+  const now = Date.now();
+  const lastActive = typeof session.adminLastActiveAt === 'number' ? session.adminLastActiveAt : now;
+  if (now - lastActive > ADMIN_IDLE_TIMEOUT_MS) {
+    markAdminSessionExpired(session);
+    return false;
+  }
+  session.adminLastActiveAt = now;
+  return true;
+}
+
+function sendAdminUnauthorized(req, res, message) {
+  const wantsJson = req.path.startsWith('/admin-dashboard-secret/api/') || requestPrefersJson(req);
+  if (wantsJson) {
+    return res.status(401).json({ error: message });
+  }
+  return res.status(401).send(message);
+}
+
 // Admin middleware - check if user is authenticated
 function requireAdmin(req, res, next) {
-  if (req.session && req.session.isAdmin) {
+  const hadSession = Boolean(req.session?.isAdmin);
+  if (hasActiveAdminSession(req.session)) {
     return next();
   }
-  return res.status(401).send('Unauthorized. Please login first.');
+  const message = hadSession ? 'Admin session expired. Please login again.' : 'Unauthorized. Please login first.';
+  return sendAdminUnauthorized(req, res, message);
 }
 
 // Admin login page (hidden route)
@@ -1223,6 +1259,7 @@ app.post('/admin-dashboard-secret/login', express.urlencoded({ extended: true })
   const { password } = req.body;
   if (password === process.env.ADMIN_PASSWORD) {
     req.session.isAdmin = true;
+    req.session.adminLastActiveAt = Date.now();
     return res.redirect('/admin-dashboard-secret/dashboard');
   }
   res.send('Invalid password. <a href="/admin-dashboard-secret">Try again</a>');
@@ -1253,12 +1290,21 @@ app.get('/admin-dashboard-secret/dashboard', requireAdmin, async (req, res) => {
       publicCards,
       pageTitle: 'Admin Dashboard',
       locale: req.locale || 'en',
-      assetVersion: process.env.npm_package_version || Date.now()
+      assetVersion: process.env.npm_package_version || Date.now(),
+      adminHeartbeatInterval: ADMIN_HEARTBEAT_INTERVAL_MS
     });
   } catch (error) {
     console.error('Error loading admin dashboard:', error);
     res.status(500).send('Error loading dashboard');
   }
+});
+
+// Keep admin sessions alive only while dashboard is open
+app.post('/admin-dashboard-secret/api/heartbeat', requireAdmin, (req, res) => {
+  res.json({
+    ok: true,
+    timeoutMs: ADMIN_IDLE_TIMEOUT_MS
+  });
 });
 
 // Admin API - Get all reports

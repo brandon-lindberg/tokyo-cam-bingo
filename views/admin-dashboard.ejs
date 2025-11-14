@@ -255,7 +255,28 @@
   </div>
 
   <script>
+    const ADMIN_HEARTBEAT_INTERVAL = <%= Number(adminHeartbeatInterval) || 0 %>;
+    const ADMIN_HEARTBEAT_URL = '/admin-dashboard-secret/api/heartbeat';
     let currentFilter = 'pending';
+
+    function sendAdminHeartbeat() {
+      fetch(ADMIN_HEARTBEAT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        keepalive: true,
+        body: JSON.stringify({ at: Date.now() })
+      }).catch(() => {
+        // Network errors are ignored; next heartbeat will retry
+      });
+    }
+
+    function startAdminHeartbeat() {
+      if (!Number.isFinite(ADMIN_HEARTBEAT_INTERVAL) || ADMIN_HEARTBEAT_INTERVAL <= 0) {
+        return;
+      }
+      sendAdminHeartbeat();
+      setInterval(sendAdminHeartbeat, ADMIN_HEARTBEAT_INTERVAL);
+    }
 
     function showTab(tabName) {
       document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
@@ -528,6 +549,7 @@
     }
 
     // Load reports on page load
+    startAdminHeartbeat();
     loadReports(currentFilter);
   </script>
 </body>

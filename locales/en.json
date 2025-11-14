@@ -270,6 +270,7 @@
     "streamerModeOn": "Streamer Mode: On",
     "minimalModeOff": "Minimal Mode: Off",
     "minimalModeOn": "Minimal Mode: On",
+    "minimalModeExit": "Exit Minimal Mode",
     "popoutCard": "Popout Card",
     "exitToHome": "Exit to Home",
     "timerExpired": {

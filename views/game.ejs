@@ -144,6 +144,16 @@
     </div>
   </div>
 </div>
+
+<button
+  id="minimal-exit-button"
+  class="minimal-exit-btn"
+  type="button"
+  onclick="exitMinimalMode()"
+  aria-label="<%= t('game.minimalModeExit') %>">
+  <span><%= t('game.minimalModeExit') %></span>
+</button>
+
   <div class="container">
     <div class="game-header">
     <%
@@ -1380,16 +1390,27 @@
       label.textContent = isOn ? translateText('game.minimalModeOn') : translateText('game.minimalModeOff');
       label.dataset.minimalState = isOn ? 'on' : 'off';
     }
-    function toggleMinimalMode() {
-      document.body.classList.toggle('minimal-mode');
-      const btn = document.getElementById('minimal-toggle-btn');
-      setMinimalLabel(btn, document.body.classList.contains('minimal-mode'));
+    function syncMinimalControls(isOn) {
+      setMinimalLabel(document.getElementById('minimal-toggle-btn'), isOn);
+      setMinimalLabel(document.getElementById('minimal-toggle-btn-nonhost'), isOn);
+    }
+    function applyMinimalModeState(shouldEnable) {
+      document.body.classList.toggle('minimal-mode', shouldEnable);
+      syncMinimalControls(document.body.classList.contains('minimal-mode'));
+    }
+    function toggleMinimalMode(forceState) {
+      const desiredState = typeof forceState === 'boolean'
+        ? forceState
+        : !document.body.classList.contains('minimal-mode');
+      applyMinimalModeState(desiredState);
     }
     function toggleMinimalModeNonHost() {
-      document.body.classList.toggle('minimal-mode');
-      const btnNH = document.getElementById('minimal-toggle-btn-nonhost');
-      setMinimalLabel(btnNH, document.body.classList.contains('minimal-mode'));
+      toggleMinimalMode();
     }
+    function exitMinimalMode() {
+      toggleMinimalMode(false);
+    }
+    applyMinimalModeState(document.body.classList.contains('minimal-mode'));
 
     function popoutCard() {
       const gameId = document.body.dataset.gameId;

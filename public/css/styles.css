@@ -1733,14 +1733,14 @@ input, select {
   }
 }
 
-/* Custom cursor for own card; adjust hotspot (half width and full height of cursor image) */
+/* Custom cursor for own card; adjust hotspot (slightly above bottom center) */
 .own-card td:not(.stamped) {
-  cursor: url('/images/hanko.png') 50 100, auto;
+  cursor: url('/images/hanko-cursor.png') 48 96, auto;
 }
 
 /* Custom cursor for VS mode cards */
 .vs-card td {
-  cursor: url('/images/hanko.png') 50 100, auto;
+  cursor: url('/images/hanko-cursor.png') 48 96, auto;
 }
 
 /* Hanko stamp overlay for own card: centered with tile content */

@@ -2156,11 +2156,13 @@ app.get(['/link', '/link/:code'], (req, res) => {
   }
   const codeParam = sanitizeDeviceLinkCode(req.params?.code || req.query?.code || '');
   const pinParam = sanitizeDeviceLinkPin(req.query?.pin || '');
+  const shareUrl = buildAbsoluteUrl(req, req.originalUrl || req.path || '/link');
   return res.render('device-link', {
     codePrefill: codeParam,
     pinPrefill: pinParam,
     errorMessage: '',
     infoMessage: '',
+    shareUrl,
     codeLength: DEVICE_LINK_CODE_LENGTH,
     pinLength: DEVICE_LINK_PIN_LENGTH
   });
@@ -2291,6 +2293,7 @@ app.post('/link', csrfProtection, async (req, res) => {
       pinPrefill: sanitizeDeviceLinkPin(pinInput),
       errorMessage: result.error || 'Unable to link device.',
       infoMessage: '',
+      shareUrl: buildAbsoluteUrl(req, '/link'),
       codeLength: DEVICE_LINK_CODE_LENGTH,
       pinLength: DEVICE_LINK_PIN_LENGTH
     });

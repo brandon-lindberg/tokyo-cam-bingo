@@ -61,8 +61,55 @@
 
       <p class="link-card__footnote"><%= t('linkPage.securityNote') %></p>
       <p class="link-card__helper"><%= t('linkPage.helper') %></p>
+      <div class="device-link-share">
+        <span class="device-link-share-label"><%= t('linkPage.copyLinkLabel') %></span>
+        <div class="device-link-share-row">
+          <input id="landing-link-url" type="text" readonly value="<%= shareUrl %>">
+          <button type="button" onclick="copyLandingLink()"><%= t('linkPage.copyLinkButton') %></button>
+        </div>
+        <p class="device-link-note"><%= t('linkPage.copyHint') %></p>
+        <p id="link-copy-status" class="device-link-status"></p>
+      </div>
       <a href="/" class="link-card__back"><%= t('linkPage.backToHome') %></a>
     </section>
   </main>
+  <script>
+    (function() {
+      const successMessage = <%- JSON.stringify(t('notifications.linkCopied')) %>;
+      const errorMessage = <%- JSON.stringify(t('linkPage.copyError')) %>;
+      window.copyLandingLink = function() {
+        const input = document.getElementById('landing-link-url');
+        const statusEl = document.getElementById('link-copy-status');
+        if (!input) return;
+        const value = input.value;
+        const onSuccess = () => {
+          if (statusEl) {
+            statusEl.textContent = successMessage;
+            setTimeout(() => { statusEl.textContent = ''; }, 2500);
+          }
+        };
+        const onError = () => {
+          if (statusEl) {
+            statusEl.textContent = errorMessage;
+            setTimeout(() => { statusEl.textContent = ''; }, 2500);
+          }
+        };
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(value).then(onSuccess).catch(onError);
+        } else {
+          try {
+            input.removeAttribute('readonly');
+            input.select();
+            document.execCommand('copy');
+            input.setAttribute('readonly', 'readonly');
+            input.blur();
+            onSuccess();
+          } catch (err) {
+            onError();
+          }
+        }
+      };
+    })();
+  </script>
 </body>
 </html>

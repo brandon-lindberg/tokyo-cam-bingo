@@ -291,6 +291,7 @@
       "codeLabel": "コード",
       "pinLabel": "PIN",
       "shareLabel": "共有リンク",
+      "shareHelper": "このURLをメモにコピーしておけば、QRを再び読み取らなくても開けます。",
       "copyLink": "リンクをコピー",
       "generate": "新しいリンクを作成",
       "loading": "安全なリンクを作成中...",
@@ -300,7 +301,10 @@
       "expired": "期限切れ",
       "qrAlt": "デバイスリンク用QRコード",
       "securityError": "セキュリティトークンが不足しています。リロードして再試行してください。",
-      "copyUnavailable": "まだコピーできるリンクがありません。"
+      "copyUnavailable": "まだコピーできるリンクがありません。",
+      "warningTitle": "配信画面に絶対表示しないでください",
+      "warningBody": "このQRやコードを見られると誰でもあなたのカードを操作できます。信頼できる人にだけ個別で共有してください。",
+      "warningAction": "注意して続ける"
     },
     "exitToHome": "ホームに戻る",
     "timerExpired": {
@@ -555,6 +559,10 @@
     "submit": "ゲームに接続",
     "securityNote": "信頼できるホストからのコードのみ入力してください。他の人に知られると操作される恐れがあります。",
     "helper": "この端末ですでにリンク済みなら /game を開くだけで再開できます（7日間有効）。",
+    "copyLinkLabel": "後で開けるようにリンクをコピー:",
+    "copyLinkButton": "リンクをコピー",
+    "copyHint": "タブを閉じてしまった時のためにメモアプリなどへ保存しておくと安心です。",
+    "copyError": "リンクをコピーできませんでした。手動でコピーしてください。",
     "backToHome": "← ホームへ戻る"
   },
   "notifications": {

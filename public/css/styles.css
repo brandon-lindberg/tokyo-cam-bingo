@@ -1227,21 +1227,34 @@ input, select {
   
   #leaderboard {
     width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 2rem;
-    font-size: 0.9rem; /* Smaller font for compactness */
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 0;
+    font-size: 0.92rem;
+    table-layout: auto;
   }
   
-  #leaderboard th, #leaderboard td {
-    border: 1px solid var(--color-border-strong);
-    padding: 0.5rem; /* Reduced padding */
+  #leaderboard th,
+  #leaderboard td {
+    padding: 0.65rem 0.85rem;
+    border-bottom: 1px solid var(--color-border);
     text-align: left;
+  }
+  
+  #leaderboard th:first-child,
+  #leaderboard td:first-child {
+    white-space: nowrap;
+    text-align: center;
+    width: 4rem;
   }
   
   #leaderboard th {
     background-color: var(--color-accent-soft);
     color: var(--color-text);
     border-bottom: 2px solid var(--color-accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
 /* Truncate player names to 12 characters in desktop leaderboard */
@@ -1250,6 +1263,15 @@ input, select {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+#leaderboard td:nth-child(3),
+#leaderboard td:nth-child(4) {
+  text-align: center;
+}
+
+#leaderboard tbody tr:last-child td {
+  border-bottom: none;
 }
   
   /* Forms and Other */
@@ -2263,7 +2285,8 @@ input, select {
 
 /* Left sidebar styling */
 .sidebar {
-  max-width: 19rem;
+  width: 22rem;
+  max-width: 22rem;
   position: fixed;
   top: 0;
   left: 0;
@@ -2274,6 +2297,7 @@ input, select {
   box-shadow: 2px 0 5px var(--color-card-shadow);
   padding: 1rem;
   overflow-y: auto;
+  overflow-x: hidden;
   z-index: 100;
 }
 
@@ -2295,6 +2319,16 @@ input, select {
 .leaderboard-section {
   flex: 1;
   overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.leaderboard-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: 0;
+  filter: drop-shadow(0 10px 30px var(--color-card-shadow));
+  overflow: hidden;
+  margin-bottom: 1.5rem;
 }
 
 /* Reroll section sticks to bottom */
@@ -2573,7 +2607,7 @@ body.minimal-mode .minimal-exit-btn {
 /* Shift content right on desktop */
 @media (min-width: 769px) {
   .game-page {
-    margin-left: 19rem; /* Match sidebar max-width */
+    margin-left: 22rem; /* Match sidebar max-width */
     display: flex;
     justify-content: center;
     padding: 0;

@@ -98,6 +98,14 @@
     "bingoHelperError": "Could not load bingo task presets. Default card will be used.",
     "customCardButton": "Use Custom Card (Optional)",
     "customCardPlaceholder": "Enter custom card code",
+    "boardSizeLabel": "Board Size",
+    "boardSizeHelper": "Choose how big your board is. Bigger boards need more unique prompts.",
+    "boardSizeOptions": {
+      "small": "4 x 4 — Quick",
+      "classic": "5 x 5 — Classic",
+      "large": "6 x 6 — Extended",
+      "xl": "7 x 7 — Hardcore"
+    },
     "gameOptionsLabel": "Game Options",
     "flagOptionTitle": "🚩 Flag System",
     "flagOptionDescription": "Players can challenge questionable stamps",

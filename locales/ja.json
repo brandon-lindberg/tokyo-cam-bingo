@@ -97,6 +97,14 @@
     "bingoHelperError": "プリセットを読み込めませんでした。デフォルトのカードを使用します。",
     "customCardButton": "カスタムカードを使う（任意）",
     "customCardPlaceholder": "カスタムカードコードを入力",
+    "boardSizeLabel": "ボードサイズ",
+    "boardSizeHelper": "小さいボードほど短時間で終わり、大きいボードほど多くのお題が必要です。",
+    "boardSizeOptions": {
+      "small": "4 x 4（ショート）",
+      "classic": "5 x 5（クラシック）",
+      "large": "6 x 6（ロング）",
+      "xl": "7 x 7（ハード）"
+    },
     "gameOptionsLabel": "ゲームオプション",
     "flagOptionTitle": "🚩 フラッグシステム",
     "flagOptionDescription": "怪しいスタンプをプレイヤーが異議申し立てできます",

@@ -97,6 +97,9 @@
     "bingoHelperError": "プリセットを読み込めませんでした。デフォルトのカードを使用します。",
     "customCardButton": "カスタムカードを使う（任意）",
     "customCardPlaceholder": "カスタムカードコードを入力",
+    "customCardBoardSupport": "最大{size}×{size}ボードに対応しています。",
+    "customCardBoardAll": "すべてのボードサイズで使用できます。",
+    "customCardBoardTooSmall": "利用するには最低{minItems}個のお題が必要です。",
     "boardSizeLabel": "ボードサイズ",
     "boardSizeHelper": "小さいボードほど短時間で終わり、大きいボードほど多くのお題が必要です。",
     "boardSizeOptions": {
@@ -105,6 +108,8 @@
       "large": "6 x 6（ロング）",
       "xl": "7 x 7（ハード）"
     },
+    "boardSizeCardLimit": "このカードは{items}個のお題なので、{size}×{size}ボードまで使用できます。これより大きいサイズは無効です。",
+    "boardSizeCardTooSmall": "このカードには{items}個しかありません。最低{minItems}個必要です。",
     "gameOptionsLabel": "ゲームオプション",
     "flagOptionTitle": "🚩 フラッグシステム",
     "flagOptionDescription": "怪しいスタンプをプレイヤーが異議申し立てできます",
@@ -137,6 +142,8 @@
       "fullCard": "フルカード",
       "mostSquares": "最多マス"
     },
+    "diagonalsWinConditionHelper": "斜めラインは{sizes}ボードでのみ使用できます。対応するサイズを選択してください。",
+    "diagonalsWinConditionUnavailable": "現在のボードサイズでは斜めラインは利用できません。",
     "rulebook": {
       "title": "東京カムビンゴ ルールブック",
       "closeLabel": "閉じる",

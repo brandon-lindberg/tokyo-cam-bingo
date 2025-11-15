@@ -1033,11 +1033,20 @@ input, select {
     position: relative;
   }
 
+  .win-option.disabled {
+    cursor: not-allowed;
+  }
+
   .win-option input[type="checkbox"] {
     position: absolute;
     opacity: 0;
     width: 0;
     height: 0;
+  }
+
+  .win-option.disabled .win-label {
+    opacity: 0.5;
+    border-color: var(--color-border);
   }
 
   .win-label {

@@ -67,6 +67,7 @@ const DEVICE_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 const DEVICE_TOKEN_COOKIE_NAME = 'device_token';
 const DEVICE_LINK_CODE_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 const ALLOWED_BOARD_SIZES = [4, 5, 6, 7];
+const DIAGONAL_SUPPORTED_SIZES = ALLOWED_BOARD_SIZES.filter(size => size % 2 === 1);
 
 // In-memory flags and voting state
 const flagsLeft = {}; // playerId -> remaining flags
@@ -1017,7 +1018,11 @@ async function resumeGameTimer(gameId) {
 // Home page
 app.get('/', (req, res) => {
   const captcha = getCaptcha(req.session, CAPTCHA_TYPES.CREATE_GAME);
-  res.render('home', { createCaptchaQuestion: captcha.question });
+  res.render('home', {
+    createCaptchaQuestion: captcha.question,
+    allowedBoardSizes: ALLOWED_BOARD_SIZES,
+    diagonalSupportedSizes: DIAGONAL_SUPPORTED_SIZES
+  });
 });
 
 // Card builder page
@@ -1870,6 +1875,14 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
 
   winConditions = [...new Set(winConditions)];
 
+  if (winConditions.includes('diagonals') && !DIAGONAL_SUPPORTED_SIZES.includes(boardSize)) {
+    const supportedList = DIAGONAL_SUPPORTED_SIZES.map(size => `${size}x${size}`).join(', ');
+    const reason = supportedList
+      ? `Diagonals win condition is only available for ${supportedList} boards.`
+      : 'Diagonals win condition is not available for the selected board size.';
+    return res.status(400).send(reason);
+  }
+
   // Fetch custom items if card code provided
   let customItems = null;
   let cardPresetDetails = null;
@@ -1937,6 +1950,13 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
 
   if (!customItems && itemsList.length < requiredItems) {
     return res.status(400).send(`Default deck does not have enough prompts for a ${boardSize}x${boardSize} card.`);
+  }
+
+  if (customItems && customItems.length < requiredItems) {
+    const insufficientMessage = sanitizedCustomCard.length === 6 && cardPresetDetails?.type === 'custom_code'
+      ? `Custom card needs at least ${requiredItems} prompts for a ${boardSize}x${boardSize} board.`
+      : `Selected card preset does not have enough prompts for a ${boardSize}x${boardSize} board.`;
+    return res.status(400).send(insufficientMessage);
   }
 
   const sharedCard = mode === 'VS' ? generateCard(customItems, boardSize) : null;

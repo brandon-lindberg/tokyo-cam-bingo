@@ -69,7 +69,7 @@
     <%- JSON.stringify(structuredData) %>
   </script>
 </head>
-<body class="splash-active has-global-top-bar <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>" data-theme="<%= theme %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>">
+<body class="splash-active has-global-top-bar <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>" data-theme="<%= theme %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-locale="<%= locale %>" data-allowed-board-sizes='<%- JSON.stringify((typeof allowedBoardSizes !== 'undefined' ? allowedBoardSizes : [])) %>' data-diagonal-board-sizes='<%- JSON.stringify((typeof diagonalSupportedSizes !== 'undefined' ? diagonalSupportedSizes : [])) %>'>
   <div class="global-top-bar">
     <div class="top-bar-left">
       <a id="top-bar-back" href="#" onclick="backToHome(); return false;" style="visibility: hidden; pointer-events: none;">← <%= t('actions.backToHome') %></a>
@@ -229,6 +229,7 @@
             <option value="6"><%= t('home.boardSizeOptions.large') %></option>
             <option value="7"><%= t('home.boardSizeOptions.xl') %></option>
           </select>
+          <div id="board-size-restriction" class="helper-text error" style="display:none;"></div>
         </div>
 
         <!-- Game Options Section -->
@@ -344,6 +345,7 @@
               <span class="win-label"><%= t('home.winConditions.mostSquares') %></span>
             </label>
           </div>
+          <div id="diagonals-helper" class="helper-text error" style="display:none;"></div>
         </div>
 
         <button type="submit" class="create-button"><%= t('actions.createGame') %></button>
@@ -651,6 +653,170 @@
       link.style.pointerEvents = show ? 'auto' : 'none';
     }
 
+    const boardSizeSelect = document.getElementById('boardSize');
+    const boardSizeRestrictionEl = document.getElementById('board-size-restriction');
+    const diagonalsCheckbox = document.getElementById('diagonals');
+    const diagonalsHelperEl = document.getElementById('diagonals-helper');
+    const diagonalWinOption = diagonalsCheckbox ? diagonalsCheckbox.closest('.win-option') : null;
+
+    function parseSizeDataset(serialized, fallback = []) {
+      try {
+        const parsed = JSON.parse(serialized || '[]');
+        if (Array.isArray(parsed) && parsed.length) {
+          return parsed
+            .map(value => Number(value))
+            .filter(value => !Number.isNaN(value))
+            .sort((a, b) => a - b);
+        }
+      } catch (error) {
+        console.warn('Unable to parse board size dataset', error);
+      }
+      return Array.isArray(fallback) ? [...fallback] : [];
+    }
+
+    function formatBoardSizeLabel(size) {
+      return `${size}x${size}`;
+    }
+
+    function formatBoardSizeList(sizes) {
+      const labels = (sizes || []).map(formatBoardSizeLabel);
+      if (!labels.length) return '';
+      if (labels.length === 1) return labels[0];
+      if (labels.length === 2) return labels.join(' & ');
+      return `${labels.slice(0, -1).join(', ')}, ${labels.slice(-1)}`;
+    }
+
+    const allowedBoardSizes = parseSizeDataset(document.body.dataset.allowedBoardSizes, [4, 5, 6, 7]);
+    const diagonalFallback = allowedBoardSizes.filter(size => size % 2 === 1);
+    const diagonalSupportedSizes = parseSizeDataset(document.body.dataset.diagonalBoardSizes, diagonalFallback);
+    const diagonalSizeListLabel = formatBoardSizeList(diagonalSupportedSizes);
+    const diagonalHelperKey = diagonalSupportedSizes.length ? 'home.diagonalsWinConditionHelper' : 'home.diagonalsWinConditionUnavailable';
+    const diagonalHelperVars = diagonalSupportedSizes.length ? { sizes: diagonalSizeListLabel } : undefined;
+    const minBoardTiles = allowedBoardSizes.length ? Math.pow(Math.min(...allowedBoardSizes), 2) : 16;
+    const maxBoardSize = allowedBoardSizes.length ? Math.max(...allowedBoardSizes) : 7;
+    let loadedCardItemCount = null;
+
+    if (boardSizeSelect) {
+      boardSizeSelect.addEventListener('change', () => {
+        updateDiagonalWinConditionAvailability();
+      });
+    }
+
+    function updateDiagonalWinConditionAvailability() {
+      if (!boardSizeSelect || !diagonalsCheckbox) return;
+      const currentSize = Number(boardSizeSelect.value);
+      const supported = diagonalSupportedSizes.includes(currentSize);
+      diagonalsCheckbox.disabled = !supported;
+      if (diagonalWinOption) {
+        diagonalWinOption.classList.toggle('disabled', !supported);
+        diagonalWinOption.setAttribute('aria-disabled', supported ? 'false' : 'true');
+      }
+
+      if (supported) {
+        if (diagonalsHelperEl) {
+          diagonalsHelperEl.textContent = '';
+          diagonalsHelperEl.style.display = 'none';
+        }
+        return;
+      }
+
+      diagonalsCheckbox.checked = false;
+      if (diagonalsHelperEl) {
+        diagonalsHelperEl.textContent = translate(diagonalHelperKey, diagonalHelperVars);
+        diagonalsHelperEl.style.display = 'block';
+      }
+    }
+
+    function getMaxSupportedBoardSize(itemCount) {
+      if (typeof itemCount !== 'number' || itemCount <= 0) return null;
+      let supported = null;
+      allowedBoardSizes.forEach(size => {
+        if (itemCount >= size * size) {
+          supported = size;
+        }
+      });
+      return supported;
+    }
+
+    function resetBoardSizeRestrictions() {
+      loadedCardItemCount = null;
+      if (boardSizeSelect) {
+        Array.from(boardSizeSelect.options).forEach(option => {
+          option.disabled = false;
+        });
+      }
+      if (boardSizeRestrictionEl) {
+        boardSizeRestrictionEl.textContent = '';
+        boardSizeRestrictionEl.style.display = 'none';
+      }
+      updateDiagonalWinConditionAvailability();
+    }
+
+    function applyBoardSizeRestrictions(itemCount) {
+      if (!boardSizeSelect) return;
+      if (typeof itemCount !== 'number' || itemCount <= 0) {
+        resetBoardSizeRestrictions();
+        return;
+      }
+
+      loadedCardItemCount = itemCount;
+      const maxSupported = getMaxSupportedBoardSize(itemCount);
+      const options = Array.from(boardSizeSelect.options);
+      options.forEach(option => {
+        option.disabled = false;
+      });
+
+      if (maxSupported === null) {
+        options.forEach(option => {
+          option.disabled = true;
+        });
+        if (boardSizeRestrictionEl) {
+          boardSizeRestrictionEl.textContent = translate('home.boardSizeCardTooSmall', {
+            items: itemCount,
+            minItems: minBoardTiles
+          });
+          boardSizeRestrictionEl.style.display = 'block';
+        }
+        updateDiagonalWinConditionAvailability();
+        return;
+      }
+
+      options.forEach(option => {
+        const size = Number(option.value);
+        option.disabled = size > maxSupported;
+      });
+
+      if (Number(boardSizeSelect.value) > maxSupported) {
+        boardSizeSelect.value = String(maxSupported);
+      }
+
+      if (boardSizeRestrictionEl) {
+        if (maxSupported < maxBoardSize) {
+          boardSizeRestrictionEl.textContent = translate('home.boardSizeCardLimit', {
+            size: maxSupported,
+            items: itemCount
+          });
+          boardSizeRestrictionEl.style.display = 'block';
+        } else {
+          boardSizeRestrictionEl.textContent = '';
+          boardSizeRestrictionEl.style.display = 'none';
+        }
+      }
+      updateDiagonalWinConditionAvailability();
+    }
+
+    function getCustomCardBoardSummary(itemCount) {
+      if (typeof itemCount !== 'number' || itemCount <= 0) return '';
+      const maxSupported = getMaxSupportedBoardSize(itemCount);
+      if (maxSupported === null) {
+        return translate('home.customCardBoardTooSmall', { minItems: minBoardTiles });
+      }
+      if (maxSupported >= maxBoardSize) {
+        return translate('home.customCardBoardAll');
+      }
+      return translate('home.customCardBoardSupport', { size: maxSupported });
+    }
+
     function toggleCustomCardInput(evt) {
       const inputSection = document.getElementById('custom-card-input-section');
       const button = evt && evt.target ? evt.target : document.querySelector('.preset-secondary');
@@ -664,6 +830,7 @@
         // Clear the input and info when hiding
         document.getElementById('customCardCode').value = '';
         document.getElementById('custom-card-info').textContent = '';
+        resetBoardSizeRestrictions();
       }
     }
 
@@ -721,6 +888,9 @@
     if (customCardCodeInput) {
       customCardCodeInput.addEventListener('input', function(e) {
         this.value = this.value.toUpperCase();
+        customCardInfo.textContent = '';
+        customCardInfo.style.color = '#666';
+        resetBoardSizeRestrictions();
       });
 
       customCardCodeInput.addEventListener('blur', async function() {
@@ -734,17 +904,24 @@
             if (response.ok) {
               const cardData = await response.json();
               const lockIcon = cardData.isLocked ? ' 🔒' : '';
-              customCardInfo.textContent = `✓ "${cardData.name}" loaded (${cardData.itemCount} items)${lockIcon}`;
+              applyBoardSizeRestrictions(cardData.itemCount);
+              const compatibilitySummary = getCustomCardBoardSummary(cardData.itemCount);
+              const summarySuffix = compatibilitySummary ? ` — ${compatibilitySummary}` : '';
+              customCardInfo.textContent = `✓ "${cardData.name}" loaded (${cardData.itemCount} items)${lockIcon}${summarySuffix}`;
               customCardInfo.style.color = '#10B981';
             } else {
               customCardInfo.textContent = '✗ Custom card not found';
               customCardInfo.style.color = '#EF4444';
+              resetBoardSizeRestrictions();
             }
           } catch (err) {
             console.error('Failed to fetch card:', err);
             customCardInfo.textContent = '✗ Error loading card';
             customCardInfo.style.color = '#EF4444';
+            resetBoardSizeRestrictions();
           }
+        } else {
+          resetBoardSizeRestrictions();
         }
       });
     }
@@ -946,6 +1123,8 @@
           }, 300);
         }
       }
+
+      updateDiagonalWinConditionAvailability();
     });
   </script>
 </body>

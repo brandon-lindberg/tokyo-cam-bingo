@@ -98,6 +98,9 @@
     "bingoHelperError": "Could not load bingo task presets. Default card will be used.",
     "customCardButton": "Use Custom Card (Optional)",
     "customCardPlaceholder": "Enter custom card code",
+    "customCardBoardSupport": "Supports up to {size} x {size} boards.",
+    "customCardBoardAll": "Supports every board size.",
+    "customCardBoardTooSmall": "Needs at least {minItems} prompts to be playable.",
     "boardSizeLabel": "Board Size",
     "boardSizeHelper": "Choose how big your board is. Bigger boards need more unique prompts.",
     "boardSizeOptions": {
@@ -106,6 +109,8 @@
       "large": "6 x 6 — Extended",
       "xl": "7 x 7 — Hardcore"
     },
+    "boardSizeCardLimit": "This card supports up to {size} x {size} boards ({items} prompts). Larger boards are disabled.",
+    "boardSizeCardTooSmall": "This card only has {items} prompts. Add at least {minItems} to use it.",
     "gameOptionsLabel": "Game Options",
     "flagOptionTitle": "🚩 Flag System",
     "flagOptionDescription": "Players can challenge questionable stamps",
@@ -138,6 +143,8 @@
       "fullCard": "Full Card",
       "mostSquares": "Most Squares"
     },
+    "diagonalsWinConditionHelper": "Diagonals only work on {sizes} boards. Choose one of those board sizes to enable this win condition.",
+    "diagonalsWinConditionUnavailable": "Diagonals are disabled for the selected board size.",
     "rulebook": {
       "title": "Tokyo Cam Bingo Rule Book",
       "closeLabel": "Close",

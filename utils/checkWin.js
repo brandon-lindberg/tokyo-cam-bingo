@@ -1,8 +1,18 @@
+const DEFAULT_BOARD_SIZE = 5;
+
 function normalizeRules(rules) {
   if (!Array.isArray(rules)) {
     return [];
   }
   return rules;
+}
+
+function resolveBoardSize(value) {
+  const parsed = Number(value);
+  if (Number.isInteger(parsed) && parsed >= 3 && parsed <= 10) {
+    return parsed;
+  }
+  return DEFAULT_BOARD_SIZE;
 }
 
 function isLikelyVSSquares(cardOrStamps) {
@@ -16,6 +26,7 @@ function isLikelyVSSquares(cardOrStamps) {
 function checkWin(cardOrStamps, rules = [], options = {}) {
   const desiredMode = options?.isVSMode;
   const inferredVSMode = isLikelyVSSquares(cardOrStamps);
+  const boardSize = resolveBoardSize(options?.boardSize);
   let isVSMode;
   if (desiredMode === true) {
     isVSMode = true;
@@ -25,24 +36,24 @@ function checkWin(cardOrStamps, rules = [], options = {}) {
     isVSMode = inferredVSMode;
   }
 
-  const stampedGrid = Array.from({ length: 5 }, () => Array(5).fill(false));
+  const stampedGrid = Array.from({ length: boardSize }, () => Array(boardSize).fill(false));
 
   if (isVSMode) {
     (cardOrStamps || []).forEach(({ row, col }) => {
       if (
         Number.isInteger(row) &&
         Number.isInteger(col) &&
-        row >= 0 && row < 5 &&
-        col >= 0 && col < 5
+        row >= 0 && row < boardSize &&
+        col >= 0 && col < boardSize
       ) {
         stampedGrid[row][col] = true;
       }
     });
   } else {
     const card = Array.isArray(cardOrStamps) ? cardOrStamps : [];
-    for (let row = 0; row < 5; row++) {
+    for (let row = 0; row < boardSize; row++) {
       const rowData = Array.isArray(card[row]) ? card[row] : [];
-      for (let col = 0; col < 5; col++) {
+      for (let col = 0; col < boardSize; col++) {
         const tile = rowData[col];
         stampedGrid[row][col] = !!(tile && tile.stamped);
       }
@@ -54,9 +65,9 @@ function checkWin(cardOrStamps, rules = [], options = {}) {
   const stampedRows = stampedGrid.map(row => row.every(cell => cell));
   const rowCount = stampedRows.filter(Boolean).length;
 
-  const stampedColumns = Array(5).fill(true);
-  for (let col = 0; col < 5; col++) {
-    for (let row = 0; row < 5; row++) {
+  const stampedColumns = Array(boardSize).fill(true);
+  for (let col = 0; col < boardSize; col++) {
+    for (let row = 0; row < boardSize; row++) {
       if (!stampedGrid[row][col]) {
         stampedColumns[col] = false;
         break;
@@ -67,7 +78,7 @@ function checkWin(cardOrStamps, rules = [], options = {}) {
 
   const diagonals = {
     main: stampedGrid.every((row, i) => row[i]),
-    anti: stampedGrid.every((row, i) => row[4 - i]),
+    anti: stampedGrid.every((row, i) => row[boardSize - 1 - i]),
   };
 
   const full = stampedGrid.flat().every(cell => cell);

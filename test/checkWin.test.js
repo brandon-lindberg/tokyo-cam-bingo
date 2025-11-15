@@ -14,6 +14,14 @@ function testVSModeRowWin() {
   assert.strictEqual(result.condition, 'Row', 'VS row win should return Row condition');
 }
 
+function testVSModeCustomBoardSize() {
+  const size = 7;
+  const squares = Array.from({ length: size }, (_, col) => ({ row: 3, col }));
+  const result = checkWin(squares, ['row'], { isVSMode: true, boardSize: size });
+  assert.strictEqual(result.won, true, 'VS row win should respect custom board size');
+  assert.strictEqual(result.condition, 'Row', 'VS row win should still report Row condition');
+}
+
 function testRegularModeRowWin() {
   const card = Array.from({ length: 5 }, (_, row) =>
     Array.from({ length: 5 }, (_, col) => ({
@@ -24,6 +32,19 @@ function testRegularModeRowWin() {
   const result = checkWin(card, ['row'], { isVSMode: false });
   assert.strictEqual(result.won, true, 'Stamped regular row should trigger a win');
   assert.strictEqual(result.condition, 'Row', 'Regular row win should return Row condition');
+}
+
+function testRegularModeDiagonalOnLargerBoard() {
+  const size = 6;
+  const card = Array.from({ length: size }, (_, row) =>
+    Array.from({ length: size }, (_, col) => ({
+      item: `Tile ${row}-${col}`,
+      stamped: col === size - 1 - row
+    }))
+  );
+  const result = checkWin(card, ['diagonals'], { isVSMode: false, boardSize: size });
+  assert.strictEqual(result.won, true, 'Anti-diagonal win should work on larger boards');
+  assert.strictEqual(result.condition, 'Diagonals', 'Diagonal win should report Diagonals');
 }
 
 function testRegularModeHandlesSparseData() {
@@ -48,7 +69,9 @@ function testRegularModeEmptyCard() {
 function run() {
   testVSModeHandlesEmptyArray();
   testVSModeRowWin();
+  testVSModeCustomBoardSize();
   testRegularModeRowWin();
+  testRegularModeDiagonalOnLargerBoard();
   testRegularModeHandlesSparseData();
   testRegularModeEmptyCard();
   console.log('All checkWin tests passed');

@@ -219,6 +219,18 @@
           </div>
         </div>
 
+        <!-- Board Size Section -->
+        <div class="form-section">
+          <label class="form-label" for="boardSize"><%= t('home.boardSizeLabel') %></label>
+          <div class="helper-text"><%= t('home.boardSizeHelper') %></div>
+          <select id="boardSize" name="boardSize" class="form-select">
+            <option value="4"><%= t('home.boardSizeOptions.small') %></option>
+            <option value="5" selected><%= t('home.boardSizeOptions.classic') %></option>
+            <option value="6"><%= t('home.boardSizeOptions.large') %></option>
+            <option value="7"><%= t('home.boardSizeOptions.xl') %></option>
+          </select>
+        </div>
+
         <!-- Game Options Section -->
         <div class="form-section">
           <label class="form-label"><%= t('home.gameOptionsLabel') %></label>

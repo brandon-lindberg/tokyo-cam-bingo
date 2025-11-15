@@ -67,7 +67,7 @@
     }
   </style>
 </head>
-<body class="streamer-mode <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>" style="background: none !important; background-color: transparent !important;" data-theme="<%= theme %>" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-game-mode="<%= game.mode %>" data-locale="<%= locale %>">
+<body class="streamer-mode <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>" style="background: none !important; background-color: transparent !important;" data-theme="<%= theme %>" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-game-mode="<%= game.mode %>" data-board-size="<%= game.boardSize %>" data-locale="<%= locale %>">
   <div class="popout-container">
     <div class="card-cover-overlay <%= currentPlayer.cardRevealed ? 'hidden' : '' %>" id="card-cover" onclick="revealCard()">
       <div class="cover-icon">🎴</div>

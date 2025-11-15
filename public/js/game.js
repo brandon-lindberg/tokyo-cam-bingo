@@ -1,6 +1,16 @@
 const rerollStates = {};
 const translate = (key, vars) => (typeof window.t === 'function' ? window.t(key, vars) : key);
 
+function getBoardSize() {
+  const body = document.body;
+  if (!body) return 5;
+  const parsed = Number(body.dataset.boardSize);
+  if (Number.isInteger(parsed) && parsed >= 3 && parsed <= 10) {
+    return parsed;
+  }
+  return 5;
+}
+
 function enterRerollMode(playerId) {
   if (rerollStates[playerId]) return; // Already in mode
 
@@ -90,9 +100,18 @@ function handleCardClick(playerId, e) {
   const state = rerollStates[playerId];
   if (!state || !state.type || state.type === 'card') return;
 
-  const row = parseInt(td.dataset.row);
-  const col = parseInt(td.dataset.col);
-  if (isNaN(row) || isNaN(col) || row < 0 || row > 4 || col < 0 || col > 4) return;
+  const row = parseInt(td.dataset.row, 10);
+  const col = parseInt(td.dataset.col, 10);
+  const boardSize = getBoardSize();
+  if (
+    Number.isNaN(row) ||
+    Number.isNaN(col) ||
+    row < 0 || row >= boardSize ||
+    col < 0 || col >= boardSize
+  ) {
+    return;
+  }
+  const lastIndex = boardSize - 1;
 
   clearSelection(playerId);
 
@@ -105,26 +124,26 @@ function handleCardClick(playerId, e) {
       arg = `${row + 1},${col + 1}`;
       break;
     case 'row':
-      positions = Array.from({ length: 5 }, (_, c) => [row, c]);
+      positions = Array.from({ length: boardSize }, (_, c) => [row, c]);
       arg = `${row + 1}`;
       break;
     case 'column':
-      positions = Array.from({ length: 5 }, (_, r) => [r, col]);
+      positions = Array.from({ length: boardSize }, (_, r) => [r, col]);
       arg = `${col + 1}`;
       break;
     case 'diagonal':
       const isMain = row === col;
-      const isAnti = row + col === 4;
+      const isAnti = row + col === lastIndex;
       if (!isMain && !isAnti) return;
       if (isMain && isAnti) { // Center
         arg = 'main';
-        positions = Array.from({ length: 5 }, (_, i) => [i, i]);
+        positions = Array.from({ length: boardSize }, (_, i) => [i, i]);
       } else if (isMain) {
         arg = 'main';
-        positions = Array.from({ length: 5 }, (_, i) => [i, i]);
+        positions = Array.from({ length: boardSize }, (_, i) => [i, i]);
       } else if (isAnti) {
         arg = 'anti';
-        positions = Array.from({ length: 5 }, (_, i) => [i, 4 - i]);
+        positions = Array.from({ length: boardSize }, (_, i) => [i, lastIndex - i]);
       }
       break;
   }
@@ -137,7 +156,8 @@ function handleCardClick(playerId, e) {
 }
 
 function selectCard(playerId) {
-  const positions = Array.from({ length: 25 }, (_, i) => [Math.floor(i / 5), i % 5]);
+  const boardSize = getBoardSize();
+  const positions = Array.from({ length: boardSize * boardSize }, (_, i) => [Math.floor(i / boardSize), i % boardSize]);
   const state = rerollStates[playerId];
   state.arg = '';
   state.selectedCells = positions;
@@ -212,6 +232,8 @@ function exitRerollMode(playerId) {
 function updateLeaderboard(players, gameMode) {
   const leaderboardBody = document.querySelector('#leaderboard tbody');
   leaderboardBody.innerHTML = ''; // Clear existing
+  const boardSize = getBoardSize();
+  const lastIndex = boardSize - 1;
 
   // Compute scores
   const scoredPlayers = players.map(player => {
@@ -224,11 +246,16 @@ function updateLeaderboard(players, gameMode) {
       stampedCount = squares.length;
 
       // Create grid to check win conditions
-      let stampedGrid = Array(5).fill(null).map(() => Array(5).fill(false));
+      let stampedGrid = Array.from({ length: boardSize }, () => Array(boardSize).fill(false));
       squares.forEach(({ row, col }) => {
         const rIndex = Number(row);
         const cIndex = Number(col);
-        if (!Number.isNaN(rIndex) && !Number.isNaN(cIndex)) {
+        if (
+          !Number.isNaN(rIndex) &&
+          !Number.isNaN(cIndex) &&
+          rIndex >= 0 && rIndex < boardSize &&
+          cIndex >= 0 && cIndex < boardSize
+        ) {
           stampedGrid[rIndex][cIndex] = true;
         }
       });
@@ -237,9 +264,9 @@ function updateLeaderboard(players, gameMode) {
       score += stampedGrid.filter(row => row.every(cell => cell)).length;
 
       // Completed columns
-      for (let col = 0; col < 5; col++) {
+      for (let col = 0; col < boardSize; col++) {
         let complete = true;
-        for (let row = 0; row < 5; row++) {
+        for (let row = 0; row < boardSize; row++) {
           if (!stampedGrid[row][col]) {
             complete = false;
             break;
@@ -251,9 +278,9 @@ function updateLeaderboard(players, gameMode) {
       // Diagonals
       let mainComplete = true;
       let antiComplete = true;
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < boardSize; i++) {
         if (!stampedGrid[i][i]) mainComplete = false;
-        if (!stampedGrid[i][4 - i]) antiComplete = false;
+        if (!stampedGrid[i][lastIndex - i]) antiComplete = false;
       }
       if (mainComplete) score++;
       if (antiComplete) score++;
@@ -266,9 +293,9 @@ function updateLeaderboard(players, gameMode) {
 
       score += card.filter(row => row.every(t => t.stamped)).length;
 
-      for (let col = 0; col < 5; col++) {
+      for (let col = 0; col < boardSize; col++) {
         let complete = true;
-        for (let row = 0; row < 5; row++) {
+        for (let row = 0; row < boardSize; row++) {
           if (!card[row][col].stamped) {
             complete = false;
             break;
@@ -279,9 +306,9 @@ function updateLeaderboard(players, gameMode) {
 
       let mainComplete = true;
       let antiComplete = true;
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < boardSize; i++) {
         if (!card[i][i].stamped) mainComplete = false;
-        if (!card[i][4 - i].stamped) antiComplete = false;
+        if (!card[i][lastIndex - i].stamped) antiComplete = false;
       }
       if (mainComplete) score++;
       if (antiComplete) score++;
@@ -318,8 +345,9 @@ function selectRandomTile(playerId) {
   const state = rerollStates[playerId];
   if (!state) return;
   clearSelection(playerId);
-  const r = Math.floor(Math.random() * 5);
-  const c = Math.floor(Math.random() * 5);
+  const boardSize = getBoardSize();
+  const r = Math.floor(Math.random() * boardSize);
+  const c = Math.floor(Math.random() * boardSize);
   state.arg = `${r+1},${c+1}`;
   state.selectedCells = [[r, c]];
   highlightSelection(playerId, state.selectedCells);
@@ -329,9 +357,10 @@ function selectRandomRow(playerId) {
   const state = rerollStates[playerId];
   if (!state) return;
   clearSelection(playerId);
-  const r = Math.floor(Math.random() * 5);
+  const boardSize = getBoardSize();
+  const r = Math.floor(Math.random() * boardSize);
   state.arg = `${r + 1}`;
-  state.selectedCells = Array.from({ length: 5 }, (_, c) => [r, c]);
+  state.selectedCells = Array.from({ length: boardSize }, (_, c) => [r, c]);
   highlightSelection(playerId, state.selectedCells);
 }
 
@@ -339,9 +368,10 @@ function selectRandomColumn(playerId) {
   const state = rerollStates[playerId];
   if (!state) return;
   clearSelection(playerId);
-  const c = Math.floor(Math.random() * 5);
+  const boardSize = getBoardSize();
+  const c = Math.floor(Math.random() * boardSize);
   state.arg = `${c + 1}`;
-  state.selectedCells = Array.from({ length: 5 }, (_, r) => [r, c]);
+  state.selectedCells = Array.from({ length: boardSize }, (_, r) => [r, c]);
   highlightSelection(playerId, state.selectedCells);
 }
 
@@ -349,11 +379,13 @@ function selectRandomDiagonal(playerId) {
   const state = rerollStates[playerId];
   if (!state) return;
   clearSelection(playerId);
+  const boardSize = getBoardSize();
+  const lastIndex = boardSize - 1;
   const isMain = Math.random() < 0.5;
   state.arg = isMain ? 'main' : 'anti';
   state.selectedCells = isMain
-    ? Array.from({ length: 5 }, (_, i) => [i, i])
-    : Array.from({ length: 5 }, (_, i) => [i, 4 - i]);
+    ? Array.from({ length: boardSize }, (_, i) => [i, i])
+    : Array.from({ length: boardSize }, (_, i) => [i, lastIndex - i]);
   highlightSelection(playerId, state.selectedCells);
 }
 

@@ -66,6 +66,7 @@ const DEVICE_LINK_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 const DEVICE_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 const DEVICE_TOKEN_COOKIE_NAME = 'device_token';
 const DEVICE_LINK_CODE_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+const ALLOWED_BOARD_SIZES = [4, 5, 6, 7];
 
 // In-memory flags and voting state
 const flagsLeft = {}; // playerId -> remaining flags
@@ -740,58 +741,70 @@ function generateCode() {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
 
-// Helper to generate 5x5 card
-function generateCard(customItems = null) {
-  const sourceItems = customItems || itemsList;
+function normalizeBoardSize(value) {
+  const parsed = Number(value);
+  return ALLOWED_BOARD_SIZES.includes(parsed) ? parsed : 5;
+}
+
+// Helper to generate NxN card based on board size
+function generateCard(customItems = null, boardSize = 5) {
+  const size = normalizeBoardSize(boardSize);
+  const sourceItems = Array.isArray(customItems) && customItems.length ? customItems : itemsList;
+  const totalTiles = size * size;
+  if (!Array.isArray(sourceItems) || sourceItems.length < totalTiles) {
+    throw new Error(`Not enough items to build a ${size}x${size} card`);
+  }
   const shuffled = [...sourceItems].sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0, 25);
-  return Array.from({ length: 5 }, (_, i) =>
-    selected.slice(i * 5, (i + 1) * 5).map(item => ({ item, stamped: false }))
+  const selected = shuffled.slice(0, totalTiles);
+  return Array.from({ length: size }, (_, i) =>
+    selected.slice(i * size, (i + 1) * size).map(item => ({ item, stamped: false }))
   );
 }
 
 // Helper to re-roll part of card
-function rerollCard(card, type, arg, customItems = null) {
+function rerollCard(card, type, arg, customItems = null, boardSize = 5) {
   const newCard = card.map(row => row.slice()); // Deep copy
   let positions = [];
-  const sourceItems = customItems || itemsList;
+  const sourceItems = Array.isArray(customItems) && customItems.length ? customItems : itemsList;
+  const size = normalizeBoardSize(boardSize);
+  const lastIndex = size - 1;
 
   if (type === 'tile') {
     const [rowStr, colStr] = arg.split(',');
     const row = parseInt(rowStr) - 1;
     const col = parseInt(colStr) - 1;
-    if (isNaN(row) || isNaN(col) || row < 0 || row > 4 || col < 0 || col > 4) return card;
+    if (isNaN(row) || isNaN(col) || row < 0 || row >= size || col < 0 || col >= size) return card;
     positions = [[row, col]];
   } else if (type === 'row') {
     const row = parseInt(arg) - 1;
-    if (isNaN(row) || row < 0 || row > 4) return card;
-    positions = Array.from({ length: 5 }, (_, col) => [row, col]);
+    if (isNaN(row) || row < 0 || row >= size) return card;
+    positions = Array.from({ length: size }, (_, col) => [row, col]);
   } else if (type === 'column') {
     const col = parseInt(arg) - 1;
-    if (isNaN(col) || col < 0 || col > 4) return card;
-    positions = Array.from({ length: 5 }, (_, row) => [row, col]);
+    if (isNaN(col) || col < 0 || col >= size) return card;
+    positions = Array.from({ length: size }, (_, row) => [row, col]);
   } else if (type === 'diagonal') {
     if (arg === 'main') {
-      positions = Array.from({ length: 5 }, (_, i) => [i, i]);
+      positions = Array.from({ length: size }, (_, i) => [i, i]);
     } else if (arg === 'anti') {
-      positions = Array.from({ length: 5 }, (_, i) => [i, 4 - i]);
+      positions = Array.from({ length: size }, (_, i) => [i, lastIndex - i]);
     } else {
       return card;
     }
   } else if (type === 'card') {
-    positions = Array.from({ length: 25 }, (_, i) => [Math.floor(i / 5), i % 5]);
+    positions = Array.from({ length: size * size }, (_, i) => [Math.floor(i / size), i % size]);
   } else if (type === 'random_row') {
-    const row = Math.floor(Math.random() * 5);
-    positions = Array.from({ length: 5 }, (_, col) => [row, col]);
+    const row = Math.floor(Math.random() * size);
+    positions = Array.from({ length: size }, (_, col) => [row, col]);
   } else if (type === 'random_column') {
-    const col = Math.floor(Math.random() * 5);
-    positions = Array.from({ length: 5 }, (_, row) => [row, col]);
+    const col = Math.floor(Math.random() * size);
+    positions = Array.from({ length: size }, (_, row) => [row, col]);
   } else if (type === 'random_diagonal') {
     const pickMain = Math.random() < 0.5;
     if (pickMain) {
-      positions = Array.from({ length: 5 }, (_, i) => [i, i]);
+      positions = Array.from({ length: size }, (_, i) => [i, i]);
     } else {
-      positions = Array.from({ length: 5 }, (_, i) => [i, 4 - i]);
+      positions = Array.from({ length: size }, (_, i) => [i, lastIndex - i]);
     }
   } else {
     return card;
@@ -1833,13 +1846,17 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
     bingoCardPreset,
     bingoCategory,
     bingoGame,
-    captchaAnswer
+    captchaAnswer,
+    boardSize: boardSizeInput
   } = req.body;
   if (!validateCaptcha(req.session, CAPTCHA_TYPES.CREATE_GAME, captchaAnswer)) {
     return res.status(400).send('Captcha answer incorrect. Please try again.');
   }
   const code = generateCode();
   const mode = modeType === 'VS' ? 'VS' : 'REGULAR';
+  const boardSize = normalizeBoardSize(boardSizeInput);
+  const requiredItems = boardSize * boardSize;
+  const minPoolRequirement = Math.max(MIN_POOL_SIZE, requiredItems);
 
   if (mode !== 'VS') {
     if (timerEnabled === 'true') {
@@ -1864,7 +1881,11 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
         where: { code: sanitizedCustomCard }
       });
       if (collection) {
-        customItems = collection.items;
+        const collectionItems = Array.isArray(collection.items) ? collection.items : [];
+        if (collectionItems.length < requiredItems) {
+          return res.status(400).send(`Custom card needs at least ${requiredItems} prompts for a ${boardSize}x${boardSize} board.`);
+        }
+        customItems = collectionItems;
         cardPresetDetails = { type: 'custom_code', value: sanitizedCustomCard };
 
         // Increment usage count
@@ -1889,8 +1910,8 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
         return res.status(400).send('Please select a bingo task category.');
       }
       const entries = getCategoryPool(categoryValue);
-      if (!entries.length || entries.length < MIN_POOL_SIZE) {
-        return res.status(400).send(`Selected category does not have enough prompts (need ${MIN_POOL_SIZE}).`);
+      if (!entries.length || entries.length < minPoolRequirement) {
+        return res.status(400).send(`Selected category does not have enough prompts for a ${boardSize}x${boardSize} card (need ${minPoolRequirement}).`);
       }
       customItems = entries.map((entry) => translateTaskText(locale, entry, entry.text));
       cardPresetDetails = { type: 'category', value: categoryValue };
@@ -1899,22 +1920,26 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
         return res.status(400).send('Please select a bingo task game.');
       }
       const entries = getGamePool(gameValue);
-      if (!entries.length || entries.length < MIN_POOL_SIZE) {
-        return res.status(400).send(`Selected game does not have enough prompts (need ${MIN_POOL_SIZE}).`);
+      if (!entries.length || entries.length < minPoolRequirement) {
+        return res.status(400).send(`Selected game does not have enough prompts for a ${boardSize}x${boardSize} card (need ${minPoolRequirement}).`);
       }
       customItems = entries.map((entry) => translateTaskText(locale, entry, entry.text));
       cardPresetDetails = { type: 'game', value: gameValue };
     } else if (presetChoice === 'all') {
       const entries = getAllTasksPool();
-      if (!entries.length || entries.length < MIN_POOL_SIZE) {
-        return res.status(400).send('Not enough bingo tasks available to build a deck.');
+      if (!entries.length || entries.length < minPoolRequirement) {
+        return res.status(400).send(`Not enough bingo tasks available to build a ${boardSize}x${boardSize} board (need ${minPoolRequirement}).`);
       }
       customItems = entries.map((entry) => translateTaskText(locale, entry, entry.text));
       cardPresetDetails = { type: 'all', value: 'all' };
     }
   }
 
-  const sharedCard = mode === 'VS' ? generateCard(customItems) : null;
+  if (!customItems && itemsList.length < requiredItems) {
+    return res.status(400).send(`Default deck does not have enough prompts for a ${boardSize}x${boardSize} card.`);
+  }
+
+  const sharedCard = mode === 'VS' ? generateCard(customItems, boardSize) : null;
 
   // Validate host color for VS mode
   if (mode === 'VS') {
@@ -1934,6 +1959,7 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
       code,
       rules: rulesPayload,
       mode,
+      boardSize,
       sharedCard,
       customItems,
       flagsEnabled: flagsEnabled === 'true',
@@ -1948,7 +1974,7 @@ app.post('/create', createJoinLimiter, csrfProtection, async (req, res) => {
   });
 
   // In VS mode, host doesn't get individual card, in regular mode they do
-  const card = mode === 'VS' ? sharedCard : generateCard(customItems);
+  const card = mode === 'VS' ? sharedCard : generateCard(customItems, boardSize);
   const player = await prisma.player.create({
     data: {
       name: hostName,
@@ -2006,7 +2032,7 @@ app.post('/join', createJoinLimiter, csrfProtection, async (req, res) => {
       select: { card: true },
     });
     do {
-      card = generateCard(customItems);
+      card = generateCard(customItems, game.boardSize);
     } while (existingPlayers.some(p => JSON.stringify(p.card) === JSON.stringify(card)));
   }
 
@@ -2342,11 +2368,19 @@ io.on('connection', (socket) => {
 
     const game = player.game;
     const isVSMode = game.mode === 'VS';
+    const boardSize = normalizeBoardSize(game.boardSize);
 
     // Convert row and col to integers to ensure type consistency
     const rowInt = parseInt(row, 10);
     const colInt = parseInt(col, 10);
-    if (Number.isNaN(rowInt) || Number.isNaN(colInt)) return;
+    if (
+      Number.isNaN(rowInt) ||
+      Number.isNaN(colInt) ||
+      rowInt < 0 || rowInt >= boardSize ||
+      colInt < 0 || colInt >= boardSize
+    ) {
+      return;
+    }
 
     if (isVSMode) {
       // VS Mode stamping logic
@@ -2387,7 +2421,7 @@ io.on('connection', (socket) => {
       let updatedGame = game;
 
       // Check traditional win conditions first
-      const winResult = checkWin(stampedSquares, game.rules.winConditions, { isVSMode: true });
+      const winResult = checkWin(stampedSquares, game.rules.winConditions, { isVSMode: true, boardSize });
       if (winResult.won) {
         updatedGame = await prisma.game.update({
           where: { id: gameId },
@@ -2402,8 +2436,8 @@ io.on('connection', (socket) => {
           return sum + (p.stampedSquares || []).length;
         }, 0);
 
-        // If all 25 squares are stamped, determine winner by most squares
-        if (totalStamped === 25) {
+        // If the entire board is stamped, determine winner by most squares
+        if (totalStamped === boardSize * boardSize) {
           // Find player with most stamps
           let maxStamps = 0;
           let winner = null;
@@ -2442,7 +2476,7 @@ io.on('connection', (socket) => {
       const updatedPlayers = await prisma.player.findMany({ where: { gameId: gameId } });
       let updatedGame = game;
 
-      const winResult = checkWin(card, game.rules.winConditions, { isVSMode: false });
+      const winResult = checkWin(card, game.rules.winConditions, { isVSMode: false, boardSize });
       if (!wasStamped && winResult.won) {
         updatedGame = await prisma.game.update({
           where: { id: gameId },
@@ -2480,6 +2514,7 @@ io.on('connection', (socket) => {
       include: { players: true },
     });
     if (!game || game.status === 'ended') return;
+    const boardSize = normalizeBoardSize(game.boardSize);
 
     const requestingPlayer = game.players.find(p => p.id === playerId);
     if (!requestingPlayer || !requestingPlayer.isHost) return;
@@ -2489,7 +2524,7 @@ io.on('connection', (socket) => {
     if (game.mode === 'VS') {
       // VS Mode: Reroll shared card and clear stamps from affected squares
       const customItems = game.customItems || null;
-      const newCard = rerollCard(game.sharedCard, type, arg, customItems);
+      const newCard = rerollCard(game.sharedCard, type, arg, customItems, boardSize);
 
       // Determine which positions were rerolled
       let positions = [];
@@ -2497,21 +2532,27 @@ io.on('connection', (socket) => {
         const [rowStr, colStr] = arg.split(',');
         const row = parseInt(rowStr) - 1;
         const col = parseInt(colStr) - 1;
-        positions = [[row, col]];
+        if (!Number.isNaN(row) && !Number.isNaN(col) && row >= 0 && col >= 0 && row < boardSize && col < boardSize) {
+          positions = [[row, col]];
+        }
       } else if (type === 'row') {
         const row = parseInt(arg) - 1;
-        positions = Array.from({ length: 5 }, (_, col) => [row, col]);
+        if (!Number.isNaN(row) && row >= 0 && row < boardSize) {
+          positions = Array.from({ length: boardSize }, (_, col) => [row, col]);
+        }
       } else if (type === 'column') {
         const col = parseInt(arg) - 1;
-        positions = Array.from({ length: 5 }, (_, row) => [row, col]);
+        if (!Number.isNaN(col) && col >= 0 && col < boardSize) {
+          positions = Array.from({ length: boardSize }, (_, row) => [row, col]);
+        }
       } else if (type === 'diagonal') {
         if (arg === 'main') {
-          positions = Array.from({ length: 5 }, (_, i) => [i, i]);
+          positions = Array.from({ length: boardSize }, (_, i) => [i, i]);
         } else if (arg === 'anti') {
-          positions = Array.from({ length: 5 }, (_, i) => [i, 4 - i]);
+          positions = Array.from({ length: boardSize }, (_, i) => [i, boardSize - 1 - i]);
         }
       } else if (type === 'card') {
-        positions = Array.from({ length: 25 }, (_, i) => [Math.floor(i / 5), i % 5]);
+        positions = Array.from({ length: boardSize * boardSize }, (_, i) => [Math.floor(i / boardSize), i % boardSize]);
       }
 
       // Update shared card
@@ -2544,7 +2585,7 @@ io.on('connection', (socket) => {
       const target = game.players.find(p => String(p.id) === targetId);
       if (!target) return;
       const customItems = game.customItems || null;
-      const newCard = rerollCard(target.card, type, arg, customItems);
+      const newCard = rerollCard(target.card, type, arg, customItems, boardSize);
       await prisma.player.update({ where: { id: target.id }, data: { card: newCard } });
       const updatedPlayers = await prisma.player.findMany({ where: { gameId: gameId } });
       io.to(gameId).emit('update_state', { game, players: updatedPlayers });
@@ -2571,7 +2612,7 @@ io.on('connection', (socket) => {
     if (game.mode === 'VS') {
       // VS Mode: Generate new shared card and reset all player stamps
       const customItems = game.customItems || null;
-      const newSharedCard = generateCard(customItems);
+      const newSharedCard = generateCard(customItems, game.boardSize);
 
       const updateData = {
         status: 'active',
@@ -2628,7 +2669,7 @@ io.on('connection', (socket) => {
       for (const player of game.players) {
         let uniqueCard;
         do {
-          uniqueCard = generateCard(customItems);
+          uniqueCard = generateCard(customItems, game.boardSize);
         } while (usedCards.includes(JSON.stringify(uniqueCard)));
         usedCards.push(JSON.stringify(uniqueCard));
         await prisma.player.update({

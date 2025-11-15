@@ -48,7 +48,7 @@
   <script src="/js/timer.js?v=<%= assetVersion %>"></script>
   <script src="/js/game.js?v=<%= assetVersion %>"></script>
 </head>
-<body class="game-page <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>" data-theme="<%= theme %>" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>" data-game-mode="<%= game.mode %>" data-flags-enabled="<%= game.flagsEnabled %>" data-rerolls-enabled="<%= game.rerollsEnabled %>" data-player-color="<%= currentPlayer.color || '' %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-timer-enabled="<%= game.timerEnabled %>" data-timer-duration="<%= game.timerDuration || 0 %>" data-timer-status="<%= game.timerStatus || 'not_started' %>" data-timer-started-at="<%= game.timerStartedAt ? game.timerStartedAt.toISOString() : '' %>" data-locale="<%= locale %>">
+<body class="game-page <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>" data-theme="<%= theme %>" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>" data-game-mode="<%= game.mode %>" data-board-size="<%= game.boardSize %>" data-flags-enabled="<%= game.flagsEnabled %>" data-rerolls-enabled="<%= game.rerollsEnabled %>" data-player-color="<%= currentPlayer.color || '' %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-timer-enabled="<%= game.timerEnabled %>" data-timer-duration="<%= game.timerDuration || 0 %>" data-timer-status="<%= game.timerStatus || 'not_started' %>" data-timer-started-at="<%= game.timerStartedAt ? game.timerStartedAt.toISOString() : '' %>" data-locale="<%= locale %>">
 <aside class="sidebar">
   <div class="sidebar-header">
     <div class="sidebar-controls sidebar-controls--left">
@@ -569,6 +569,9 @@
     const playerName = document.body.dataset.playerName;
     const isHost = document.body.dataset.isHost === 'true';
     const csrfTokenValue = (document.querySelector('meta[name="csrf-token"]') || { getAttribute: () => '' }).getAttribute('content') || '';
+    const boardSize = Number(document.body.dataset.boardSize) || 5;
+    const totalTiles = boardSize * boardSize;
+    const lastBoardIndex = boardSize - 1;
     const deviceLinkState = {
       modal: null,
       loading: false,
@@ -1116,9 +1119,16 @@
       const state = modalRerollState;
       if (!state || !state.type || state.type === 'card') return;
 
-      const row = parseInt(td.dataset.row);
-      const col = parseInt(td.dataset.col);
-      if (isNaN(row) || isNaN(col)) return;
+      const row = parseInt(td.dataset.row, 10);
+      const col = parseInt(td.dataset.col, 10);
+      if (
+        Number.isNaN(row) ||
+        Number.isNaN(col) ||
+        row < 0 || row >= boardSize ||
+        col < 0 || col >= boardSize
+      ) {
+        return;
+      }
 
       clearModalSelection();
 
@@ -1131,26 +1141,26 @@
           arg = `${row + 1},${col + 1}`;
           break;
         case 'row':
-          positions = Array.from({ length: 5 }, (_, c) => [row, c]);
+          positions = Array.from({ length: boardSize }, (_, c) => [row, c]);
           arg = `${row + 1}`;
           break;
         case 'column':
-          positions = Array.from({ length: 5 }, (_, r) => [r, col]);
+          positions = Array.from({ length: boardSize }, (_, r) => [r, col]);
           arg = `${col + 1}`;
           break;
         case 'diagonal':
           const isMain = row === col;
-          const isAnti = row + col === 4;
+          const isAnti = row + col === lastBoardIndex;
           if (!isMain && !isAnti) return;
           if (isMain && isAnti) { // Center
             arg = 'main';
-            positions = Array.from({ length: 5 }, (_, i) => [i, i]);
+            positions = Array.from({ length: boardSize }, (_, i) => [i, i]);
           } else if (isMain) {
             arg = 'main';
-            positions = Array.from({ length: 5 }, (_, i) => [i, i]);
+            positions = Array.from({ length: boardSize }, (_, i) => [i, i]);
           } else if (isAnti) {
             arg = 'anti';
-            positions = Array.from({ length: 5 }, (_, i) => [i, 4 - i]);
+            positions = Array.from({ length: boardSize }, (_, i) => [i, lastBoardIndex - i]);
           }
           break;
       }
@@ -1163,7 +1173,7 @@
     }
 
     function selectModalCard() {
-      const positions = Array.from({ length: 25 }, (_, i) => [Math.floor(i / 5), i % 5]);
+      const positions = Array.from({ length: totalTiles }, (_, i) => [Math.floor(i / boardSize), i % boardSize]);
       modalRerollState.arg = '';
       modalRerollState.selectedCells = positions;
       highlightModalSelection(positions);
@@ -1192,8 +1202,8 @@
     function selectModalRandomTile() {
       const state = modalRerollState;
       clearModalSelection();
-      const r = Math.floor(Math.random() * 5);
-      const c = Math.floor(Math.random() * 5);
+      const r = Math.floor(Math.random() * boardSize);
+      const c = Math.floor(Math.random() * boardSize);
       state.arg = `${r+1},${c+1}`;
       state.selectedCells = [[r, c]];
       highlightModalSelection(state.selectedCells);
@@ -1201,17 +1211,17 @@
     function selectModalRandomRow() {
       const state = modalRerollState;
       clearModalSelection();
-      const r = Math.floor(Math.random() * 5);
+      const r = Math.floor(Math.random() * boardSize);
       state.arg = `${r + 1}`;
-      state.selectedCells = Array.from({ length: 5 }, (_, c) => [r, c]);
+      state.selectedCells = Array.from({ length: boardSize }, (_, c) => [r, c]);
       highlightModalSelection(state.selectedCells);
     }
     function selectModalRandomColumn() {
       const state = modalRerollState;
       clearModalSelection();
-      const c = Math.floor(Math.random() * 5);
+      const c = Math.floor(Math.random() * boardSize);
       state.arg = `${c + 1}`;
-      state.selectedCells = Array.from({ length: 5 }, (_, r) => [r, c]);
+      state.selectedCells = Array.from({ length: boardSize }, (_, r) => [r, c]);
       highlightModalSelection(state.selectedCells);
     }
     function selectModalRandomDiagonal() {
@@ -1220,8 +1230,8 @@
       const isMain = Math.random() < 0.5;
       state.arg = isMain ? 'main' : 'anti';
       state.selectedCells = isMain
-        ? Array.from({ length: 5 }, (_, i) => [i, i])
-        : Array.from({ length: 5 }, (_, i) => [i, 4 - i]);
+        ? Array.from({ length: boardSize }, (_, i) => [i, i])
+        : Array.from({ length: boardSize }, (_, i) => [i, lastBoardIndex - i]);
       highlightModalSelection(state.selectedCells);
     }
 
@@ -1295,6 +1305,8 @@
       const leaderboardBody = document.querySelector('#drawer-leaderboard tbody');
       if (!leaderboardBody) return;
       leaderboardBody.innerHTML = ''; // Clear existing
+      const size = boardSize;
+      const lastIndex = lastBoardIndex;
 
       // Compute scores (same as main leaderboard)
       const scoredPlayers = players.map(player => {
@@ -1305,20 +1317,20 @@
           const squares = player.stampedSquares || [];
           stampedCount = squares.length;
 
-          let stampedGrid = Array(5).fill(null).map(() => Array(5).fill(false));
+          let stampedGrid = Array.from({ length: size }, () => Array(size).fill(false));
           squares.forEach(({ row, col }) => {
             const rIndex = Number(row);
             const cIndex = Number(col);
-            if (!Number.isNaN(rIndex) && !Number.isNaN(cIndex)) {
+            if (!Number.isNaN(rIndex) && !Number.isNaN(cIndex) && rIndex >= 0 && rIndex < size && cIndex >= 0 && cIndex < size) {
               stampedGrid[rIndex][cIndex] = true;
             }
           });
 
           score += stampedGrid.filter(row => row.every(cell => cell)).length;
 
-          for (let col = 0; col < 5; col++) {
+          for (let col = 0; col < size; col++) {
             let complete = true;
-            for (let row = 0; row < 5; row++) {
+            for (let row = 0; row < size; row++) {
               if (!stampedGrid[row][col]) {
                 complete = false;
                 break;
@@ -1329,9 +1341,9 @@
 
           let mainComplete = true;
           let antiComplete = true;
-          for (let i = 0; i < 5; i++) {
+          for (let i = 0; i < size; i++) {
             if (!stampedGrid[i][i]) mainComplete = false;
-            if (!stampedGrid[i][4 - i]) antiComplete = false;
+            if (!stampedGrid[i][lastIndex - i]) antiComplete = false;
           }
           if (mainComplete) score++;
           if (antiComplete) score++;
@@ -1343,9 +1355,9 @@
 
           score += card.filter(row => row.every(t => t.stamped)).length;
 
-          for (let col = 0; col < 5; col++) {
+          for (let col = 0; col < size; col++) {
             let complete = true;
-            for (let row = 0; row < 5; row++) {
+            for (let row = 0; row < size; row++) {
               if (!card[row][col].stamped) {
                 complete = false;
                 break;
@@ -1356,9 +1368,9 @@
 
           let mainComplete = true;
           let antiComplete = true;
-          for (let i = 0; i < 5; i++) {
+          for (let i = 0; i < size; i++) {
             if (!card[i][i].stamped) mainComplete = false;
-            if (!card[i][4 - i].stamped) antiComplete = false;
+            if (!card[i][lastIndex - i].stamped) antiComplete = false;
           }
           if (mainComplete) score++;
           if (antiComplete) score++;

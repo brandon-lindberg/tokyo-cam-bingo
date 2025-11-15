@@ -594,7 +594,17 @@
     const rerollsEnabled = document.body.dataset.rerollsEnabled === 'true';
     const playerColor = document.body.dataset.playerColor;
     let isGameOver = document.body.dataset.gameStatus === 'ended';
-    let allPlayers = []; // Global to store all players
+    const bootstrapDataEl = document.getElementById('chat-data');
+    let bootstrapData = { players: [], messages: [] };
+    if (bootstrapDataEl) {
+      try {
+        bootstrapData = JSON.parse(bootstrapDataEl.textContent || '{}');
+      } catch (error) {
+        console.error('Failed to parse bootstrap game data', error);
+      }
+    }
+    window.bootstrapGameData = bootstrapData;
+    let allPlayers = Array.isArray(bootstrapData.players) ? bootstrapData.players.slice() : []; // Global to store all players
     let modalOpenPlayerId = null; // Track open modal player
     // Preload game code for host to allow synchronous copy on Safari
     window.gameCode = null;
@@ -602,6 +612,13 @@
       fetch('/get-code').then(r => r.ok ? r.text() : '').then(code => { window.gameCode = code || null; });
     }
     socket.emit('join_room', { gameId, playerId });
+
+    // Render initial leaderboard state before real-time updates arrive
+    updateLeaderboard(allPlayers, gameMode);
+    const drawerTable = document.querySelector('#drawer-leaderboard');
+    if (drawerTable) {
+      updateDrawerLeaderboard(allPlayers, gameMode);
+    }
 
     const nextFrame = window.requestAnimationFrame ? (cb) => window.requestAnimationFrame(cb) : (cb) => setTimeout(cb, 16);
     const TILE_FONT_MIN_PX = 10;
@@ -1458,7 +1475,7 @@
     const chatMessages = document.getElementById('chat-messages');
     const chatNotification = document.getElementById('chat-notification');
     const chatNotificationMobile = document.getElementById('chat-notification-mobile');
-    const { players: chatPlayers, messages: chatHistory } = JSON.parse(document.getElementById('chat-data').textContent);
+    const { players: chatPlayers, messages: chatHistory } = window.bootstrapGameData || { players: [], messages: [] };
     const chatColors = {};
     const availableColors = ['#A3E635','#60A5FA','#F472B6','#FBBF24','#34D399','#F87171','#C084FC','#FCD34D','#38BDF8','#A78BFA'];
     chatPlayers.forEach((p,i) => { chatColors[p.id] = availableColors[i % availableColors.length]; });

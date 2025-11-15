@@ -51,25 +51,56 @@
 <body class="game-page <%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>" data-theme="<%= theme %>" data-game-id="<%= game.id %>" data-player-id="<%= currentPlayer.id %>" data-player-name="<%= currentPlayer.name %>" data-is-host="<%= currentPlayer.isHost %>" data-game-status="<%= game.status %>" data-game-mode="<%= game.mode %>" data-flags-enabled="<%= game.flagsEnabled %>" data-rerolls-enabled="<%= game.rerollsEnabled %>" data-player-color="<%= currentPlayer.color || '' %>" data-asset-version="<%= assetVersion %>" data-sw-enabled="<%= enableServiceWorker %>" data-timer-enabled="<%= game.timerEnabled %>" data-timer-duration="<%= game.timerDuration || 0 %>" data-timer-status="<%= game.timerStatus || 'not_started' %>" data-timer-started-at="<%= game.timerStartedAt ? game.timerStartedAt.toISOString() : '' %>" data-locale="<%= locale %>">
 <aside class="sidebar">
   <div class="sidebar-header">
-    <div class="copy-code-wrapper">
-      <button onclick="copyGameCode()"><%= t('actions.copyCode') %></button>
-      <span id="copy-confirm" style="display:block;margin-top:0.25rem;color:#4CAF50;visibility:hidden;"><%= t('notifications.codeCopied') %></span>
-    </div>
-    <div class="chat-icon-wrapper">
-      <div style="position: relative; display: inline-block;">
-        <button id="chat-toggle-desktop" class="chat-toggle-button">
-          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M2 2h20v18l-4-4H2V2z"/></svg>
+    <div class="sidebar-controls sidebar-controls--left">
+      <div class="sidebar-icon-button">
+        <button
+          type="button"
+          class="sidebar-icon-button__inner"
+          onclick="copyGameCode()"
+          aria-label="<%= t('actions.copyCode') %>"
+        >
+          <svg class="sidebar-icon-svg" viewBox="0 0 24 24" role="presentation" focusable="false">
+            <rect x="6" y="5" width="12" height="14" rx="2" />
+            <path d="M9 5V3h6v2" />
+            <path d="M9 8h6" />
+          </svg>
         </button>
-        <span id="chat-notification" class="notification-badge"></span>
+        <span class="sidebar-tooltip"><%= t('actions.copyCode') %></span>
+        <span id="copy-confirm" class="sidebar-copy-confirm"><%= t('notifications.codeCopied') %></span>
+      </div>
+    </div>
+    <div class="sidebar-controls sidebar-controls--right">
+      <div class="sidebar-icon-button">
+        <button
+          type="button"
+          id="chat-toggle-desktop"
+          class="sidebar-icon-button__inner"
+          aria-label="<%= t('game.chatToggle') %>"
+        >
+          <svg class="sidebar-icon-svg" viewBox="0 0 24 24" role="presentation" focusable="false">
+            <path d="M4 5h16v11H9l-5 5V5z" />
+          </svg>
+          <span id="chat-notification" class="notification-badge"></span>
+        </button>
+        <span class="sidebar-tooltip"><%= t('game.chatTitle') %></span>
       </div>
       <% if (game.flagsEnabled) { %>
-        <button id="flag-button" class="chat-toggle-button" title="<%= t('game.flagButton') %>">🚩</button>
+        <div class="sidebar-icon-button">
+          <button
+            type="button"
+            id="flag-button"
+            class="sidebar-icon-button__inner"
+            aria-label="<%= t('game.flagButton') %>"
+          >
+            <svg class="sidebar-icon-svg" viewBox="0 0 24 24" role="presentation" focusable="false">
+              <path d="M6 20V5" />
+              <path d="M6 5h12l-3.5 3.5L18 12H6" />
+            </svg>
+          </button>
+          <span class="sidebar-tooltip"><%= t('game.flagButton') %></span>
+        </div>
       <% } %>
     </div>
-  </div>
-
-  <div class="sidebar-preferences">
-    <%- include('partials/theme-toggle', { themeToggleVariant: 'stacked' }) %>
   </div>
 
   <!-- Timer Display (Desktop) -->
@@ -109,6 +140,10 @@
 <%
   const streamGuide = t('game.streamInstructions') || {};
   const streamSteps = Array.isArray(streamGuide.steps) ? streamGuide.steps : [];
+  const shareHelperRaw = t('game.deviceLink.shareHelper');
+  const shareHelperText = shareHelperRaw && shareHelperRaw !== 'game.deviceLink.shareHelper'
+    ? shareHelperRaw
+    : 'Copy this URL somewhere safe so you can re-open the link without scanning again, incase you close it or something unexpected happens.';
 %>
 
 <!-- Hamburger Menu (Lower Left) -->
@@ -154,42 +189,52 @@
 
 <div id="device-link-modal" class="modal-overlay" style="display:none;">
   <div class="modal-card modal-card--device-link" role="dialog" aria-modal="true" aria-labelledby="device-link-title">
-    <div class="modal-header">
-      <span aria-hidden="true">📱</span>
-      <h3 id="device-link-title" class="modal-title"><%= t('game.deviceLink.modalTitle') %></h3>
-    </div>
-    <p class="modal-subtitle modal-subtitle--muted"><%= t('game.deviceLink.modalDescription') %></p>
-    <p class="device-link-note"><%= t('game.deviceLink.note') %></p>
-    <div class="device-link-display" aria-live="polite">
-      <div class="device-link-field">
-        <span class="device-link-label"><%= t('game.deviceLink.codeLabel') %></span>
-        <div id="device-link-code" class="device-link-value">------</div>
+    <div class="device-link-scroll">
+      <div class="modal-header">
+        <span aria-hidden="true">📱</span>
+        <h3 id="device-link-title" class="modal-title"><%= t('game.deviceLink.modalTitle') %></h3>
       </div>
-      <div class="device-link-field">
-        <span class="device-link-label"><%= t('game.deviceLink.pinLabel') %></span>
-        <div id="device-link-pin" class="device-link-value device-link-pin">----</div>
+      <p class="modal-subtitle modal-subtitle--muted"><%= t('game.deviceLink.modalDescription') %></p>
+      <p class="device-link-note"><%= t('game.deviceLink.note') %></p>
+      <div class="device-link-display" aria-live="polite">
+        <div class="device-link-field">
+          <span class="device-link-label"><%= t('game.deviceLink.codeLabel') %></span>
+          <div id="device-link-code" class="device-link-value">------</div>
+        </div>
+        <div class="device-link-field">
+          <span class="device-link-label"><%= t('game.deviceLink.pinLabel') %></span>
+          <div id="device-link-pin" class="device-link-value device-link-pin">----</div>
+        </div>
       </div>
-    </div>
-    <div class="device-link-qr-wrapper">
-      <img id="device-link-qr" alt="<%= t('game.deviceLink.qrAlt') %>">
-      <div id="device-link-placeholder" class="device-link-placeholder"><%= t('game.deviceLink.placeholder') %></div>
-    </div>
+      <div class="device-link-qr-wrapper">
+        <img id="device-link-qr" alt="<%= t('game.deviceLink.qrAlt') %>">
+        <div id="device-link-placeholder" class="device-link-placeholder"><%= t('game.deviceLink.placeholder') %></div>
+      </div>
     <div class="device-link-share">
       <span class="device-link-share-label"><%= t('game.deviceLink.shareLabel') %></span>
       <div class="device-link-share-row">
         <input id="device-link-url" type="text" readonly value="">
         <button type="button" onclick="copyDeviceLinkUrl()"><%= t('game.deviceLink.copyLink') %></button>
       </div>
+      <p class="device-link-note"><%= shareHelperText %></p>
     </div>
     <p class="device-link-note"><%= t('game.deviceLink.manualReminder') %></p>
-    <p id="device-link-expiry" class="device-link-expiry"></p>
-    <p id="device-link-status" class="device-link-status"></p>
-    <p id="device-link-error" class="modal-error"></p>
+      <p id="device-link-expiry" class="device-link-expiry"></p>
+      <p id="device-link-status" class="device-link-status"></p>
+      <p id="device-link-error" class="modal-error"></p>
+    </div>
     <div class="modal-actions device-link-actions">
       <button type="button" id="device-link-refresh" onclick="requestDeviceLink()"><%= t('game.deviceLink.generate') %></button>
       <button type="button" class="btn btn-secondary" onclick="closeDeviceLinkModal()"><%= t('actions.close') %></button>
     </div>
-  </div>
+    <div id="device-link-warning" class="device-link-warning" role="alertdialog" aria-modal="true">
+      <div class="device-link-warning-card">
+        <h3><%= t('game.deviceLink.warningTitle') %></h3>
+        <p><%= t('game.deviceLink.warningBody') %></p>
+        <button type="button" class="device-link-warning-button" onclick="acknowledgeDeviceLinkWarning()"><%= t('game.deviceLink.warningAction') %></button>
+      </div>
+    </div>
+</div>
 </div>
 
 <button
@@ -527,7 +572,8 @@
       loading: false,
       current: null,
       expiresAt: null,
-      expiryTimer: null
+      expiryTimer: null,
+      warningAcknowledged: false
     };
     const deviceLinkPlaceholderCode = '------';
     const deviceLinkPlaceholderPin = '----';
@@ -1567,8 +1613,9 @@
       deviceLinkState.modal = modal;
       modal.style.display = 'flex';
       document.body.classList.add('modal-open');
+      deviceLinkState.warningAcknowledged = false;
+      setDeviceLinkWarningVisible(true);
       resetDeviceLinkUI();
-      requestDeviceLink();
     }
 
     function closeDeviceLinkModal() {
@@ -1576,11 +1623,25 @@
       if (!modal) return;
       modal.style.display = 'none';
       document.body.classList.remove('modal-open');
+      setDeviceLinkWarningVisible(false);
       deviceLinkState.modal = null;
       if (deviceLinkState.expiryTimer) {
         clearInterval(deviceLinkState.expiryTimer);
         deviceLinkState.expiryTimer = null;
       }
+    }
+
+    function setDeviceLinkWarningVisible(visible) {
+      const warning = document.getElementById('device-link-warning');
+      if (warning) {
+        warning.style.display = visible ? 'flex' : 'none';
+      }
+    }
+
+    function acknowledgeDeviceLinkWarning() {
+      deviceLinkState.warningAcknowledged = true;
+      setDeviceLinkWarningVisible(false);
+      requestDeviceLink();
     }
 
     function resetDeviceLinkUI() {
@@ -1711,6 +1772,9 @@
     }
 
     async function requestDeviceLink() {
+      if (!deviceLinkState.warningAcknowledged) {
+        return;
+      }
       if (deviceLinkState.loading) return;
       if (!csrfTokenValue) {
         setDeviceLinkError(translateText('game.deviceLink.securityError'));

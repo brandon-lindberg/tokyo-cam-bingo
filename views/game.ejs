@@ -339,8 +339,8 @@
         <svg width="20" height="20" viewBox="0 0 24 24" role="presentation" focusable="false">
           <path d="M5 5h14v10H9l-4 4V5z" />
         </svg>
+        <span id="chat-notification-mobile" class="notification-badge"></span>
       </span>
-      <span id="chat-notification-mobile" class="notification-badge"></span>
     </button>
     <% if (game.flagsEnabled) { %>
       <button
@@ -1478,21 +1478,34 @@
 
     chatHistory.forEach(addChatMessage);
 
-    chatToggleDesktop.addEventListener('click', () => {
+    const setChatNotificationVisibility = (visible) => {
+      [chatNotification, chatNotificationMobile].forEach(el => {
+        if (!el) return;
+        el.classList.toggle('is-visible', Boolean(visible));
+      });
+    };
+
+    const toggleChatPanel = () => {
       chatPanel.classList.toggle('open');
       if (chatPanel.classList.contains('open')) {
-        chatNotification.style.display = 'none';
-        if (chatNotificationMobile) chatNotificationMobile.style.display = 'none';
+        setChatNotificationVisibility(false);
       }
-    });
-    chatToggleMobile.addEventListener('click', () => {
-      chatPanel.classList.toggle('open');
-      if (chatPanel.classList.contains('open')) {
-        chatNotification.style.display = 'none';
-        if (chatNotificationMobile) chatNotificationMobile.style.display = 'none';
-      }
-    });
-    chatCloseDesktop.addEventListener('click', () => chatPanel.classList.remove('open'));
+    };
+
+    setChatNotificationVisibility(false);
+
+    if (chatToggleDesktop) {
+      chatToggleDesktop.addEventListener('click', toggleChatPanel);
+    }
+    if (chatToggleMobile) {
+      chatToggleMobile.addEventListener('click', toggleChatPanel);
+    }
+    if (chatCloseDesktop) {
+      chatCloseDesktop.addEventListener('click', () => {
+        chatPanel.classList.remove('open');
+        setChatNotificationVisibility(false);
+      });
+    }
 
     chatSend.addEventListener('click', () => {
       const content = chatInput.value.trim();
@@ -1507,8 +1520,7 @@
     socket.on('new_message', ({ message, playerName }) => {
       addChatMessage({ ...message, playerName });
       if (!chatPanel.classList.contains('open')) {
-        chatNotification.style.display = 'block';
-        if (chatNotificationMobile) chatNotificationMobile.style.display = 'block';
+        setChatNotificationVisibility(true);
       }
     });
   })();

@@ -30,6 +30,9 @@
   --color-warning: #F59E0B;
   --color-danger: #EF4444;
   --color-heading-hover: #e35c9b;
+  --color-badge-bg: #EF4444;
+  --color-badge-text: #ffffff;
+  --color-badge-border: #ffffff;
 }
 
 body.theme-dark {
@@ -63,6 +66,9 @@ body.theme-dark {
   --color-warning: #f8ce7d;
   --color-danger: #ff7f7f;
   --color-heading-hover: #f08fc0;
+  --color-badge-bg: #ff4d7c;
+  --color-badge-text: #1b2430;
+  --color-badge-border: #ffffff;
 }
 html {
   box-sizing: border-box;
@@ -1902,20 +1908,35 @@ input, select {
   position: absolute;
   top: 0.9rem;
   right: 0.6rem;
-  background-color: #EF4444;
-  color: #fff;
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
-  font-size: 10px;
-  display: none;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 0.15rem;
+  border-radius: 999px;
+  background-color: var(--color-badge-bg, var(--color-danger, #EF4444));
+  color: var(--color-badge-text, #fff);
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
+  line-height: 1;
+  border: 2px solid var(--color-badge-border, #fff);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  z-index: 2;
 }
 
 .bottom-app-bar__button .notification-badge {
-  top: 0.25rem;
-  right: 0.3rem;
+  top: auto;
+  right: auto;
+}
+
+.bottom-app-bar__icon .notification-badge {
+  top: -0.3rem;
+  right: -0.45rem;
+}
+
+.notification-badge:not(.is-visible) {
+  display: none;
 }
 
 /* Chat toggle button */

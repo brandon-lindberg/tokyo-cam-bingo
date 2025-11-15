@@ -123,17 +123,19 @@
   <% } %>
 
   <div class="leaderboard-section">
-      <table id="leaderboard">
-        <thead>
-          <tr>
-            <th><%= t('game.leaderboardRank') %></th>
-            <th><%= t('game.leaderboardPlayer') %></th>
-            <th><%= t('game.leaderboardLines') %></th>
-            <th><%= t('game.leaderboardTiles') %></th>
-          </tr>
-        </thead>
-      <tbody></tbody>
-    </table>
+    <div class="leaderboard-card">
+        <table id="leaderboard">
+          <thead>
+            <tr>
+              <th><%= t('game.leaderboardRank') %></th>
+              <th><%= t('game.leaderboardPlayer') %></th>
+              <th><%= t('game.leaderboardLines') %></th>
+              <th><%= t('game.leaderboardTiles') %></th>
+            </tr>
+          </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
 </aside>
 

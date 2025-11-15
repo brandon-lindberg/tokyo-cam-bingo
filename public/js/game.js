@@ -231,9 +231,16 @@ function exitRerollMode(playerId) {
 
 function updateLeaderboard(players, gameMode) {
   const leaderboardBody = document.querySelector('#leaderboard tbody');
+  if (!leaderboardBody) return;
   leaderboardBody.innerHTML = ''; // Clear existing
   const boardSize = getBoardSize();
   const lastIndex = boardSize - 1;
+
+  const getTile = (cardData, row, col) => {
+    if (!Array.isArray(cardData)) return undefined;
+    const rowData = Array.isArray(cardData[row]) ? cardData[row] : [];
+    return rowData[col];
+  };
 
   // Compute scores
   const scoredPlayers = players.map(player => {
@@ -286,17 +293,21 @@ function updateLeaderboard(players, gameMode) {
       if (antiComplete) score++;
     } else {
       // Regular mode: Use card
-      const card = player.card;
-      card.flat().forEach(tile => {
-        if (tile.stamped) stampedCount++;
+      const card = Array.isArray(player.card) ? player.card : [];
+      card.forEach(row => {
+        if (!Array.isArray(row)) return;
+        row.forEach(tile => {
+          if (tile && tile.stamped) stampedCount++;
+        });
       });
 
-      score += card.filter(row => row.every(t => t.stamped)).length;
+      score += card.filter(row => Array.isArray(row) && row.length && row.every(t => t && t.stamped)).length;
 
       for (let col = 0; col < boardSize; col++) {
         let complete = true;
         for (let row = 0; row < boardSize; row++) {
-          if (!card[row][col].stamped) {
+          const tile = getTile(card, row, col);
+          if (!tile || !tile.stamped) {
             complete = false;
             break;
           }
@@ -307,8 +318,10 @@ function updateLeaderboard(players, gameMode) {
       let mainComplete = true;
       let antiComplete = true;
       for (let i = 0; i < boardSize; i++) {
-        if (!card[i][i].stamped) mainComplete = false;
-        if (!card[i][lastIndex - i].stamped) antiComplete = false;
+        const mainTile = getTile(card, i, i);
+        const antiTile = getTile(card, i, lastIndex - i);
+        if (!mainTile || !mainTile.stamped) mainComplete = false;
+        if (!antiTile || !antiTile.stamped) antiComplete = false;
       }
       if (mainComplete) score++;
       if (antiComplete) score++;

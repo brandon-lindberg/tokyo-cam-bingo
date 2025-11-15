@@ -1307,6 +1307,11 @@
       leaderboardBody.innerHTML = ''; // Clear existing
       const size = boardSize;
       const lastIndex = lastBoardIndex;
+      const getTile = (cardData, row, col) => {
+        if (!Array.isArray(cardData)) return undefined;
+        const rowData = Array.isArray(cardData[row]) ? cardData[row] : [];
+        return rowData[col];
+      };
 
       // Compute scores (same as main leaderboard)
       const scoredPlayers = players.map(player => {
@@ -1348,17 +1353,21 @@
           if (mainComplete) score++;
           if (antiComplete) score++;
         } else {
-          const card = player.card;
-          card.flat().forEach(tile => {
-            if (tile.stamped) stampedCount++;
+          const card = Array.isArray(player.card) ? player.card : [];
+          card.forEach(row => {
+            if (!Array.isArray(row)) return;
+            row.forEach(tile => {
+              if (tile && tile.stamped) stampedCount++;
+            });
           });
 
-          score += card.filter(row => row.every(t => t.stamped)).length;
+          score += card.filter(row => Array.isArray(row) && row.length && row.every(t => t && t.stamped)).length;
 
           for (let col = 0; col < size; col++) {
             let complete = true;
             for (let row = 0; row < size; row++) {
-              if (!card[row][col].stamped) {
+              const tile = getTile(card, row, col);
+              if (!tile || !tile.stamped) {
                 complete = false;
                 break;
               }
@@ -1369,8 +1378,10 @@
           let mainComplete = true;
           let antiComplete = true;
           for (let i = 0; i < size; i++) {
-            if (!card[i][i].stamped) mainComplete = false;
-            if (!card[i][lastIndex - i].stamped) antiComplete = false;
+            const mainTile = getTile(card, i, i);
+            const antiTile = getTile(card, i, lastIndex - i);
+            if (!mainTile || !mainTile.stamped) mainComplete = false;
+            if (!antiTile || !antiTile.stamped) antiComplete = false;
           }
           if (mainComplete) score++;
           if (antiComplete) score++;

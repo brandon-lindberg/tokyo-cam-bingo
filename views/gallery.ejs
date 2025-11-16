@@ -119,6 +119,11 @@
       background: linear-gradient(135deg, #FFF9E6 0%, #FFFFFF 100%);
       border-color: #FFD700;
     }
+    body.theme-dark .card-item.featured {
+      background: linear-gradient(150deg, rgba(255, 215, 0, 0.18) 0%, rgba(21, 30, 45, 0.95) 100%);
+      border-color: rgba(255, 215, 0, 0.45);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.55);
+    }
     .featured-badge {
       position: absolute;
       top: -8px;
@@ -130,6 +135,12 @@
       font-size: 0.75rem;
       font-weight: bold;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    body.theme-dark .featured-badge {
+      background: linear-gradient(135deg, #ffd166, #ff9f1c);
+      color: #1b2430;
+      border: 1px solid rgba(255, 217, 120, 0.45);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6);
     }
     .card-item-header {
       display: flex;
